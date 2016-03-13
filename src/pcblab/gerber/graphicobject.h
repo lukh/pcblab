@@ -12,14 +12,16 @@
 #include "commom.h"
 #include "aperture/aperture.h"
 
-/// Interface for GraphicObject
+
+/// Interface for GraphicObject.
+/// Informations such as polarity and levels are stored in their containers
 class IGraphicObject{
     public:
         enum eType{
             eTypeLine,
             eTypeArc,
             eTypeFlash,
-            eRegion,
+            eTypeRegion,
 
             eTypeNone
         };
@@ -55,4 +57,14 @@ class GraphicObjectArc: public IGraphicObject{
 
     private:
         Point mEndPoint;
+};
+
+class GraphicObjectFlash: public IGraphicObject{
+    public:
+        GraphicObjectFlash(): IGraphicObject()IGraphicObject::eTypeFlash);
+};
+
+class GraphicObjectRegion: public IGraphicObject{
+public:
+    GraphicObjectRegion(): IGraphicObject()IGraphicObject::eTypeRegion);
 };
