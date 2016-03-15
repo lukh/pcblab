@@ -27,8 +27,10 @@ class GraphicState {
     /// The coordinate format specifies the number of integer and decimal places in a coordinate number
     class CoordinateFormat{
       public:
-        uint8_t mIntegers;
-        uint8_t mDecimals;
+          CoordinateFormat(): mIntegers(2), mDecimals(4) {}
+          CoordinateFormat(uint8_t inIntegers, uint8_t inDecimals): mIntegers(inIntegers), mDecimals(inDecimals) {}
+          uint8_t mIntegers;
+          uint8_t mDecimals;
     };
 
 
@@ -75,11 +77,11 @@ class GraphicState {
     virtual ~GraphicState ();
 
 
-    CoordinateFormat getCoordFormat () { return mCoordFormat; }
+    CoordinateFormat &getCoordFormat () { return mCoordFormat; }
     //void setCoordFormat(CoordinateFormat inCoordFormat) { mCoordFormat = inCoordFormat; }
 
     eUnit getUnit () { return mUnit; }
-    //void setUnit(eUnit inUnit) { mUnit = inUnit; }
+    void setUnit(eUnit inUnit) { mUnit = inUnit; }
 
     Aperture* getCurrentAperture () { return mCurrentAperture; }
     void setCurrentAperture(Aperture* inCurrentAperture) { mCurrentAperture = inCurrentAperture; }

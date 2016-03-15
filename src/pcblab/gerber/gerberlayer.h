@@ -21,13 +21,13 @@ class GerberLayer {
         /// GerberLevel is a container holding all the graphic object with the same polarity
         class GerberLevel{
             public:
-                GerberLevel(GraphicState::LevelPolarity inPolarity) mPolarity(inPolarity) {}
+                GerberLevel(GraphicState::LevelPolarity inPolarity): mPolarity(inPolarity) {}
 
                 /// Adds an existing object to the level.
                 void addObject(GraphicObject *inObject) { mObject.push(inObject); }
 
             private:
-                GraphicState::eLevelPolarity mPolarity;
+                const GraphicState::eLevelPolarity mPolarity;
                 vector <GraphicObject *> mObjects;
         };
 

@@ -26,6 +26,12 @@ class ApertureTemplate{
             eATTMacro
         };
 
+
+        ApertureTemplate(): mTemplateType(eATTStandard) {}
+        ApertureTemplate(eATTType inType): mTemplateType(inType) {}
+
+        eATTType getTemplateType() { return mTemplateType; }
+
     private:
         eATTType mTemplateType;
 };
@@ -41,6 +47,8 @@ class StandardApertureTemplate: public ApertureTemplate{
             eSARegularPolygon
         };
 
+        StandardApertureTemplate(eSAType inType): ApertureTemplate(ApertureTemplate::eATTStandard), mApertureType(inType) {}
+
     private:
         /// Defines the Aperture Type from the standard apertures
         eSAType mApertureType;
@@ -50,7 +58,8 @@ class StandardApertureTemplate: public ApertureTemplate{
 
 class MacroApertureTemplate: public ApertureTemplate{
     public:
-
+        MacroApertureTemplate(string &inName): ApertureTemplate(ApertureTemplate::eATTMacro), mName(inName) {}
+        
     private:
         string mName;
 };

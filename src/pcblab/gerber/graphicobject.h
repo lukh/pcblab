@@ -11,6 +11,7 @@
 #include <stdint.h>
 #include "commom.h"
 #include "aperture/aperture.h"
+#include "igerberview.h"
 
 
 /// Interface for GraphicObject.
@@ -30,6 +31,8 @@ class IGraphicObject{
         GraphicObject(): mType(eTypeNone) {}
         GraphicObject(eType inType): mType(inType) {}
 
+        virtual void draw(IGerberView *inView) = 0;
+
     protected:
         Point mStartPoint;
         Aperture *mAperture; //should it be DCode ?
@@ -45,6 +48,8 @@ class GraphicObjectDraw: public IGraphicObject{
     public:
         GraphicObjectDraw(): IGraphicObject(IGraphicObject::eTypeLine);
 
+        virtual void draw(IGerberView *inView);
+
     private:
         Point mEndPoint;
 };
@@ -55,6 +60,8 @@ class GraphicObjectArc: public IGraphicObject{
     public:
         GraphicObjectArc(): IGraphicObject(IGraphicObject::eTypeLine);
 
+        virtual void draw(IGerberView *inView);
+
     private:
         Point mEndPoint;
 };
@@ -62,9 +69,14 @@ class GraphicObjectArc: public IGraphicObject{
 class GraphicObjectFlash: public IGraphicObject{
     public:
         GraphicObjectFlash(): IGraphicObject()IGraphicObject::eTypeFlash);
+
+        virtual void draw(IGerberView *inView);
 };
 
 class GraphicObjectRegion: public IGraphicObject{
-public:
-    GraphicObjectRegion(): IGraphicObject()IGraphicObject::eTypeRegion);
+    public:
+        GraphicObjectRegion(): IGraphicObject()IGraphicObject::eTypeRegion);
+
+
+        virtual void draw(IGerberView *inView);
 };
