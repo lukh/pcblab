@@ -22,11 +22,15 @@ class SyntaxParser {
         SyntaxParser ();
         virtual ~SyntaxParser ();
 
-
+    protected:
         void parse(char inChar);
 
+        virtual void makeGraphicObject();
+        virtual void defineAperture();
+
     private:
-};
+        void parseDCode(char *inText);
+        void parseGCode(char *inText);
 
 
 #endif

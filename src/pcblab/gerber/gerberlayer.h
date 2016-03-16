@@ -34,7 +34,7 @@ class GerberLayer {
                 GerberLevel(GraphicState::eLevelPolarity inPolarity): mPolarity(inPolarity) {}
 
                 /// Adds an existing object to the level.
-                void addObject(IGraphicObject *inObject) { mObjects.push_back(inObject); }
+                void addObject(/*type, params, aperture*/);
 
             private:
                 const GraphicState::eLevelPolarity mPolarity;
@@ -57,9 +57,6 @@ class GerberLayer {
 
         /// Store the current graphic state of the parsing.
         GraphicState mState;
-
-        /// Store the syntax parser for this file.
-        SyntaxParser mParser;
 
         /// Handles the different GraphicObjects in a GerberLevel container.
         /// the 0 level is the bottom one, it can be overriden by upper layers.
