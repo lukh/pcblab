@@ -7,12 +7,14 @@
 *
 * Date: 2016/03/12
 *******************************************************************************/
+#ifndef APERTURE_TEMPLATE_H
+#define APERTURE_TEMPLATE_H
 
 #include <stdint.h>
-#include <string.h>
-#include <vector.h>
+#include <string>
+#include <vector>
 
-#include "common.h"
+#include "../../common.h"
 
 
 
@@ -28,12 +30,12 @@ class ApertureTemplate{
 
 
         ApertureTemplate(): mTemplateType(eATTStandard) {}
-        ApertureTemplate(eATTType inType): mTemplateType(inType) {}
+        ApertureTemplate(eATType inType): mTemplateType(inType) {}
 
-        eATTType getTemplateType() { return mTemplateType; }
+        eATType getTemplateType() { return mTemplateType; }
 
     private:
-        eATTType mTemplateType;
+        eATType mTemplateType;
 };
 
 
@@ -63,3 +65,6 @@ class MacroApertureTemplate: public ApertureTemplate{
     private:
         string mName;
 };
+
+
+#endif

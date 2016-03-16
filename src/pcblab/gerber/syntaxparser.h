@@ -8,11 +8,14 @@
 * Date: 2016/03/13
 *******************************************************************************/
 
-#include <stdint.h>
-#include <string.h>
-#include <iostream.h>
+#ifndef SYNTAXPARSER_H
+#define SYNTAXPARSER_H
 
-#include "common.h"
+#include <stdint.h>
+#include <string>
+#include <iostream>
+
+#include "../common.h"
 
 class SyntaxParser {
     public:
@@ -24,3 +27,6 @@ class SyntaxParser {
 
     private:
 };
+
+
+#endif

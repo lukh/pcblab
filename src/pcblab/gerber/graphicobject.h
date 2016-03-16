@@ -8,8 +8,12 @@
 * Date: 2016/03/10
 *******************************************************************************/
 
+#ifndef GRAPHICOBJECT_H
+#define GRAPHICOBJECT_H
+
+
 #include <stdint.h>
-#include "commom.h"
+#include "../common.h"
 #include "aperture/aperture.h"
 #include "igerberview.h"
 
@@ -28,8 +32,8 @@ class IGraphicObject{
         };
 
 
-        GraphicObject(): mType(eTypeNone) {}
-        GraphicObject(eType inType): mType(inType) {}
+        IGraphicObject(): mType(eTypeNone) {}
+        IGraphicObject(eType inType): mType(inType) {}
 
         virtual void draw(IGerberView *inView) = 0;
 
@@ -46,7 +50,7 @@ class IGraphicObject{
 
 class GraphicObjectDraw: public IGraphicObject{
     public:
-        GraphicObjectDraw(): IGraphicObject(IGraphicObject::eTypeLine);
+        GraphicObjectDraw(): IGraphicObject(IGraphicObject::eTypeLine) {}
 
         virtual void draw(IGerberView *inView);
 
@@ -58,7 +62,7 @@ class GraphicObjectDraw: public IGraphicObject{
 
 class GraphicObjectArc: public IGraphicObject{
     public:
-        GraphicObjectArc(): IGraphicObject(IGraphicObject::eTypeLine);
+        GraphicObjectArc(): IGraphicObject(IGraphicObject::eTypeLine) {}
 
         virtual void draw(IGerberView *inView);
 
@@ -68,15 +72,17 @@ class GraphicObjectArc: public IGraphicObject{
 
 class GraphicObjectFlash: public IGraphicObject{
     public:
-        GraphicObjectFlash(): IGraphicObject()IGraphicObject::eTypeFlash);
+        GraphicObjectFlash(): IGraphicObject(IGraphicObject::eTypeFlash) {}
 
         virtual void draw(IGerberView *inView);
 };
 
 class GraphicObjectRegion: public IGraphicObject{
     public:
-        GraphicObjectRegion(): IGraphicObject()IGraphicObject::eTypeRegion);
+        GraphicObjectRegion(): IGraphicObject(IGraphicObject::eTypeRegion) {}
 
 
         virtual void draw(IGerberView *inView);
 };
+
+#endif

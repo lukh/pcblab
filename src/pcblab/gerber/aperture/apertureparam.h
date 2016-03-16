@@ -8,8 +8,12 @@
 * Date: 2016/03/12
 *******************************************************************************/
 
+#ifndef APERTUREPARAM_H
+#define APERTUREPARAM_H
+
+
 #include <stdint.h>
-#include <string.h>
+#include <string>
 
 using namespace std;
 
@@ -21,7 +25,7 @@ class IApertureParam{
             eDouble
         };
 
-        IApertureParam(string &inName, eDataType inType), mName(inName), mType(inType) {}
+        IApertureParam(string &inName, eDataType inType): mName(inName), mType(inType) {}
 
         const string &getName() { return mName; }
         eDataType getDataType() { return mType; }
@@ -35,7 +39,7 @@ class IApertureParam{
 template <class T>
 class ApertureParam: IApertureParam{
     public:
-        ApertureParam(string &inName, eDataType inType, T inData), mName(inName), mType(inType), mData(inData) {}
+        ApertureParam(string &inName, eDataType inType, T inData): IApertureParam(inName, inType), mData(inData) {}
 
 
         T getData() { return mData; }
@@ -45,3 +49,7 @@ class ApertureParam: IApertureParam{
     private:
         T mData;
 };
+
+
+
+#endif

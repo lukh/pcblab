@@ -31,7 +31,7 @@ class Point{
 
   public:
     Point(): mX(0.0), mY(0.0) {}
-    Point(double inX, inY): mX(inX), mY(inY) {}
+    Point(double inX, double inY): mX(inX), mY(inY) {}
 
 
     double mX;

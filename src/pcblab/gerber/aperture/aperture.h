@@ -8,12 +8,15 @@
 * Date: 2016/03/12
 *******************************************************************************/
 
-#include <stdint.h>
-#include <string.h>
+#ifndef APERTURE_H
+#define APERTURE_H
 
-#include "common.h"
-#include "aperture/aperturetemplate.h"
-#include "aperture/apertureparam.h"
+#include <stdint.h>
+#include <string>
+
+#include "../../common.h"
+#include "aperturetemplate.h"
+#include "apertureparam.h"
 
 using namespace std;
 
@@ -23,7 +26,7 @@ class Aperture{
     public:
         Aperture(uint32_t inDCode, ApertureTemplate *inTemplate): mDCode(inDCode), mTemplate(inTemplate) {}
 
-        void addParameter(IApertureParam *inParam) { mParameters.push(inParam); }
+        void addParameter(IApertureParam *inParam) { mParameters.push_back(inParam); }
         const IApertureParam *getParameter(string &inName);
 
     private:
@@ -36,3 +39,6 @@ class Aperture{
         /// defines its parameters
         vector<IApertureParam *> mParameters;
 };
+
+
+#endif

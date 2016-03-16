@@ -9,11 +9,11 @@
 *******************************************************************************/
 
 
-##ifndef GRAPHICSTATE_H
+#ifndef GRAPHICSTATE_H
 #define GRAPHICSTATE_H
 
 #include <stdint.h>
-#include "common.h"
+#include "../common.h"
 #include "aperture/aperture.h"
 
 /// GraphicState Class.
@@ -62,12 +62,14 @@ class GraphicState {
 
     /// defines the current step and repeat
     class StepAndRepeat{
-        StepAndRepeat(): mX(1), mY(1), mI(0.0), mJ(0.0)
-        uint16_t mX;
-        uint16_t mY;
+        public:
+            StepAndRepeat(): mX(1), mY(1), mI(0.0), mJ(0.0) {}
 
-        double mI;
-        double mJ;
+            uint16_t mX;
+            uint16_t mY;
+
+            double mI;
+            double mJ;
     };
 
 

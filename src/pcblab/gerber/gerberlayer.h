@@ -1,3 +1,13 @@
+/*******************************************************************************
+* Module: GerberLayer
+*
+* Project: PcbLab
+*
+* Author: Vivien HENRY
+*
+* Date: 2016/03/08
+*******************************************************************************/
+
 #ifndef GERBERLAYER_H
 #define GERBERLAYER_H
 
@@ -5,11 +15,11 @@
 #include <vector>
 #include <string.h>
 
-#include "common.h"
+#include "../common.h"
 #include "graphicstate.h"
 #include "syntaxparser.h"
 #include "graphicobject.h"
-#include "aperture.h"
+#include "aperture/aperture.h"
 
 using namespace std;
 
@@ -21,14 +31,14 @@ class GerberLayer {
         /// GerberLevel is a container holding all the graphic object with the same polarity
         class GerberLevel{
             public:
-                GerberLevel(GraphicState::LevelPolarity inPolarity): mPolarity(inPolarity) {}
+                GerberLevel(GraphicState::eLevelPolarity inPolarity): mPolarity(inPolarity) {}
 
                 /// Adds an existing object to the level.
-                void addObject(GraphicObject *inObject) { mObject.push(inObject); }
+                void addObject(IGraphicObject *inObject) { mObjects.push_back(inObject); }
 
             private:
                 const GraphicState::eLevelPolarity mPolarity;
-                vector <GraphicObject *> mObjects;
+                vector <IGraphicObject *> mObjects;
         };
 
 
