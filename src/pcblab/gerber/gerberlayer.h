@@ -25,7 +25,7 @@ using namespace std;
 
 /// Describes Gerber Layer, defines by its file
 /// Parses the file and generate Graphic Object.
-class GerberLayer {
+class GerberLayer: public SyntaxParser {
     public:
 
         /// GerberLevel is a container holding all the graphic object with the same polarity
@@ -33,8 +33,15 @@ class GerberLayer {
             public:
                 GerberLevel(GraphicState::eLevelPolarity inPolarity): mPolarity(inPolarity) {}
 
-                /// Adds an existing object to the level.
-                void addObject(/*type, params, aperture*/);
+
+                // --- MakeGraphicObjects ---
+                void makeGraphicObjectDraw(Point inStart, Point inStop, Aperture *inAperture);
+                void makeGraphicObjectArc(Point inStart, Point inStop, Aperture *inAperture);
+                void makeGraphicObjectFlash(Aperture *inAperture);
+                void makeGraphicObjectRegion(Aperture *inAperture);
+
+
+
 
             private:
                 const GraphicState::eLevelPolarity mPolarity;
@@ -42,14 +49,41 @@ class GerberLayer {
         };
 
 
-        GerberLayer ();
+        GerberLayer (): SyntaxParser() {}
         virtual ~GerberLayer ();
 
-
-        // --- I/O methods. ---
+        // ------------------------------------------------------
+        // ----------------- I/O methods. -----------------------
+        // ------------------------------------------------------
 
         /// open from the file given
         bool open(string &inFileName);
+
+
+
+
+
+    protected:
+        // ------------------------------------------------------
+        // ----- parser's virtual methods implementation --------
+        // ------------------------------------------------------
+        virtual void setUnit(GraphicState::eUnit inUnit);
+        virtual void setCoordinateFormat(GraphicState::CoordinateFormat inFormat);
+        virtual void setQuadrantMode(GraphicState::eQuadrantMode inQuadrantMode);
+        virtual void setInterpolationMode(GraphicState::eInterpolationMode inInterpolationMode);
+
+        virtual void defineAperture(/*  */);
+        virtual void defineApertureTemplate(/*  */);
+
+        virtual void addNewLevel(GraphicState::eLevelPolarity inPolarity);
+
+
+        virtual void makeGraphicObjectDraw(Point inStart, Point inStop);
+        virtual void makeGraphicObjectArc(Point inStart, Point inStop);
+        virtual void makeGraphicObjectFlash();
+        virtual void makeGraphicObjectRegion();
+
+
 
     private:
         /// Name of the Layer
@@ -61,6 +95,9 @@ class GerberLayer {
         /// Handles the different GraphicObjects in a GerberLevel container.
         /// the 0 level is the bottom one, it can be overriden by upper layers.
         vector<GerberLevel> mLevels;
+
+        /// Store a pointer on the current level
+        GerberLevel *mCurrentLevel;
 
         /// Aperture Dictionary.
         vector<Aperture> mApertures;
