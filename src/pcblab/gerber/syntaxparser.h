@@ -50,7 +50,7 @@ class SyntaxParser {
         virtual void makeGraphicObjectDraw(Point inStop) = 0;
         virtual void makeGraphicObjectArc(Point inStop, Point inCenterOffset) = 0;
         virtual void makeGraphicObjectFlash() = 0;
-        virtual void makeGraphicObjectRegion() = 0;
+
 
 
 

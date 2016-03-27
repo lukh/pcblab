@@ -38,8 +38,8 @@ class GerberLayer: public SyntaxParser {
                 // --- MakeGraphicObjects ---
                 void makeGraphicObjectDraw(Point inStart, Point inStop, Aperture *inAperture);
                 void makeGraphicObjectArc(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture);
-                void makeGraphicObjectFlash(Aperture *inAperture);
-                void makeGraphicObjectRegion(Aperture *inAperture);
+                void makeGraphicObjectFlash(Point inPoint, Aperture *inAperture);
+
 
 
 
@@ -100,7 +100,6 @@ class GerberLayer: public SyntaxParser {
         virtual void makeGraphicObjectDraw(Point inStop);
         virtual void makeGraphicObjectArc(Point inStop, Point inCenterOffset);
         virtual void makeGraphicObjectFlash();
-        virtual void makeGraphicObjectRegion();
 
 
 

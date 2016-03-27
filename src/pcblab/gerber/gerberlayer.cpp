@@ -20,9 +20,12 @@ void GerberLayer::GerberLevel::makeGraphicObjectArc(Point inStart, Point inStop,
     mObjects.push_back(arc);
 }
 
-void GerberLayer::GerberLevel::makeGraphicObjectFlash(Aperture *inAperture){}
+void GerberLayer::GerberLevel::makeGraphicObjectFlash(Point inPoint, Aperture *inAperture){
+    GraphicObjectFlash *flash = new GraphicObjectFlash(inPoint, inAperture);
 
-void GerberLayer::GerberLevel::makeGraphicObjectRegion(Aperture *inAperture){}
+    mObjects.push_back(flash);
+}
+
 
 
 
@@ -87,7 +90,7 @@ void GerberLayer::makeGraphicObjectDraw(Point inStop){
 
 void GerberLayer::makeGraphicObjectArc(Point inStop, Point inCenterOffset){
     if(mCurrentLevel == NULL){
-        cerr << "ERROR(GerberLayer::makeGraphicObjectDraw): level doesn't exist" << endl;
+        cerr << "ERROR(GerberLayer::makeGraphicObjectArc): level doesn't exist" << endl;
         return;
     }
 
@@ -95,9 +98,12 @@ void GerberLayer::makeGraphicObjectArc(Point inStop, Point inCenterOffset){
 }
 
 void GerberLayer::makeGraphicObjectFlash(){
+    if(mCurrentLevel == NULL){
+        cerr << "ERROR(GerberLayer::makeGraphicObjectFlash): level doesn't exist" << endl;
+        return;
+    }
 
+    mCurrentLevel->makeGraphicObjectFlash(mState.getCurrentPoint(), mState.getCurrentAperture());
 }
 
-void GerberLayer::makeGraphicObjectRegion(){
 
-}
