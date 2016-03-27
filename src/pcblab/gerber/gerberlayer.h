@@ -32,11 +32,12 @@ class GerberLayer: public SyntaxParser {
         class GerberLevel{
             public:
                 GerberLevel(GraphicState::eLevelPolarity inPolarity): mPolarity(inPolarity) {}
+                ~GerberLevel();
 
 
                 // --- MakeGraphicObjects ---
                 void makeGraphicObjectDraw(Point inStart, Point inStop, Aperture *inAperture);
-                void makeGraphicObjectArc(Point inStart, Point inStop, Aperture *inAperture);
+                void makeGraphicObjectArc(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture);
                 void makeGraphicObjectFlash(Aperture *inAperture);
                 void makeGraphicObjectRegion(Aperture *inAperture);
 
@@ -49,8 +50,8 @@ class GerberLayer: public SyntaxParser {
         };
 
 
-        GerberLayer (): SyntaxParser() {}
-        virtual ~GerberLayer ();
+        GerberLayer(): SyntaxParser() {}
+        virtual ~GerberLayer();
 
         // ------------------------------------------------------
         // ----------------- I/O methods. -----------------------
@@ -67,19 +68,37 @@ class GerberLayer: public SyntaxParser {
         // ------------------------------------------------------
         // ----- parser's virtual methods implementation --------
         // ------------------------------------------------------
-        virtual void setUnit(GraphicState::eUnit inUnit);
-        virtual void setCoordinateFormat(GraphicState::CoordinateFormat inFormat);
-        virtual void setQuadrantMode(GraphicState::eQuadrantMode inQuadrantMode);
-        virtual void setInterpolationMode(GraphicState::eInterpolationMode inInterpolationMode);
+        virtual void setUnit(GraphicState::eUnit inUnit){
+            mState.setUnit(inUnit);
+        }
 
-        virtual void defineAperture(/*  */);
-        virtual void defineApertureTemplate(/*  */);
+        virtual void setCoordinateFormat(GraphicState::CoordinateFormat inFormat){
+            mState.setCoordFormat(inFormat);
+        }
+
+        virtual void setQuadrantMode(GraphicState::eQuadrantMode inQuadrantMode){
+            mState.setQuadrantMode(inQuadrantMode);
+        }
+
+        virtual void setInterpolationMode(GraphicState::eInterpolationMode inInterpolationMode){
+            mState.setInterpolationMode(inInterpolationMode);
+        }
+
+        virtual void setCurrentPoint(Point inPoint){
+            mState.setCurrentPoint(inPoint);
+        }
 
         virtual void addNewLevel(GraphicState::eLevelPolarity inPolarity);
 
+        virtual void defineAperture(/*  */);
 
-        virtual void makeGraphicObjectDraw(Point inStart, Point inStop);
-        virtual void makeGraphicObjectArc(Point inStart, Point inStop);
+        virtual void defineApertureTemplate(/*  */);
+
+        virtual void setCurrentAperture(uint32_t inDCode);
+
+
+        virtual void makeGraphicObjectDraw(Point inStop);
+        virtual void makeGraphicObjectArc(Point inStop, Point inCenterOffset);
         virtual void makeGraphicObjectFlash();
         virtual void makeGraphicObjectRegion();
 
