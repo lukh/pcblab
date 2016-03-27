@@ -2,8 +2,8 @@
 
 
 GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture):
-    IGraphicObject(IGraphicObject::eTypeArc, inStartPoint, inAperture),
-    mEndPoint(inEndPoint), mCenterOffset(inCenterOffset),
+    IGraphicObject(IGraphicObject::eTypeArc, inAperture),
+    mStartPoint(inStartPoint), mEndPoint(inEndPoint), mCenterOffset(inCenterOffset),
     mQuadrantMode(inQuadrantMode), mInterpolationMode(inInterpolationMode)
 {
     if(mInterpolationMode == GraphicState::eInterpolLinear){
