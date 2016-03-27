@@ -17,7 +17,10 @@ INCLUDEPATH += ../src
 
 SOURCES += \
     ../src/main.cpp \
-    ../src/gui/mainwindow.cpp
+    ../src/gui/mainwindow.cpp \
+    ../src/pcblab/gerber/gerberlayer.cpp \
+    ../src/pcblab/gerber/syntaxparser.cpp \
+    ../src/pcblab/gerber/graphicobject.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -34,5 +37,7 @@ HEADERS  += \
 
 FORMS += \
     ../src/gui/mainwindow.ui
+
+DISTFILES +=
 
 
