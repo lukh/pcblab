@@ -13,9 +13,14 @@
 
 
 #include <stdint.h>
+#include <iostream>
+
 #include "../common.h"
 #include "aperture/aperture.h"
 #include "igerberview.h"
+#include "graphicstate.h"
+
+using namespace std;
 
 
 /// Interface for GraphicObject.
@@ -32,8 +37,10 @@ class IGraphicObject{
         };
 
 
-        IGraphicObject(): mType(eTypeNone) {}
-        IGraphicObject(eType inType): mType(inType) {}
+        //IGraphicObject(): mType(eTypeNone) {}
+        IGraphicObject(eType inType, Point inStartPoint, Aperture *inAperture):  mStartPoint(inStartPoint), mAperture(inAperture), mValid(false), mType(inType) {}
+
+        virtual ~IGraphicObject() {}
 
         virtual void draw(IGerberView *inView) = 0;
 
@@ -41,7 +48,7 @@ class IGraphicObject{
         Point mStartPoint;
         Aperture *mAperture; //should it be DCode ?
 
-
+        bool mValid;
 
     private:
         eType mType;
@@ -50,9 +57,12 @@ class IGraphicObject{
 
 class GraphicObjectDraw: public IGraphicObject{
     public:
-        GraphicObjectDraw(): IGraphicObject(IGraphicObject::eTypeLine) {}
+        GraphicObjectDraw(Point inStartPoint, Point inEndPoint, Aperture *inAperture):
+            IGraphicObject(IGraphicObject::eTypeLine, inStartPoint, inAperture), mEndPoint(inEndPoint) { mValid = true; }
 
-        virtual void draw(IGerberView *inView);
+        virtual ~GraphicObjectDraw() {}
+
+        virtual void draw(IGerberView *inView) {}
 
     private:
         Point mEndPoint;
@@ -62,27 +72,33 @@ class GraphicObjectDraw: public IGraphicObject{
 
 class GraphicObjectArc: public IGraphicObject{
     public:
-        GraphicObjectArc(): IGraphicObject(IGraphicObject::eTypeLine) {}
+        GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture);
 
-        virtual void draw(IGerberView *inView);
+        virtual ~GraphicObjectArc() {}
+
+        virtual void draw(IGerberView *inView) {}
 
     private:
         Point mEndPoint;
+        Point mCenterOffset;
+
+        GraphicState::eQuadrantMode mQuadrantMode;
+        GraphicState::eInterpolationMode mInterpolationMode;
 };
 
 class GraphicObjectFlash: public IGraphicObject{
     public:
-        GraphicObjectFlash(): IGraphicObject(IGraphicObject::eTypeFlash) {}
+        GraphicObjectFlash(Point inStartPoint, Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeFlash, inStartPoint, inAperture) {}
 
-        virtual void draw(IGerberView *inView);
+        virtual void draw(IGerberView *inView) {}
 };
 
 class GraphicObjectRegion: public IGraphicObject{
     public:
-        GraphicObjectRegion(): IGraphicObject(IGraphicObject::eTypeRegion) {}
+        GraphicObjectRegion(Point inStartPoint, Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeRegion, inStartPoint, inAperture) {}
 
 
-        virtual void draw(IGerberView *inView);
+        virtual void draw(IGerberView *inView) {}
 };
 
 #endif
