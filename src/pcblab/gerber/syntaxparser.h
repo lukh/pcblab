@@ -22,7 +22,7 @@
 class SyntaxParser {
     public:
         SyntaxParser ();
-        virtual ~SyntaxParser ();
+        virtual ~SyntaxParser () {};
 
     protected:
         /// Parses the data stream and build the gerber layer.
@@ -36,14 +36,19 @@ class SyntaxParser {
         virtual void setQuadrantMode(GraphicState::eQuadrantMode inQuadrantMode) = 0;
         virtual void setInterpolationMode(GraphicState::eInterpolationMode inInterpolationMode) = 0;
 
+        //used by the parser to update the current point
+        virtual void setCurrentPoint(Point inPoint) = 0;
+
+        virtual void setCurrentAperture(uint32_t inDCode) = 0;
+
         virtual void defineAperture(/*  */) = 0;
         virtual void defineApertureTemplate(/*  */) = 0;
 
         virtual void addNewLevel(GraphicState::eLevelPolarity inPolarity) = 0;
 
 
-        virtual void makeGraphicObjectDraw(Point inStart, Point inStop) = 0;
-        virtual void makeGraphicObjectArc(Point inStart, Point inStop) = 0;
+        virtual void makeGraphicObjectDraw(Point inStop) = 0;
+        virtual void makeGraphicObjectArc(Point inStop, Point inCenterOffset) = 0;
         virtual void makeGraphicObjectFlash() = 0;
         virtual void makeGraphicObjectRegion() = 0;
 
@@ -52,6 +57,8 @@ class SyntaxParser {
     private:
         void parseDCode(char *inText);
         void parseGCode(char *inText);
+
+};
 
 
 #endif
