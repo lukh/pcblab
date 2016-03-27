@@ -76,7 +76,7 @@ class GraphicState {
     //----------------------- GraphicState ------------------------------------
     GraphicState(): mCoordFormat(CoordinateFormat()), mUnit(eUnitMm) {}
     GraphicState (CoordinateFormat inCoordFormat, eUnit inUnit): mCoordFormat(inCoordFormat), mUnit(inUnit) {}
-    virtual ~GraphicState () {};
+    virtual ~GraphicState () {}
 
 
     CoordinateFormat &getCoordFormat () { return mCoordFormat; }
@@ -95,7 +95,9 @@ class GraphicState {
     void setInterpolationMode(eInterpolationMode inInterpolationMode) { mInterpolationMode = inInterpolationMode; }
 
     Point &getCurrentPoint () { return mCurrentPoint; }
-    void setCurrentPoint(Point inCurrentPoint) { mCurrentPoint = inCurrentPoint; }
+    void setCurrentPoint(Point inCurrentPoint) {
+        mCurrentPoint.updateCoordinates(inCurrentPoint);
+    }
 
     StepAndRepeat & getSR () { return mSR; }
     //void setSR(StepAndRepeat inSR) { mSR = inSR; }
