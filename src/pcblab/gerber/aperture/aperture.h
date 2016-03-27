@@ -29,6 +29,8 @@ class Aperture{
         void addParameter(IApertureParam *inParam) { mParameters.push_back(inParam); }
         const IApertureParam *getParameter(string &inName);
 
+        uint32_t getDCode() { return mDCode; }
+
     private:
         /// Aperture number
         const uint32_t mDCode;
