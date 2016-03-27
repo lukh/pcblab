@@ -79,31 +79,60 @@ void GerberLayer::setCurrentAperture(uint32_t inDCode){
 
 
 
-void GerberLayer::makeGraphicObjectDraw(Point inStop){
-    if(mCurrentLevel == NULL){
-        cerr << "ERROR(GerberLayer::makeGraphicObjectDraw): level doesn't exist" << endl;
-        return;
+void GerberLayer::interpolate(Point inPointXY, Point inPointIJ){
+    // save the current point as start point
+    Point startPoint = mState.getCurrentPoint();
+    // defines the end point, modal mode (keeps the coord of the previous if the new is not provided)
+    Point endPoint = startPoint;
+    endPoint.updateCoordinates(inPointXY);
+
+    switch(mState.getRegMode()){
+        case GraphicState::eRegModeOff:
+            switch(mState.getInterpolationMode()){
+                case GraphicState::eInterpolLinear:
+                    mCurrentLevel->makeGraphicObjectDraw(startPoint, endPoint, mState.getCurrentAperture());
+                    break;
+
+                case GraphicState::eInterpolCWCircular:
+                case GraphicState::eInterpolCCWCircular:
+                    mCurrentLevel->makeGraphicObjectArc(startPoint, endPoint, inPointIJ, mState.getQuadrantMode(), mState.getInterpolationMode(), mState.getCurrentAperture());
+                    break;
+
+            }
+            break;
+
+        case GraphicState::eRegModeOn:
+            break;
+
+        default:
+            break;
     }
 
-    mCurrentLevel->makeGraphicObjectDraw(mState.getCurrentPoint(), inStop, mState.getCurrentAperture());
+
+    // update the current point
+    mState.setCurrentPoint(inPointXY);
 }
 
-void GerberLayer::makeGraphicObjectArc(Point inStop, Point inCenterOffset){
-    if(mCurrentLevel == NULL){
-        cerr << "ERROR(GerberLayer::makeGraphicObjectArc): level doesn't exist" << endl;
-        return;
-    }
 
-    mCurrentLevel->makeGraphicObjectArc(mState.getCurrentPoint(), inStop, inCenterOffset, mState.getQuadrantMode(), mState.getInterpolationMode(), mState.getCurrentAperture());
+void GerberLayer::move(Point inPointXY){
+    // move the current point
+    mState.setCurrentPoint(inPointXY);
 }
 
-void GerberLayer::makeGraphicObjectFlash(){
-    if(mCurrentLevel == NULL){
-        cerr << "ERROR(GerberLayer::makeGraphicObjectFlash): level doesn't exist" << endl;
+
+void GerberLayer::flash(Point inPointXY){
+    // set the current point
+    mState.setCurrentPoint(inPointXY);
+
+    //check for forbidden uses
+    if(mState.getRegMode() == GraphicState::eRegModeOn){
+        cerr << "ERROR(GerberLayer::flash): Flash op (D03) is not allowed in RegionMode=On" << endl;
         return;
     }
 
+    // create the new flash, with the current position and aperture
     mCurrentLevel->makeGraphicObjectFlash(mState.getCurrentPoint(), mState.getCurrentAperture());
 }
+
 
 

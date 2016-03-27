@@ -88,6 +88,10 @@ class GerberLayer: public SyntaxParser {
             mState.setCurrentPoint(inPoint);
         }
 
+        virtual void setRegionMode(GraphicState::eRegionMode inRegMode) {
+            mState.setRegMode(inRegMode);
+        };
+
         virtual void addNewLevel(GraphicState::eLevelPolarity inPolarity);
 
         virtual void defineAperture(/*  */);
@@ -97,9 +101,14 @@ class GerberLayer: public SyntaxParser {
         virtual void setCurrentAperture(uint32_t inDCode);
 
 
-        virtual void makeGraphicObjectDraw(Point inStop);
-        virtual void makeGraphicObjectArc(Point inStop, Point inCenterOffset);
-        virtual void makeGraphicObjectFlash();
+        /// interpolate operation, D01 code, with X, Y I, J. Not used coordinates are null
+        virtual void interpolate(Point inPointXY, Point inPointIJ);
+
+        /// move operation, D02
+        virtual void move(Point inPointXY);
+
+        /// flash operation, D03
+        virtual void flash(Point inPointXY);
 
 
 

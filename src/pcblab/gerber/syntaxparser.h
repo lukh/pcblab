@@ -35,9 +35,7 @@ class SyntaxParser {
         virtual void setCoordinateFormat(GraphicState::CoordinateFormat inFormat) = 0;
         virtual void setQuadrantMode(GraphicState::eQuadrantMode inQuadrantMode) = 0;
         virtual void setInterpolationMode(GraphicState::eInterpolationMode inInterpolationMode) = 0;
-
-        //used by the parser to update the current point
-        virtual void setCurrentPoint(Point inPoint) = 0;
+        virtual void setRegionMode(GraphicState::eRegionMode inRegMode) = 0;
 
         virtual void setCurrentAperture(uint32_t inDCode) = 0;
 
@@ -47,9 +45,14 @@ class SyntaxParser {
         virtual void addNewLevel(GraphicState::eLevelPolarity inPolarity) = 0;
 
 
-        virtual void makeGraphicObjectDraw(Point inStop) = 0;
-        virtual void makeGraphicObjectArc(Point inStop, Point inCenterOffset) = 0;
-        virtual void makeGraphicObjectFlash() = 0;
+        /// interpolate operation, D01 code, with X, Y I, J. Not used coordinates are null
+        virtual void interpolate(Point inPointXY, Point inPointIJ) = 0;
+
+        /// move operation, D02
+        virtual void move(Point inPointXY) = 0;
+
+        /// flash operation, D03
+        virtual void flash(Point inPointXY) = 0;
 
 
 
