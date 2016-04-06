@@ -40,8 +40,9 @@ class IGraphicObject{
 
         //IGraphicObject(): mType(eTypeNone) {}
         IGraphicObject(eType inType, Aperture *inAperture): mAperture(inAperture), mValid(false), mType(inType) {}
-
         virtual ~IGraphicObject() {}
+
+        eType getType() { return mType; }
 
         virtual void draw(IGerberView *inView) = 0;
 
@@ -55,22 +56,34 @@ class IGraphicObject{
 };
 
 
+/// Interface to handles tracks (arcs and draw)
+class IGraphicObjectTrack{
+    public:
+        IGraphicObjectTrack(Point inStartPoint, Point inEndPoint): mStartPoint(inStartPoint), mEndPoint(inEndPoint){}
+
+        const Point& getStartPoint() {return mStartPoint; }
+        const Point& getEndPoint() { return mEndPoint; }
+
+
+    protected:
+        Point mStartPoint;
+        Point mEndPoint;
+};
+
+
 /// defines a draw:
 /// parameters are
 ///     start point
 ///     stop point
-class GraphicObjectDraw: public IGraphicObject{
+class GraphicObjectDraw: public IGraphicObject, public IGraphicObjectTrack{
     public:
         GraphicObjectDraw(Point inStartPoint, Point inEndPoint, Aperture *inAperture):
-            IGraphicObject(IGraphicObject::eTypeLine, inAperture), mStartPoint(inStartPoint), mEndPoint(inEndPoint) { mValid = true; }
+            IGraphicObject(IGraphicObject::eTypeLine, inAperture), IGraphicObjectTrack(inStartPoint, inEndPoint){ mValid = true; }
 
         virtual ~GraphicObjectDraw() {}
 
-        virtual void draw(IGerberView *inView) {}
 
-    private:
-        Point mStartPoint;
-        Point mEndPoint;
+        virtual void draw(IGerberView *inView) {}
 };
 
 
@@ -78,7 +91,7 @@ class GraphicObjectDraw: public IGraphicObject{
 /// parameters
 ///     start, stop and center point
 ///     quadrant mode, interpolation mode (CCW or CW)
-class GraphicObjectArc: public IGraphicObject{
+class GraphicObjectArc: public IGraphicObject, public IGraphicObjectTrack{
     public:
         GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture);
 
@@ -87,8 +100,6 @@ class GraphicObjectArc: public IGraphicObject{
         virtual void draw(IGerberView *inView) {}
 
     private:
-        Point mStartPoint;
-        Point mEndPoint;
         Point mCenterOffset;
 
         GraphicState::eQuadrantMode mQuadrantMode;
@@ -99,12 +110,12 @@ class GraphicObjectArc: public IGraphicObject{
 /// defines a flash with the current aperture at the given point
 class GraphicObjectFlash: public IGraphicObject{
     public:
-        GraphicObjectFlash(Point inStartPoint, Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeFlash, inAperture), mStartPoint(inStartPoint) { mValid = true; }
+        GraphicObjectFlash(Point inPoint, Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeFlash, inAperture), mPoint(inPoint) { mValid = true; }
 
         virtual void draw(IGerberView *inView) {}
 
     private:
-        Point mStartPoint;
+        Point mPoint;
 };
 
 
@@ -114,30 +125,105 @@ class GraphicObjectFlash: public IGraphicObject{
 /// a region is constructed with several commands
 class GraphicObjectRegion: public IGraphicObject{
     public:
-        GraphicObjectRegion(Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeRegion, inAperture) { mValid=false; }
-
-
-
-        virtual void draw(IGerberView *inView) {}
-
-    private:
         /// a Contour describes a part of the region.
         /// It is construct by a set of D01/D02 commands
         class Contour{
             public:
-                Contour();
+                enum eContoursConnection{
+                    eNotConnected,
+                    eTouching,
+                    eOverlapping
+                };
+
+                Contour() {}
                 ~Contour();
 
-                void defineStartPoint(Point inStart);
+                /// Adds a linear segment
+                void addSegment(Point inStart, Point inStop);
 
-                void addSegment(Point inStop);
-                void addSegment(Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode);
+                /// Adds an arc segment
+                void addSegment(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode);
 
-                void close(Point inStop);
+                /// checks if the contour is closed
+                bool isClosed();
+
+                /// checks if the Point is in the contour (contour must be closed)
+                bool isInside(Point inPoint);
+
+                /// checks the connection with another contour
+                eContoursConnection getConnection(const Contour &inContour);
+
+
+
+                static IGraphicObjectTrack* convert2Track(IGraphicObject *inObject);
+
 
             private:
                 vector <IGraphicObject *> mSegments;
         };
+
+    public:
+        /// Creates a new contour in the "contour pool"
+        static void openContour();
+
+        /// adds a linear segment to the current contour
+        static void addSegment(Point inStart, Point inStop);
+
+        /// adds an arc segment to the current contour
+        static void addSegment(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode);
+
+
+
+
+        /// When a G37 cmd is received, contours are sorted and regions created regarding the position of the contours, and pool is cleaned
+        static vector<GraphicObjectRegion *> createRegionsFromContours(Aperture *inAperture);
+
+        /// cleans the pool for the next run
+        static void cleanContoursPool();
+
+        /// flush the pool (delete objects), in case something went wrong
+        static void flushContoursPool();
+
+    protected:
+        /// A pointer on the current contour, when the contour is built (between a G36 / D02)
+        static Contour *sContour;
+
+        /// The list of the contour created during a G36/37 pair
+        static vector<Contour *> sContours;
+
+
+    public:
+        GraphicObjectRegion(Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeRegion, inAperture) { mValid=false; }
+        virtual ~GraphicObjectRegion();
+
+        virtual void draw(IGerberView *inView) {}
+
+
+    private:
+        /// the internal contours when the Region is valid
+        vector<Contour *> mContours;
+
+
+
 };
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
