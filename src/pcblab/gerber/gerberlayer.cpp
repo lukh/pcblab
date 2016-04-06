@@ -26,7 +26,12 @@ void GerberLayer::GerberLevel::makeGraphicObjectFlash(Point inPoint, Aperture *i
     mObjects.push_back(flash);
 }
 
-
+void GerberLayer::GerberLevel::makeGraphicObjectRegions(Aperture *inAperture){
+    vector <GraphicObjectRegion *> regions = GraphicObjectRegion::createRegionsFromContours(inAperture);
+    for(vector<GraphicObjectRegion*>::iterator it = regions.begin(); it != regions.end(); ++it){
+        mObjects.push_back((*it));
+    }
+}
 
 
 
@@ -37,6 +42,19 @@ GerberLayer::~GerberLayer(){
     }
 }
 
+
+void GerberLayer::setRegionMode(GraphicState::eRegionMode inRegMode) {
+    //update the graphic state
+    mState.setRegMode(inRegMode);
+
+    switch(inRegMode){
+        case GraphicState::eRegModeOn:
+            break;
+        case GraphicState::eRegModeOff:{
+            mCurrentLevel->makeGraphicObjectRegions(mState.getCurrentAperture());
+            break;}
+    }
+}
 
 void GerberLayer::addNewLevel(GraphicState::eLevelPolarity inPolarity){
     mLevels.push_back(GerberLevel(inPolarity));
@@ -56,7 +74,7 @@ void GerberLayer::defineApertureTemplate(/*  */){
 void GerberLayer::setCurrentAperture(uint32_t inDCode){
     Aperture *curr_aperture = NULL;
 
-    if(inDCode >= 10){
+    if(inDCode < 10){
         cerr << "ERROR(GerberLayer::SetCurrentAperture): DCode(" << inDCode << ") smaller than 10" << endl;
         return;
     }
@@ -135,4 +153,14 @@ void GerberLayer::flash(Point inPointXY){
 }
 
 
+
+double GerberLayer::convertCoordinate(long inRaw){
+    double out = (double) inRaw;
+
+    for(int i = 0; i < mState.getCoordFormat().mDecimals; i ++){
+        out /= 10;
+    }
+
+    return out;
+}
 

@@ -19,14 +19,16 @@
 
 #include "graphicstate.h"
 
+using namespace std;
+
 class SyntaxParser {
     public:
         SyntaxParser ();
-        virtual ~SyntaxParser () {};
+        virtual ~SyntaxParser () {}
 
     protected:
         /// Parses the data stream and build the gerber layer.
-        void parse(char inChar);
+        void parse(istream &inStream);
 
 
         // --- Used by the parser to build the gerber layer ---
@@ -57,9 +59,34 @@ class SyntaxParser {
 
 
 
+        /// convert coordinate from raw to a real life coord (regarding coord format and unit)
+        virtual double convertCoordinate(long inRaw) = 0;
+
+
+
+
     private:
-        void parseDCode(char *inText);
-        void parseGCode(char *inText);
+        void parseDCode(istream &inStream);
+        void parseGCode(istream &inStream);
+
+
+        /// resets omitted attributes
+        void resetPointsAttributes(){
+            //reset the point attributes
+            mXY.mIsXOmitted=true;
+            mXY.mIsYOmitted=true;
+            mIJ.mIsXOmitted=true;
+            mIJ.mIsYOmitted=true;
+        }
+
+
+        uint8_t getOpCode(istream &inStream);
+        uint32_t getRawCoord(istream &inStream);
+
+
+    private:
+        Point mXY;
+        Point mIJ;
 
 };
 

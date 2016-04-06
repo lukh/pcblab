@@ -39,6 +39,7 @@ class GerberLayer: public SyntaxParser {
                 void makeGraphicObjectDraw(Point inStart, Point inStop, Aperture *inAperture);
                 void makeGraphicObjectArc(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture);
                 void makeGraphicObjectFlash(Point inPoint, Aperture *inAperture);
+                void makeGraphicObjectRegions(Aperture *inAperture);
 
 
 
@@ -68,29 +69,29 @@ class GerberLayer: public SyntaxParser {
         // ------------------------------------------------------
         // ----- parser's virtual methods implementation --------
         // ------------------------------------------------------
+
+        /// MO cmd
         virtual void setUnit(GraphicState::eUnit inUnit){
             mState.setUnit(inUnit);
         }
 
+        /// FS cmd
         virtual void setCoordinateFormat(GraphicState::CoordinateFormat inFormat){
             mState.setCoordFormat(inFormat);
         }
 
+        /// G74/75 cmd
         virtual void setQuadrantMode(GraphicState::eQuadrantMode inQuadrantMode){
             mState.setQuadrantMode(inQuadrantMode);
         }
 
+        /// G01/02/03 cmd
         virtual void setInterpolationMode(GraphicState::eInterpolationMode inInterpolationMode){
             mState.setInterpolationMode(inInterpolationMode);
         }
 
-        virtual void setCurrentPoint(Point inPoint){
-            mState.setCurrentPoint(inPoint);
-        }
 
-        virtual void setRegionMode(GraphicState::eRegionMode inRegMode) {
-            mState.setRegMode(inRegMode);
-        };
+        virtual void setRegionMode(GraphicState::eRegionMode inRegMode);
 
         virtual void addNewLevel(GraphicState::eLevelPolarity inPolarity);
 
@@ -109,6 +110,13 @@ class GerberLayer: public SyntaxParser {
 
         /// flash operation, D03
         virtual void flash(Point inPointXY);
+
+
+
+
+
+        /// convert coordinate from raw to a real life coord (regarding coord format and unit)
+        virtual double convertCoordinate(long inRaw);
 
 
 
@@ -131,6 +139,13 @@ class GerberLayer: public SyntaxParser {
 
         /// Apertures Template Dict
         vector<ApertureTemplate *> mApertureTemplates;
+
+    protected:
+        string &getName() { return mName; }
+        GraphicState& getState() { return mState; }
+        vector<GerberLevel> &getLevels() { return mLevels; }
+        //const vector<Aperture> &getApertures() const { return mApertures; }
+        //const vector<ApertureTemplate *> & getApertures() const { return mApertureTemplates; }
 };
 
 
