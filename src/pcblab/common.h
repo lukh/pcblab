@@ -55,6 +55,14 @@ class Point{
     bool mIsXOmitted;
     bool mIsYOmitted;
 
+    bool operator ==(const Point &p) const{
+        return (mX == p.mX) && (mY == p.mY);
+    }
+
+    bool operator !=(const Point &p) const{
+        return (mX != p.mX) || (mY != p.mY);
+    }
+
 };
 
 
