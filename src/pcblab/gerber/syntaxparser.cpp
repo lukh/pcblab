@@ -11,16 +11,22 @@ void SyntaxParser::parse(istream &inStream){
 
     while((read = inStream.get()) != EOF){
         switch(read){
-            case 'D':
-                parseDCode(inStream);
+            case ' ': //pass...
+            case '\r':
+            case '\n':
+                break;
 
+            case '*': //end command, should not append since it's handle in the D/G command
+                break;
+
+            case 'D': //DCode
+                parseDCode(inStream);
                 resetPointsAttributes();
 
                 break;
 
-            case 'G':
+            case 'G': //GCode
                 parseGCode(inStream);
-
                 resetPointsAttributes();
                 break;
 
@@ -65,7 +71,9 @@ void SyntaxParser::parseDCode(istream &inStream){
         case 02:
             move(mXY);
             break;
-
+    case ' ':
+                case '\r':
+                case '\n':
         case 03:
             flash(mXY);
             break;
@@ -97,9 +105,12 @@ uint8_t SyntaxParser::getOpCode(istream &inStream){
 
     uint8_t val;
 
-    while((read = inStream.get()) != EOF){
+    while((read = inStream.peek()) != EOF){
         if(read < '0' || read > '9')
             break;
+
+        //extract the char
+        inStream.get();
 
         str.push_back(read);
     }
@@ -121,9 +132,12 @@ uint32_t SyntaxParser::getRawCoord(istream &inStream){
 
     uint32_t val;
 
-    while((read = inStream.get()) != EOF){
+    while((read = inStream.peek()) != EOF){
         if(read < '0' || read > '9')
             break;
+
+        //extract the char
+        inStream.get();
 
         str.push_back(read);
     }
