@@ -129,7 +129,7 @@ class GerberLayer: public SyntaxParser {
 
         /// Handles the different GraphicObjects in a GerberLevel container.
         /// the 0 level is the bottom one, it can be overriden by upper layers.
-        vector<GerberLevel> mLevels;
+        vector<GerberLevel *> mLevels;
 
         /// Store a pointer on the current level
         GerberLevel *mCurrentLevel;
@@ -143,7 +143,7 @@ class GerberLayer: public SyntaxParser {
     protected:
         string &getName() { return mName; }
         GraphicState& getState() { return mState; }
-        vector<GerberLevel> &getLevels() { return mLevels; }
+        vector<GerberLevel *> &getLevels() { return mLevels; }
         //const vector<Aperture> &getApertures() const { return mApertures; }
         //const vector<ApertureTemplate *> & getApertures() const { return mApertureTemplates; }
 };

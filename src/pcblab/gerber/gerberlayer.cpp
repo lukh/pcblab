@@ -37,6 +37,10 @@ void GerberLayer::GerberLevel::makeGraphicObjectRegions(Aperture *inAperture){
 
 // ---------------------------------- GerberLayer --------------------------------
 GerberLayer::~GerberLayer(){
+    for(vector<GerberLevel*>::iterator it = mLevels.begin(); it != mLevels.end(); ++it){
+        delete (*it);
+    }
+
     for(vector<ApertureTemplate*>::iterator it = mApertureTemplates.begin(); it != mApertureTemplates.end(); ++it){
         delete (*it);
     }
@@ -57,7 +61,8 @@ void GerberLayer::setRegionMode(GraphicState::eRegionMode inRegMode) {
 }
 
 void GerberLayer::addNewLevel(GraphicState::eLevelPolarity inPolarity){
-    mLevels.push_back(GerberLevel(inPolarity));
+    mCurrentLevel = new GerberLevel(inPolarity);
+    mLevels.push_back(mCurrentLevel);
 }
 
 
