@@ -9,7 +9,7 @@ GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point i
     mQuadrantMode(inQuadrantMode), mInterpolationMode(inInterpolationMode)
 {
     if(mInterpolationMode == GraphicState::eInterpolLinear){
-        cerr << "ERROR (GraphicObjectArc::GraphicObjectArc): Can't instanciate an arc with an interpolation set to linear..." << endl;
+        err_printf("ERROR (GraphicObjectArc::GraphicObjectArc): Can't instanciate an arc with an interpolation set to linear...");
         mValid = false;
     }
 
@@ -111,7 +111,7 @@ bool GraphicObjectRegion::Contour::isInside(Point inPoint){
 
             default:
                 // there is something else in the vector, and it shouldn't be
-                cerr << "ERROR: (GraphicObjectRegion::Contour::isInside): Unexpected GraphicObject in the contour" << endl;
+                err_printf("ERROR: (GraphicObjectRegion::Contour::isInside): Unexpected GraphicObject in the contour");
                 break;
         }
 
@@ -143,7 +143,7 @@ IGraphicObjectTrack *GraphicObjectRegion::Contour::convert2Track(IGraphicObject 
 
         default:
             // there is something else in the vector, and it shouldn't be
-            cerr << "ERROR: (GraphicObjectRegion::Contour::isClosed): Unexpected GraphicObject in the contour" << endl;
+            err_printf("ERROR: (GraphicObjectRegion::Contour::isClosed): Unexpected GraphicObject in the contour");
             break;
     }
 
@@ -188,7 +188,7 @@ void GraphicObjectRegion::openContour(){
     // checking the state of the previous contour if exist...
     if(GraphicObjectRegion::sContour != NULL){
         if(!GraphicObjectRegion::sContour->isClosed()){
-            cerr << "ERROR: (GraphicObjectRegion::openContour): start to create a new contour but the previous one is not closed" << endl;
+            err_printf("ERROR: (GraphicObjectRegion::openContour): start to create a new contour but the previous one is not closed");
         }
     }
 
