@@ -90,6 +90,13 @@ class SyntaxParser {
         /// parses extended commands
         bool parseXCode(istream &inStream);
 
+        /// parses FS command
+        bool parseXCode_FS(istream &inStream);
+        /// parses MO cmd
+        bool parseXCode_MO(istream &inStream);
+        //parses LP cmd
+        bool parseXCode_LP(istream &inStream);
+
 
         /// resets omitted attributes
         void resetPointsAttributes(){
