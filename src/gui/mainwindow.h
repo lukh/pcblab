@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "q_debugstream.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +18,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    Q_DebugStream *mQdbcout;
+    Q_DebugStream *mQdbcerr;
 };
 
 #endif // MAINWINDOW_H

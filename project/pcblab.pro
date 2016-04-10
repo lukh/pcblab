@@ -20,7 +20,9 @@ SOURCES += \
     ../src/gui/mainwindow.cpp \
     ../src/pcblab/gerber/gerberlayer.cpp \
     ../src/pcblab/gerber/syntaxparser.cpp \
-    ../src/pcblab/gerber/graphicobject.cpp
+    ../src/pcblab/gerber/graphicobject.cpp \
+    ../src/tests/pcblab/gerber/gerberlayertest.cpp \
+    ../src/pcblab/common.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -33,7 +35,9 @@ HEADERS  += \
     ../src/pcblab/gerber/igerberview.h \
     ../src/pcblab/gerber/syntaxparser.h \
     ../src/pcblab/common.h \
-    ../src/gui/mainwindow.h
+    ../src/gui/mainwindow.h \
+    ../src/tests/pcblab/gerber/gerberlayertest.h \
+    ../src/gui/q_debugstream.h
 
 FORMS += \
     ../src/gui/mainwindow.ui

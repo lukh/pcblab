@@ -67,4 +67,18 @@ class Point{
 
 
 
+
+
+bool isNumber(char inChar);
+
+
+uint8_t charToNum(char inChar);
+
+
+
+
+void d_printf(const string &str);
+void err_printf(const string &str);
+
+
 #endif // COMMON_H
