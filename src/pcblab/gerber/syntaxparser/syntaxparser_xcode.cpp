@@ -48,6 +48,7 @@ bool SyntaxParser::parseXCode(istream &inStream){
                 if(!parseXCode_LP(inStream)){
                     return false;
                 }
+                break;
 
 
             default:
@@ -205,7 +206,7 @@ bool SyntaxParser::parseXCode_LP(istream &inStream){
         return false;
     }
 
-    d_printf("        setAddNewLevel");
+    d_printf("        addNewLevel");
     addNewLevel(polarity);
     return true;
 }

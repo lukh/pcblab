@@ -16,6 +16,30 @@ bool SyntaxParser::parseGCode(istream &inStream){
             handleComment(comment);
             break;
 
+        case 01:
+            if(inStream.get() != '*'){
+                return false;
+            }
+            d_printf("        setInterpolation mode");
+            setInterpolationMode(GraphicState::eInterpolLinear);
+            break;
+
+        case 02:
+            if(inStream.get() != '*'){
+                return false;
+            }
+            d_printf("        setInterpolation mode");
+            setInterpolationMode(GraphicState::eInterpolCWCircular);
+            break;
+
+        case 03:
+            if(inStream.get() != '*'){
+                return false;
+            }
+            d_printf("        setInterpolation mode");
+            setInterpolationMode(GraphicState::eInterpolCCWCircular);
+            break;
+
         default:
             //let's ignore the full unknown command
             d_printf("WARNING: unhandled GCode:" + to_string(op_code));
