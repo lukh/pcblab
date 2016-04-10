@@ -160,6 +160,11 @@ void GerberLayer::flash(Point inPointXY){
 }
 
 
+void GerberLayer::handleComment(string &inStr){
+    d_printf("COMMENT :" + inStr);
+}
+
+
 
 double GerberLayer::convertCoordinate(long inRaw){
     double out = (double) inRaw;

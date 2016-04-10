@@ -57,7 +57,7 @@ class SyntaxParser {
         /// flash operation, D03
         virtual void flash(Point inPointXY) = 0;
 
-
+        virtual void handleComment(string &inStr) = 0;
 
 
         /// convert coordinate from raw to a real life coord (regarding coord format and unit)

@@ -113,6 +113,9 @@ class GerberLayer: public SyntaxParser {
 
 
 
+        virtual void handleComment(string &inStr);
+
+
 
 
         /// convert coordinate from raw to a real life coord (regarding coord format and unit)
