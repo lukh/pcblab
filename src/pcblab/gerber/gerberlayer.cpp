@@ -1,5 +1,7 @@
 #include "gerberlayer.h"
 
+#include <fstream>
+
 // --------------------------------- GerberLevel ---------------------------------
 
 GerberLayer::GerberLevel::~GerberLevel(){
@@ -80,7 +82,7 @@ void GerberLayer::setCurrentAperture(uint32_t inDCode){
     Aperture *curr_aperture = NULL;
 
     if(inDCode < 10){
-        cerr << "ERROR(GerberLayer::SetCurrentAperture): DCode(" << inDCode << ") smaller than 10" << endl;
+        err_printf("ERROR(GerberLayer::SetCurrentAperture): DCode() smaller than 10");
         return;
     }
 
@@ -93,7 +95,7 @@ void GerberLayer::setCurrentAperture(uint32_t inDCode){
     }
 
     if(curr_aperture == NULL){
-        cerr << "ERROR(GerberLayer::SetCurrentAperture): DCode(" << inDCode << ") not found in existing aperture dictionary" << endl;
+        err_printf("ERROR(GerberLayer::SetCurrentAperture): DCode() not found in existing aperture dictionary");
         return;
     }
 
@@ -149,7 +151,7 @@ void GerberLayer::flash(Point inPointXY){
 
     //check for forbidden uses
     if(mState.getRegMode() == GraphicState::eRegModeOn){
-        cerr << "ERROR(GerberLayer::flash): Flash op (D03) is not allowed in RegionMode=On" << endl;
+        err_printf("ERROR(GerberLayer::flash): Flash op (D03) is not allowed in RegionMode=On");
         return;
     }
 
@@ -169,3 +171,21 @@ double GerberLayer::convertCoordinate(long inRaw){
     return out;
 }
 
+
+
+
+bool GerberLayer::open(const string &inFileName){
+    ifstream fs;
+
+    fs.open(inFileName);
+    if(! fs.is_open()){
+        err_printf("ERROR(GerberLayer::open): Impossible to open the file "+ inFileName);
+        return false;
+    }
+
+    parse(fs);
+
+    fs.close();
+
+    return true;
+}

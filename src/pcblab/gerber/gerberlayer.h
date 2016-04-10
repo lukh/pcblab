@@ -59,7 +59,7 @@ class GerberLayer: public SyntaxParser {
         // ------------------------------------------------------
 
         /// open from the file given
-        bool open(string &inFileName);
+        bool open(const string &inFileName);
 
 
 

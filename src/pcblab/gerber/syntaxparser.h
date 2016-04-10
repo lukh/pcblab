@@ -28,7 +28,8 @@ class SyntaxParser {
 
     protected:
         /// Parses the data stream and build the gerber layer.
-        void parse(istream &inStream);
+        /// returns true if the file is completeand without error
+        bool parse(istream &inStream);
 
 
         // --- Used by the parser to build the gerber layer ---
@@ -66,8 +67,28 @@ class SyntaxParser {
 
 
     private:
-        void parseDCode(istream &inStream);
-        void parseGCode(istream &inStream);
+        /// used by the parser
+        enum eXCode{
+            eXCodeNone,
+            eXCodeFs,
+            eXCodeMo,
+            eXCodeAd,
+            eXCodeAm,
+            eXCodeSr,
+            eXCodeLp,
+            eXCodeTf,
+            eXCodeTa,
+            eXCodeTd
+        };
+
+        /// parses D01, D02, D03, Dnn commands
+        bool parseDCode(istream &inStream);
+
+        /// parses Gxx commands
+        bool parseGCode(istream &inStream);
+
+        /// parses extended commands
+        bool parseXCode(istream &inStream);
 
 
         /// resets omitted attributes
@@ -81,6 +102,7 @@ class SyntaxParser {
 
 
         uint8_t getOpCode(istream &inStream);
+        eXCode getXCode(char ch1, char ch2);
         uint32_t getRawCoord(istream &inStream);
 
 
