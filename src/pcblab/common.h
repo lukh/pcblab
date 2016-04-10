@@ -3,6 +3,9 @@
 
 #include <map>
 #include <string>
+#include <cstdlib>
+#include <algorithm>
+
 using namespace std;
 
 enum eExtension{
@@ -74,7 +77,7 @@ bool isNumber(char inChar);
 
 uint8_t charToNum(char inChar);
 
-
+double stringToDouble(string &str);
 
 
 void d_printf(const string &str);

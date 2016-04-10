@@ -11,6 +11,13 @@ uint8_t charToNum(char inChar){
     return (inChar - '0');
 }
 
+
+double stringToDouble(string &str){
+    std::replace(str.begin(), str.end(), '.', ',');
+    return stod(str);
+}
+
+
 void d_printf(const string &str){
     cout << str << endl;
 }

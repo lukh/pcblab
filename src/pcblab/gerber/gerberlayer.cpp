@@ -38,6 +38,25 @@ void GerberLayer::GerberLevel::makeGraphicObjectRegions(Aperture *inAperture){
 
 
 // ---------------------------------- GerberLayer --------------------------------
+GerberLayer::GerberLayer(): SyntaxParser() {
+    //adding default aperture templates
+    /*StandardApertureTemplate *t;
+
+    t = new StandardApertureTemplate(StandardApertureTemplate::eSACircle);
+    mApertureTemplates.push_back(t);
+
+    t = new StandardApertureTemplate(StandardApertureTemplate::eSARectangle);
+    mApertureTemplates.push_back(t);
+
+    t = new StandardApertureTemplate(StandardApertureTemplate::eSAObround);
+    mApertureTemplates.push_back(t);
+
+    t = new StandardApertureTemplate(StandardApertureTemplate::eSARegularPolygon);
+    mApertureTemplates.push_back(t);*/
+
+}
+
+
 GerberLayer::~GerberLayer(){
     for(vector<GerberLevel*>::iterator it = mLevels.begin(); it != mLevels.end(); ++it){
         delete (*it);
@@ -69,9 +88,40 @@ void GerberLayer::addNewLevel(GraphicState::eLevelPolarity inPolarity){
 
 
 
-void GerberLayer::defineAperture(/*  */){
+void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName){
+    //find the template
+    ApertureTemplate *aper_temp = getApertureTemplateByName(inTemplateName);
+    if(aper_temp == NULL){
+        err_printf("ERROR(GerberLayer::addAperture): Template not found");
+        return;
+    }
 
+    mApertures.push_back(Aperture(inDCode, aper_temp));
 }
+
+
+
+void GerberLayer::addApertureParam(uint32_t inDCode, double inValue){
+    Aperture *aperture = getApertureByDCode(inDCode);
+    if(aperture == NULL){
+        err_printf("ERROR(GerberLayer::addApertureParam): Aperture not found");
+        return;
+    }
+
+    aperture->addParameter(inValue);
+}
+
+void GerberLayer::addApertureParam(uint32_t inDCode, int inValue){
+    Aperture *aperture = getApertureByDCode(inDCode);
+    if(aperture == NULL){
+        err_printf("ERROR(GerberLayer::addApertureParam): Aperture not found");
+        return;
+    }
+
+    aperture->addParameter(inValue);
+}
+
+
 
 void GerberLayer::defineApertureTemplate(/*  */){
 
@@ -79,26 +129,14 @@ void GerberLayer::defineApertureTemplate(/*  */){
 
 
 void GerberLayer::setCurrentAperture(uint32_t inDCode){
-    Aperture *curr_aperture = NULL;
-
-    if(inDCode < 10){
-        err_printf("ERROR(GerberLayer::SetCurrentAperture): DCode() smaller than 10");
-        return;
-    }
-
-    //find the aperture corresponing to DCode
-    for (std::vector<Aperture>::iterator it = mApertures.begin() ; it != mApertures.end(); ++it){
-        if((*it).getDCode() == inDCode){
-            curr_aperture = &(*it);
-            break;
-        }
-    }
+    Aperture *curr_aperture = getApertureByDCode(inDCode);
 
     if(curr_aperture == NULL){
-        err_printf("ERROR(GerberLayer::SetCurrentAperture): DCode() not found in existing aperture dictionary");
+        err_printf("ERROR(GerberLayer::SetCurrentAperture: DCode(" + to_string(inDCode) + ") not found in existing aperture dictionary");
         return;
     }
 
+    d_printf("GERBERLAYER: setCurrentAperture D" + to_string(inDCode));
     mState.setCurrentAperture(curr_aperture);
 }
 
@@ -177,6 +215,46 @@ double GerberLayer::convertCoordinate(long inRaw){
 }
 
 
+
+
+Aperture *GerberLayer::getApertureByDCode(uint32_t inDCode){
+    if(inDCode < 10){
+        err_printf("ERROR(GerberLayer::getApertureByDCode): DCode(" + to_string(inDCode) + ") smaller than 10");
+        return NULL;
+    }
+
+    //find the aperture corresponing to DCode
+    for (std::vector<Aperture>::iterator it = mApertures.begin() ; it != mApertures.end(); ++it){
+        if((*it).getDCode() == inDCode){
+            return &(*it);
+        }
+    }
+
+    err_printf("ERROR(GerberLayer::getApertureByDCode): DCode(" + to_string(inDCode) + ") not found in existing aperture dictionary");
+    return NULL;
+}
+
+
+
+
+
+
+
+ApertureTemplate *GerberLayer::getApertureTemplateByName(string &inTemplateName){
+    ApertureTemplate *aper_temp = NULL;
+
+    //scan the template list
+    for(vector<ApertureTemplate *>::iterator it = mApertureTemplates.begin(); it != mApertureTemplates.end(); ++it){
+        aper_temp = *it;
+        if(aper_temp->getName().compare(inTemplateName) == 0){
+            return aper_temp;
+        }
+
+    }
+
+    err_printf("ERROR(GerberLayer::getApertureTemplateByName): template not found");
+    return NULL;
+}
 
 
 bool GerberLayer::open(const string &inFileName){

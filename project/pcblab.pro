@@ -25,7 +25,8 @@ SOURCES += \
     ../src/pcblab/common.cpp \
     ../src/pcblab/gerber/syntaxparser/syntaxparser_dcode.cpp \
     ../src/pcblab/gerber/syntaxparser/syntaxparser_gcode.cpp \
-    ../src/pcblab/gerber/syntaxparser/syntaxparser_xcode.cpp
+    ../src/pcblab/gerber/syntaxparser/syntaxparser_xcode.cpp \
+    ../src/pcblab/gerber/aperture/aperture.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \

@@ -25,11 +25,17 @@ using namespace std;
 class Aperture{
     public:
         Aperture(uint32_t inDCode, ApertureTemplate *inTemplate): mDCode(inDCode), mTemplate(inTemplate) {}
+        ~Aperture();
 
-        void addParameter(IApertureParam *inParam) { mParameters.push_back(inParam); }
+        void addParameter(double inDouble);
+        void addParameter(int inInt);
+
         const IApertureParam *getParameter(string &inName);
 
         uint32_t getDCode() { return mDCode; }
+
+        ///defines if the aperture is complete and clean
+        bool isValid();
 
     private:
         /// Aperture number

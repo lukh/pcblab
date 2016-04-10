@@ -83,7 +83,7 @@ class GraphicObjectDraw: public IGraphicObject, public IGraphicObjectTrack{
         virtual ~GraphicObjectDraw() {}
 
 
-        virtual void draw(IGerberView *inView) {}
+        virtual void draw(IGerberView *inView) { (void)inView; }
 };
 
 
@@ -97,7 +97,7 @@ class GraphicObjectArc: public IGraphicObject, public IGraphicObjectTrack{
 
         virtual ~GraphicObjectArc() {}
 
-        virtual void draw(IGerberView *inView) {}
+        virtual void draw(IGerberView *inView) { (void)inView; }
 
     private:
         Point mCenterOffset;
@@ -112,7 +112,7 @@ class GraphicObjectFlash: public IGraphicObject{
     public:
         GraphicObjectFlash(Point inPoint, Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeFlash, inAperture), mPoint(inPoint) { mValid = true; }
 
-        virtual void draw(IGerberView *inView) {}
+        virtual void draw(IGerberView *inView) { (void)inView; }
 
     private:
         Point mPoint;
@@ -196,7 +196,7 @@ class GraphicObjectRegion: public IGraphicObject{
         GraphicObjectRegion(Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeRegion, inAperture) { mValid=false; }
         virtual ~GraphicObjectRegion();
 
-        virtual void draw(IGerberView *inView) {}
+        virtual void draw(IGerberView *inView) { (void)inView; }
 
 
     private:

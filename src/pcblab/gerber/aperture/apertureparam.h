@@ -26,6 +26,7 @@ class IApertureParam{
         };
 
         IApertureParam(string &inName, eDataType inType): mName(inName), mType(inType) {}
+        IApertureParam(eDataType inType): mName(), mType(inType) {}
 
         const string &getName() { return mName; }
         eDataType getDataType() { return mType; }
@@ -37,9 +38,10 @@ class IApertureParam{
 
 /// A Template class for Aperture Parameters
 template <class T>
-class ApertureParam: IApertureParam{
+class ApertureParam: public IApertureParam{
     public:
         ApertureParam(string &inName, eDataType inType, T inData): IApertureParam(inName, inType), mData(inData) {}
+        ApertureParam(eDataType inType, T inData): IApertureParam(inType), mData(inData) {}
 
 
         T getData() { return mData; }
@@ -49,6 +51,7 @@ class ApertureParam: IApertureParam{
     private:
         T mData;
 };
+
 
 
 

@@ -51,6 +51,14 @@ bool SyntaxParser::parseXCode(istream &inStream){
                 break;
 
 
+            case eXCodeAd:
+                d_printf("    SyntaxParser(XCode) > Add Aperture (AD)");
+                if(!parseXCode_AD(inStream)){
+                    return false;
+                }
+                break;
+
+
             default:
                 //let's ignore the full unknown command
                 d_printf("WARNING: unhandled XCmd:" + string(1, ch1) + string(1, ch2));
@@ -210,3 +218,138 @@ bool SyntaxParser::parseXCode_LP(istream &inStream){
     addNewLevel(polarity);
     return true;
 }
+
+
+
+bool SyntaxParser::parseXCode_AD(istream &inStream){
+    uint32_t dcode;
+    string dcode_text, name;
+    char ch;
+
+    // get rid of the D.
+    if(inStream.get() != 'D'){
+        err_printf("ERROR(ParseXCode): AD cmd: expected 'D'");
+        return false;
+    }
+
+    //extract DCode
+    dcode_text.clear();
+    while((ch = inStream.peek()) != EOF){
+        if(ch == '*'){
+            err_printf("ERROR(ParseXCode): AD cmd: reach unexpected end of cmd");
+            return false;
+        }
+
+        if(isNumber(ch)){
+            dcode_text.push_back(inStream.get());
+        }
+        else{
+            break;
+        }
+    }
+    try{
+        dcode = stoi(dcode_text);
+    }
+    catch(...){
+        err_printf("ERROR (SyntaxParser::parseXCode_AD): DCode: Couldn't convert string to int" );
+        return false;
+    }
+
+
+    // extract the name
+    while((ch = inStream.get()) != EOF){
+        if(ch == '*'){
+            d_printf("        addAperture: (" + name + ") D" + to_string(dcode));
+            addAperture(dcode, name);
+            return true;
+        }
+        else if(ch == ','){
+            d_printf("        addAperture: (" + name + ") D" + to_string(dcode));
+            addAperture(dcode, name);
+            break;
+        }
+        else{
+            name.push_back(ch);
+        }
+    }
+
+    //extract params
+    bool status = true, local_status;
+    while(extractApertureParam(dcode, inStream, local_status)){
+        status = status && local_status;
+    }
+
+
+    return status;
+}
+
+
+
+bool SyntaxParser::extractApertureParam(uint32_t inDCode, istream &inStream, bool &outStatus){
+    char ch;
+    string param_str;
+
+    double d;
+    int i;
+
+    outStatus = true;
+
+    while((ch = inStream.get()) != EOF){
+        bool not_done = true;
+
+        // we should get one param
+        switch(ch){
+            case '*':
+                not_done = false;
+            case 'X':
+                if(param_str.size() == 0){
+                    return false;
+                }
+
+                //int
+                if(param_str.find('.') == string::npos){
+                    try{
+                        i = stoi(param_str);
+                    }
+                    catch(...){
+                        err_printf("ERROR: extractApertureParam: Impossible to convert to int");
+                        outStatus = false;
+                        return false;
+                    };
+                    d_printf("        addApertureParam: (" + to_string(i) + ")");
+                    addApertureParam(inDCode, i);
+
+                    return not_done;
+                }
+                //dec
+                else{
+                    try{
+                        d = stringToDouble(param_str);
+                    }
+                    catch(...){
+                        err_printf("ERROR: extractApertureParam: Impossible to convert to double");
+                        outStatus = false;
+                        return false;
+                    };
+                    d_printf("        addApertureParam: (" + to_string(d) + ")");
+                    addApertureParam(inDCode, d);
+
+                    return not_done;
+                }
+
+                break;
+
+            default:
+                //filling the string
+                param_str.push_back(ch);
+
+        }
+    }
+
+    outStatus = false;
+    return false;
+}
+
+
+
+

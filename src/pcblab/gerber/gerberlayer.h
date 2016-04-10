@@ -51,7 +51,7 @@ class GerberLayer: public SyntaxParser {
         };
 
 
-        GerberLayer(): SyntaxParser() {}
+        GerberLayer();
         virtual ~GerberLayer();
 
         // ------------------------------------------------------
@@ -95,7 +95,14 @@ class GerberLayer: public SyntaxParser {
 
         virtual void addNewLevel(GraphicState::eLevelPolarity inPolarity);
 
-        virtual void defineAperture(/*  */);
+        /// defines and create a standard aperture
+        virtual void addAperture(uint32_t inDCode, string inTemplateName);
+
+        /// adds a parameters to the last aperture added
+        virtual void addApertureParam(uint32_t inDCode, double inValue);
+
+        /// adds a parameters to the last aperture added
+        virtual void addApertureParam(uint32_t inDCode, int inValue);
 
         virtual void defineApertureTemplate(/*  */);
 
@@ -123,6 +130,22 @@ class GerberLayer: public SyntaxParser {
 
 
 
+
+
+
+
+        // ------------------------------------------------------
+        // ---------------- local tools -------------------------
+        // ------------------------------------------------------
+
+        Aperture *getApertureByDCode(uint32_t inDCode);
+
+        /// returns the template regarding to the name:
+        /// C,R,O,P or macro template name
+        ApertureTemplate *getApertureTemplateByName(string &inTemplateName);
+
+
+
     private:
         /// Name of the Layer
         string mName;
@@ -144,9 +167,19 @@ class GerberLayer: public SyntaxParser {
         vector<ApertureTemplate *> mApertureTemplates;
 
     protected:
+        // ------------------------------------------------------
+        // ---------------- getters/ setters --------------------
+        // ------------------------------------------------------
         string &getName() { return mName; }
+
+
+        // ------------------------------------------------------
+        // ----------------- For unit test ----------------------
+        // ------------------------------------------------------
         GraphicState& getState() { return mState; }
+
         vector<GerberLevel *> &getLevels() { return mLevels; }
+
         //const vector<Aperture> &getApertures() const { return mApertures; }
         //const vector<ApertureTemplate *> & getApertures() const { return mApertureTemplates; }
 };

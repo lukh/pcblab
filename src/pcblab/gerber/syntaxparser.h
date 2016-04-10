@@ -42,7 +42,11 @@ class SyntaxParser {
 
         virtual void setCurrentAperture(uint32_t inDCode) = 0;
 
-        virtual void defineAperture(/*  */) = 0;
+        ///Defines a standard aperture
+        virtual void addAperture(uint32_t inDCode, string inTemplateName) = 0;
+        virtual void addApertureParam(uint32_t inDCode, double inValue) = 0;
+        virtual void addApertureParam(uint32_t inDCode, int inValue) = 0;
+
         virtual void defineApertureTemplate(/*  */) = 0;
 
         virtual void addNewLevel(GraphicState::eLevelPolarity inPolarity) = 0;
@@ -81,12 +85,16 @@ class SyntaxParser {
             eXCodeTd
         };
 
+        // ---------------- DCode ---------------
         /// parses D01, D02, D03, Dnn commands
         bool parseDCode(istream &inStream);
 
+
+        // ---------------- GCode ---------------
         /// parses Gxx commands
         bool parseGCode(istream &inStream);
 
+        // ---------------- XCode ---------------
         /// parses extended commands
         bool parseXCode(istream &inStream);
 
@@ -94,10 +102,21 @@ class SyntaxParser {
         bool parseXCode_FS(istream &inStream);
         /// parses MO cmd
         bool parseXCode_MO(istream &inStream);
-        //parses LP cmd
+        /// parses LP cmd
         bool parseXCode_LP(istream &inStream);
+        /// parses AD cmd
+        bool parseXCode_AD(istream &inStream);
+
+        /// extracts a AParameters
+        /// return if other params are available or not (* or X)
+        /// takes outStatus which defines if the extraction was clean
+        bool extractApertureParam(uint32_t inDCode, istream &inStream, bool &outStatus);
 
 
+
+
+
+        // ---------------- Tools  -------------
         /// resets omitted attributes
         void resetPointsAttributes(){
             //reset the point attributes

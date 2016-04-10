@@ -16,6 +16,8 @@
 
 #include "../../common.h"
 
+#include "apertureparam.h"
+
 
 
 using namespace std;
@@ -23,47 +25,27 @@ using namespace std;
 /// Virtual class to describe an aperture template, standard or macro
 class ApertureTemplate{
     public:
-        enum eATType{
-            eATTStandard,
-            eATTMacro
-        };
+        ApertureTemplate(string inName): mName(inName) {}
+        virtual ~ApertureTemplate() = 0;
 
+        const string &getName() const {return mName; }
 
-        ApertureTemplate(): mTemplateType(eATTStandard) {}
-        ApertureTemplate(eATType inType): mTemplateType(inType) {}
-
-        eATType getTemplateType() { return mTemplateType; }
+        /// return informations about the parameter at inIdx
+        virtual bool getParameterInfos(uint16_t inIdx, string &outName, IApertureParam::eDataType &outType) = 0;
 
     private:
-        eATType mTemplateType;
+        string mName;
 };
 
 
-/// describes a standard aperture template
-class StandardApertureTemplate: public ApertureTemplate{
-    public:
-        enum eSAType{
-            eSACircle,
-            eSARectangle,
-            eSAObround,
-            eSARegularPolygon
-        };
-
-        StandardApertureTemplate(eSAType inType): ApertureTemplate(ApertureTemplate::eATTStandard), mApertureType(inType) {}
-
-    private:
-        /// Defines the Aperture Type from the standard apertures
-        eSAType mApertureType;
-
-};
 
 
 class MacroApertureTemplate: public ApertureTemplate{
     public:
-        MacroApertureTemplate(string &inName): ApertureTemplate(ApertureTemplate::eATTMacro), mName(inName) {}
+        MacroApertureTemplate(string &inName): ApertureTemplate(inName) {}
         
     private:
-        string mName;
+
 };
 
 
