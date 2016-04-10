@@ -26,6 +26,7 @@ bool SyntaxParser::parse(istream &inStream){
                 break;
 
             case '%':
+                d_printf("SYNTAXPARSER > XCode");
                 parseXCode(inStream);
                 break;
 
@@ -129,6 +130,7 @@ bool SyntaxParser::parseXCode(istream &inStream){
     eXCode code;
     GraphicState::CoordinateFormat format;
     GraphicState::eUnit unit;
+    GraphicState::eLevelPolarity polarity;
 
     while ((ch1 = inStream.get()) != EOF){
         ch2 = inStream.peek();
@@ -261,6 +263,34 @@ bool SyntaxParser::parseXCode(istream &inStream){
                 setUnit(unit);
 
                 break;
+
+
+            case eXCodeLp:
+                d_printf("    SyntaxParser(XCode) > Add new level (LP)");
+                ch = inStream.get();
+                switch(ch){
+                    case 'C':
+                        polarity = GraphicState::ePolClear;
+                        break;
+
+                    case 'D':
+                        polarity = GraphicState::ePolClear;
+                        break;
+
+                    default:
+                        err_printf("ERROR(ParseXCode): Unrecognized polarity");
+                        return false;
+                }
+
+                // end of command *
+                if(inStream.get() != '*'){
+                    return false;
+                }
+
+                break;
+
+                d_printf("        setAddNewLevel");
+                addNewLevel(polarity);
 
             default:
                 //let's ignore the full unknown command
