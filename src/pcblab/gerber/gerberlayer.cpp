@@ -40,19 +40,19 @@ void GerberLayer::GerberLevel::makeGraphicObjectRegions(Aperture *inAperture){
 // ---------------------------------- GerberLayer --------------------------------
 GerberLayer::GerberLayer(): SyntaxParser() {
     //adding default aperture templates
-    /*StandardApertureTemplate *t;
+    ApertureTemplate *t;
 
-    t = new StandardApertureTemplate(StandardApertureTemplate::eSACircle);
+    t = new ApertureTemplateCircle();
     mApertureTemplates.push_back(t);
 
-    t = new StandardApertureTemplate(StandardApertureTemplate::eSARectangle);
+    t = new ApertureTemplateRectangle();
     mApertureTemplates.push_back(t);
 
-    t = new StandardApertureTemplate(StandardApertureTemplate::eSAObround);
+    t = new ApertureTemplateObround();
     mApertureTemplates.push_back(t);
 
-    t = new StandardApertureTemplate(StandardApertureTemplate::eSARegularPolygon);
-    mApertureTemplates.push_back(t);*/
+    t = new ApertureTemplateRegularPolygon();
+    mApertureTemplates.push_back(t);
 
 }
 

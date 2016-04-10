@@ -26,15 +26,52 @@ using namespace std;
 class ApertureTemplate{
     public:
         ApertureTemplate(string inName): mName(inName) {}
-        virtual ~ApertureTemplate() = 0;
+        virtual ~ApertureTemplate() {};
 
         const string &getName() const {return mName; }
 
         /// return informations about the parameter at inIdx
-        virtual bool getParameterInfos(uint16_t inIdx, string &outName, IApertureParam::eDataType &outType) = 0;
+        virtual bool getParameterInfos(uint16_t inIdx, string &outName, IApertureParam::eDataType &outType);
 
-    private:
+    protected:
+        class ATParameterInfos{
+            public:
+                ATParameterInfos(string inName, IApertureParam::eDataType inType): mName(inName), mType(inType) {}
+
+                string mName;
+                IApertureParam::eDataType mType;
+        };
+
+    protected:
         string mName;
+
+        vector<ATParameterInfos> mParamsInfos;
+};
+
+
+
+class ApertureTemplateCircle: public ApertureTemplate{
+    public:
+        ApertureTemplateCircle();
+        virtual ~ApertureTemplateCircle(){}
+};
+
+class ApertureTemplateRectangle: public ApertureTemplate{
+    public:
+        ApertureTemplateRectangle();
+        virtual ~ApertureTemplateRectangle(){}
+};
+
+class ApertureTemplateObround: public ApertureTemplate{
+    public:
+        ApertureTemplateObround();
+        virtual ~ApertureTemplateObround(){}
+};
+
+class ApertureTemplateRegularPolygon: public ApertureTemplate{
+    public:
+        ApertureTemplateRegularPolygon();
+        virtual ~ApertureTemplateRegularPolygon(){}
 };
 
 
