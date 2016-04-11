@@ -15,21 +15,21 @@ bool SyntaxParser::parseDCode(istream &inStream){
             break;
 
         case 01:
-            d_printf("    SyntaxParser(DCode) > Interpolate(D01)");
+            d_printf("SyntaxParser(DCode) > Interpolate(D01)", 2, 1);
             interpolate(mXY, mIJ);
             break;
 
         case 02:
-            d_printf("    SyntaxParser(DCode) > Move(D02)");
+            d_printf("SyntaxParser(DCode) > Move(D02)", 2, 1);
             move(mXY);
             break;
         case 03:
-            d_printf("    SyntaxParser(DCode) > Flash(D03)");
+            d_printf("SyntaxParser(DCode) > Flash(D03)", 2, 1);
             flash(mXY);
             break;
 
         default:
-            d_printf("    SyntaxParser(DCode) > Change Aperture(Dnn)");
+            d_printf("SyntaxParser(DCode) > Change Aperture(Dnn)", 2, 1);
             if(op_code >= 10){
                 setCurrentAperture(op_code);
             }

@@ -1,9 +1,15 @@
 #include "aperture.h"
 
+Aperture::Aperture(uint32_t inDCode, ApertureTemplate &inTemplate): mDCode(inDCode), mTemplate(inTemplate){
+    d_printf("%%%Creating Aperture", 4, 0, false);
+}
+
 Aperture::~Aperture(){
     for(vector<IApertureParam *>::iterator it = mParameters.begin(); it != mParameters.end(); ++it){
         delete (*it);
     }
+
+    d_printf("%%% Deleting Aperture", 4, 0, false);
 }
 
 void Aperture::addParameter(double inDouble){
@@ -25,7 +31,7 @@ void Aperture::addParameter(double inDouble){
 
     mParameters.push_back(p);
 
-    d_printf("        parameter <" + infos->getName() + "> = " + to_string(inDouble) + " added");
+    d_printf("parameter " + infos->getName() + " = " + to_string(inDouble) + " added", 1, 3);
 }
 
 void Aperture::addParameter(int inInt){
@@ -47,7 +53,21 @@ void Aperture::addParameter(int inInt){
 
     mParameters.push_back(p);
 
-    d_printf("        parameter <" + infos->getName() + "> = " + to_string(inInt) + " added");
+    d_printf("parameter " + infos->getName() + " = " + to_string(inInt) + " added", 1, 3);
+}
+
+
+
+const IApertureParam *Aperture::getParameter(string &inName){
+    IApertureParam *p = NULL;
+    for(vector<IApertureParam *>::iterator it = mParameters.begin(); it != mParameters.end(); ++it){
+        p = *it;
+        if(p->getName().compare(inName) == 0){
+            return p;
+        }
+    }
+
+    return NULL;
 }
 
 

@@ -1,5 +1,14 @@
 #include "aperturetemplate.h"
 
+
+ApertureTemplate::ApertureTemplate(const string &inName): mName(inName){
+    d_printf("%%% Creating ApertureTemplate", 4, 0, false);
+}
+
+ApertureTemplate::~ApertureTemplate(){
+    d_printf("%%% Deleting ApertureTemplate", 4, 0, false);
+}
+
 bool ApertureTemplate::getParameterInfos (uint16_t inIdx, ATParameterInfos **outInfos){
     if(inIdx >= mParamsInfos.size()){
         err_printf("ERROR(ApertureTemplate::getParameterInfos): index out of range");

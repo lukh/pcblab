@@ -3,7 +3,10 @@ G04 Ucamco*
 %MOMM*%
 %TF.Part,Other*% 
 %LPD*%
-%ADD10C,5.35*%
+%ADD10R,1.0X2.0*%
+%ADD11C,5.0X1.5*%
+%ADD12O,2.0*%
+%ADD13P,10.0X8X0.0X1.0*%
 D10*
 X0Y0D02*
 G01*

@@ -18,10 +18,34 @@ double stringToDouble(string &str){
 }
 
 
-void d_printf(const string &str){
-    cout << str << endl;
+void d_printf(const string &str, int inLevel, int inTabs, bool inLeftAlign){
+    string tabs;
+    if(inLeftAlign){
+        for(int i=0; i < inTabs; i ++){
+            tabs+= "\t";
+        }
+    }
+    else{
+        tabs += "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
+    }
+
+    string color;
+    if(inLevel <= 1){
+        color = "orange";
+    }
+    else if(inLevel <= 2){
+        color = "purple";
+    }
+    else if(inLevel <= 3){
+        color = "blue";
+    }
+    else{
+        color = "black";
+    }
+
+    cout << tabs + "<font color=" + color + ">" + str + "</font>" << endl;
 }
 
 void err_printf(const string &str){
-    cerr << "*** " << str << endl;
+    cerr << "<font color=red>*** " + str + "</font>" << endl;
 }

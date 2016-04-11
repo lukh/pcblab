@@ -27,7 +27,7 @@ bool SyntaxParser::parseXCode(istream &inStream){
                 break; // it is necessary to continue to scan the Extended block
 
             case eXCodeFs:
-                d_printf("    SyntaxParser(XCode) > CoordinateFormat(FS)");
+                d_printf("SyntaxParser(XCode) > CoordinateFormat(FS)", 2, 1);
                 if(!parseXCode_FS(inStream)){
                     return false;
                 }
@@ -35,7 +35,7 @@ bool SyntaxParser::parseXCode(istream &inStream){
                 break;
 
             case eXCodeMo:
-                d_printf("    SyntaxParser(XCode) > UnitSelection(MM)");
+                d_printf("SyntaxParser(XCode) > UnitSelection(MM)", 2, 1);
                 if(!parseXCode_MO(inStream)){
                     return false;
                 }
@@ -44,7 +44,7 @@ bool SyntaxParser::parseXCode(istream &inStream){
 
 
             case eXCodeLp:
-                d_printf("    SyntaxParser(XCode) > Add new level (LP)");
+                d_printf("SyntaxParser(XCode) > Add new level (LP)", 2, 1);
                 if(!parseXCode_LP(inStream)){
                     return false;
                 }
@@ -52,7 +52,7 @@ bool SyntaxParser::parseXCode(istream &inStream){
 
 
             case eXCodeAd:
-                d_printf("    SyntaxParser(XCode) > Add Aperture (AD)");
+                d_printf("SyntaxParser(XCode) > Add Aperture (AD)", 2, 1);
                 if(!parseXCode_AD(inStream)){
                     return false;
                 }
@@ -61,7 +61,7 @@ bool SyntaxParser::parseXCode(istream &inStream){
 
             default:
                 //let's ignore the full unknown command
-                d_printf("WARNING: unhandled XCmd:" + string(1, ch1) + string(1, ch2));
+                d_printf("WARNING: unhandled XCmd:" + string(1, ch1) + string(1, ch2), 1, 1);
                 do{
                     ch = inStream.get();
                 }while(ch != '*' && ch != EOF);
@@ -85,7 +85,7 @@ bool SyntaxParser::parseXCode_FS(istream &inStream){
             err_printf("ERROR(ParseXCode): Trailing zero omission is deprecated" );
             break;
         case 'L':
-            d_printf("        Leading zeros: ok");
+            d_printf("Leading zeros: ok", 2, 2);
             break;
         default:
             err_printf("ERROR(ParseXCode): Wrong char in FS cmd (expected L or T)" );
@@ -98,7 +98,7 @@ bool SyntaxParser::parseXCode_FS(istream &inStream){
            err_printf("ERROR(ParseXCode): Incremental coord is deprecated" );
             break;
         case 'A':
-            d_printf("        Absolute coords: ok");
+            d_printf("Absolute coords: ok", 2, 2);
             break;
         default:
             err_printf("ERROR(ParseXCode): Wrong char in FS cmd (expected A or I)" );
@@ -116,14 +116,14 @@ bool SyntaxParser::parseXCode_FS(istream &inStream){
     if(isNumber(ch)){
         format.mIntegers = charToNum(ch);
 
-        d_printf("        INT_X = " + to_string(format.mIntegers));
+        d_printf("INT_X = " + to_string(format.mIntegers), 2, 2);
     } else {err_printf("ERROR(ParseXCode): Wrong char in FS cmd (Expected X Int num)" ); return false; }
     //dec
     ch = inStream.get();
     if(isNumber(ch)){
         format.mDecimals = charToNum(ch);
 
-        d_printf("        DEC_X = " + to_string(format.mDecimals));
+        d_printf("DEC_X = " + to_string(format.mDecimals), 2, 2);
     } else {err_printf("ERROR(ParseXCode): Wrong char in FS cmd (Expected X Dec num)" ); return false; }
 
 
@@ -153,7 +153,6 @@ bool SyntaxParser::parseXCode_FS(istream &inStream){
     }
 
     //FS Command is valid
-    d_printf("        setCoordinatesFormat");
     setCoordinateFormat(format);
 
     return true;
@@ -184,7 +183,6 @@ bool SyntaxParser::parseXCode_MO(istream &inStream){
         return false;
     }
 
-    d_printf("        setUnit");
     setUnit(unit);
 
     return true;
@@ -214,7 +212,7 @@ bool SyntaxParser::parseXCode_LP(istream &inStream){
         return false;
     }
 
-    d_printf("        addNewLevel");
+    d_printf("addNewLevel", 2, 2);
     addNewLevel(polarity);
     return true;
 }
@@ -259,12 +257,12 @@ bool SyntaxParser::parseXCode_AD(istream &inStream){
     // extract the name
     while((ch = inStream.get()) != EOF){
         if(ch == '*'){
-            d_printf("        addAperture: (" + name + ") D" + to_string(dcode));
+            d_printf("addAperture: (" + name + ") D" + to_string(dcode), 2, 2);
             addAperture(dcode, name);
             return true;
         }
         else if(ch == ','){
-            d_printf("        addAperture: (" + name + ") D" + to_string(dcode));
+            d_printf("addAperture: (" + name + ") D" + to_string(dcode), 2, 2);
             addAperture(dcode, name);
             break;
         }
@@ -316,7 +314,7 @@ bool SyntaxParser::extractApertureParam(uint32_t inDCode, istream &inStream, boo
                         outStatus = false;
                         return false;
                     };
-                    d_printf("        addApertureParam: (" + to_string(i) + ")");
+                    d_printf("addApertureParam: (" + to_string(i) + ")", 2, 3);
                     addApertureParam(inDCode, i);
 
                     return not_done;
@@ -331,7 +329,7 @@ bool SyntaxParser::extractApertureParam(uint32_t inDCode, istream &inStream, boo
                         outStatus = false;
                         return false;
                     };
-                    d_printf("        addApertureParam: (" + to_string(d) + ")");
+                    d_printf("addApertureParam: (" + to_string(d) + ")", 2, 3);
                     addApertureParam(inDCode, d);
 
                     return not_done;

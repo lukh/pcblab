@@ -3,11 +3,16 @@
 #include <fstream>
 
 // --------------------------------- GerberLevel ---------------------------------
+GerberLayer::GerberLevel::GerberLevel(GraphicState::eLevelPolarity inPolarity): mPolarity(inPolarity){
+    d_printf("%%% Creating GerberLevel", 4, 0, false);
+}
 
 GerberLayer::GerberLevel::~GerberLevel(){
     for(vector<IGraphicObject *>::iterator it = mObjects.begin(); it != mObjects.end(); ++it){
         delete (*it);
     }
+
+    d_printf("%%% Deleting GerberLevel", 4, 0, false);
 }
 
 void GerberLayer::GerberLevel::makeGraphicObjectDraw(Point inStart, Point inStop, Aperture *inAperture){
@@ -39,6 +44,8 @@ void GerberLayer::GerberLevel::makeGraphicObjectRegions(Aperture *inAperture){
 
 // ---------------------------------- GerberLayer --------------------------------
 GerberLayer::GerberLayer(): SyntaxParser() {
+    d_printf("%%% Creating GerberLevel", 4, 0, false);
+
     //adding default aperture templates
     ApertureTemplate *t;
 
@@ -62,9 +69,15 @@ GerberLayer::~GerberLayer(){
         delete (*it);
     }
 
+    for(vector<Aperture*>::iterator it = mApertures.begin(); it != mApertures.end(); ++it){
+        delete (*it);
+    }
+
     for(vector<ApertureTemplate*>::iterator it = mApertureTemplates.begin(); it != mApertureTemplates.end(); ++it){
         delete (*it);
     }
+
+    d_printf("%%% Deleting GerberLayer", 4, 0, false);
 }
 
 
@@ -96,7 +109,9 @@ void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName){
         return;
     }
 
-    mApertures.push_back(Aperture(inDCode, *aper_temp));
+    Aperture *ap = new Aperture(inDCode, *aper_temp);
+    mApertures.push_back(ap);
+    d_printf("Aperture Added", 1, 2);
 }
 
 
@@ -136,7 +151,7 @@ void GerberLayer::setCurrentAperture(uint32_t inDCode){
         return;
     }
 
-    d_printf("GERBERLAYER: setCurrentAperture D" + to_string(inDCode));
+    d_printf("GERBERLAYER: setCurrentAperture D" + to_string(inDCode), 1, 1);
     mState.setCurrentAperture(curr_aperture);
 }
 
@@ -224,9 +239,9 @@ Aperture *GerberLayer::getApertureByDCode(uint32_t inDCode){
     }
 
     //find the aperture corresponing to DCode
-    for (std::vector<Aperture>::iterator it = mApertures.begin() ; it != mApertures.end(); ++it){
-        if((*it).getDCode() == inDCode){
-            return &(*it);
+    for (std::vector<Aperture *>::iterator it = mApertures.begin() ; it != mApertures.end(); ++it){
+        if((*it)->getDCode() == inDCode){
+            return (*it);
         }
     }
 

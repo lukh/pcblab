@@ -25,8 +25,8 @@ using namespace std;
 /// Virtual class to describe an aperture template, standard or macro
 class ApertureTemplate{
     public:
-        ApertureTemplate(string inName): mName(inName) {}
-        virtual ~ApertureTemplate() {}
+        ApertureTemplate(const string &inName);
+        virtual ~ApertureTemplate();
 
         const string &getName() const {return mName; }
 
@@ -39,6 +39,7 @@ class ApertureTemplate{
 
         vector<ATParameterInfos> mParamsInfos;
 };
+
 
 
 

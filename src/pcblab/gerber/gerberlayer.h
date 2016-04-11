@@ -31,7 +31,7 @@ class GerberLayer: public SyntaxParser {
         /// GerberLevel is a container holding all the graphic object with the same polarity
         class GerberLevel{
             public:
-                GerberLevel(GraphicState::eLevelPolarity inPolarity): mPolarity(inPolarity) {}
+                GerberLevel(GraphicState::eLevelPolarity inPolarity);
                 ~GerberLevel();
 
 
@@ -73,11 +73,13 @@ class GerberLayer: public SyntaxParser {
         /// MO cmd
         virtual void setUnit(GraphicState::eUnit inUnit){
             mState.setUnit(inUnit);
+            d_printf("setUnit", 1, 2);
         }
 
         /// FS cmd
         virtual void setCoordinateFormat(GraphicState::CoordinateFormat inFormat){
             mState.setCoordFormat(inFormat);
+            d_printf("setCoordinatesFormat", 1, 2);
         }
 
         /// G74/75 cmd
@@ -88,6 +90,7 @@ class GerberLayer: public SyntaxParser {
         /// G01/02/03 cmd
         virtual void setInterpolationMode(GraphicState::eInterpolationMode inInterpolationMode){
             mState.setInterpolationMode(inInterpolationMode);
+            d_printf("setInterpolation mode",1,1);
         }
 
 
@@ -161,7 +164,7 @@ class GerberLayer: public SyntaxParser {
         GerberLevel *mCurrentLevel;
 
         /// Aperture Dictionary.
-        vector<Aperture> mApertures;
+        vector<Aperture *> mApertures;
 
         /// Apertures Template Dict
         vector<ApertureTemplate *> mApertureTemplates;

@@ -35,9 +35,9 @@ class ATParameterInfos{
         eDataType getType(){ return mType; }
 
     private:
-        string mName;
-        eDataType mType;
-        bool mOptional;
+        const string mName;
+        const eDataType mType;
+        const bool mOptional;
 };
 
 
@@ -49,8 +49,15 @@ class ATParameterInfos{
 /// An Interface to handle parameters, it allows to handle all kind of types in one class
 class IApertureParam{
     public:
-        IApertureParam(string &inName, const ATParameterInfos &inInfos): mName(inName), mInfos(inInfos) {}
-        IApertureParam(ATParameterInfos &inInfos): mInfos(inInfos) {}
+        IApertureParam(const string &inName, const ATParameterInfos &inInfos): mName(inName), mInfos(inInfos) {
+            d_printf("%%% Creating IApertureParam", 4, 0, false);
+        }
+        IApertureParam(ATParameterInfos &inInfos): mInfos(inInfos) {
+            d_printf("%%% Creating IApertureParam", 4, 0, false);
+        }
+        virtual ~IApertureParam() {
+            d_printf("%%% Deleting IApertureParam", 4, 0, false);
+        }
 
         const string &getName() { return mName; }
         const ATParameterInfos &getInfos() const { return mInfos; }
@@ -68,6 +75,7 @@ class ApertureParam: public IApertureParam{
     public:
         ApertureParam(string &inName, ATParameterInfos &inInfos, T inData): IApertureParam(inName, inInfos), mData(inData) {}
         ApertureParam(ATParameterInfos &inInfos, T inData): IApertureParam(inInfos), mData(inData) {}
+        virtual ~ApertureParam() {}
 
 
         T getData() { return mData; }
