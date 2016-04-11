@@ -24,7 +24,7 @@ using namespace std;
 /// Defines an Aperture.
 class Aperture{
     public:
-        Aperture(uint32_t inDCode, ApertureTemplate *inTemplate): mDCode(inDCode), mTemplate(inTemplate) {}
+        Aperture(uint32_t inDCode, ApertureTemplate &inTemplate): mDCode(inDCode), mTemplate(inTemplate) {}
         ~Aperture();
 
         void addParameter(double inDouble);
@@ -42,7 +42,7 @@ class Aperture{
         const uint32_t mDCode;
 
         /// the template used
-        ApertureTemplate* mTemplate;
+        ApertureTemplate &mTemplate;
 
         /// defines its parameters
         vector<IApertureParam *> mParameters;

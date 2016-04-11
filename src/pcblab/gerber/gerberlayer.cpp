@@ -96,7 +96,7 @@ void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName){
         return;
     }
 
-    mApertures.push_back(Aperture(inDCode, aper_temp));
+    mApertures.push_back(Aperture(inDCode, *aper_temp));
 }
 
 

@@ -26,21 +26,13 @@ using namespace std;
 class ApertureTemplate{
     public:
         ApertureTemplate(string inName): mName(inName) {}
-        virtual ~ApertureTemplate() {};
+        virtual ~ApertureTemplate() {}
 
         const string &getName() const {return mName; }
 
         /// return informations about the parameter at inIdx
-        virtual bool getParameterInfos(uint16_t inIdx, string &outName, IApertureParam::eDataType &outType);
+        virtual bool getParameterInfos(uint16_t inIdx, ATParameterInfos **outInfos);
 
-    protected:
-        class ATParameterInfos{
-            public:
-                ATParameterInfos(string inName, IApertureParam::eDataType inType): mName(inName), mType(inType) {}
-
-                string mName;
-                IApertureParam::eDataType mType;
-        };
 
     protected:
         string mName;

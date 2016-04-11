@@ -7,53 +7,47 @@ Aperture::~Aperture(){
 }
 
 void Aperture::addParameter(double inDouble){
-    string pname;
-    IApertureParam::eDataType type;
+    ATParameterInfos *infos;
 
-    if(mTemplate == NULL){
-        err_printf("ERROR(Aperture::addParameter): Bad template");
-        return;
-    }
 
     // extract from the template the kind of param we should get
-    if(! mTemplate->getParameterInfos(mParameters.size(), pname, type)){
+    if(!mTemplate.getParameterInfos(mParameters.size(), &infos)){
         err_printf("ERROR(Aperture::addParameter): impossible to get correct informations about the parameter from template");
         return;
     }
 
-    if(type != IApertureParam::eDouble){
+    if(infos->getType() != ATParameterInfos::eDouble){
         err_printf("ERROR(Aperture::addParameter): expected double");
         return;
     }
 
-    ApertureParam<double> *p = new ApertureParam<double>(pname, IApertureParam::eDouble, inDouble);
+    ApertureParam<double> *p = new ApertureParam<double>(*infos, inDouble);
 
     mParameters.push_back(p);
+
+    d_printf("        parameter <" + infos->getName() + "> = " + to_string(inDouble) + " added");
 }
 
 void Aperture::addParameter(int inInt){
-    string pname;
-    IApertureParam::eDataType type;
+    ATParameterInfos *infos;
 
-    if(mTemplate == NULL){
-        err_printf("ERROR(Aperture::addParameter): Bad template");
-        return;
-    }
 
     // extract from the template the kind of param we should get
-    if(! mTemplate->getParameterInfos(mParameters.size(), pname, type)){
+    if(!mTemplate.getParameterInfos(mParameters.size(), &infos)){
         err_printf("ERROR(Aperture::addParameter): impossible to get correct informations about the parameter from template");
         return;
     }
 
-    if(type != IApertureParam::eInt){
+    if(infos->getType() != ATParameterInfos::eInt){
         err_printf("ERROR(Aperture::addParameter): expected int");
         return;
     }
 
-    ApertureParam<int> *p = new ApertureParam<int>(pname, IApertureParam::eInt, inInt);
+    ApertureParam<int> *p = new ApertureParam<int>(*infos, inInt);
 
     mParameters.push_back(p);
+
+    d_printf("        parameter <" + infos->getName() + "> = " + to_string(inInt) + " added");
 }
 
 
