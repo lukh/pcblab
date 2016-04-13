@@ -39,8 +39,12 @@ class IGraphicObject{
 
 
         //IGraphicObject(): mType(eTypeNone) {}
-        IGraphicObject(eType inType, Aperture *inAperture): mAperture(inAperture), mValid(false), mType(inType) {}
-        virtual ~IGraphicObject() {}
+        IGraphicObject(eType inType, Aperture *inAperture): mAperture(inAperture), mValid(false), mType(inType) {
+            d_printf("%%% Creating GraphicObject", 4, 0, false);
+        }
+        virtual ~IGraphicObject() {
+            d_printf("%%% Deleting GraphicObject", 4, 0, false);
+        }
 
         eType getType() { return mType; }
 

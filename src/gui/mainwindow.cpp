@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mQdbcout = new Q_DebugStream(std::cout, ui->textEdit); //Redirect Console output to QTextEdit
 
 
-    GerberLayer gl;
+    GerberLayer gl("Layer1");
     gl.open("../../data/example.grb");
 }
 

@@ -43,7 +43,9 @@ void GerberLayer::GerberLevel::makeGraphicObjectRegions(Aperture *inAperture){
 
 
 // ---------------------------------- GerberLayer --------------------------------
-GerberLayer::GerberLayer(): SyntaxParser() {
+GerberLayer::GerberLayer(const string &inName): SyntaxParser(),
+    mName(inName), mCurrentLevel(NULL)
+{
     d_printf("%%% Creating GerberLevel", 4, 0, false);
 
     //adding default aperture templates
@@ -91,6 +93,9 @@ void GerberLayer::setRegionMode(GraphicState::eRegionMode inRegMode) {
         case GraphicState::eRegModeOff:{
             mCurrentLevel->makeGraphicObjectRegions(mState.getCurrentAperture());
             break;}
+        default:
+            err_printf("ERROR(GerberLayer::setRegionMode): GraphicState::RegionMode is undefined !");
+            break;
     }
 
     d_printf("GERBERLAYER: setRegionMode",1,0);
@@ -183,6 +188,10 @@ void GerberLayer::interpolate(Point inPointXY, Point inPointIJ){
                     mCurrentLevel->makeGraphicObjectArc(startPoint, endPoint, inPointIJ, mState.getQuadrantMode(), mState.getInterpolationMode(), mState.getCurrentAperture());
                     break;
 
+                default:
+                    err_printf("ERROR(GerberLayer::interpolate): GraphicState::InterpolationMode is undefined !");
+                    break;
+
             }
             break;
 
@@ -190,6 +199,7 @@ void GerberLayer::interpolate(Point inPointXY, Point inPointIJ){
             break;
 
         default:
+            err_printf("ERROR(GerberLayer::interpolate): GraphicState::RegionMode is undefined !");
             break;
     }
 

@@ -36,18 +36,21 @@ class GraphicState {
 
     enum eUnit{
         eUnitInch,
-        eUnitMm
+        eUnitMm,
+        eUnitUndefined
     };
 
     enum eQuadrantMode{
         eQuadrantSingle,
-        eQuadrantMulti
+        eQuadrantMulti,
+        eQuadrantUndefined
     };
 
     enum eInterpolationMode{
         eInterpolLinear,
         eInterpolCWCircular,
-        eInterpolCCWCircular
+        eInterpolCCWCircular,
+        eInterpolUndefined
     };
 
     enum eLevelPolarity{
@@ -74,8 +77,21 @@ class GraphicState {
 
 
     //----------------------- GraphicState ------------------------------------
-    GraphicState(): mCoordFormat(CoordinateFormat()), mUnit(eUnitMm) {}
-    GraphicState (CoordinateFormat inCoordFormat, eUnit inUnit): mCoordFormat(inCoordFormat), mUnit(inUnit) {}
+    GraphicState(): GraphicState(CoordinateFormat(), eUnitMm) {}
+    GraphicState (CoordinateFormat inCoordFormat, eUnit inUnit):
+        mCoordFormat(inCoordFormat),
+        mUnit(inUnit),
+        mCurrentAperture(NULL),
+        mQuadrantMode(eQuadrantUndefined),
+        mInterpolationMode(eInterpolUndefined),
+        mCurrentPoint(Point()),
+        mSR(StepAndRepeat()),
+        mLevelPolarity(ePolDark),
+        mRegMode(eRegModeOff)
+    {
+
+    }
+
     virtual ~GraphicState () {}
 
 
