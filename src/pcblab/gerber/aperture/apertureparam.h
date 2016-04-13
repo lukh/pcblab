@@ -49,9 +49,6 @@ class ATParameterInfos{
 /// An Interface to handle parameters, it allows to handle all kind of types in one class
 class IApertureParam{
     public:
-        IApertureParam(const string &inName, const ATParameterInfos &inInfos): mName(inName), mInfos(inInfos) {
-            d_printf("%%% Creating IApertureParam", 4, 0, false);
-        }
         IApertureParam(ATParameterInfos &inInfos): mInfos(inInfos) {
             d_printf("%%% Creating IApertureParam", 4, 0, false);
         }
@@ -59,11 +56,9 @@ class IApertureParam{
             d_printf("%%% Deleting IApertureParam", 4, 0, false);
         }
 
-        const string &getName() { return mName; }
         const ATParameterInfos &getInfos() const { return mInfos; }
 
     private:
-        string mName;
         const ATParameterInfos &mInfos;
 };
 
@@ -73,7 +68,6 @@ class IApertureParam{
 template <class T>
 class ApertureParam: public IApertureParam{
     public:
-        ApertureParam(string &inName, ATParameterInfos &inInfos, T inData): IApertureParam(inName, inInfos), mData(inData) {}
         ApertureParam(ATParameterInfos &inInfos, T inData): IApertureParam(inInfos), mData(inData) {}
         virtual ~ApertureParam() {}
 
