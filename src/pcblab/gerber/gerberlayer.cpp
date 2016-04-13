@@ -92,11 +92,15 @@ void GerberLayer::setRegionMode(GraphicState::eRegionMode inRegMode) {
             mCurrentLevel->makeGraphicObjectRegions(mState.getCurrentAperture());
             break;}
     }
+
+    d_printf("GERBERLAYER: setRegionMode",1,0);
 }
 
 void GerberLayer::addNewLevel(GraphicState::eLevelPolarity inPolarity){
     mCurrentLevel = new GerberLevel(inPolarity);
     mLevels.push_back(mCurrentLevel);
+
+    d_printf("GERBERLAYER: addNewLevel" ,1,0);
 }
 
 
@@ -111,7 +115,7 @@ void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName){
 
     Aperture *ap = new Aperture(inDCode, *aper_temp);
     mApertures.push_back(ap);
-    d_printf("Aperture Added", 1, 2);
+    d_printf("GERBERLAYER: Aperture D" + to_string(inDCode) + "(" + inTemplateName + ") Added", 1, 0);
 }
 
 
@@ -151,8 +155,9 @@ void GerberLayer::setCurrentAperture(uint32_t inDCode){
         return;
     }
 
-    d_printf("GERBERLAYER: setCurrentAperture D" + to_string(inDCode), 1, 1);
+
     mState.setCurrentAperture(curr_aperture);
+    d_printf("GERBERLAYER: setCurrentAperture D" + to_string(inDCode), 1, 0);
 }
 
 
@@ -163,6 +168,8 @@ void GerberLayer::interpolate(Point inPointXY, Point inPointIJ){
     // defines the end point, modal mode (keeps the coord of the previous if the new is not provided)
     Point endPoint = startPoint;
     endPoint.updateCoordinates(inPointXY);
+
+    d_printf("GERBERLAYER: interpolate",1,0);
 
     switch(mState.getRegMode()){
         case GraphicState::eRegModeOff:
@@ -195,12 +202,16 @@ void GerberLayer::interpolate(Point inPointXY, Point inPointIJ){
 void GerberLayer::move(Point inPointXY){
     // move the current point
     mState.setCurrentPoint(inPointXY);
+
+    d_printf("GERBERLAYER: move",1,0);
 }
 
 
 void GerberLayer::flash(Point inPointXY){
     // set the current point
     mState.setCurrentPoint(inPointXY);
+
+    d_printf("GERBERLAYER: flash",1,0);
 
     //check for forbidden uses
     if(mState.getRegMode() == GraphicState::eRegModeOn){

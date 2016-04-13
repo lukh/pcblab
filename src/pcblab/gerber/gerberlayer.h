@@ -73,24 +73,25 @@ class GerberLayer: public SyntaxParser {
         /// MO cmd
         virtual void setUnit(GraphicState::eUnit inUnit){
             mState.setUnit(inUnit);
-            d_printf("setUnit", 1, 2);
+            d_printf("GERBERLAYER: setUnit", 1, 0);
         }
 
         /// FS cmd
         virtual void setCoordinateFormat(GraphicState::CoordinateFormat inFormat){
             mState.setCoordFormat(inFormat);
-            d_printf("setCoordinatesFormat", 1, 2);
+            d_printf("GERBERLAYER: setCoordinatesFormat", 1, 0);
         }
 
         /// G74/75 cmd
         virtual void setQuadrantMode(GraphicState::eQuadrantMode inQuadrantMode){
             mState.setQuadrantMode(inQuadrantMode);
+            d_printf("GERBERLAYER: setQuadrantMode mode",1, 0);
         }
 
         /// G01/02/03 cmd
         virtual void setInterpolationMode(GraphicState::eInterpolationMode inInterpolationMode){
             mState.setInterpolationMode(inInterpolationMode);
-            d_printf("setInterpolation mode",1,1);
+            d_printf("GERBERLAYER: setInterpolation mode",1,0);
         }
 
 
