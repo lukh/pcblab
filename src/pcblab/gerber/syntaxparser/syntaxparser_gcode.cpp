@@ -37,9 +37,24 @@ bool SyntaxParser::parseGCode(istream &inStream){
             setInterpolationMode(GraphicState::eInterpolCCWCircular);
             break;
 
+
+        case 74:
+            if(inStream.get() != '*'){
+                return false;
+            }
+            setQuadrantMode(GraphicState::eQuadrantSingle);
+            break;
+
+        case 75:
+            if(inStream.get() != '*'){
+                return false;
+            }
+            setQuadrantMode(GraphicState::eQuadrantMulti);
+            break;
+
         default:
             //let's ignore the full unknown command
-            d_printf("WARNING: unhandled GCode:" + to_string(op_code),0,0);
+            err_printf("WARNING: unhandled GCode:" + to_string(op_code));
             do{
                 ch = inStream.get();
             }while(ch != '*' && ch != EOF);
