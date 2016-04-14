@@ -82,7 +82,10 @@ class IGraphicObjectTrack{
 class GraphicObjectDraw: public IGraphicObject, public IGraphicObjectTrack{
     public:
         GraphicObjectDraw(Point inStartPoint, Point inEndPoint, Aperture *inAperture):
-            IGraphicObject(IGraphicObject::eTypeLine, inAperture), IGraphicObjectTrack(inStartPoint, inEndPoint){ mValid = true; }
+            IGraphicObject(IGraphicObject::eTypeLine, inAperture), IGraphicObjectTrack(inStartPoint, inEndPoint){
+                mValid = true;
+                d_printf("Creating GraphicObjectDraw: start =(" + to_string(inStartPoint.mX) + ", " +to_string(inStartPoint.mY) + ") end =(" + to_string(inEndPoint.mX) + ", " +to_string(inEndPoint.mY) + ")", 4, 0, false);
+        }
 
         virtual ~GraphicObjectDraw() {}
 

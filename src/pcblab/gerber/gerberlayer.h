@@ -52,7 +52,7 @@ class GerberLayer: public SyntaxParser {
 
 
         GerberLayer(const string &inName);
-        GerberLayer(): GerberLayer("") {};
+        GerberLayer(): GerberLayer("") {}
         virtual ~GerberLayer();
 
         // ------------------------------------------------------
