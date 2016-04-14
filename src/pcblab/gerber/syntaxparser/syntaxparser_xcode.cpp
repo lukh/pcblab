@@ -351,3 +351,20 @@ bool SyntaxParser::extractApertureParam(uint32_t inDCode, istream &inStream, boo
 
 
 
+/// parses AM cmd
+bool SyntaxParser::parseXCode_AM(istream &inStream){
+    char read;
+    string name;
+
+    //extract name
+    while((read = inStream.get()) != EOF){
+        if(read == '*'){
+            break;
+        }
+        name.push_back(read);
+    }
+
+    return true;
+}
+
+

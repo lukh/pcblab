@@ -107,12 +107,13 @@ class SyntaxParser {
         /// parses AD cmd
         bool parseXCode_AD(istream &inStream);
 
-        /// extracts a AParameters
+        /// extracts a AParameters in AD Cmd
         /// return if other params are available or not (* or X)
         /// takes outStatus which defines if the extraction was clean
         bool extractApertureParam(uint32_t inDCode, istream &inStream, bool &outStatus);
 
-
+        /// parses AM cmd
+        bool parseXCode_AM(istream &inStream);
 
 
 
