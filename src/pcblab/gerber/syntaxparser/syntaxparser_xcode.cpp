@@ -415,6 +415,10 @@ bool SyntaxParser::extractAM_Content(string &inContent, vector<string> &outConte
     //TODO validate the content
     d_printf("addAMCmd: (" + inContent + ")", 2, 3);
 
+    if(inContent.size() < 1){
+        return false;
+    }
+
     if(inContent.at(0) != '0'){ //handles comments
         outContent.push_back(inContent);
     }
