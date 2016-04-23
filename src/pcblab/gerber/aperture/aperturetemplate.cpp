@@ -12,6 +12,8 @@ ApertureTemplate::~ApertureTemplate(){
 bool ApertureTemplate::addCommand(const string &inCmd)
 {
     d_printf("GERBERLAYER/ApertureTemplate "+ mName +": adding " + inCmd, 1, 0);
+
+    //time to define what we have...
 }
 
 

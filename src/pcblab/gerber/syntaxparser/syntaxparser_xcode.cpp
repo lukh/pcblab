@@ -364,9 +364,23 @@ bool SyntaxParser::parseXCode_AM(istream &inStream){
     d_printf("adding: ApertureTemplate(" + name + ")", 2, 2);
 
     //extract content
+    bool iscmt=false, newcmd = true;
     while((read = inStream.get()) != EOF){
+        //just to handle spaces in comments
+        if(read == '\n' || read == '\r'){
+            continue;
+        }
+        if(newcmd && read == '0'){
+            iscmt = true;
+        }
+        newcmd = false;
+
+        if(!iscmt && read==' '){
+            continue;
+        }
+
+        // start parsing...
         switch(read){
-            case ' ': //pass...
             case '\r':
             case '\n':
                 break;
@@ -381,6 +395,8 @@ bool SyntaxParser::parseXCode_AM(istream &inStream){
                     err_printf("ERROR(parseXCode_AM): unrecognize command");
                 }
                 content.clear();
+                newcmd=true;
+                iscmt=false;
                 break;
 
             default:
@@ -399,7 +415,9 @@ bool SyntaxParser::extractAM_Content(string &inContent, vector<string> &outConte
     //TODO validate the content
     d_printf("addAMCmd: (" + inContent + ")", 2, 3);
 
-    outContent.push_back(inContent);
+    if(inContent.at(0) != '0'){ //handles comments
+        outContent.push_back(inContent);
+    }
 
     return true;
 }
