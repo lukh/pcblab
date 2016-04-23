@@ -137,7 +137,9 @@ void GerberLayer::defineApertureTemplate(string &inName, const vector<string> &i
 
 
     for(vector<string>::const_iterator it = inRawCmds.begin(); it != inRawCmds.end(); ++it){
-        at->addCommand(*it);
+        if(!at->addCommand(*it)){
+            err_printf("ERROR(GerberLayer::defineApertureTemplate): unrecognized command");
+        }
     }
 }
 

@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <string>
 #include <vector>
+#include <map>
 
 #include "../../common.h"
 
@@ -25,7 +26,7 @@ using namespace std;
 
 
 typedef double ApertureVariable;
-
+typedef map<string, ApertureVariable> ApVarSymbolTable;
 
 
 
@@ -37,16 +38,19 @@ class ATCommand{
             eTypeVarDef
         };
 
-        ATCommand(eType inType): mType(inType) {}
-        virtual ~ATCommand(){}
+        ATCommand(eType inType): mType(inType), mValid(false) { d_printf("%%% Creating ATCommand", 4, 0, false);}
+        virtual ~ATCommand(){ d_printf("%%% Deleting ATCommand", 4, 0, false); }
 
-        virtual bool build(vector<ApertureVariable> &inVariables, vector<IAperturePrimitive *> &outPrimitives) = 0;
+        virtual bool build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives) = 0;
 
 
         eType getType() { return mType; }
 
+        bool isValid() { return mValid; }
+
     protected:
         eType mType;
+        bool mValid;
 };
 
 
@@ -55,12 +59,14 @@ class ATCmdVarDef: public ATCommand{
     public:
         /// create a new variable def
         ///  \param inVariableDef: "$3=5+8x$5"
-        ATCmdVarDef(string inVariableDef): ATCommand(ATCommand::eTypeVarDef) {}
+        ATCmdVarDef(const string &inVariableDef);
+        virtual ~ATCmdVarDef() {}
 
-        virtual bool build(vector<ApertureVariable> &inVariables, vector<IAperturePrimitive *> &outPrimitives);
+        virtual bool build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives);
+
 
     private:
-        uint16_t mDestVar;
+        string mDestVar;
         string mExpr;
 };
 
@@ -70,9 +76,10 @@ class ATCmdVarDef: public ATCommand{
 class ATCmdPrimitive: public ATCommand{
     public:
 
-        ATCmdPrimitive(string inPrimitiveDescr): ATCommand(ATCommand::eTypePrimitive) {}
+        ATCmdPrimitive(const string &inPrimitiveDescr);
+        virtual ~ATCmdPrimitive() {}
 
-        virtual bool build(vector<ApertureVariable> &inVariables, vector<IAperturePrimitive *> &outPrimitives);
+        virtual bool build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives);
 
     private:
         /// defines the type of primitive to build
@@ -108,11 +115,11 @@ class ApertureTemplate{
 
     protected:
         /// set the variables to the modifiers values
-        void buildVarsFromModifiers(const vector<ApertureModifier> &inModifiers, vector<ApertureVariable> &outVariables);
+        void buildVarsFromModifiers(const vector<ApertureModifier> &inModifiers, ApVarSymbolTable &outVariables);
 
 
     protected:
-        static const uint16_t kMaxApertureVars = 256;
+        static const uint16_t kMaxApertureVars = 32;
 
         string mName;
         vector<ATCommand *> mCommands;
