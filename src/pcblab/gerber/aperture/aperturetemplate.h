@@ -34,16 +34,54 @@ class ATCommand{
     public:
         enum eType{
             eTypePrimitive,
-            eTypeExpr
+            eTypeVarDef
         };
 
         ATCommand(eType inType): mType(inType) {}
         virtual ~ATCommand(){}
 
-        virtual void build(vector<ApertureVariable> &inVariables, vector<AperturePrimitive *> &outPrimitives) = 0;
+        virtual bool build(vector<ApertureVariable> &inVariables, vector<IAperturePrimitive *> &outPrimitives) = 0;
+
+
+        eType getType() { return mType; }
 
     protected:
         eType mType;
+};
+
+
+
+class ATCmdVarDef: public ATCommand{
+    public:
+        /// create a new variable def
+        ///  \param inVariableDef: "$3=5+8x$5"
+        ATCmdVarDef(string inVariableDef): ATCommand(ATCommand::eTypeVarDef) {}
+
+        virtual bool build(vector<ApertureVariable> &inVariables, vector<IAperturePrimitive *> &outPrimitives);
+
+    private:
+        uint16_t mDestVar;
+        string mExpr;
+};
+
+
+
+
+class ATCmdPrimitive: public ATCommand{
+    public:
+
+        ATCmdPrimitive(string inPrimitiveDescr): ATCommand(ATCommand::eTypePrimitive) {}
+
+        virtual bool build(vector<ApertureVariable> &inVariables, vector<IAperturePrimitive *> &outPrimitives);
+
+    private:
+        /// defines the type of primitive to build
+        IAperturePrimitive::eType mPrimitiveType;
+
+        /// defines the list of the modifiers.
+        /// a modifier can be a decimal, a variable or a arith expr.
+        /// modifier are evaluate at the build, and sent to the primitive
+        vector <string> mStrModifiers;
 };
 
 
@@ -59,7 +97,9 @@ class ApertureTemplate{
 
         /// build primitives and fill in outPrimitives
         /// returns true if success
-        bool buildAperturePrimitives(const vector<ApertureModifier> &inModifiers,vector<AperturePrimitive *> &outPrimitives){
+        bool buildAperturePrimitives(const vector<ApertureModifier> &inModifiers,vector<IAperturePrimitive *> &outPrimitives){
+            bool status = true;
+
             // check if the output vector is empty
             if(outPrimitives.size() != 0){
                 err_printf("ERROR (ApertureTemplate::buildAperturePrimitives): outPrimitives is not empty !" );
@@ -75,8 +115,11 @@ class ApertureTemplate{
             for(vector<ATCommand *>::iterator it = mCommands.begin(); it != mCommands.end(); ++it){
                 ATCommand *cmd = *it;
 
-                cmd->build(variables, outPrimitives);
+                bool ret = cmd->build(variables, outPrimitives);
+                status = status && ret;
             }
+
+            return status;
         }
 
 

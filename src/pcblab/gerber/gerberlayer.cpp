@@ -132,11 +132,7 @@ void GerberLayer::setApertureModifiers(uint32_t inDCode, vector<ApertureModifier
         return;
     }
 
-    for(vector<ApertureModifier>::iterator it = inModifiers.begin(); it != inModifiers.end(); ++it){
-        d_printf("GERBERLAYER: modifier D" + to_string(inDCode) + "  = " + to_string(*it), 1, 0);
-    }
-
-    //aperture->addParameter(inValue);
+    aperture->setModifiers(inModifiers);
 }
 
 

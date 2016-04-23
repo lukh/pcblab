@@ -377,6 +377,6 @@ bool SyntaxParser::parseXCode_AM(istream &inStream){
 
 
 bool SyntaxParser::extractAM_Content(string & inContent){
-
+    d_printf(inContent, 0);
 }
 

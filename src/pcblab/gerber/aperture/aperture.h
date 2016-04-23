@@ -13,8 +13,10 @@
 
 #include <stdint.h>
 #include <string>
+#include <vector>
 
 #include "../../common.h"
+#include "apertureprimitive.h"
 #include "aperturetemplate.h"
 #include "aperturemodifier.h"
 
@@ -27,8 +29,7 @@ class Aperture{
         Aperture(uint32_t inDCode, ApertureTemplate &inTemplate);
         ~Aperture();
 
-        void addParameter(double inDouble);
-        void addParameter(int inInt);
+        void setModifiers(vector<ApertureModifier> &inModifiers);
 
         uint32_t getDCode() { return mDCode; }
 
@@ -41,6 +42,11 @@ class Aperture{
 
         /// the template used
         ApertureTemplate &mTemplate;
+
+        /// the calculated primitives from the template
+        vector<IAperturePrimitive *> mPrimitives;
+
+        bool mValid;
 };
 
 
