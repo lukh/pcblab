@@ -110,7 +110,7 @@ void GerberLayer::addNewLevel(GraphicState::eLevelPolarity inPolarity){
 
 
 
-void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName){
+void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName, const vector<ApertureModifier> &inModifiers){
     //find the template
     ApertureTemplate *aper_temp = getApertureTemplateByName(inTemplateName);
     if(aper_temp == NULL){
@@ -121,27 +121,27 @@ void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName){
     Aperture *ap = new Aperture(inDCode, *aper_temp);
     mApertures.push_back(ap);
     d_printf("GERBERLAYER: Aperture D" + to_string(inDCode) + "(" + inTemplateName + ") Added", 1, 0);
+
+    ap->setModifiers(inModifiers);
 }
 
 
 
-void GerberLayer::setApertureModifiers(uint32_t inDCode, vector<ApertureModifier> &inModifiers){
-    Aperture *aperture = getApertureByDCode(inDCode);
-    if(aperture == NULL){
-        err_printf("ERROR(GerberLayer::addApertureParam): Aperture not found");
-        return;
+
+void GerberLayer::defineApertureTemplate(string &inName, const vector<string> &inRawCmds)
+{
+    ApertureTemplate *at = new ApertureTemplate(inName);
+
+    mApertureTemplates.push_back(at);
+    d_printf("GERBERLAYER: ApertureTemplate " + inName + " added", 1, 0);
+
+
+    for(vector<string>::const_iterator it = inRawCmds.begin(); it != inRawCmds.end(); ++it){
+        at->addCommand(*it);
     }
-
-    aperture->setModifiers(inModifiers);
 }
 
 
-
-
-
-void GerberLayer::defineApertureTemplate(/*  */){
-
-}
 
 
 void GerberLayer::setCurrentAperture(uint32_t inDCode){

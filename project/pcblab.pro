@@ -50,6 +50,7 @@ FORMS += \
     ../src/gui/mainwindow.ui
 
 DISTFILES += \
-    ../doc/the_gerber_file_format_specification.pdf
+    ../doc/the_gerber_file_format_specification.pdf \
+    ../data/example.grb
 
 

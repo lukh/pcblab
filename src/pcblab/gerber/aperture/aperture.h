@@ -29,7 +29,7 @@ class Aperture{
         Aperture(uint32_t inDCode, ApertureTemplate &inTemplate);
         ~Aperture();
 
-        void setModifiers(vector<ApertureModifier> &inModifiers);
+        void setModifiers(const vector<ApertureModifier> &inModifiers);
 
         uint32_t getDCode() { return mDCode; }
 

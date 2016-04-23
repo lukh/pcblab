@@ -45,10 +45,9 @@ class SyntaxParser {
         virtual void setCurrentAperture(uint32_t inDCode) = 0;
 
         ///Defines a standard aperture
-        virtual void addAperture(uint32_t inDCode, string inTemplateName) = 0;
-        virtual void setApertureModifiers(uint32_t inDCode, vector<ApertureModifier> &inModifiers) = 0;
+        virtual void addAperture(uint32_t inDCode, string inTemplateName, const vector<ApertureModifier> &inModifiers) = 0;
 
-        virtual void defineApertureTemplate(/*  */) = 0;
+        virtual void defineApertureTemplate(string &inName, const vector<string> &inRawCmds) = 0;
 
         virtual void addNewLevel(GraphicState::eLevelPolarity inPolarity) = 0;
 
@@ -116,7 +115,7 @@ class SyntaxParser {
         /// parses AM cmd
         bool parseXCode_AM(istream &inStream);
 
-        bool extractAM_Content(string & inContent);
+        bool extractAM_Content(string & inContent, vector<string> &outContent);
 
 
 

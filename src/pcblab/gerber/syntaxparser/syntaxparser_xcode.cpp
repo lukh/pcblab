@@ -59,6 +59,14 @@ bool SyntaxParser::parseXCode(istream &inStream){
                 break;
 
 
+            case eXCodeAm:
+                d_printf("SyntaxParser(XCode) > Add ApertureTemplate (AM)", 2, 1);
+                if(!parseXCode_AM(inStream)){
+                    return false;
+                }
+                break;
+
+
             default:
                 //let's ignore the full unknown command
                 d_printf("WARNING: unhandled XCmd:" + string(1, ch1) + string(1, ch2), 1, 1);
@@ -224,6 +232,8 @@ bool SyntaxParser::parseXCode_AD(istream &inStream){
     string dcode_text, name;
     char ch;
 
+    vector<ApertureModifier> modifiers;
+
     // get rid of the D.
     if(inStream.get() != 'D'){
         err_printf("ERROR(ParseXCode): AD cmd: expected 'D'");
@@ -254,16 +264,17 @@ bool SyntaxParser::parseXCode_AD(istream &inStream){
     }
 
 
+
+
     // extract the name
     while((ch = inStream.get()) != EOF){
         if(ch == '*'){
             d_printf("addAperture: (" + name + ") D" + to_string(dcode), 2, 2);
-            addAperture(dcode, name);
+            addAperture(dcode, name, modifiers); //does it have any sense ???
             return true;
         }
         else if(ch == ','){
             d_printf("addAperture: (" + name + ") D" + to_string(dcode), 2, 2);
-            addAperture(dcode, name);
             break;
         }
         else{
@@ -273,13 +284,12 @@ bool SyntaxParser::parseXCode_AD(istream &inStream){
 
     //extract params
     bool status = true, local_status;
-    vector<ApertureModifier> modifiers;
+
     while(extractApertureModifiers(inStream, modifiers, local_status)){
         status = status && local_status;
     }
 
-
-    setApertureModifiers(dcode, modifiers);
+    addAperture(dcode, name, modifiers);
 
     return status;
 }
@@ -339,7 +349,9 @@ bool SyntaxParser::extractApertureModifiers(istream &inStream, vector<ApertureMo
 bool SyntaxParser::parseXCode_AM(istream &inStream){
     char read;
     string name;
-    string content;
+    string content; //temp for current content
+
+    vector<string> v_content;
 
     //extract name
     while((read = inStream.get()) != EOF){
@@ -348,6 +360,8 @@ bool SyntaxParser::parseXCode_AM(istream &inStream){
         }
         name.push_back(read);
     }
+
+    d_printf("adding: ApertureTemplate(" + name + ")", 2, 2);
 
     //extract content
     while((read = inStream.get()) != EOF){
@@ -358,10 +372,14 @@ bool SyntaxParser::parseXCode_AM(istream &inStream){
                 break;
 
             case '%':
+                d_printf("defineApertureTemplate(" + name + ")", 2, 2);
+                defineApertureTemplate(name, v_content);
                 return true;
 
             case '*':
-                extractAM_Content(content);
+                if(!extractAM_Content(content, v_content)){
+                    err_printf("ERROR(parseXCode_AM): unrecognize command");
+                }
                 content.clear();
                 break;
 
@@ -376,7 +394,16 @@ bool SyntaxParser::parseXCode_AM(istream &inStream){
 }
 
 
-bool SyntaxParser::extractAM_Content(string & inContent){
-    d_printf(inContent, 0);
+
+bool SyntaxParser::extractAM_Content(string &inContent, vector<string> &outContent){
+    //TODO validate the content
+    d_printf("addAMCmd: (" + inContent + ")", 2, 3);
+
+    outContent.push_back(inContent);
+
+    return true;
 }
+
+
+
 

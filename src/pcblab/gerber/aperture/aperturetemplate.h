@@ -95,49 +95,21 @@ class ApertureTemplate{
 
         const string &getName() const {return mName; }
 
-        /// build primitives and fill in outPrimitives
+
+        /// used to add a command to the template
+        bool addCommand(const string &inCmd);
+
+
+        /// build primitives and fill in outPrimitives.
+        /// Used to define a Aperture
         /// returns true if success
-        bool buildAperturePrimitives(const vector<ApertureModifier> &inModifiers,vector<IAperturePrimitive *> &outPrimitives){
-            bool status = true;
-
-            // check if the output vector is empty
-            if(outPrimitives.size() != 0){
-                err_printf("ERROR (ApertureTemplate::buildAperturePrimitives): outPrimitives is not empty !" );
-                return false;
-            }
-
-
-            // create an empty variables array, and set the variables regarding modifiers
-            vector<ApertureVariable> variables(kMaxApertureVars, 0.0);
-            buildVarsFromModifiers(inModifiers, variables);
-
-            // start the build by calling each command
-            for(vector<ATCommand *>::iterator it = mCommands.begin(); it != mCommands.end(); ++it){
-                ATCommand *cmd = *it;
-
-                bool ret = cmd->build(variables, outPrimitives);
-                status = status && ret;
-            }
-
-            return status;
-        }
+        bool buildAperturePrimitives(const vector<ApertureModifier> &inModifiers,vector<IAperturePrimitive *> &outPrimitives);
 
 
     protected:
         /// set the variables to the modifiers values
-        void buildVarsFromModifiers(const vector<ApertureModifier> &inModifiers, vector<ApertureVariable> &outVariables){
-            int inc = 0;
-            int modif_size = inModifiers.size();
+        void buildVarsFromModifiers(const vector<ApertureModifier> &inModifiers, vector<ApertureVariable> &outVariables);
 
-            for(vector<ApertureVariable>::iterator var = outVariables.begin(); var != outVariables.end(); ++var){
-                if(inc < modif_size){
-                    *var = inModifiers[inc++];
-                }
-                else{
-                    *var = 0.0;
-                }
-            }
-        }
 
     protected:
         static const uint16_t kMaxApertureVars = 256;

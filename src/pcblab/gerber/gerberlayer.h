@@ -101,11 +101,9 @@ class GerberLayer: public SyntaxParser {
         virtual void addNewLevel(GraphicState::eLevelPolarity inPolarity);
 
         /// defines and create a standard aperture
-        virtual void addAperture(uint32_t inDCode, string inTemplateName);
+        virtual void addAperture(uint32_t inDCode, string inTemplateName, const vector<ApertureModifier> &inModifiers);
 
-        virtual void setApertureModifiers(uint32_t inDCode, vector<ApertureModifier> &inModifiers);
-
-        virtual void defineApertureTemplate(/*  */);
+        virtual void defineApertureTemplate(string &inName, const vector<string> &inRawCmds);
 
         virtual void setCurrentAperture(uint32_t inDCode);
 
