@@ -11,7 +11,7 @@ bool SyntaxParser::parseDCode(istream &inStream){
 
     switch(op_code){
         case 00:
-           err_printf("ERROR (SyntaxParser::parseDCode): D00 is invalid" );
+            err_printf("ERROR (SyntaxParser::parseDCode): D00 is invalid" );
             break;
 
         case 01:

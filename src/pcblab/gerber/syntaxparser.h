@@ -19,6 +19,8 @@
 
 #include "graphicstate.h"
 
+#include "aperture/aperturemodifier.h"
+
 using namespace std;
 
 class SyntaxParser {
@@ -44,8 +46,7 @@ class SyntaxParser {
 
         ///Defines a standard aperture
         virtual void addAperture(uint32_t inDCode, string inTemplateName) = 0;
-        virtual void addApertureParam(uint32_t inDCode, double inValue) = 0;
-        virtual void addApertureParam(uint32_t inDCode, int inValue) = 0;
+        virtual void setApertureModifiers(uint32_t inDCode, vector<ApertureModifier> &inModifiers) = 0;
 
         virtual void defineApertureTemplate(/*  */) = 0;
 
@@ -110,10 +111,12 @@ class SyntaxParser {
         /// extracts a AParameters in AD Cmd
         /// return if other params are available or not (* or X)
         /// takes outStatus which defines if the extraction was clean
-        bool extractApertureParam(uint32_t inDCode, istream &inStream, bool &outStatus);
+        bool extractApertureModifiers(istream &inStream, vector<ApertureModifier> &outModifiers, bool &outStatus);
 
         /// parses AM cmd
         bool parseXCode_AM(istream &inStream);
+
+        bool extractAM_Content(string & inContent);
 
 
 

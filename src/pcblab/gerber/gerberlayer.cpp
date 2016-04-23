@@ -125,25 +125,21 @@ void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName){
 
 
 
-void GerberLayer::addApertureParam(uint32_t inDCode, double inValue){
+void GerberLayer::setApertureModifiers(uint32_t inDCode, vector<ApertureModifier> &inModifiers){
     Aperture *aperture = getApertureByDCode(inDCode);
     if(aperture == NULL){
         err_printf("ERROR(GerberLayer::addApertureParam): Aperture not found");
         return;
     }
 
-    aperture->addParameter(inValue);
-}
-
-void GerberLayer::addApertureParam(uint32_t inDCode, int inValue){
-    Aperture *aperture = getApertureByDCode(inDCode);
-    if(aperture == NULL){
-        err_printf("ERROR(GerberLayer::addApertureParam): Aperture not found");
-        return;
+    for(vector<ApertureModifier>::iterator it = inModifiers.begin(); it != inModifiers.end(); ++it){
+        d_printf("GERBERLAYER: modifier D" + to_string(inDCode) + "  = " + to_string(*it), 1, 0);
     }
 
-    aperture->addParameter(inValue);
+    //aperture->addParameter(inValue);
 }
+
+
 
 
 

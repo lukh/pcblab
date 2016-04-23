@@ -273,24 +273,26 @@ bool SyntaxParser::parseXCode_AD(istream &inStream){
 
     //extract params
     bool status = true, local_status;
-    while(extractApertureParam(dcode, inStream, local_status)){
+    vector<ApertureModifier> modifiers;
+    while(extractApertureModifiers(inStream, modifiers, local_status)){
         status = status && local_status;
     }
 
+
+    setApertureModifiers(dcode, modifiers);
 
     return status;
 }
 
 
 
-bool SyntaxParser::extractApertureParam(uint32_t inDCode, istream &inStream, bool &outStatus){
+bool SyntaxParser::extractApertureModifiers(istream &inStream, vector<ApertureModifier> &outModifiers, bool &outStatus){
     char ch;
     string param_str;
 
-    double d;
-    int i;
-
     outStatus = true;
+
+    double mod;
 
     while((ch = inStream.get()) != EOF){
         bool not_done = true;
@@ -304,36 +306,18 @@ bool SyntaxParser::extractApertureParam(uint32_t inDCode, istream &inStream, boo
                     return false;
                 }
 
-                //int
-                if(param_str.find('.') == string::npos){
-                    try{
-                        i = stoi(param_str);
-                    }
-                    catch(...){
-                        err_printf("ERROR: extractApertureParam: Impossible to convert to int");
-                        outStatus = false;
-                        return false;
-                    };
-                    d_printf("addApertureParam: (" + to_string(i) + ")", 2, 3);
-                    addApertureParam(inDCode, i);
-
-                    return not_done;
+                try{
+                    mod = stringToDouble(param_str);
+                    outModifiers.push_back(mod);
                 }
-                //dec
-                else{
-                    try{
-                        d = stringToDouble(param_str);
-                    }
-                    catch(...){
-                        err_printf("ERROR: extractApertureParam: Impossible to convert to double");
-                        outStatus = false;
-                        return false;
-                    };
-                    d_printf("addApertureParam: (" + to_string(d) + ")", 2, 3);
-                    addApertureParam(inDCode, d);
+                catch(...){
+                    err_printf("ERROR: extractApertureModifier: Impossible to convert to double");
+                    outStatus = false;
+                    return false;
+                };
+                d_printf("addApertureModifier: (" + to_string(mod) + ")", 2, 3);
 
-                    return not_done;
-                }
+                return not_done;
 
                 break;
 
@@ -355,6 +339,7 @@ bool SyntaxParser::extractApertureParam(uint32_t inDCode, istream &inStream, boo
 bool SyntaxParser::parseXCode_AM(istream &inStream){
     char read;
     string name;
+    string content;
 
     //extract name
     while((read = inStream.get()) != EOF){
@@ -364,7 +349,34 @@ bool SyntaxParser::parseXCode_AM(istream &inStream){
         name.push_back(read);
     }
 
-    return true;
+    //extract content
+    while((read = inStream.get()) != EOF){
+        switch(read){
+            case ' ': //pass...
+            case '\r':
+            case '\n':
+                break;
+
+            case '%':
+                return true;
+
+            case '*':
+                extractAM_Content(content);
+                content.clear();
+                break;
+
+            default:
+                content.push_back(read);
+                break;
+        }
+
+    }
+
+    return false;
 }
 
+
+bool SyntaxParser::extractAM_Content(string & inContent){
+
+}
 

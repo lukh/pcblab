@@ -16,7 +16,7 @@
 
 #include "../../common.h"
 #include "aperturetemplate.h"
-#include "apertureparam.h"
+#include "aperturemodifier.h"
 
 using namespace std;
 
@@ -30,8 +30,6 @@ class Aperture{
         void addParameter(double inDouble);
         void addParameter(int inInt);
 
-        const IApertureParam *getParameter(string &inName);
-
         uint32_t getDCode() { return mDCode; }
 
         ///defines if the aperture is complete and clean
@@ -43,9 +41,6 @@ class Aperture{
 
         /// the template used
         ApertureTemplate &mTemplate;
-
-        /// defines its parameters
-        vector<IApertureParam *> mParameters;
 };
 
 
