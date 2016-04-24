@@ -1,6 +1,6 @@
 #include "aperturetemplate.h"
 #include "../../../tools/exprparser.h"
-
+#include "../../../tools/stringsplitter.h"
 // ------------------------------- CMD -----------------------------
 
 ATCmdVarDef::ATCmdVarDef(const string &inVariableDef): ATCommand(ATCommand::eTypeVarDef) {
@@ -26,7 +26,12 @@ ATCmdVarDef::ATCmdVarDef(const string &inVariableDef): ATCommand(ATCommand::eTyp
 
 bool ATCmdVarDef::build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives)
 {
+    if(!mValid){
+        return false;
+    }
+
     //outPrimitive will not be used here.
+    (void)outPrimitives;
 
     AlgorithmExpr expr(mExpr);
 
@@ -34,15 +39,127 @@ bool ATCmdVarDef::build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive
 
     inVariables[mDestVar] = val;
 
+    d_printf("var " + mDestVar + " = " + mExpr + " = " + to_string(val), 2, 2);
+
     return true;
 }
 
 
-ATCmdPrimitive::ATCmdPrimitive(const string &inPrimitiveDescr): ATCommand(ATCommand::eTypePrimitive) {}
+ATCmdPrimitive::ATCmdPrimitive(const string &inPrimitiveDescr): ATCommand(ATCommand::eTypePrimitive) {
+
+
+
+    size_t pos_first_del = inPrimitiveDescr.find(',');
+    if(pos_first_del == string::npos){
+        err_printf("ERROR (ATCmdPrimitive::ATCmdPrimitive): Invalid primitive def!" );
+        return;
+    }
+    string prim_code_str = inPrimitiveDescr.substr(0, pos_first_del);
+    string prim_mods = inPrimitiveDescr.substr(pos_first_del+1);
+
+    //define the type of primitive
+    uint32_t prim_code = stoi(prim_code_str); //extract the primirive code
+    switch(prim_code){
+        case 1: // circle
+            mPrimitiveType = IAperturePrimitive::eCircle;
+            break;
+        case 20: //vector line
+            mPrimitiveType = IAperturePrimitive::eVectorLine;
+            break;
+        case 21: // center line
+            mPrimitiveType = IAperturePrimitive::eCenterLine;
+            break;
+        case 4://outline
+            mPrimitiveType = IAperturePrimitive::eOutLine;
+            break;
+        case 5: //polygon
+            mPrimitiveType = IAperturePrimitive::ePolygon;
+            break;
+        case 6: // moire
+            mPrimitiveType = IAperturePrimitive::eMoire;
+            break;
+        case 7: //thermal
+            mPrimitiveType = IAperturePrimitive::eThermal;
+            break;
+
+        default:
+            mPrimitiveType = IAperturePrimitive::eInvalid;
+            err_printf("ERROR (ATCmdPrimitive::ATCmdPrimitive): unrecognized primitive!" );
+            return;
+            break;
+    }
+
+
+    //extract the modifiers
+    tokenize(prim_mods, mStrModifiers, ",");
+
+    mValid = true;
+}
 
 bool ATCmdPrimitive::build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives)
 {
+    if(!mValid){
+        return false;
+    }
 
+    d_printf("ATCmdPrimitive::build", 1, 2);
+
+    //creating the primitive...
+    IAperturePrimitive *prim;
+    switch (mPrimitiveType) {
+        case IAperturePrimitive::eCircle:
+            prim = new APrimCircle();
+            break;
+
+        case IAperturePrimitive::eVectorLine:
+            prim = new APrimVectorLine();
+            break;
+
+        case IAperturePrimitive::eCenterLine:
+            prim = new APrimCenterLine();
+            break;
+
+        case IAperturePrimitive::eOutLine:
+            prim = new APrimOutline();
+            break;
+
+        case IAperturePrimitive::ePolygon:
+            prim = new APrimPolygon();
+            break;
+
+        case IAperturePrimitive::eMoire:
+            prim = new APrimMoire();
+            break;
+
+        case IAperturePrimitive::eThermal:
+            prim = new APrimThermal();
+            break;
+
+        default:
+            err_printf("ERROR (ATCmdPrimitive::build): unrecognized primitive!" );
+            return false;
+            break;
+    }
+
+
+    //evaluate and add modifiers
+    for (vector<string>::iterator it = mStrModifiers.begin(); it != mStrModifiers.end(); ++it) {
+        string &strmod = *it;
+
+        AlgorithmExpr expr(strmod);
+
+        ApertureModifier mod = expr.evaluate(&inVariables);
+
+        d_printf("modifier " + strmod + " = " + to_string(mod), 2, 2);
+
+        prim->addModifier(mod);
+    }
+
+
+    outPrimitives.push_back(prim);
+
+
+    return true;
 }
 
 
@@ -86,6 +203,15 @@ bool ApertureTemplate::addCommand(const string &inCmd)
         cmd = new ATCmdVarDef(inCmd);
         if(!cmd->isValid()){
             err_printf("ERROR (ApertureTemplate::addCommand): Invalid variable definition!" );
+            return false;
+        }
+        mCommands.push_back(cmd);
+    }
+
+    else{
+        cmd = new ATCmdPrimitive(inCmd);
+        if(!cmd->isValid()){
+            err_printf("ERROR (ApertureTemplate::addCommand): Invalid primitive def!" );
             return false;
         }
         mCommands.push_back(cmd);

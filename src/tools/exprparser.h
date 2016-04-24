@@ -18,7 +18,7 @@ class AlgorithmExpr {
     public:
         typedef map<string, double> SymbolTable;
 
-        AlgorithmExpr(const string &inExpr) : mExpr(inExpr), mIdx(0), mSymTable(NULL) {
+        AlgorithmExpr(const string &inExpr) : mExpr(inExpr), mSymTable(NULL), mIdx(0) {
 
         }
 

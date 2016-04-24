@@ -3,6 +3,9 @@
 
 
 #include <vector>
+
+#include "../../common.h"
+
 #include "aperturemodifier.h"
 
 
@@ -21,7 +24,8 @@ class IAperturePrimitive{
             eOutLine,
             ePolygon,
             eMoire,
-            eThermal
+            eThermal,
+            eInvalid
         };
 
 
@@ -31,7 +35,8 @@ class IAperturePrimitive{
         };
 
         ///
-        IAperturePrimitive(eType inType): mType(inType) {}
+        IAperturePrimitive(eType inType): mType(inType) { d_printf("%%% Creating IAperturePrimitive", 4, 0, false); }
+        virtual ~IAperturePrimitive() { d_printf("%%% Deleting IAperturePrimitive", 4, 0, false); }
 
 
         /// add a modifier
@@ -52,7 +57,7 @@ class IAperturePrimitive{
 
         /// abstract method used to define if the primitive is valid.
         /// implementation can count the number of modifiers for instance
-        virtual void isValid() = 0;
+        virtual bool isValid() = 0;
 
 
     protected:
@@ -61,6 +66,51 @@ class IAperturePrimitive{
     private:
         eType mType;
 
+};
+
+
+
+
+class APrimCircle: public IAperturePrimitive{
+    public:
+        APrimCircle();
+        virtual bool isValid();
+};
+
+class APrimVectorLine: public IAperturePrimitive{
+    public:
+        APrimVectorLine();
+        virtual bool isValid();
+};
+
+class APrimCenterLine: public IAperturePrimitive{
+    public:
+        APrimCenterLine();
+        virtual bool isValid();
+};
+
+class APrimOutline: public IAperturePrimitive{
+    public:
+        APrimOutline();
+        virtual bool isValid();
+};
+
+class APrimPolygon: public IAperturePrimitive{
+    public:
+        APrimPolygon();
+        virtual bool isValid();
+};
+
+class APrimMoire: public IAperturePrimitive{
+    public:
+        APrimMoire();
+        virtual bool isValid();
+};
+
+class APrimThermal: public IAperturePrimitive{
+    public:
+        APrimThermal();
+        virtual bool isValid();
 };
 
 
