@@ -99,7 +99,7 @@ bool ATCmdPrimitive::build(ApVarSymbolTable &inVariables, vector<IAperturePrimit
         return false;
     }
 
-    d_printf("ATCmdPrimitive::build", 1, 2);
+    d_printf("ATCmdPrimitive::build", 1, 1);
 
     //creating the primitive...
     IAperturePrimitive *prim;
