@@ -74,7 +74,7 @@ class AlgorithmExpr {
 
         bool isFirstCharSymbol() {
             //the test is valid only for the first char !!!
-            static string notSymbols("#+-/*()0123456789");
+            static string notSymbols("#+-/x()0123456789");
 
             bool ret = (notSymbols.find(peek()) == string::npos);
 
@@ -82,8 +82,8 @@ class AlgorithmExpr {
         }
 
         double symbol() {
-            static string notSymbols("#+-/*()0123456789");
-            static string endOfSymbol("#+-/*()");
+            static string notSymbols("#+-/x()0123456789");
+            static string endOfSymbol("#+-/x()");
 
             if (mSymTable == NULL || !isFirstCharSymbol()) {
                 return 0;
@@ -131,8 +131,8 @@ class AlgorithmExpr {
         double term()
         {
             double result = factor();
-            while (peek() == '*' || peek() == '/')
-                if (get() == '*')
+            while (peek() == 'x' || peek() == '/')
+                if (get() == 'x')
                     result *= factor();
                 else
                     result /= factor();
