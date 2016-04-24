@@ -31,6 +31,7 @@ typedef map<string, ApertureVariable> ApVarSymbolTable;
 
 
 /// (virtual) describes an ApertureTemplate command.
+/// The command is executed during AD, either to update variables or create primitives
 class ATCommand{
     public:
         ATCommand(): mValid(false) { d_printf("%%% Creating ATCommand", 4, 0, false);}
@@ -46,7 +47,7 @@ class ATCommand{
 };
 
 
-
+/// Updates the variables of the aperture definition
 class ATCmdVarDef: public ATCommand{
     public:
         /// create a new variable def
@@ -64,7 +65,7 @@ class ATCmdVarDef: public ATCommand{
 
 
 
-
+/// creates primitives
 class ATCmdPrimitive: public ATCommand{
     public:
 
@@ -86,13 +87,35 @@ class ATCmdPrimitive: public ATCommand{
 
 
 
-/// Virtual class to describe an aperture template, standard or macro
-class ApertureTemplate{
+
+
+
+
+
+class IApertureTemplate{
     public:
-        ApertureTemplate(const string &inName);
-        virtual ~ApertureTemplate();
+        IApertureTemplate(const string &inName);
+        virtual ~IApertureTemplate();
+
 
         const string &getName() const {return mName; }
+
+
+        virtual bool buildAperturePrimitives(const vector<ApertureModifier> &inModifiers,vector<IAperturePrimitive *> &outPrimitives) = 0;
+
+    protected:
+        string mName;
+};
+
+
+
+
+
+/// Implementation of IApertureTemplate for Macros
+class MacroApertureTemplate :public IApertureTemplate{
+    public:
+        MacroApertureTemplate(const string &inName);
+        virtual ~MacroApertureTemplate();
 
 
         /// used to add a command to the template
@@ -102,7 +125,7 @@ class ApertureTemplate{
         /// build primitives and fill in outPrimitives.
         /// Used to define a Aperture
         /// returns true if success
-        bool buildAperturePrimitives(const vector<ApertureModifier> &inModifiers,vector<IAperturePrimitive *> &outPrimitives);
+        virtual bool buildAperturePrimitives(const vector<ApertureModifier> &inModifiers,vector<IAperturePrimitive *> &outPrimitives);
 
 
     protected:
@@ -113,47 +136,45 @@ class ApertureTemplate{
     protected:
         static const uint16_t kMaxApertureVars = 32;
 
-        string mName;
         vector<ATCommand *> mCommands;
 };
 
 
 
 
-class ApertureTemplateCircle: public ApertureTemplate{
+class ApertureTemplateCircle: public IApertureTemplate{
     public:
         ApertureTemplateCircle();
         virtual ~ApertureTemplateCircle(){}
+
+        virtual bool buildAperturePrimitives(const vector<ApertureModifier> &inModifiers,vector<IAperturePrimitive *> &outPrimitives);
 };
 
-class ApertureTemplateRectangle: public ApertureTemplate{
+class ApertureTemplateRectangle: public IApertureTemplate{
     public:
         ApertureTemplateRectangle();
         virtual ~ApertureTemplateRectangle(){}
+
+        virtual bool buildAperturePrimitives(const vector<ApertureModifier> &inModifiers,vector<IAperturePrimitive *> &outPrimitives);
 };
 
-class ApertureTemplateObround: public ApertureTemplate{
+class ApertureTemplateObround: public IApertureTemplate{
     public:
         ApertureTemplateObround();
         virtual ~ApertureTemplateObround(){}
+
+        virtual bool buildAperturePrimitives(const vector<ApertureModifier> &inModifiers,vector<IAperturePrimitive *> &outPrimitives);
 };
 
-class ApertureTemplateRegularPolygon: public ApertureTemplate{
+class ApertureTemplateRegularPolygon: public IApertureTemplate{
     public:
         ApertureTemplateRegularPolygon();
         virtual ~ApertureTemplateRegularPolygon(){}
+
+        virtual bool buildAperturePrimitives(const vector<ApertureModifier> &inModifiers,vector<IAperturePrimitive *> &outPrimitives);
 };
 
 
-
-
-class MacroApertureTemplate: public ApertureTemplate{
-    public:
-        MacroApertureTemplate(string &inName): ApertureTemplate(inName) {}
-        
-    private:
-
-};
 
 
 #endif

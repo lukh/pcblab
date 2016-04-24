@@ -26,7 +26,7 @@ using namespace std;
 /// Defines an Aperture.
 class Aperture{
     public:
-        Aperture(uint32_t inDCode, ApertureTemplate &inTemplate);
+        Aperture(uint32_t inDCode, IApertureTemplate &inTemplate);
         ~Aperture();
 
         void setModifiers(const vector<ApertureModifier> &inModifiers);
@@ -41,7 +41,7 @@ class Aperture{
         const uint32_t mDCode;
 
         /// the template used
-        ApertureTemplate &mTemplate;
+        IApertureTemplate &mTemplate;
 
         /// the calculated primitives from the template
         vector<IAperturePrimitive *> mPrimitives;

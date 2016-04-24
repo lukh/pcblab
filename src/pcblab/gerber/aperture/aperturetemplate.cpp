@@ -164,19 +164,36 @@ bool ATCmdPrimitive::build(ApVarSymbolTable &inVariables, vector<IAperturePrimit
 
 
 // --------------------------- ApertureTemplate ------------------
-ApertureTemplate::ApertureTemplate(const string &inName): mName(inName){
-    d_printf("%%% Creating ApertureTemplate", 4, 0, false);
+
+IApertureTemplate::IApertureTemplate(const string &inName): mName(inName)
+{
+    d_printf("%%% Creating IApertureTemplate", 4, 0, false);
 }
 
-ApertureTemplate::~ApertureTemplate(){
-    d_printf("%%% Deleting ApertureTemplate", 4, 0, false);
+IApertureTemplate::~IApertureTemplate()
+{
+    d_printf("%%% Deleting IApertureTemplate", 4, 0, false);
+}
+
+
+
+
+
+MacroApertureTemplate::MacroApertureTemplate(const string &inName): IApertureTemplate(inName){
+
+}
+
+
+
+MacroApertureTemplate::~MacroApertureTemplate(){
+    d_printf("%%% Deleting MacroApertureTemplate", 4, 0, false);
 
     for (vector<ATCommand *>::iterator it = mCommands.begin(); it != mCommands.end(); ++it){
         delete (*it);
     }
 }
 
-bool ApertureTemplate::addCommand(const string &inCmd)
+bool MacroApertureTemplate::addCommand(const string &inCmd)
 {
     ATCommand *cmd;
     d_printf("GERBERLAYER/ApertureTemplate "+ mName +": adding " + inCmd, 1, 0);
@@ -218,7 +235,7 @@ bool ApertureTemplate::addCommand(const string &inCmd)
 }
 
 
-bool ApertureTemplate::buildAperturePrimitives(const vector<ApertureModifier> &inModifiers,vector<IAperturePrimitive *> &outPrimitives){
+bool MacroApertureTemplate::buildAperturePrimitives(const vector<ApertureModifier> &inModifiers,vector<IAperturePrimitive *> &outPrimitives){
     bool status = true;
 
     // check if the output vector is empty
@@ -244,7 +261,7 @@ bool ApertureTemplate::buildAperturePrimitives(const vector<ApertureModifier> &i
 }
 
 
-void ApertureTemplate::buildVarsFromModifiers(const vector<ApertureModifier> &inModifiers, ApVarSymbolTable &outVariables){
+void MacroApertureTemplate::buildVarsFromModifiers(const vector<ApertureModifier> &inModifiers, ApVarSymbolTable &outVariables){
     int ind=1;
     for(size_t idx = 0; idx < kMaxApertureVars; idx ++){
         string varName = "$" + to_string(ind++);
@@ -258,28 +275,98 @@ void ApertureTemplate::buildVarsFromModifiers(const vector<ApertureModifier> &in
 }
 
 
-ApertureTemplateCircle::ApertureTemplateCircle(): ApertureTemplate("C"){
-    //mParamsInfos.push_back(ATParameterInfos("Diameter", ATParameterInfos::eDouble, false));
-    //mParamsInfos.push_back(ATParameterInfos("HoleDiameter", ATParameterInfos::eDouble, true));
+ApertureTemplateCircle::ApertureTemplateCircle(): IApertureTemplate("C"){
 }
 
-ApertureTemplateRectangle::ApertureTemplateRectangle(): ApertureTemplate("R"){
+bool ApertureTemplateCircle::buildAperturePrimitives(const vector<ApertureModifier> &inModifiers, vector<IAperturePrimitive *> &outPrimitives)
+{
+    if(inModifiers.size() < 1){
+        return false;
+    }
+
+    //adding a circle primitive.
+    IAperturePrimitive *p = new APrimCircle();
+
+    //adding needed modifiers
+    p->addModifier(1.0); //exposure on
+    p->addModifier(inModifiers.at(0)); //D
+    p->addModifier(0.0); //x
+    p->addModifier(0.0); //y
+    p->addModifier(0.0); //rot
+
+    outPrimitives.push_back(p);
+
+    //asking for a hole
+    if(inModifiers.size() > 1){
+        p = new APrimCircle();
+
+        p->addModifier(0.0); //exposure off
+        p->addModifier(inModifiers.at(1));
+        p->addModifier(0.0); //x
+        p->addModifier(0.0); //y
+        p->addModifier(0.0); //rot
+
+        outPrimitives.push_back(p);
+    }
+
+    return true;
+}
+
+ApertureTemplateRectangle::ApertureTemplateRectangle(): IApertureTemplate("R"){
+}
+
+bool ApertureTemplateRectangle::buildAperturePrimitives(const vector<ApertureModifier> &inModifiers, vector<IAperturePrimitive *> &outPrimitives)
+{
+    if(inModifiers.size() < 2){
+        return false;
+    }
+
+    //adding a circle primitive.
+    IAperturePrimitive *p = new APrimCenterLine();
+
+    //adding needed modifiers
+    p->addModifier(1.0); //exposure on
+    p->addModifier(inModifiers.at(0)); //w
+    p->addModifier(inModifiers.at(1)); //h
+    p->addModifier(0.0); // x
+    p->addModifier(0.0); // y
+    p->addModifier(0.0); // rot
+
+    outPrimitives.push_back(p);
+
+    //asking for a hole
+    if(inModifiers.size() > 2){
+        p = new APrimCircle();
+
+        p->addModifier(0.0); //exposure off
+        p->addModifier(inModifiers.at(2)); //D
+        p->addModifier(0.0); //x
+        p->addModifier(0.0); //y
+        p->addModifier(0.0); //rot
+
+        outPrimitives.push_back(p);
+    }
+
+    return true;
+}
+
+ApertureTemplateObround::ApertureTemplateObround(): IApertureTemplate("O"){
     //mParamsInfos.push_back(ATParameterInfos("X", ATParameterInfos::eDouble, false));
-    //mParamsInfos.push_back(ATParameterInfos("Y", ATParameterInfos::eDouble, false));
-    //mParamsInfos.push_back(ATParameterInfos("HoleDiameter", ATParameterInfos::eDouble, true));
-}
-
-ApertureTemplateObround::ApertureTemplateObround(): ApertureTemplate("O"){
-    //mParamsInfos.push_back(ATParameterInfos("X", ATParameterInfos::eDouble, false));
-    //mParamsInfos.push_back(ATParameterInfos("Y", ATParameterInfos::eDouble, false));
-    //mParamsInfos.push_back(ATParameterInfos("HoleDiameter", ATParameterInfos::eDouble, true));
 
 }
 
-ApertureTemplateRegularPolygon::ApertureTemplateRegularPolygon(): ApertureTemplate("P"){
-    //mParamsInfos.push_back(ATParameterInfos("OuterDiameter", ATParameterInfos::eDouble, false));
-    //mParamsInfos.push_back(ATParameterInfos("VerticesNumber", ATParameterInfos::eInt, false));
-    //mParamsInfos.push_back(ATParameterInfos("Rotation", ATParameterInfos::eDouble, false));
-    //mParamsInfos.push_back(ATParameterInfos("HoleDiameter", ATParameterInfos::eDouble, true));
+bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModifier> &inModifiers, vector<IAperturePrimitive *> &outPrimitives)
+{
+    return true;
 }
+
+ApertureTemplateRegularPolygon::ApertureTemplateRegularPolygon(): IApertureTemplate("P"){
+
+}
+
+bool ApertureTemplateRegularPolygon::buildAperturePrimitives(const vector<ApertureModifier> &inModifiers, vector<IAperturePrimitive *> &outPrimitives)
+{
+    return true;
+}
+
 

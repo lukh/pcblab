@@ -141,7 +141,7 @@ class GerberLayer: public SyntaxParser {
 
         /// returns the template regarding to the name:
         /// C,R,O,P or macro template name
-        ApertureTemplate *getApertureTemplateByName(string &inTemplateName);
+        IApertureTemplate *getApertureTemplateByName(string &inTemplateName);
 
 
 
@@ -163,7 +163,7 @@ class GerberLayer: public SyntaxParser {
         vector<Aperture *> mApertures;
 
         /// Apertures Template Dict
-        vector<ApertureTemplate *> mApertureTemplates;
+        vector<IApertureTemplate *> mApertureTemplates;
 
     protected:
         // ------------------------------------------------------

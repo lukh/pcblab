@@ -1,6 +1,6 @@
 #include "aperture.h"
 
-Aperture::Aperture(uint32_t inDCode, ApertureTemplate &inTemplate): mDCode(inDCode), mTemplate(inTemplate), mValid(false){
+Aperture::Aperture(uint32_t inDCode, IApertureTemplate &inTemplate): mDCode(inDCode), mTemplate(inTemplate), mValid(false){
     d_printf("%%%Creating Aperture", 4, 0, false);
 }
 

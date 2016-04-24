@@ -49,7 +49,7 @@ GerberLayer::GerberLayer(const string &inName): SyntaxParser(),
     d_printf("%%% Creating GerberLevel", 4, 0, false);
 
     //adding default aperture templates
-    ApertureTemplate *t;
+    IApertureTemplate *t;
 
     t = new ApertureTemplateCircle();
     mApertureTemplates.push_back(t);
@@ -75,7 +75,7 @@ GerberLayer::~GerberLayer(){
         delete (*it);
     }
 
-    for(vector<ApertureTemplate*>::iterator it = mApertureTemplates.begin(); it != mApertureTemplates.end(); ++it){
+    for(vector<IApertureTemplate*>::iterator it = mApertureTemplates.begin(); it != mApertureTemplates.end(); ++it){
         delete (*it);
     }
 
@@ -112,7 +112,7 @@ void GerberLayer::addNewLevel(GraphicState::eLevelPolarity inPolarity){
 
 void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName, const vector<ApertureModifier> &inModifiers){
     //find the template
-    ApertureTemplate *aper_temp = getApertureTemplateByName(inTemplateName);
+    IApertureTemplate *aper_temp = getApertureTemplateByName(inTemplateName);
     if(aper_temp == NULL){
         err_printf("ERROR(GerberLayer::addAperture): Template not found");
         return;
@@ -130,7 +130,7 @@ void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName, const vec
 
 void GerberLayer::defineApertureTemplate(string &inName, const vector<string> &inRawCmds)
 {
-    ApertureTemplate *at = new ApertureTemplate(inName);
+    MacroApertureTemplate *at = new MacroApertureTemplate(inName);
 
     mApertureTemplates.push_back(at);
     d_printf("GERBERLAYER: ApertureTemplate " + inName + " added", 1, 0);
@@ -270,11 +270,11 @@ Aperture *GerberLayer::getApertureByDCode(uint32_t inDCode){
 
 
 
-ApertureTemplate *GerberLayer::getApertureTemplateByName(string &inTemplateName){
-    ApertureTemplate *aper_temp = NULL;
+IApertureTemplate *GerberLayer::getApertureTemplateByName(string &inTemplateName){
+    IApertureTemplate *aper_temp = NULL;
 
     //scan the template list
-    for(vector<ApertureTemplate *>::iterator it = mApertureTemplates.begin(); it != mApertureTemplates.end(); ++it){
+    for(vector<IApertureTemplate *>::iterator it = mApertureTemplates.begin(); it != mApertureTemplates.end(); ++it){
         aper_temp = *it;
         if(aper_temp->getName().compare(inTemplateName) == 0){
             return aper_temp;
