@@ -412,14 +412,24 @@ bool SyntaxParser::parseXCode_AM(istream &inStream){
 
 
 bool SyntaxParser::extractAM_Content(string &inContent, vector<string> &outContent){
-    //TODO validate the content
     d_printf("addAMCmd: (" + inContent + ")", 2, 3);
+
+    string allowed_chars("$0123456789.()+-x/=,");
 
     if(inContent.size() < 1){
         return false;
     }
 
     if(inContent.at(0) != '0'){ //handles comments
+
+        //check content
+        for(size_t i = 0; i < inContent.size(); i ++){
+            if(allowed_chars.find(inContent.at(i)) == string::npos ){
+                err_printf("ERROR(extractAM_Content): unrecognize char: " + inContent.substr(i, i));
+                return false;
+            }
+        }
+
         outContent.push_back(inContent);
     }
 

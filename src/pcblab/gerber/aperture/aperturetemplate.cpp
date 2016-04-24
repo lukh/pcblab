@@ -39,7 +39,7 @@ bool ATCmdVarDef::build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive
 
     inVariables[mDestVar] = val;
 
-    d_printf("var " + mDestVar + " = " + mExpr + " = " + to_string(val), 2, 2);
+    d_printf("ATCmdVarDef/build " + mDestVar + " = " + mExpr + " = " + to_string(val), 1, 2);
 
     return true;
 }
@@ -150,7 +150,7 @@ bool ATCmdPrimitive::build(ApVarSymbolTable &inVariables, vector<IAperturePrimit
 
         ApertureModifier mod = expr.evaluate(&inVariables);
 
-        d_printf("modifier " + strmod + " = " + to_string(mod), 2, 2);
+        d_printf("ATCmdPrimitive/build, modifier " + strmod + " = " + to_string(mod), 1, 2);
 
         prim->addModifier(mod);
     }
@@ -249,7 +249,7 @@ bool ApertureTemplate::buildAperturePrimitives(const vector<ApertureModifier> &i
 
 void ApertureTemplate::buildVarsFromModifiers(const vector<ApertureModifier> &inModifiers, ApVarSymbolTable &outVariables){
     int ind=1;
-    for(int idx = 0; idx < kMaxApertureVars; idx ++){
+    for(size_t idx = 0; idx < kMaxApertureVars; idx ++){
         string varName = "$" + to_string(ind++);
         if(idx < inModifiers.size()){
             outVariables[varName] = inModifiers[idx];
