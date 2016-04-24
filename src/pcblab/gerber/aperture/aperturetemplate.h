@@ -30,26 +30,18 @@ typedef map<string, ApertureVariable> ApVarSymbolTable;
 
 
 
-/// (virtual) describes an ApertureTemplate command
+/// (virtual) describes an ApertureTemplate command.
 class ATCommand{
     public:
-        enum eType{
-            eTypePrimitive,
-            eTypeVarDef
-        };
-
-        ATCommand(eType inType): mType(inType), mValid(false) { d_printf("%%% Creating ATCommand", 4, 0, false);}
+        ATCommand(): mValid(false) { d_printf("%%% Creating ATCommand", 4, 0, false);}
         virtual ~ATCommand(){ d_printf("%%% Deleting ATCommand", 4, 0, false); }
 
         virtual bool build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives) = 0;
 
 
-        eType getType() { return mType; }
-
         bool isValid() { return mValid; }
 
     protected:
-        eType mType;
         bool mValid;
 };
 

@@ -3,7 +3,7 @@
 #include "../../../tools/stringsplitter.h"
 // ------------------------------- CMD -----------------------------
 
-ATCmdVarDef::ATCmdVarDef(const string &inVariableDef): ATCommand(ATCommand::eTypeVarDef) {
+ATCmdVarDef::ATCmdVarDef(const string &inVariableDef): ATCommand() {
     size_t pos_equal;
     if((pos_equal=inVariableDef.find('=')) == string::npos){
         err_printf("ERROR (ATCmdVarDef::ATCmdVarDef): string doesn't have = sign!" );
@@ -45,10 +45,7 @@ bool ATCmdVarDef::build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive
 }
 
 
-ATCmdPrimitive::ATCmdPrimitive(const string &inPrimitiveDescr): ATCommand(ATCommand::eTypePrimitive) {
-
-
-
+ATCmdPrimitive::ATCmdPrimitive(const string &inPrimitiveDescr): ATCommand() {
     size_t pos_first_del = inPrimitiveDescr.find(',');
     if(pos_first_del == string::npos){
         err_printf("ERROR (ATCmdPrimitive::ATCmdPrimitive): Invalid primitive def!" );
