@@ -357,6 +357,99 @@ ApertureTemplateObround::ApertureTemplateObround(): IApertureTemplate("O"){
 
 bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModifier> &inModifiers, vector<IAperturePrimitive *> &outPrimitives)
 {
+    IAperturePrimitive *p = 0;
+    if(inModifiers.size() < 2){
+        return false;
+    }
+
+    double X = inModifiers.at(0), Y = inModifiers.at(1);
+
+
+    //horizontal
+    if(X > Y){
+        // rectangle
+        p = new APrimCenterLine();
+        p->addModifier(1.0); //exposure on
+        p->addModifier( X - Y ); //Width
+        p->addModifier(Y); //Height
+        p->addModifier(0.0); //x
+        p->addModifier(0.0); //y
+        p->addModifier(0.0); //rot
+
+        outPrimitives.push_back(p);
+
+        //adding the two circle primitives.
+        p = new APrimCircle();
+        //adding needed modifiers
+        p->addModifier(1.0); //exposure on
+        p->addModifier(Y); //D
+        p->addModifier(-(X-Y)/2.0); //x
+        p->addModifier(0.0); //y
+        p->addModifier(0.0); //rot
+
+        outPrimitives.push_back(p);
+
+        p = new APrimCircle();
+        //adding needed modifiers
+        p->addModifier(1.0); //exposure on
+        p->addModifier(Y); //D
+        p->addModifier((X-Y)/2.0); //x
+        p->addModifier(0.0); //y
+        p->addModifier(0.0); //rot
+
+        outPrimitives.push_back(p);
+    }
+
+    //vertical
+    else {
+        // rectangle
+        p = new APrimCenterLine();
+        p->addModifier(1.0); //exposure on
+        p->addModifier(X); //Width
+        p->addModifier(Y-X); //Height
+        p->addModifier(0.0); //x
+        p->addModifier(0.0); //y
+        p->addModifier(0.0); //rot
+
+        outPrimitives.push_back(p);
+
+        //adding the two circle primitives.
+        p = new APrimCircle();
+        //adding needed modifiers
+        p->addModifier(1.0); //exposure on
+        p->addModifier(X); //D
+        p->addModifier(-(Y-X)/2.0); //x
+        p->addModifier(0.0); //y
+        p->addModifier(0.0); //rot
+
+        outPrimitives.push_back(p);
+
+        p = new APrimCircle();
+        //adding needed modifiers
+        p->addModifier(1.0); //exposure on
+        p->addModifier(X); //D
+        p->addModifier((Y-X)/2.0); //x
+        p->addModifier(0.0); //y
+        p->addModifier(0.0); //rot
+
+        outPrimitives.push_back(p);
+    }
+
+
+
+    //asking for a hole
+    if(inModifiers.size() > 2){
+        p = new APrimCircle();
+
+        p->addModifier(0.0); //exposure off
+        p->addModifier(inModifiers.at(2));
+        p->addModifier(0.0); //x
+        p->addModifier(0.0); //y
+        p->addModifier(0.0); //rot
+
+        outPrimitives.push_back(p);
+    }
+
     return true;
 }
 
@@ -366,6 +459,54 @@ ApertureTemplateRegularPolygon::ApertureTemplateRegularPolygon(): IApertureTempl
 
 bool ApertureTemplateRegularPolygon::buildAperturePrimitives(const vector<ApertureModifier> &inModifiers, vector<IAperturePrimitive *> &outPrimitives)
 {
+    /*<Outer diameter> Diameter of the circumscribed circle, i.e. the circle through the
+    polygon vertices. Must be a decimal > 0
+
+    <Number of vertices> Number of polygon vertices, ranging from 3 to 12
+
+    <Rotation> A decimal number specifying the rotation in degrees of the
+    aperture around its center
+    Without rotation one vertex is on the positive X-axis through
+    the center. Rotation angle is expressed in decimal degrees;
+    positive value for counterclockwise rotation, negative value for
+    clockwise rotation
+
+    <Hole diameter>
+    Diameter of a round hole. If missing the aperture is solid
+    See section 4.12.1.5 for more details.
+    The hole modifier can be specified only after a rotation angle;
+    set an angle of zero if the aperture is not rotated.*/
+
+    if(inModifiers.size() < 3){
+        return false;
+    }
+
+    double outer_dia = inModifiers.at(0);
+    double vert_number = inModifiers.at(1);
+    double rotation = inModifiers.at(2);
+
+    IAperturePrimitive *p = new APrimPolygon();
+    p->addModifier(1.0); //exposure on
+    p->addModifier(vert_number);
+    p->addModifier(0.0); //X
+    p->addModifier(0.0); //Y
+    p->addModifier(outer_dia); //D
+    p->addModifier(rotation);
+
+
+    //asking for a hole
+    if(inModifiers.size() > 3){
+        p = new APrimCircle();
+
+        p->addModifier(0.0); //exposure off
+        p->addModifier(inModifiers.at(3));
+        p->addModifier(0.0); //x
+        p->addModifier(0.0); //y
+        p->addModifier(0.0); //rot
+
+        outPrimitives.push_back(p);
+    }
+
     return true;
 }
 
