@@ -35,7 +35,7 @@ class IAperturePrimitive{
         };
 
         ///
-        IAperturePrimitive(eType inType): mType(inType) { d_printf("%%% Creating IAperturePrimitive", 4, 0, false); }
+        IAperturePrimitive(eType inType);
         virtual ~IAperturePrimitive() { d_printf("%%% Deleting IAperturePrimitive", 4, 0, false); }
 
 
