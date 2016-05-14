@@ -39,7 +39,7 @@ bool ATCmdVarDef::build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive
 
     inVariables[mDestVar] = val;
 
-    d_printf("ATCmdVarDef/build " + mDestVar + " = " + mExpr + " = " + to_string(val), 1, 2);
+    d_printf("ATCmdVarDef/build " + mDestVar + " = " + mExpr + " = " + to_string(val), 1, 1);
 
     return true;
 }
@@ -152,11 +152,20 @@ bool ATCmdPrimitive::build(ApVarSymbolTable &inVariables, vector<IAperturePrimit
         prim->addModifier(mod);
     }
 
+    bool prim_ok = prim->isValid();
 
-    outPrimitives.push_back(prim);
+    if(prim_ok){
+        d_printf("ATCmdPrimitive/build, adding: " + prim->getStringInfos(), 1, 2);
+        outPrimitives.push_back(prim);
+    }
+
+    else{
+        err_printf("ERROR(ATCmdPrimitive::build) the primitive build failed");
+        delete prim;
+    }
 
 
-    return true;
+    return prim_ok;
 }
 
 
@@ -275,6 +284,12 @@ void MacroApertureTemplate::buildVarsFromModifiers(const vector<ApertureModifier
 }
 
 
+
+
+
+
+
+
 ApertureTemplateCircle::ApertureTemplateCircle(): IApertureTemplate("C"){
 }
 
@@ -294,7 +309,16 @@ bool ApertureTemplateCircle::buildAperturePrimitives(const vector<ApertureModifi
     p->addModifier(0.0); //y
     p->addModifier(0.0); //rot
 
-    outPrimitives.push_back(p);
+    if(p->isValid()){
+        outPrimitives.push_back(p);
+        d_printf("ApertureTemplateCircle::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+    }
+
+    else{
+        err_printf("ERROR(ApertureTemplateCircle::build) the primitive build failed");
+        delete p;
+        return false;
+    }
 
     //asking for a hole
     if(inModifiers.size() > 1){
@@ -306,7 +330,16 @@ bool ApertureTemplateCircle::buildAperturePrimitives(const vector<ApertureModifi
         p->addModifier(0.0); //y
         p->addModifier(0.0); //rot
 
-        outPrimitives.push_back(p);
+        if(p->isValid()){
+            outPrimitives.push_back(p);
+            d_printf("ApertureTemplateCircle::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+        }
+
+        else{
+            err_printf("ERROR(ApertureTemplateCircle::build) the primitive build failed");
+            delete p;
+            return false;
+        }
     }
 
     return true;
@@ -332,7 +365,17 @@ bool ApertureTemplateRectangle::buildAperturePrimitives(const vector<ApertureMod
     p->addModifier(0.0); // y
     p->addModifier(0.0); // rot
 
-    outPrimitives.push_back(p);
+    if(p->isValid()){
+        outPrimitives.push_back(p);
+        d_printf("ApertureTemplateRectangle::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);d_printf("ATCmdPrimitive/build: " + p->getStringInfos(), 1, 2);
+    }
+
+    else{
+        err_printf("ERROR(ApertureTemplateRectangle::build) the primitive build failed");
+        delete p;
+        return false;
+    }
+
 
     //asking for a hole
     if(inModifiers.size() > 2){
@@ -344,7 +387,16 @@ bool ApertureTemplateRectangle::buildAperturePrimitives(const vector<ApertureMod
         p->addModifier(0.0); //y
         p->addModifier(0.0); //rot
 
-        outPrimitives.push_back(p);
+        if(p->isValid()){
+            outPrimitives.push_back(p);
+            d_printf("ApertureTemplateRectangle::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+        }
+
+        else{
+            err_printf("ERROR(ApertureTemplateRectangle::build) the primitive build failed");
+            delete p;
+            return false;
+        }
     }
 
     return true;
@@ -376,7 +428,16 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
         p->addModifier(0.0); //y
         p->addModifier(0.0); //rot
 
-        outPrimitives.push_back(p);
+        if(p->isValid()){
+            outPrimitives.push_back(p);
+            d_printf("ApertureTemplateObround::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+        }
+
+        else{
+            err_printf("ERROR(ApertureTemplateObround::build) the primitive build failed");
+            delete p;
+            return false;
+        }
 
         //adding the two circle primitives.
         p = new APrimCircle();
@@ -387,7 +448,16 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
         p->addModifier(0.0); //y
         p->addModifier(0.0); //rot
 
-        outPrimitives.push_back(p);
+        if(p->isValid()){
+            outPrimitives.push_back(p);
+            d_printf("ApertureTemplateObround::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+        }
+
+        else{
+            err_printf("ERROR(ApertureTemplateObround::build) the primitive build failed");
+            delete p;
+            return false;
+        }
 
         p = new APrimCircle();
         //adding needed modifiers
@@ -397,7 +467,16 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
         p->addModifier(0.0); //y
         p->addModifier(0.0); //rot
 
-        outPrimitives.push_back(p);
+        if(p->isValid()){
+            outPrimitives.push_back(p);
+            d_printf("ApertureTemplateObround::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+        }
+
+        else{
+            err_printf("ERROR(ApertureTemplateObround::build) the primitive build failed");
+            delete p;
+            return false;
+        }
     }
 
     //vertical
@@ -411,7 +490,16 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
         p->addModifier(0.0); //y
         p->addModifier(0.0); //rot
 
-        outPrimitives.push_back(p);
+        if(p->isValid()){
+            outPrimitives.push_back(p);
+            d_printf("ApertureTemplateObround::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+        }
+
+        else{
+            err_printf("ERROR(ApertureTemplateObround::build) the primitive build failed");
+            delete p;
+            return false;
+        }
 
         //adding the two circle primitives.
         p = new APrimCircle();
@@ -422,7 +510,16 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
         p->addModifier(0.0); //y
         p->addModifier(0.0); //rot
 
-        outPrimitives.push_back(p);
+        if(p->isValid()){
+            outPrimitives.push_back(p);
+            d_printf("ApertureTemplateObround::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+        }
+
+        else{
+            err_printf("ERROR(ApertureTemplateObround::build) the primitive build failed");
+            delete p;
+            return false;
+        }
 
         p = new APrimCircle();
         //adding needed modifiers
@@ -432,7 +529,16 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
         p->addModifier(0.0); //y
         p->addModifier(0.0); //rot
 
-        outPrimitives.push_back(p);
+        if(p->isValid()){
+            outPrimitives.push_back(p);
+            d_printf("ApertureTemplateObround::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+        }
+
+        else{
+            err_printf("ERROR(ApertureTemplateObround::build) the primitive build failed");
+            delete p;
+            return false;
+        }
     }
 
 
@@ -447,7 +553,16 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
         p->addModifier(0.0); //y
         p->addModifier(0.0); //rot
 
-        outPrimitives.push_back(p);
+        if(p->isValid()){
+            outPrimitives.push_back(p);
+            d_printf("ApertureTemplateObround::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+        }
+
+        else{
+            err_printf("ERROR(ApertureTemplateObround::build) the primitive build failed");
+            delete p;
+            return false;
+        }
     }
 
     return true;
@@ -493,6 +608,17 @@ bool ApertureTemplateRegularPolygon::buildAperturePrimitives(const vector<Apertu
     p->addModifier(outer_dia); //D
     p->addModifier(rotation);
 
+    if(p->isValid()){
+        outPrimitives.push_back(p);
+        d_printf("ApertureTemplateRegularPolygon::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+    }
+
+    else{
+        err_printf("ERROR(ApertureTemplateRegularPolygon::build) the primitive build failed");
+        delete p;
+        return false;
+    }
+
 
     //asking for a hole
     if(inModifiers.size() > 3){
@@ -504,7 +630,16 @@ bool ApertureTemplateRegularPolygon::buildAperturePrimitives(const vector<Apertu
         p->addModifier(0.0); //y
         p->addModifier(0.0); //rot
 
-        outPrimitives.push_back(p);
+        if(p->isValid()){
+            outPrimitives.push_back(p);
+            d_printf("ApertureTemplateRegularPolygon::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+        }
+
+        else{
+            err_printf("ERROR(ApertureTemplateRegularPolygon::build) the primitive build failed");
+            delete p;
+            return false;
+        }
     }
 
     return true;
