@@ -48,49 +48,55 @@ APrimCircle::APrimCircle(): IAperturePrimitive(eCircle) {}
 
 bool APrimCircle::isValid()
 {
-    return true;
+    // params count = 5: Exp, D, X, Y, rot
+    return mModifiers.size() == 5;
 }
 
 APrimVectorLine::APrimVectorLine(): IAperturePrimitive(eVectorLine) {}
 
 bool APrimVectorLine::isValid()
 {
-    return true;
+    return mModifiers.size() == 7;
 }
 
 APrimCenterLine::APrimCenterLine(): IAperturePrimitive(eCenterLine) {}
 
 bool APrimCenterLine::isValid()
 {
-    return true;
+    return mModifiers.size() == 6;
 }
 
 APrimOutline::APrimOutline(): IAperturePrimitive(eOutLine) {}
 
 bool APrimOutline::isValid()
 {
-    return true;
+    if (mModifiers.size() < 6){
+        return false;
+    }
+
+
+    return mModifiers.size() > 5+2*mModifiers.at(1);
 }
 
 APrimPolygon::APrimPolygon(): IAperturePrimitive(ePolygon) {}
 
 bool APrimPolygon::isValid()
 {
-    return true;
+    return mModifiers.size() == 6;
 }
 
 APrimMoire::APrimMoire(): IAperturePrimitive(eMoire) {}
 
 bool APrimMoire::isValid()
 {
-    return true;
+    return mModifiers.size() == 9;
 }
 
 APrimThermal::APrimThermal(): IAperturePrimitive(eThermal) {}
 
 bool APrimThermal::isValid()
 {
-    return true;
+    return mModifiers.size() == 6;
 }
 
 
