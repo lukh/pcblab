@@ -29,7 +29,8 @@ class Aperture{
         Aperture(uint32_t inDCode, IApertureTemplate &inTemplate);
         ~Aperture();
 
-        void setModifiers(const vector<ApertureModifier> &inModifiers);
+        // build the primitives from the template and aperture modifiers
+        void build(const vector<ApertureModifier> &inModifiers);
 
         uint32_t getDCode() { return mDCode; }
 

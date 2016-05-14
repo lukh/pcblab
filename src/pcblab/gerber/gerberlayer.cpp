@@ -122,7 +122,7 @@ void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName, const vec
     mApertures.push_back(ap);
     d_printf("GERBERLAYER: Aperture D" + to_string(inDCode) + "(" + inTemplateName + ") Added", 1, 0);
 
-    ap->setModifiers(inModifiers);
+    ap->build(inModifiers);
 }
 
 

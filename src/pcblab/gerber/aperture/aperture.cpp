@@ -16,7 +16,7 @@ Aperture::~Aperture(){
 
 
 
-void Aperture::setModifiers(const vector<ApertureModifier> &inModifiers){
+void Aperture::build(const vector<ApertureModifier> &inModifiers){
     int cnt=1;
     for(vector<ApertureModifier>::const_iterator it = inModifiers.begin(); it != inModifiers.end(); ++it){
         d_printf("GERBERLAYER/Aperture (D"+ to_string(mDCode) +"): adding modifier n" + to_string(cnt++) + "  = " + to_string(*it), 1, 1);
