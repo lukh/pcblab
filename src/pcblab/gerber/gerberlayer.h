@@ -101,15 +101,9 @@ class GerberLayer: public SyntaxParser {
         virtual void addNewLevel(GraphicState::eLevelPolarity inPolarity);
 
         /// defines and create a standard aperture
-        virtual void addAperture(uint32_t inDCode, string inTemplateName);
+        virtual void addAperture(uint32_t inDCode, string inTemplateName, const vector<ApertureModifier> &inModifiers);
 
-        /// adds a parameters to the last aperture added
-        virtual void addApertureParam(uint32_t inDCode, double inValue);
-
-        /// adds a parameters to the last aperture added
-        virtual void addApertureParam(uint32_t inDCode, int inValue);
-
-        virtual void defineApertureTemplate(/*  */);
+        virtual void defineApertureTemplate(string &inName, const vector<string> &inRawCmds);
 
         virtual void setCurrentAperture(uint32_t inDCode);
 
@@ -147,7 +141,7 @@ class GerberLayer: public SyntaxParser {
 
         /// returns the template regarding to the name:
         /// C,R,O,P or macro template name
-        ApertureTemplate *getApertureTemplateByName(string &inTemplateName);
+        IApertureTemplate *getApertureTemplateByName(string &inTemplateName);
 
 
 
@@ -169,7 +163,7 @@ class GerberLayer: public SyntaxParser {
         vector<Aperture *> mApertures;
 
         /// Apertures Template Dict
-        vector<ApertureTemplate *> mApertureTemplates;
+        vector<IApertureTemplate *> mApertureTemplates;
 
     protected:
         // ------------------------------------------------------

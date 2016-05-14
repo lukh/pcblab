@@ -20,6 +20,11 @@ double stringToDouble(string &str){
 
 void d_printf(const string &str, int inLevel, int inTabs, bool inLeftAlign){
     string tabs;
+
+    /*if(inLevel > 1){
+        return;
+    }*/
+
     if(inLeftAlign){
         for(int i=0; i < inTabs; i ++){
             tabs+= "\t";

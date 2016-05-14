@@ -107,7 +107,7 @@ bool GraphicObjectRegion::Contour::isInside(Point inPoint){
                 break;}
             case IGraphicObject::eTypeArc:{
                 GraphicObjectArc *arc = static_cast<GraphicObjectArc*>((*it));
-
+                (void *)arc;
                 break;}
 
             default:
@@ -117,6 +117,8 @@ bool GraphicObjectRegion::Contour::isInside(Point inPoint){
         }
 
     }
+
+    return w!=0;
 }
 
 
@@ -125,7 +127,7 @@ bool GraphicObjectRegion::Contour::isInside(Point inPoint){
 
 /// checks the connection with another contour
 GraphicObjectRegion::Contour::eContoursConnection GraphicObjectRegion::Contour::getConnection(const Contour &inContour){
-
+    (void)inContour;
 }
 
 
@@ -208,7 +210,7 @@ void GraphicObjectRegion::addSegment(Point inStart, Point inStop, Point inCenter
 
 
 vector<GraphicObjectRegion *> GraphicObjectRegion::createRegionsFromContours(Aperture *inAperture){
-
+    (void *)inAperture;
 }
 
 
