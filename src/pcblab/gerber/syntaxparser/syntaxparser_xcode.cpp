@@ -59,6 +59,14 @@ bool SyntaxParser::parseXCode(istream &inStream){
                 break;
 
 
+            case eXCodeAm:
+                d_printf("SyntaxParser(XCode) > Add ApertureTemplate (AM)", 2, 1);
+                if(!parseXCode_AM(inStream)){
+                    return false;
+                }
+                break;
+
+
             default:
                 //let's ignore the full unknown command
                 d_printf("WARNING: unhandled XCmd:" + string(1, ch1) + string(1, ch2), 1, 1);
@@ -224,6 +232,8 @@ bool SyntaxParser::parseXCode_AD(istream &inStream){
     string dcode_text, name;
     char ch;
 
+    vector<ApertureModifier> modifiers;
+
     // get rid of the D.
     if(inStream.get() != 'D'){
         err_printf("ERROR(ParseXCode): AD cmd: expected 'D'");
@@ -254,16 +264,17 @@ bool SyntaxParser::parseXCode_AD(istream &inStream){
     }
 
 
+
+
     // extract the name
     while((ch = inStream.get()) != EOF){
         if(ch == '*'){
             d_printf("addAperture: (" + name + ") D" + to_string(dcode), 2, 2);
-            addAperture(dcode, name);
+            addAperture(dcode, name, modifiers); //does it have any sense ???
             return true;
         }
         else if(ch == ','){
             d_printf("addAperture: (" + name + ") D" + to_string(dcode), 2, 2);
-            addAperture(dcode, name);
             break;
         }
         else{
@@ -273,24 +284,25 @@ bool SyntaxParser::parseXCode_AD(istream &inStream){
 
     //extract params
     bool status = true, local_status;
-    while(extractApertureParam(dcode, inStream, local_status)){
+
+    while(extractApertureModifiers(inStream, modifiers, local_status)){
         status = status && local_status;
     }
 
+    addAperture(dcode, name, modifiers);
 
     return status;
 }
 
 
 
-bool SyntaxParser::extractApertureParam(uint32_t inDCode, istream &inStream, bool &outStatus){
+bool SyntaxParser::extractApertureModifiers(istream &inStream, vector<ApertureModifier> &outModifiers, bool &outStatus){
     char ch;
     string param_str;
 
-    double d;
-    int i;
-
     outStatus = true;
+
+    double mod;
 
     while((ch = inStream.get()) != EOF){
         bool not_done = true;
@@ -304,36 +316,18 @@ bool SyntaxParser::extractApertureParam(uint32_t inDCode, istream &inStream, boo
                     return false;
                 }
 
-                //int
-                if(param_str.find('.') == string::npos){
-                    try{
-                        i = stoi(param_str);
-                    }
-                    catch(...){
-                        err_printf("ERROR: extractApertureParam: Impossible to convert to int");
-                        outStatus = false;
-                        return false;
-                    };
-                    d_printf("addApertureParam: (" + to_string(i) + ")", 2, 3);
-                    addApertureParam(inDCode, i);
-
-                    return not_done;
+                try{
+                    mod = stringToDouble(param_str);
+                    outModifiers.push_back(mod);
                 }
-                //dec
-                else{
-                    try{
-                        d = stringToDouble(param_str);
-                    }
-                    catch(...){
-                        err_printf("ERROR: extractApertureParam: Impossible to convert to double");
-                        outStatus = false;
-                        return false;
-                    };
-                    d_printf("addApertureParam: (" + to_string(d) + ")", 2, 3);
-                    addApertureParam(inDCode, d);
+                catch(...){
+                    err_printf("ERROR: extractApertureModifier: Impossible to convert to double");
+                    outStatus = false;
+                    return false;
+                };
+                d_printf("addApertureModifier: (" + to_string(mod) + ")", 2, 3);
 
-                    return not_done;
-                }
+                return not_done;
 
                 break;
 
@@ -355,6 +349,9 @@ bool SyntaxParser::extractApertureParam(uint32_t inDCode, istream &inStream, boo
 bool SyntaxParser::parseXCode_AM(istream &inStream){
     char read;
     string name;
+    string content; //temp for current content
+
+    vector<string> v_content;
 
     //extract name
     while((read = inStream.get()) != EOF){
@@ -364,7 +361,81 @@ bool SyntaxParser::parseXCode_AM(istream &inStream){
         name.push_back(read);
     }
 
+    d_printf("adding: ApertureTemplate(" + name + ")", 2, 2);
+
+    //extract content
+    bool iscmt=false, newcmd = true;
+    while((read = inStream.get()) != EOF){
+        //just to handle spaces in comments
+        if(read == '\n' || read == '\r'){
+            continue;
+        }
+        if(newcmd && read == '0'){
+            iscmt = true;
+        }
+        newcmd = false;
+
+        if(!iscmt && read==' '){
+            continue;
+        }
+
+        // start parsing...
+        switch(read){
+            case '\r':
+            case '\n':
+                break;
+
+            case '%':
+                d_printf("defineApertureTemplate(" + name + ")", 2, 2);
+                defineApertureTemplate(name, v_content);
+                return true;
+
+            case '*':
+                if(!extractAM_Content(content, v_content)){
+                    err_printf("ERROR(parseXCode_AM): unrecognize command");
+                }
+                content.clear();
+                newcmd=true;
+                iscmt=false;
+                break;
+
+            default:
+                content.push_back(read);
+                break;
+        }
+
+    }
+
+    return false;
+}
+
+
+
+bool SyntaxParser::extractAM_Content(string &inContent, vector<string> &outContent){
+    d_printf("addAMCmd: (" + inContent + ")", 2, 3);
+
+    string allowed_chars("$0123456789.()+-x/=,");
+
+    if(inContent.size() < 1){
+        return false;
+    }
+
+    if(inContent.at(0) != '0'){ //handles comments
+
+        //check content
+        for(size_t i = 0; i < inContent.size(); i ++){
+            if(allowed_chars.find(inContent.at(i)) == string::npos ){
+                err_printf("ERROR(extractAM_Content): unrecognize char: " + inContent.substr(i, i));
+                return false;
+            }
+        }
+
+        outContent.push_back(inContent);
+    }
+
     return true;
 }
+
+
 
 

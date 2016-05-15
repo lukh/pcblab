@@ -27,11 +27,11 @@ SOURCES += \
     ../src/pcblab/gerber/syntaxparser/syntaxparser_gcode.cpp \
     ../src/pcblab/gerber/syntaxparser/syntaxparser_xcode.cpp \
     ../src/pcblab/gerber/aperture/aperture.cpp \
-    ../src/pcblab/gerber/aperture/aperturetemplate.cpp
+    ../src/pcblab/gerber/aperture/aperturetemplate.cpp \
+    ../src/pcblab/gerber/aperture/apertureprimitive.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
-    ../src/pcblab/gerber/aperture/apertureparam.h \
     ../src/pcblab/gerber/aperture/aperturetemplate.h \
     ../src/pcblab/gerber/gerberhandler.h \
     ../src/pcblab/gerber/gerberlayer.h \
@@ -42,11 +42,17 @@ HEADERS  += \
     ../src/pcblab/common.h \
     ../src/gui/mainwindow.h \
     ../src/tests/pcblab/gerber/gerberlayertest.h \
-    ../src/gui/q_debugstream.h
+    ../src/gui/q_debugstream.h \
+    ../src/pcblab/gerber/aperture/aperturemodifier.h \
+    ../src/pcblab/gerber/aperture/apertureprimitive.h \
+    ../src/tools/exprparser.h \
+    ../src/tools/stringsplitter.h
 
 FORMS += \
     ../src/gui/mainwindow.ui
 
-DISTFILES +=
+DISTFILES += \
+    ../doc/the_gerber_file_format_specification.pdf \
+    ../data/example.grb
 
 

@@ -13,10 +13,12 @@
 
 #include <stdint.h>
 #include <string>
+#include <vector>
 
 #include "../../common.h"
+#include "apertureprimitive.h"
 #include "aperturetemplate.h"
-#include "apertureparam.h"
+#include "aperturemodifier.h"
 
 using namespace std;
 
@@ -24,13 +26,11 @@ using namespace std;
 /// Defines an Aperture.
 class Aperture{
     public:
-        Aperture(uint32_t inDCode, ApertureTemplate &inTemplate);
+        Aperture(uint32_t inDCode, IApertureTemplate &inTemplate);
         ~Aperture();
 
-        void addParameter(double inDouble);
-        void addParameter(int inInt);
-
-        const IApertureParam *getParameter(string &inName);
+        // build the primitives from the template and aperture modifiers
+        void build(const vector<ApertureModifier> &inModifiers);
 
         uint32_t getDCode() { return mDCode; }
 
@@ -42,10 +42,12 @@ class Aperture{
         const uint32_t mDCode;
 
         /// the template used
-        ApertureTemplate &mTemplate;
+        IApertureTemplate &mTemplate;
 
-        /// defines its parameters
-        vector<IApertureParam *> mParameters;
+        /// the calculated primitives from the template
+        vector<IAperturePrimitive *> mPrimitives;
+
+        bool mValid;
 };
 
 
