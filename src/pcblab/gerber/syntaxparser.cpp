@@ -18,7 +18,7 @@ bool SyntaxParser::parse(istream &inStream){
                 break;
 
             case 'M': // end of file ?
-                if(getOpCode(inStream) == 2 and inStream.get() == '*'){
+                if(getOpCode(inStream) == 2 && inStream.get() == '*'){
                     //this is the end of the file, what should we do ???
                     eof_cmd = true;
                     d_printf("SYNTAXPARSER > EndOfFile(M02)");
