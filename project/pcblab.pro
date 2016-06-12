@@ -53,6 +53,7 @@ FORMS += \
 
 DISTFILES += \
     ../doc/the_gerber_file_format_specification.pdf \
-    ../data/example.grb
+    ../data/apertures.grb \
+    ../data/contours.grb
 
 
