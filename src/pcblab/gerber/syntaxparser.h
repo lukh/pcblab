@@ -65,7 +65,7 @@ class SyntaxParser {
 
 
         /// convert coordinate from raw to a real life coord (regarding coord format and unit)
-        virtual double convertCoordinate(long inRaw) = 0;
+        virtual double convertCoordinate(int32_t inRaw) = 0;
 
 
 
@@ -132,7 +132,7 @@ class SyntaxParser {
 
         uint8_t getOpCode(istream &inStream);
         eXCode getXCode(char ch1, char ch2);
-        uint32_t getRawCoord(istream &inStream);
+        int32_t getRawCoord(istream &inStream);
 
 
     private:
