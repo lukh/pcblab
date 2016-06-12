@@ -39,7 +39,7 @@ bool ATCmdVarDef::build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive
 
     inVariables[mDestVar] = val;
 
-    d_printf("ATCmdVarDef/build " + mDestVar + " = " + mExpr + " = " + to_string(val), 1, 1);
+    d_printf("ATCmdVarDef::build " + mDestVar + " = " + mExpr + " = " + to_string(val), 1, 1);
 
     return true;
 }
@@ -147,7 +147,7 @@ bool ATCmdPrimitive::build(ApVarSymbolTable &inVariables, vector<IAperturePrimit
 
         ApertureModifier mod = expr.evaluate(&inVariables);
 
-        d_printf("ATCmdPrimitive/build, modifier " + strmod + " = " + to_string(mod), 1, 2);
+        d_printf("ATCmdPrimitive::build, modifier " + strmod + " = " + to_string(mod), 1, 2);
 
         prim->addModifier(mod);
     }
@@ -155,7 +155,7 @@ bool ATCmdPrimitive::build(ApVarSymbolTable &inVariables, vector<IAperturePrimit
     bool prim_ok = prim->isValid();
 
     if(prim_ok){
-        d_printf("ATCmdPrimitive/build, adding: " + prim->getStringInfos(), 1, 2);
+        d_printf("ATCmdPrimitive::build, adding: " + prim->getStringInfos(), 1, 2);
         outPrimitives.push_back(prim);
     }
 
