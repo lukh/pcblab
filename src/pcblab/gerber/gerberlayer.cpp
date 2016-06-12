@@ -79,6 +79,8 @@ GerberLayer::~GerberLayer(){
         delete (*it);
     }
 
+    GraphicObjectRegion::flushContoursPool();
+
     d_printf("%%% Deleting GerberLayer", 4, 0, false);
 }
 
