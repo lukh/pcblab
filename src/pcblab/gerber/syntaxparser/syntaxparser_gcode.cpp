@@ -4,6 +4,7 @@ bool SyntaxParser::parseGCode(istream &inStream){
     char ch;
     int op_code = getOpCode(inStream);
     string comment;
+    bool status = true;
 
     switch(op_code){
         // comment
@@ -52,7 +53,24 @@ bool SyntaxParser::parseGCode(istream &inStream){
             setQuadrantMode(GraphicState::eQuadrantMulti);
             break;
 
+
+        case 36:
+            if(inStream.get() != '*'){
+                return false;
+            }
+            setRegionMode(GraphicState::eRegModeOn);
+            break;
+
+        case 37:
+            if(inStream.get() != '*'){
+                return false;
+            }
+            setRegionMode(GraphicState::eRegModeOff);
+            break;
+
+
         default:
+            status = false;
             //let's ignore the full unknown command
             err_printf("WARNING: unhandled GCode:" + to_string(op_code));
             do{
@@ -61,5 +79,5 @@ bool SyntaxParser::parseGCode(istream &inStream){
             break;
     }
 
-    return true;
+    return status;
 }

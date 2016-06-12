@@ -3,6 +3,7 @@
 bool SyntaxParser::parseXCode(istream &inStream){
     char ch1, ch2, ch;
     eXCode code;
+    bool status = true;
 
     while ((ch1 = inStream.get()) != EOF){
         ch2 = inStream.peek();
@@ -73,11 +74,12 @@ bool SyntaxParser::parseXCode(istream &inStream){
                 do{
                     ch = inStream.get();
                 }while(ch != '*' && ch != EOF);
+                status = false;
                 break;
         }
     }
 
-    return true;
+    return status;
 }
 
 
