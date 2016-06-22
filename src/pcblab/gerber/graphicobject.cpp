@@ -345,12 +345,18 @@ GraphicObjectRegion:: ~GraphicObjectRegion(){
 }
 
 
+bool GraphicObjectRegion::isPoolCleaned(){
+    return sContours.size() == 0;
+}
+
+
 
 void GraphicObjectRegion::openContour(){
     // checking the state of the previous contour if exist...
     if(GraphicObjectRegion::sContour != NULL){
         if(!GraphicObjectRegion::sContour->isClosed()){
             err_printf("ERROR: (GraphicObjectRegion::openContour): start to create a new contour but the previous one is not closed");
+            return;
         }
     }
 
@@ -360,16 +366,83 @@ void GraphicObjectRegion::openContour(){
 }
 
 void GraphicObjectRegion::addSegment(Point inStart, Point inStop){
+    if (GraphicObjectRegion::sContour == NULL){
+        openContour();
+    }
+
     GraphicObjectRegion::sContour->addSegment(inStart, inStop);
 }
 
 void GraphicObjectRegion::addSegment(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode){
+    if (GraphicObjectRegion::sContour == NULL){
+        openContour();
+    }
+
     GraphicObjectRegion::sContour->addSegment(inStart, inStop, inCenterOffset, inQuadrantMode, inInterpolationMode);
+}
+
+void GraphicObjectRegion::closeContour()
+{
+    if (GraphicObjectRegion::sContour == NULL){
+        return;
+    }
+
+    if(! GraphicObjectRegion::sContour->isClosed()){
+        err_printf("ERROR: (GraphicObjectRegion::closeContour): try to close a contour but the contour is not closed");
+        return;
+    }
+
+    //the contour is finished, it has been added to the pool: The current contour pointer is resetted
+    GraphicObjectRegion::sContour = NULL;
 }
 
 
 vector<GraphicObjectRegion *> GraphicObjectRegion::createRegionsFromContours(Aperture *inAperture){
     (void *)inAperture;
+
+    vector <GraphicObjectRegion *> regions;
+    GraphicObjectRegion *reg = NULL;
+
+    //for now, one region is one contour
+    for (vector<Contour *>::iterator it = GraphicObjectRegion::sContours.begin() ; it != GraphicObjectRegion::sContours.end(); ++it){
+        reg = new GraphicObjectRegion(inAperture);
+        reg->addContour(*it);
+
+        regions.push_back(reg);
+    }
+
+    // when added:
+    cleanContoursPool();
+
+
+    return regions;
+}
+
+
+
+
+
+void GraphicObjectRegion::cleanContoursPool()
+{
+    GraphicObjectRegion::sContour = NULL;
+
+    // clear the pool
+    GraphicObjectRegion::sContours.clear();
+}
+
+void GraphicObjectRegion::flushContoursPool()
+{
+    //delete objects
+    for (vector<Contour *>::iterator it = GraphicObjectRegion::sContours.begin() ; it != GraphicObjectRegion::sContours.end(); ++it){
+        delete (*it);
+    }
+
+    cleanContoursPool();
+}
+
+void GraphicObjectRegion::addContour(GraphicObjectRegion::Contour *inContour)
+{
+    mContours.push_back(inContour);
 }
 
 

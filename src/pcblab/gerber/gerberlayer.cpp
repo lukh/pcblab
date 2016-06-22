@@ -79,6 +79,8 @@ GerberLayer::~GerberLayer(){
         delete (*it);
     }
 
+    GraphicObjectRegion::flushContoursPool();
+
     d_printf("%%% Deleting GerberLayer", 4, 0, false);
 }
 
@@ -89,8 +91,13 @@ void GerberLayer::setRegionMode(GraphicState::eRegionMode inRegMode) {
 
     switch(inRegMode){
         case GraphicState::eRegModeOn:
+            //check pool is clean
+            if(! GraphicObjectRegion::isPoolCleaned()){
+                GraphicObjectRegion::flushContoursPool();
+            }
             break;
         case GraphicState::eRegModeOff:{
+            //create regions from pool
             mCurrentLevel->makeGraphicObjectRegions(mState.getCurrentAperture());
             break;}
         default:
@@ -190,6 +197,18 @@ void GerberLayer::interpolate(Point inPointXY, Point inPointIJ){
             break;
 
         case GraphicState::eRegModeOn:
+            switch(mState.getInterpolationMode()){
+                case GraphicState::eInterpolLinear:
+                    GraphicObjectRegion::addSegment(startPoint, endPoint);
+                    break;
+                case GraphicState::eInterpolCWCircular:
+                case GraphicState::eInterpolCCWCircular:
+                    GraphicObjectRegion::addSegment(startPoint, endPoint, inPointIJ, mState.getQuadrantMode(), mState.getInterpolationMode());
+                    break;
+                default:
+                    err_printf("ERROR(GerberLayer::interpolate): GraphicState::InterpolationMode is undefined !");
+                    break;
+            }
             break;
 
         default:
@@ -206,6 +225,10 @@ void GerberLayer::interpolate(Point inPointXY, Point inPointIJ){
 void GerberLayer::move(Point inPointXY){
     // move the current point
     mState.setCurrentPoint(inPointXY);
+
+    if(mState.getRegMode() == GraphicState::eRegModeOn){
+        GraphicObjectRegion::closeContour();
+    }
 
     d_printf("GERBERLAYER: move",1,0);
 }
@@ -234,7 +257,7 @@ void GerberLayer::handleComment(string &inStr){
 
 
 
-double GerberLayer::convertCoordinate(long inRaw){
+double GerberLayer::convertCoordinate(int32_t inRaw){
     double out = (double) inRaw;
 
     for(int i = 0; i < mState.getCoordFormat().mDecimals; i ++){

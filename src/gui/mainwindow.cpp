@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     GerberLayer gl("Layer1");
-    gl.open("../../data/example.grb");
+    gl.open("../../data/contours.grb");
 }
 
 MainWindow::~MainWindow()

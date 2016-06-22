@@ -24,7 +24,7 @@
 using namespace std;
 
 /// Describes Gerber Layer, defines by its file
-/// Parses the file and generate Graphic Object.
+/// Parses the file and generates Graphic Object.
 class GerberLayer: public SyntaxParser {
     public:
 
@@ -125,7 +125,7 @@ class GerberLayer: public SyntaxParser {
 
 
         /// convert coordinate from raw to a real life coord (regarding coord format and unit)
-        virtual double convertCoordinate(long inRaw);
+        virtual double convertCoordinate(int32_t inRaw);
 
 
 
