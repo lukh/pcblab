@@ -157,6 +157,13 @@ class GraphicObjectRegion: public IGraphicObject{
                 /// checks if the Point is in the contour (contour must be closed)
                 bool isInside(Point inPoint);
 
+                /// checks if the Segment crosses the contour
+                bool isCrossing(IGraphicObject *inObject);
+
+                static bool isCrossing(GraphicObjectDraw *inDraw1, GraphicObjectDraw *inDraw2);
+                static bool isCrossing(GraphicObjectArc *inArc, GraphicObjectDraw *inDraw);
+                static bool isCrossing(GraphicObjectArc *inArc1, GraphicObjectArc *inArc2);
+
                 /// checks the connection with another contour
                 eContoursConnection getConnection(const Contour &inContour);
 
