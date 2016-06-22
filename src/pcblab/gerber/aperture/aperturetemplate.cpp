@@ -147,7 +147,7 @@ bool ATCmdPrimitive::build(ApVarSymbolTable &inVariables, vector<IAperturePrimit
 
         ApertureModifier mod = expr.evaluate(&inVariables);
 
-        d_printf("ATCmdPrimitive/build, modifier " + strmod + " = " + to_string(mod), 1, 2);
+        d_printf("ATCmdPrimitive/build, ModifierExpression: " + strmod + " = " + to_string(mod), 1, 2);
 
         prim->addModifier(mod);
     }
