@@ -179,6 +179,8 @@ class GraphicObjectRegion: public IGraphicObject{
         };
 
     public:
+        static bool isPoolCleaned();
+
         /// Creates a new contour in the "contour pool"
         static void openContour();
 
@@ -188,10 +190,12 @@ class GraphicObjectRegion: public IGraphicObject{
         /// adds an arc segment to the current contour
         static void addSegment(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode);
 
-
+        // closes a contour (D02)
+        static void closeContour();
 
 
         /// When a G37 cmd is received, contours are sorted and regions created regarding the position of the contours, and pool is cleaned
+        /// inAperture can be used only for the attributes
         static vector<GraphicObjectRegion *> createRegionsFromContours(Aperture *inAperture);
 
         /// cleans the pool for the next run
@@ -201,7 +205,7 @@ class GraphicObjectRegion: public IGraphicObject{
         static void flushContoursPool();
 
     protected:
-        /// A pointer on the current contour, when the contour is built (between a G36 / D02)
+        /// A pointer on the current contour, when the contour is built (between a D01 / D02)
         static Contour *sContour;
 
         /// The list of the contour created during a G36/37 pair
@@ -210,6 +214,9 @@ class GraphicObjectRegion: public IGraphicObject{
 
     public:
         GraphicObjectRegion(Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeRegion, inAperture) { mValid=false; }
+
+        void addContour(Contour *inContour);
+
         virtual ~GraphicObjectRegion();
 
         virtual void draw(IGerberView *inView) { (void)inView; }

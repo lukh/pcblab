@@ -49,7 +49,7 @@ GerberLayer::GerberLayer(const string &inName): SyntaxParser(),
     d_printf("%%% Creating GerberLevel", 4, 0, false);
 
     //adding default aperture templates
-    ApertureTemplate *t;
+    IApertureTemplate *t;
 
     t = new ApertureTemplateCircle();
     mApertureTemplates.push_back(t);
@@ -75,9 +75,11 @@ GerberLayer::~GerberLayer(){
         delete (*it);
     }
 
-    for(vector<ApertureTemplate*>::iterator it = mApertureTemplates.begin(); it != mApertureTemplates.end(); ++it){
+    for(vector<IApertureTemplate*>::iterator it = mApertureTemplates.begin(); it != mApertureTemplates.end(); ++it){
         delete (*it);
     }
+
+    GraphicObjectRegion::flushContoursPool();
 
     d_printf("%%% Deleting GerberLayer", 4, 0, false);
 }
@@ -89,8 +91,13 @@ void GerberLayer::setRegionMode(GraphicState::eRegionMode inRegMode) {
 
     switch(inRegMode){
         case GraphicState::eRegModeOn:
+            //check pool is clean
+            if(! GraphicObjectRegion::isPoolCleaned()){
+                GraphicObjectRegion::flushContoursPool();
+            }
             break;
         case GraphicState::eRegModeOff:{
+            //create regions from pool
             mCurrentLevel->makeGraphicObjectRegions(mState.getCurrentAperture());
             break;}
         default:
@@ -110,9 +117,9 @@ void GerberLayer::addNewLevel(GraphicState::eLevelPolarity inPolarity){
 
 
 
-void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName){
+void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName, const vector<ApertureModifier> &inModifiers){
     //find the template
-    ApertureTemplate *aper_temp = getApertureTemplateByName(inTemplateName);
+    IApertureTemplate *aper_temp = getApertureTemplateByName(inTemplateName);
     if(aper_temp == NULL){
         err_printf("ERROR(GerberLayer::addAperture): Template not found");
         return;
@@ -121,35 +128,29 @@ void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName){
     Aperture *ap = new Aperture(inDCode, *aper_temp);
     mApertures.push_back(ap);
     d_printf("GERBERLAYER: Aperture D" + to_string(inDCode) + "(" + inTemplateName + ") Added", 1, 0);
+
+    ap->build(inModifiers);
 }
 
 
 
-void GerberLayer::addApertureParam(uint32_t inDCode, double inValue){
-    Aperture *aperture = getApertureByDCode(inDCode);
-    if(aperture == NULL){
-        err_printf("ERROR(GerberLayer::addApertureParam): Aperture not found");
-        return;
+
+void GerberLayer::defineApertureTemplate(string &inName, const vector<string> &inRawCmds)
+{
+    MacroApertureTemplate *at = new MacroApertureTemplate(inName);
+
+    mApertureTemplates.push_back(at);
+    d_printf("GERBERLAYER: ApertureTemplate " + inName + " added", 1, 0);
+
+
+    for(vector<string>::const_iterator it = inRawCmds.begin(); it != inRawCmds.end(); ++it){
+        if(!at->addCommand(*it)){
+            err_printf("ERROR(GerberLayer::defineApertureTemplate): unrecognized command");
+        }
     }
-
-    aperture->addParameter(inValue);
-}
-
-void GerberLayer::addApertureParam(uint32_t inDCode, int inValue){
-    Aperture *aperture = getApertureByDCode(inDCode);
-    if(aperture == NULL){
-        err_printf("ERROR(GerberLayer::addApertureParam): Aperture not found");
-        return;
-    }
-
-    aperture->addParameter(inValue);
 }
 
 
-
-void GerberLayer::defineApertureTemplate(/*  */){
-
-}
 
 
 void GerberLayer::setCurrentAperture(uint32_t inDCode){
@@ -196,6 +197,18 @@ void GerberLayer::interpolate(Point inPointXY, Point inPointIJ){
             break;
 
         case GraphicState::eRegModeOn:
+            switch(mState.getInterpolationMode()){
+                case GraphicState::eInterpolLinear:
+                    GraphicObjectRegion::addSegment(startPoint, endPoint);
+                    break;
+                case GraphicState::eInterpolCWCircular:
+                case GraphicState::eInterpolCCWCircular:
+                    GraphicObjectRegion::addSegment(startPoint, endPoint, inPointIJ, mState.getQuadrantMode(), mState.getInterpolationMode());
+                    break;
+                default:
+                    err_printf("ERROR(GerberLayer::interpolate): GraphicState::InterpolationMode is undefined !");
+                    break;
+            }
             break;
 
         default:
@@ -212,6 +225,10 @@ void GerberLayer::interpolate(Point inPointXY, Point inPointIJ){
 void GerberLayer::move(Point inPointXY){
     // move the current point
     mState.setCurrentPoint(inPointXY);
+
+    if(mState.getRegMode() == GraphicState::eRegModeOn){
+        GraphicObjectRegion::closeContour();
+    }
 
     d_printf("GERBERLAYER: move",1,0);
 }
@@ -240,7 +257,7 @@ void GerberLayer::handleComment(string &inStr){
 
 
 
-double GerberLayer::convertCoordinate(long inRaw){
+double GerberLayer::convertCoordinate(int32_t inRaw){
     double out = (double) inRaw;
 
     for(int i = 0; i < mState.getCoordFormat().mDecimals; i ++){
@@ -276,11 +293,11 @@ Aperture *GerberLayer::getApertureByDCode(uint32_t inDCode){
 
 
 
-ApertureTemplate *GerberLayer::getApertureTemplateByName(string &inTemplateName){
-    ApertureTemplate *aper_temp = NULL;
+IApertureTemplate *GerberLayer::getApertureTemplateByName(string &inTemplateName){
+    IApertureTemplate *aper_temp = NULL;
 
     //scan the template list
-    for(vector<ApertureTemplate *>::iterator it = mApertureTemplates.begin(); it != mApertureTemplates.end(); ++it){
+    for(vector<IApertureTemplate *>::iterator it = mApertureTemplates.begin(); it != mApertureTemplates.end(); ++it){
         aper_temp = *it;
         if(aper_temp->getName().compare(inTemplateName) == 0){
             return aper_temp;

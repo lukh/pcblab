@@ -18,7 +18,7 @@ bool SyntaxParser::parse(istream &inStream){
                 break;
 
             case 'M': // end of file ?
-                if(getOpCode(inStream) == 2 and inStream.get() == '*'){
+                if(getOpCode(inStream) == 2 && inStream.get() == '*'){
                     //this is the end of the file, what should we do ???
                     eof_cmd = true;
                     d_printf("SYNTAXPARSER > EndOfFile(M02)");
@@ -140,14 +140,21 @@ SyntaxParser::eXCode SyntaxParser::getXCode(char ch1, char ch2){
     }
 }
 
-uint32_t SyntaxParser::getRawCoord(istream &inStream){
+int32_t SyntaxParser::getRawCoord(istream &inStream){
     string str;
     char read;
-
-    uint32_t val;
+    bool neg = false;
+    int32_t val;
 
     while((read = inStream.peek()) != EOF){
-        if(read < '0' || read > '9')
+        if(read == '-'){
+            neg=true;
+            //extract the char
+            inStream.get();
+            continue;
+        }
+
+        if((read < '0' || read > '9'))
             break;
 
         //extract the char
@@ -164,5 +171,5 @@ uint32_t SyntaxParser::getRawCoord(istream &inStream){
        err_printf("ERROR (SyntaxParser::getRawCoord): Couldn't convert string to int" );
     }
 
-    return val;
+    return neg ? -val : val;
 }
