@@ -15,6 +15,7 @@
 #include <stdint.h>
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 #include "../common.h"
 #include "aperture/aperture.h"
@@ -105,8 +106,16 @@ class GraphicObjectArc: public IGraphicObject, public IGraphicObjectTrack{
 
         virtual Rectangle getBoundingBox();
 
-    private:
-        Point mCenterOffset;
+        /// returns the center (and not the offset !)
+        Point getCenter() { return mCenter; }
+
+        GraphicState::eQuadrantMode getQuadrantMode() const;
+        GraphicState::eInterpolationMode getInterpolationMode() const;
+
+
+private:
+        // calculate from center offset
+        Point mCenter;
 
         GraphicState::eQuadrantMode mQuadrantMode;
         GraphicState::eInterpolationMode mInterpolationMode;
