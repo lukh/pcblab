@@ -163,6 +163,9 @@ class GraphicObjectRegion: public IGraphicObject{
                 /// checks if the contour is closed
                 bool isClosed();
 
+                /// Implements the closing of the contour
+                void close();
+
                 /// checks if the Point is in the contour (contour must be closed)
                 bool isInside(Point inPoint);
 
@@ -197,7 +200,7 @@ class GraphicObjectRegion: public IGraphicObject{
         /// adds an arc segment to the current contour
         static void addSegment(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode);
 
-        // closes a contour (D02)
+        /// closes a contour (D02)
         static void closeContour();
 
 

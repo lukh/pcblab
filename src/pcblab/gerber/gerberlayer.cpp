@@ -97,6 +97,9 @@ void GerberLayer::setRegionMode(GraphicState::eRegionMode inRegMode) {
             }
             break;
         case GraphicState::eRegModeOff:{
+            // close contour if not properly closed with D02
+            GraphicObjectRegion::closeContour();
+
             //create regions from pool
             mCurrentLevel->makeGraphicObjectRegions(mState.getCurrentAperture());
             break;}

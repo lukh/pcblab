@@ -110,6 +110,28 @@ bool GraphicObjectRegion::Contour::isClosed(){
     return true;
 }
 
+void GraphicObjectRegion::Contour::close()
+{
+    if(isClosed() || mSegments.size() < 1){
+        return;
+    }
+
+    IGraphicObject * first = mSegments.front();
+    IGraphicObject * last = mSegments.back();
+
+    // check data type
+    if(first->getType() != IGraphicObject::eTypeArc && first->getType() != IGraphicObject::eTypeLine && last->getType() != IGraphicObject::eTypeArc && last->getType() != IGraphicObject::eTypeLine){
+        err_printf("ERROR: (GraphicObjectRegion::Contour::addClosingSegment): Unexpected GraphicObject in the contour");
+        return;
+    }
+
+    IGraphicObjectTrack *t_first = convert2Track(first);
+    IGraphicObjectTrack *t_last = convert2Track(last);
+
+    // adding the segment
+    addSegment(t_last->getEndPoint(), t_first->getStartPoint());
+}
+
 /// checks if the Point is in the contour (contour must be closed)
 bool GraphicObjectRegion::Contour::isInside(Point inPoint){
     // a point is inside the contour if: the contour is closed, the point is on the same side of wich track
@@ -462,10 +484,9 @@ void GraphicObjectRegion::closeContour()
         return;
     }
 
-    if(! GraphicObjectRegion::sContour->isClosed()){
-        err_printf("ERROR: (GraphicObjectRegion::closeContour): try to close a contour but the contour is not closed");
-        return;
-    }
+    // the contour was terminated before being closed.
+    // add the last segment (last point to first point)
+    sContour->close();
 
     //the contour is finished, it has been added to the pool: The current contour pointer is resetted
     GraphicObjectRegion::sContour = NULL;
