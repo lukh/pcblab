@@ -39,5 +39,5 @@ void ViewProcessor::update(const GerberLayer &inGerberLayer)
     CairoToMat(surface, m);
 
 
-    mCVViewer->showImage(m)
+    mCVViewer->showImage(m);
 }
