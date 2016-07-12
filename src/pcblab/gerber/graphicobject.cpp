@@ -1,5 +1,23 @@
 #include "graphicobject.h"
 
+
+Rectangle GraphicObjectDraw::getBoundingBox()
+{
+    return Rectangle(); //TODO
+}
+
+
+
+
+
+Rectangle GraphicObjectFlash::getBoundingBox()
+{
+    return Rectangle(); //TODO
+}
+
+
+
+
 /////////////////////////// Arcs ///////////////////////////
 
 GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture):
@@ -18,6 +36,11 @@ GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point i
     }
 
     d_printf("Creating GraphicObjectArc: start =(" + to_string(inStartPoint.mX) + ", " +to_string(inStartPoint.mY) + ") end =(" + to_string(inEndPoint.mX) + ", " +to_string(inEndPoint.mY) + ")", 4, 0, false);
+}
+
+Rectangle GraphicObjectArc::getBoundingBox()
+{
+    return Rectangle(); //TODO
 }
 
 
@@ -366,6 +389,11 @@ GraphicObjectRegion:: ~GraphicObjectRegion(){
     }
 }
 
+Rectangle GraphicObjectRegion::getBoundingBox()
+{
+    return Rectangle(); //TODO
+}
+
 
 bool GraphicObjectRegion::isPoolCleaned(){
     return sContours.size() == 0;
@@ -465,6 +493,8 @@ void GraphicObjectRegion::addContour(GraphicObjectRegion::Contour *inContour)
 {
     mContours.push_back(inContour);
 }
+
+
 
 
 

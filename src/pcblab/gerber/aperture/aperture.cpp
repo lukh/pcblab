@@ -34,3 +34,8 @@ void Aperture::build(const vector<ApertureModifier> &inModifiers){
 bool Aperture::isValid(){
     return mValid;
 }
+
+Rectangle Aperture::getBoundingBox()
+{
+    return Rectangle(); //TODO
+}

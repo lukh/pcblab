@@ -18,7 +18,6 @@
 
 #include "../common.h"
 #include "aperture/aperture.h"
-#include "igerberview.h"
 #include "graphicstate.h"
 
 using namespace std;
@@ -48,7 +47,7 @@ class IGraphicObject{
 
         eType getType() { return mType; }
 
-        virtual void draw(IGerberView *inView) = 0;
+        virtual Rectangle getBoundingBox() = 0;
 
     protected:
         Aperture *mAperture; //should it be DCode ?
@@ -90,7 +89,7 @@ class GraphicObjectDraw: public IGraphicObject, public IGraphicObjectTrack{
         virtual ~GraphicObjectDraw() {}
 
 
-        virtual void draw(IGerberView *inView) { (void)inView; }
+        virtual Rectangle getBoundingBox();
 };
 
 
@@ -104,7 +103,7 @@ class GraphicObjectArc: public IGraphicObject, public IGraphicObjectTrack{
 
         virtual ~GraphicObjectArc() {}
 
-        virtual void draw(IGerberView *inView) { (void)inView; }
+        virtual Rectangle getBoundingBox();
 
     private:
         Point mCenterOffset;
@@ -119,7 +118,8 @@ class GraphicObjectFlash: public IGraphicObject{
     public:
         GraphicObjectFlash(Point inPoint, Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeFlash, inAperture), mPoint(inPoint) { mValid = true; }
 
-        virtual void draw(IGerberView *inView) { (void)inView; }
+
+        virtual Rectangle getBoundingBox();
 
     private:
         Point mPoint;
@@ -220,7 +220,8 @@ class GraphicObjectRegion: public IGraphicObject{
 
         virtual ~GraphicObjectRegion();
 
-        virtual void draw(IGerberView *inView) { (void)inView; }
+
+        virtual Rectangle getBoundingBox();
 
 
     private:

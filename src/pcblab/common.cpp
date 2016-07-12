@@ -54,3 +54,16 @@ void d_printf(const string &str, int inLevel, int inTabs, bool inLeftAlign){
 void err_printf(const string &str){
     cerr << "<font color=red>*** " + str + "</font>" << endl;
 }
+
+
+
+
+
+Rectangle::Rectangle(Point p1, Point p2)
+{
+    mPbl.mX = (p1.mX < p2.mX) ? p1.mX : p2.mX;
+    mPbl.mY = (p1.mY < p2.mY) ? p1.mY : p2.mY;
+
+    mPtr.mX = (p1.mX > p2.mX) ? p1.mX : p2.mX;
+    mPtr.mY = (p1.mY > p2.mY) ? p1.mY : p2.mY;
+}

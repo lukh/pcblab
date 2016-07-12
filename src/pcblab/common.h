@@ -72,6 +72,19 @@ class Point{
 
 
 
+class Rectangle{
+    public:
+        Rectangle() {}
+        Rectangle(Point p1, Point p2);
+
+    public:
+        Point mPbl;
+        Point mPtr;
+};
+
+
+
+
 bool isNumber(char inChar);
 
 

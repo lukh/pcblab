@@ -4,6 +4,11 @@
 #include <QMainWindow>
 #include "q_debugstream.h"
 
+#include "pcblab/gerber/gerberlayer.h"
+#include "cairogerberviewer.h"
+
+#include "viewprocessor.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -21,6 +26,13 @@ private:
 
     Q_DebugStream *mQdbcout;
     Q_DebugStream *mQdbcerr;
+
+    GerberLayer *mGerberLayer;
+
+    CairoGerberViewer *mGerberViewer;
+
+
+    ViewProcessor *mProcessor;
 };
 
 #endif // MAINWINDOW_H
