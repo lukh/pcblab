@@ -13,12 +13,17 @@ uint8_t charToNum(char inChar){
 
 
 double stringToDouble(string &str){
-    std::replace(str.begin(), str.end(), '.', ',');
+    //std::replace(str.begin(), str.end(), '.', ',');
     return stod(str);
 }
 
 
 void d_printf(const string &str, int inLevel, int inTabs, bool inLeftAlign){
+
+    /*if(inLevel > 1){
+        return;
+    }*/
+
     string tabs;
 
     /*if(inLevel > 1){

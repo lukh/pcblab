@@ -4,21 +4,64 @@
 
 GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture):
     IGraphicObject(IGraphicObject::eTypeArc, inAperture),
-    IGraphicObjectTrack(inStartPoint, inEndPoint)
-  , mCenterOffset(inCenterOffset),
+    IGraphicObjectTrack(inStartPoint, inEndPoint),
     mQuadrantMode(inQuadrantMode), mInterpolationMode(inInterpolationMode)
 {
+    mValid = false;
     if(mInterpolationMode == GraphicState::eInterpolLinear){
         err_printf("ERROR (GraphicObjectArc::GraphicObjectArc): Can't instanciate an arc with an interpolation set to linear...");
-        mValid = false;
     }
 
     else{
-        mValid = true;
+
+        if(mQuadrantMode == GraphicState::eQuadrantMulti){
+            //it's easy here, since the center offset is signed
+            mCenter = Point(mStartPoint.mX + inCenterOffset.mX, mStartPoint.mY + inCenterOffset.mY);
+            mValid = true;
+        }
+
+        else if(mQuadrantMode == GraphicState::eQuadrantSingle){
+            /*double signs[2] = {1.0, -1.0};
+            vector<Point> candidates;
+
+            for(int i = 0; i < 4; i ++){
+                //determine the Center (c) point
+                Point c( inStartPoint.mX + signs[i&0x1] * inCenterOffset.mX, inStartPoint.mY + signs[(i>>1)&0x1] * inCenterOffset.mY  );
+
+                double Rs2c = sqrt( pow(inStartPoint.mX - inCenterOffset.mX, 2) + pow(inStartPoint.mY - inCenterOffset.mY, 2) );
+                double Re2c = sqrt( pow(inEndPoint.mX - inCenterOffset.mX, 2) + pow(inEndPoint.mY - inCenterOffset.mY, 2) );
+
+                if(Rs2c == Re2c){
+                    candidates.push_back(c);
+                }
+            }
+
+            mValid = true; //maybe*/
+        }
+
+        else{
+            err_printf("GraphicObjectArc/getCenter: quadrant mode is undefined or unknown");
+        }
+
     }
 
     d_printf("Creating GraphicObjectArc: start =(" + to_string(inStartPoint.mX) + ", " +to_string(inStartPoint.mY) + ") end =(" + to_string(inEndPoint.mX) + ", " +to_string(inEndPoint.mY) + ")", 4, 0, false);
 }
+
+
+
+GraphicState::eQuadrantMode GraphicObjectArc::getQuadrantMode() const
+{
+    return mQuadrantMode;
+}
+
+
+GraphicState::eInterpolationMode GraphicObjectArc::getInterpolationMode() const
+{
+    return mInterpolationMode;
+}
+
+
 
 
 
@@ -106,8 +149,40 @@ bool GraphicObjectRegion::Contour::isInside(Point inPoint){
 
                 break;}
             case IGraphicObject::eTypeArc:{
-                GraphicObjectArc *arc = static_cast<GraphicObjectArc*>((*it));
-                (void *)arc;
+                /*GraphicObjectArc *arc = static_cast<GraphicObjectArc*>((*it));
+
+                //normalize vector (origin is then inPoint
+                nx = arc->getStartPoint().mX - inPoint.mX;
+                ny = arc->getStartPoint().mY - inPoint.mY;
+                nxp1 = arc->getEndPoint().mX - inPoint.mX;
+                nyp1 = arc->getEndPoint().mY - inPoint.mY;
+
+                Point center(arc->getCenter());
+                double R = 0;
+
+                if(ny*nyp1 < 0) {//vector cross the x axis
+
+                    //r is the coord of the intersection of the arc and the x axis
+                    double rootsign = 1.0;
+                    if((ny > nyp1 && arc->getInterpolationMode() == GraphicState::eInterpolCCWCircular) || (ny < nyp1 && arc->getInterpolationMode() == GraphicState::eInterpolCWCircular)){
+                        rootsign = -1;
+                    }
+
+                    double r = rootsign*sqrt( pow(R, 2) - pow((-center.mY),2) ) - xc;
+
+                    //double r = nx + (ny*(nxp1 - nx)/(ny-nyp1)); //r is the x coord of the intersection of the vector and the x axis
+                    //if(r > 0){ // vector crosses positive x axis
+                    //    if(ny < 0){w+=1;} else{ w-=1;}
+                    //}
+                }
+                else if((ny == 0) && (nx > 0)){ //vi is on the positive axis
+                    if(nyp1 > 0) { w+=0.5; } else { w-=0.5; }
+                }
+                else if ( (nyp1 == 0) && (nxp1 > 0)){ //vi+1 is on the positive x axis
+                    if(ny < 0) { w+= 0.5; } else { w-=0.5; }
+                }*/
+
+
                 break;}
 
             default:
