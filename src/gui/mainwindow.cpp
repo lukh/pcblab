@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     mProcessor = new ViewProcessor(ui->openCVViewer, mGerberViewer);
+
+
 }
 
 MainWindow::~MainWindow()
@@ -34,4 +36,9 @@ MainWindow::~MainWindow()
     delete mGerberViewer;
 
     delete mGerberLayer;
+}
+
+void MainWindow::on_actionStart_triggered()
+{
+    mProcessor->update(*mGerberLayer);
 }

@@ -23,6 +23,12 @@ class CairoGerberViewer: public IGerberView
         cairo_surface_t *getSurface() {return mSurface;}
 
 
+        void deinitCairo();
+
+        /// resize the surface
+        void initCairo(uint32_t inW, uint32_t inH);
+
+
     private:
         cairo_t *mContext;
         cairo_surface_t *mSurface;

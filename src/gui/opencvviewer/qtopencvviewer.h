@@ -42,14 +42,14 @@ class QtOpenCVViewer : public QOpenGLWidget, protected QOpenGLFunctions_2_0, pub
 
     private:
         QImage mRenderQtImg;           /// Qt image to be rendered
-        QImage mResizedImg;
+        //QImage mResizedImg;
 
         cv::Mat mOrigImage;             /// original OpenCV image to be shown
 
 
         QColor mBgColor;		/// Background color
 
-        float  mImgRatio;             /// height/width ratio
+        //float  mImgRatio;             /// height/width ratio
 
         int mRenderWidth;
         int mRenderHeight;

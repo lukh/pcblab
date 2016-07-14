@@ -30,14 +30,23 @@ ViewProcessor::ViewProcessor(IOpenCVViewer *inCVViewer, CairoGerberViewer *inGer
 
 void ViewProcessor::update(const GerberLayer &inGerberLayer)
 {
+    recalculateSize();
+
     mGerberViewer->drawLayer(inGerberLayer);
     cairo_surface_t *surface = mGerberViewer->getSurface();
 
-    cv::Mat m;
+    cv::Mat m(mGerberViewer->getWidth(), mGerberViewer->getHeight(), CV_8UC3);
 
 
     CairoToMat(surface, m);
 
 
     mCVViewer->showImage(m);
+}
+
+void ViewProcessor::recalculateSize()
+{
+    if(mCVViewer->getWidth() != mGerberViewer->getWidth() || mCVViewer->getHeight() != mGerberViewer->getHeight()){
+        mGerberViewer->initCairo(mCVViewer->getWidth(), mCVViewer->getHeight());
+    }
 }

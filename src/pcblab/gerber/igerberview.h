@@ -20,11 +20,7 @@
 
 class IGerberView{
     public:
-        static const int kPixPerMm = 10;
-        //static const double kPixPerInch = ;
-
-
-        IGerberView(): mPixPerUnit(kPixPerMm)/*, mPixOffsetX(0), mPixOffsetY(0) */{}
+        IGerberView() /*, mPixOffsetX(0), mPixOffsetY(0) */{}
         virtual ~IGerberView() {}
 
         virtual void drawAll() = 0;
@@ -42,13 +38,13 @@ class IGerberView{
 
         uint32_t r2p_Y(double inY){
             return (getHeight() - r2p(inY)) + mPixOffsetY;
-        }*/
+        }
 
 
         uint32_t r2p(double inReal) { return (uint32_t)(inReal*mPixPerUnit); }
         double p2r(uint32_t inPix) { return (double)inPix/mPixPerUnit; }
 
-        double mPixPerUnit;
+        double mPixPerUnit;*/
 
         //uint32_t mPixOffsetX;
         //uint32_t mPixOffsetY;

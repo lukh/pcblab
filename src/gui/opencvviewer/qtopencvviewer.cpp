@@ -78,7 +78,7 @@ void QtOpenCVViewer::renderImage()
 
         glPushMatrix();
         {
-            if (mResizedImg.width() <= 0)
+            /*if (mResizedImg.width() <= 0)
             {
                 if (mRenderWidth == mRenderQtImg.width() && mRenderHeight == mRenderQtImg.height())
                     mResizedImg = mRenderQtImg;
@@ -86,7 +86,7 @@ void QtOpenCVViewer::renderImage()
                     mResizedImg = mRenderQtImg.scaled(QSize(mRenderWidth, mRenderHeight),
                                                       Qt::IgnoreAspectRatio,
                                                       Qt::SmoothTransformation);
-            }
+            }*/
 
             // ---> Centering image in draw area
 
@@ -94,7 +94,7 @@ void QtOpenCVViewer::renderImage()
 
             glPixelZoom(1, -1);
 
-            glDrawPixels(mResizedImg.width(), mResizedImg.height(), GL_RGBA, GL_UNSIGNED_BYTE, mResizedImg.bits());
+            glDrawPixels(mRenderQtImg.width(), mRenderQtImg.height(), GL_RGBA, GL_UNSIGNED_BYTE, mRenderQtImg.bits());
         }
         glPopMatrix();
 
@@ -105,21 +105,21 @@ void QtOpenCVViewer::renderImage()
 
 void QtOpenCVViewer::recalculatePosition()
 {
-    mImgRatio = (float)mOrigImage.cols/(float)mOrigImage.rows;
+    //mImgRatio = (float)mOrigImage.cols/(float)mOrigImage.rows;
 
-    mRenderWidth = this->size().width();
-    mRenderHeight = floor(mRenderWidth / mImgRatio);
+    mRenderWidth = (float)mOrigImage.cols;
+    mRenderHeight = (float)mOrigImage.rows;
 
-    if (mRenderHeight > this->size().height())
+    /*if (mRenderHeight > this->size().height())
     {
         mRenderHeight = this->size().height();
         mRenderWidth = floor(mRenderHeight * mImgRatio);
-    }
+    }*/
 
     mRenderPosX = floor((this->size().width() - mRenderWidth) / 2);
     mRenderPosY = -floor((this->size().height() - mRenderHeight) / 2);
 
-    mResizedImg = QImage();
+    //mResizedImg = QImage();
 }
 
 bool QtOpenCVViewer::showImage(cv::Mat &inImage)
@@ -143,10 +143,12 @@ bool QtOpenCVViewer::showImage(cv::Mat &inImage)
 
 uint32_t QtOpenCVViewer::getWidth()
 {
-    return mRenderWidth;
+    //return mRenderWidth;
+    return width();
 }
 
 uint32_t QtOpenCVViewer::getHeight()
 {
-    return mRenderHeight;
+    //return mRenderHeight;
+    return height();
 }

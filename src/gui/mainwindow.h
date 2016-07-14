@@ -21,6 +21,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private Q_SLOTS:
+    void on_actionStart_triggered();
+
 private:
     Ui::MainWindow *ui;
 
