@@ -39,12 +39,13 @@ GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point i
         }
 
         else if(mQuadrantMode == GraphicState::eQuadrantSingle){
-            /*double signs[2] = {1.0, -1.0};
-            vector<Point> candidates;
+            double signs[2] = {1.0, -1.0};
+            vector<Point> candidates, winner;
 
+            // get the candidates for center
             for(int i = 0; i < 4; i ++){
                 //determine the Center (c) point
-                Point c( inStartPoint.mX + signs[i&0x1] * inCenterOffset.mX, inStartPoint.mY + signs[(i>>1)&0x1] * inCenterOffset.mY  );
+                Point c( inStartPoint.mX + signs[i&0x1] * std::abs(inCenterOffset.mX), inStartPoint.mY + signs[(i>>1)&0x1] * std::abs(inCenterOffset.mY)  );
 
                 double Rs2c = sqrt( pow(inStartPoint.mX - inCenterOffset.mX, 2) + pow(inStartPoint.mY - inCenterOffset.mY, 2) );
                 double Re2c = sqrt( pow(inEndPoint.mX - inCenterOffset.mX, 2) + pow(inEndPoint.mY - inCenterOffset.mY, 2) );
@@ -54,11 +55,47 @@ GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point i
                 }
             }
 
-            mValid = true; //maybe*/
+            if(candidates.size() == 0){
+                err_printf("GraphicObjectArc/GraphicObjectArc: no candidates founds for the center");
+            }
+
+            else{
+                // check if the candidates allows the arc to go in the right direction CCW/CW, and if the angle is smaller than 90deg
+                for (vector<Point>::iterator it_p = candidates.begin(); it_p != candidates.end(); ++it_p){
+
+                    Point c = *it_p; //this is the candidate
+
+                    double v0_x = inStartPoint.mX - c.mX;
+                    double v0_y = inStartPoint.mY - c.mY;
+                    double v1_x = inEndPoint.mX - c.mX;
+                    double v1_y = inEndPoint.mY - c.mY;
+
+                    //find angle
+                    double dot = v0_x*v1_x + v0_y*v1_y;
+                    double cross = v0_x*v1_y - v0_y*v1_x;
+
+                    double angle = std::atan2(cross, dot);
+
+                    if(
+                            std::abs(angle) <= M_PI/2 &&
+                                (angle > 0 && mInterpolationMode == GraphicState::eInterpolCCWCircular ||
+                                angle < 0 && mInterpolationMode == GraphicState::eInterpolCWCircular)
+                            )
+                    {
+                        winner.push_back(c);
+                    }
+                }
+
+
+                if (winner.size() == 1){
+                    mValid = true;
+                    mCenter = winner.at(0);
+                }
+            }
         }
 
         else{
-            err_printf("GraphicObjectArc/getCenter: quadrant mode is undefined or unknown");
+            err_printf("GraphicObjectArc/GraphicObjectArc: quadrant mode is undefined or unknown");
         }
 
     }

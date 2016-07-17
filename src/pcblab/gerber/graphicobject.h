@@ -50,6 +50,8 @@ class IGraphicObject{
         Aperture *getAperture() const { return mAperture; }
         eType getType() { return mType; }
 
+        bool isValid() const { return mValid; }
+
         virtual Rectangle getBoundingBox() = 0;
 
     protected:
