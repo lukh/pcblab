@@ -115,7 +115,8 @@ FORMS += \
 DISTFILES += \
     ../doc/the_gerber_file_format_specification.pdf \
     ../data/apertures.grb \
-    ../data/contours.grb
+    ../data/contours.grb \
+    ../data/firstdraws.grb
 
 
 

@@ -14,7 +14,12 @@ class CairoGerberViewer: public IGerberView
         virtual ~CairoGerberViewer();
 
         virtual void drawAll(/*TODO*/);
-        virtual void drawLayer(const GerberLayer &inLayer);
+        virtual void drawLayer(GerberLayer &inLayer);
+
+
+        void drawDraw(GraphicObjectDraw *inDraw);
+        void drawArc(GraphicObjectArc *inArc);
+
 
         virtual uint32_t getWidth();
         virtual uint32_t getHeight();
@@ -30,8 +35,16 @@ class CairoGerberViewer: public IGerberView
 
 
     private:
+        void setLevelPolarity(GraphicState::eLevelPolarity inPol);
+        void setDarkColor(uint8_t inR, uint8_t inG, uint8_t inB) { mColor = Color(inR,inG,inB); }
+
+    private:
         cairo_t *mContext;
         cairo_surface_t *mSurface;
+
+
+        // used for dark
+        Color mColor;
 };
 
 #endif // CAIROGERBERVIEWER_H

@@ -46,6 +46,8 @@ class IGraphicObject{
             d_printf("%%% Deleting GraphicObject", 4, 0, false);
         }
 
+
+        Aperture *getAperture() {return mAperture; }
         eType getType() { return mType; }
 
         virtual Rectangle getBoundingBox() = 0;

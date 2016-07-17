@@ -24,7 +24,7 @@ class IGerberView{
         virtual ~IGerberView() {}
 
         virtual void drawAll() = 0;
-        virtual void drawLayer(const GerberLayer &inLayer) = 0;
+        virtual void drawLayer(GerberLayer &inLayer) = 0;
 
         virtual uint32_t getWidth() = 0;
         virtual uint32_t getHeight() = 0;
@@ -32,16 +32,16 @@ class IGerberView{
     protected:
 
         /// Converts a point from real to the surface
-        /*uint32_t r2p_X(double inX){
-            return r2p(inX) + mPixOffsetX;
+        inline uint32_t r2p_X(double inX){
+            return inX;
         }
 
-        uint32_t r2p_Y(double inY){
-            return (getHeight() - r2p(inY)) + mPixOffsetY;
+        inline uint32_t r2p_Y(double inY){
+            return (getHeight() - inY);
         }
 
 
-        uint32_t r2p(double inReal) { return (uint32_t)(inReal*mPixPerUnit); }
+        /*uint32_t r2p(double inReal) { return (uint32_t)(inReal*mPixPerUnit); }
         double p2r(uint32_t inPix) { return (double)inPix/mPixPerUnit; }
 
         double mPixPerUnit;*/

@@ -14,7 +14,7 @@ class ViewProcessor
         ViewProcessor(IOpenCVViewer *inCVViewer, CairoGerberViewer *inGerberView);
 
 
-        void update(const GerberLayer &inGerberLayer);
+        void update(GerberLayer &inGerberLayer);
 
         void recalculateSize();
 

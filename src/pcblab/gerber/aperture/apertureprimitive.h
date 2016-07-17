@@ -55,6 +55,9 @@ class IAperturePrimitive{
         }
 
 
+        eType getType() const { return mType; }
+
+
         /// abstract method used to define if the primitive is valid.
         /// implementation can count the number of modifiers for instance
         virtual bool isValid() = 0;

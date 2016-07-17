@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     mGerberLayer = new GerberLayer("Layer1");
-    mGerberLayer->open("../../data/contours.grb");
+    mGerberLayer->open("../../data/firstdraws.grb");
 
     mGerberViewer = new CairoGerberViewer();
 
