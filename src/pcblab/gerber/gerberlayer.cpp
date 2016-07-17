@@ -180,6 +180,12 @@ void GerberLayer::interpolate(Point inPointXY, Point inPointIJ){
 
     d_printf("GERBERLAYER: interpolate",1,0);
 
+    if(mCurrentLevel == NULL){
+        // error.
+        err_printf("ERROR(GerberLayer::interpolate): No existing level");
+        return;
+    }
+
     switch(mState.getRegMode()){
         case GraphicState::eRegModeOff:
             switch(mState.getInterpolationMode()){
