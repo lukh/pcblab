@@ -40,6 +40,10 @@ class IGerberView{
             return (getHeight() - inY);
         }
 
+        inline double r2p_angle(double inAngle){
+            return -inAngle;
+        }
+
 
         /*uint32_t r2p(double inReal) { return (uint32_t)(inReal*mPixPerUnit); }
         double p2r(uint32_t inPix) { return (double)inPix/mPixPerUnit; }

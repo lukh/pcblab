@@ -116,7 +116,8 @@ DISTFILES += \
     ../doc/the_gerber_file_format_specification.pdf \
     ../data/apertures.grb \
     ../data/contours.grb \
-    ../data/firstdraws.grb
+    ../data/firstdraws.grb \
+    ../data/arcs.grb
 
 
 

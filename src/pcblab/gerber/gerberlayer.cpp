@@ -140,6 +140,12 @@ void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName, const vec
 
 void GerberLayer::defineApertureTemplate(string &inName, const vector<string> &inRawCmds)
 {
+    if(inName == "C" || inName == "R" || inName == "O" || inName == "P"){
+        err_printf("ERROR(GerberLayer::defineApertureTemplate): The Aperture macro can't be call with the standard aperture names");
+    }
+
+
+
     MacroApertureTemplate *at = new MacroApertureTemplate(inName);
 
     mApertureTemplates.push_back(at);

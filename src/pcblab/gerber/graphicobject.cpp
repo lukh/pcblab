@@ -47,11 +47,18 @@ GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point i
                 //determine the Center (c) point
                 Point c( inStartPoint.mX + signs[i&0x1] * std::abs(inCenterOffset.mX), inStartPoint.mY + signs[(i>>1)&0x1] * std::abs(inCenterOffset.mY)  );
 
-                double Rs2c = sqrt( pow(inStartPoint.mX - inCenterOffset.mX, 2) + pow(inStartPoint.mY - inCenterOffset.mY, 2) );
-                double Re2c = sqrt( pow(inEndPoint.mX - inCenterOffset.mX, 2) + pow(inEndPoint.mY - inCenterOffset.mY, 2) );
+                double Rs2c = sqrt( pow(inStartPoint.mX - c.mX, 2) + pow(inStartPoint.mY - c.mY, 2) );
+                double Re2c = sqrt( pow(inEndPoint.mX - c.mX, 2) + pow(inEndPoint.mY - c.mY, 2) );
 
                 if(Rs2c == Re2c){
-                    candidates.push_back(c);
+
+                    //check if the point is not in the candidates list already
+                    bool added = false;
+                    for(vector<Point>::iterator it_p = candidates.begin(); it_p != candidates.end(); ++it_p){
+                        Point temp = *it_p;
+                        if(temp.mX == c.mX && temp.mY == c.mY) {added = true; }
+                    }
+                    if(!added) { candidates.push_back(c); }
                 }
             }
 
