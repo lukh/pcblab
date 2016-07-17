@@ -19,6 +19,7 @@ class CairoGerberViewer: public IGerberView
 
         void drawDraw(GraphicObjectDraw *inDraw);
         void drawArc(GraphicObjectArc *inArc);
+        void drawRegion(GraphicObjectRegion *inRegion);
 
 
         virtual uint32_t getWidth();

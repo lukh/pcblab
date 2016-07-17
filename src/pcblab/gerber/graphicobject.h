@@ -47,7 +47,7 @@ class IGraphicObject{
         }
 
 
-        Aperture *getAperture() {return mAperture; }
+        Aperture *getAperture() const { return mAperture; }
         eType getType() { return mType; }
 
         virtual Rectangle getBoundingBox() = 0;
@@ -67,8 +67,8 @@ class IGraphicObjectTrack{
     public:
         IGraphicObjectTrack(Point inStartPoint, Point inEndPoint): mStartPoint(inStartPoint), mEndPoint(inEndPoint){}
 
-        const Point& getStartPoint() {return mStartPoint; }
-        const Point& getEndPoint() { return mEndPoint; }
+        const Point& getStartPoint() const {return mStartPoint; }
+        const Point& getEndPoint() const { return mEndPoint; }
 
 
     protected:
@@ -109,13 +109,13 @@ class GraphicObjectArc: public IGraphicObject, public IGraphicObjectTrack{
         virtual Rectangle getBoundingBox();
 
         /// returns the center (and not the offset !)
-        Point getCenter() { return mCenter; }
+        Point getCenter() const { return mCenter; }
 
         GraphicState::eQuadrantMode getQuadrantMode() const;
         GraphicState::eInterpolationMode getInterpolationMode() const;
 
 
-private:
+    private:
         // calculate from center offset
         Point mCenter;
 
@@ -167,6 +167,12 @@ class GraphicObjectRegion: public IGraphicObject{
 
                 /// Implements the closing of the contour
                 void close();
+
+
+                /// get the segments list
+                const vector <IGraphicObject *> getSegments() { return mSegments; }
+
+
 
                 /// checks if the Point is in the contour (contour must be closed)
                 bool isInside(Point inPoint);
@@ -230,6 +236,9 @@ class GraphicObjectRegion: public IGraphicObject{
         void addContour(Contour *inContour);
 
         virtual ~GraphicObjectRegion();
+
+
+        const vector<Contour *> getContours() { return mContours; }
 
 
         virtual Rectangle getBoundingBox();
