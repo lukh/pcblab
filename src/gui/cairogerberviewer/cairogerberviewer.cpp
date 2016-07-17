@@ -69,6 +69,11 @@ void CairoGerberViewer::drawDraw(GraphicObjectDraw *inDraw)
         return;
     }
 
+    if(!inDraw->isValid()){
+        err_printf("ERROR(CairoGerberViewer::drawDraw): The draw is invalid");
+        return;
+    }
+
 
     Aperture *ap = inDraw->getAperture();
     if(! ap->isValid() || ap->getPrimitives().size() < 1){
@@ -168,6 +173,19 @@ void CairoGerberViewer::drawDraw(GraphicObjectDraw *inDraw)
 
 void CairoGerberViewer::drawArc(GraphicObjectArc *inArc)
 {
+    if(inArc == NULL){
+        return;
+    }
+
+
+    if(mContext == NULL){
+        return;
+    }
+
+    if(!inArc->isValid()){
+        err_printf("ERROR(CairoGerberViewer::drawArc): The arc is invalid");
+        return;
+    }
 }
 
 void CairoGerberViewer::drawRegion(GraphicObjectRegion *inRegion)
