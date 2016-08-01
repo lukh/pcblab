@@ -466,7 +466,7 @@ void CairoGerberViewer::drawAperturePrimitive_CenterLine(APrimCenterLine *inLine
 
 }
 
-void CairoGerberViewer::drawAperturePrimitive_OutLine(APrimOutline *inOutline)
+void CairoGerberViewer::drawAperturePrimitive_Outline(APrimOutline *inOutline)
 {
 
 }
