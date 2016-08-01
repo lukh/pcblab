@@ -80,6 +80,7 @@ class Rectangle{
         inline Point getTopRight() { return mPtr; }
         inline Point getBottomLeft() { return mPbl; }
 
+        static Rectangle getBounds(Rectangle r1,Rectangle r2);
 
     private:
         Point mPbl;

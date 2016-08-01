@@ -72,3 +72,29 @@ Rectangle::Rectangle(Point p1, Point p2)
     mPtr.mX = (p1.mX > p2.mX) ? p1.mX : p2.mX;
     mPtr.mY = (p1.mY > p2.mY) ? p1.mY : p2.mY;
 }
+
+Rectangle Rectangle::getBounds(Rectangle r1, Rectangle r2)
+{
+    double x1, x2, y1, y2;
+    Point pbl, ptr;
+
+    // Bottom Left
+    x1 = r1.getBottomLeft().mX;
+    x2 = r2.getBottomLeft().mX;
+    pbl.mX =  x1 < x2 ? x1 : x2;
+
+    y1 = r1.getBottomLeft().mY;
+    y2 = r2.getBottomLeft().mY;
+    pbl.mY =  y1 < y2 ? y1 : y2;
+
+    //Top Right
+    x1 = r1.getTopRight().mX;
+    x2 = r2.getTopRight().mX;
+    pbl.mX =  x1 > x2 ? x1 : x2;
+
+    y1 = r1.getTopRight().mY;
+    y2 = r2.getTopRight().mY;
+    ptr.mY =  y1 > y2 ? y1 : y2;
+
+    return Rectangle(pbl, ptr);
+}
