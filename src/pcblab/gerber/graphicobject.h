@@ -131,6 +131,7 @@ class GraphicObjectFlash: public IGraphicObject{
     public:
         GraphicObjectFlash(Point inPoint, Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeFlash, inAperture), mPoint(inPoint) { mValid = true; }
 
+        Point getPosition() const { return mPoint; }
 
         virtual Rectangle getBoundingBox();
 
