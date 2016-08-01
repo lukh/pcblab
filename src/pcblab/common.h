@@ -77,7 +77,11 @@ class Rectangle{
         Rectangle() {}
         Rectangle(Point p1, Point p2);
 
-    public:
+        inline Point getTopRight() { return mPtr; }
+        inline Point getBottomLeft() { return mPbl; }
+
+
+    private:
         Point mPbl;
         Point mPtr;
 };
