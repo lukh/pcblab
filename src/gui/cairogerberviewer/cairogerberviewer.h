@@ -17,6 +17,8 @@ class CairoGerberViewer: public IGerberView
         virtual void drawLayer(GerberLayer &inLayer);
 
 
+        void drawFlash(GraphicObjectFlash *inFlash);
+        void drawAperturePrimitive(IAperturePrimitive *inPrim);
         void drawDraw(GraphicObjectDraw *inDraw);
         void drawArc(GraphicObjectArc *inArc);
         void drawRegion(GraphicObjectRegion *inRegion);
@@ -38,6 +40,16 @@ class CairoGerberViewer: public IGerberView
     private:
         void setLevelPolarity(GraphicState::eLevelPolarity inPol);
         void setDarkColor(uint8_t inR, uint8_t inG, uint8_t inB) { mColor = Color(inR,inG,inB); }
+
+        void drawAperturePrimitive_Circle(APrimCircle *inCircle);
+        void drawAperturePrimitive_VectorLine(APrimVectorLine *inLine);
+        void drawAperturePrimitive_CenterLine(APrimCenterLine *inLine);
+        void drawAperturePrimitive_OutLine(APrimOutline *inOutline);
+        void drawAperturePrimitive_Polygon(APrimPolygon *inPoly);
+        void drawAperturePrimitive_Moire(APrimMoire *inMoire);
+        void drawAperturePrimitive_Thermal(APrimThermal *inThermal);
+
+
 
     private:
         cairo_t *mContext;
