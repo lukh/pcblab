@@ -28,7 +28,8 @@ SOURCES += \
     ../src/pcblab/gerber/syntaxparser/syntaxparser_xcode.cpp \
     ../src/pcblab/gerber/aperture/aperture.cpp \
     ../src/pcblab/gerber/aperture/aperturetemplate.cpp \
-    ../src/pcblab/gerber/aperture/apertureprimitive.cpp
+    ../src/pcblab/gerber/aperture/apertureprimitive.cpp \
+    ../src/pcblab/pcblab.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -46,7 +47,8 @@ HEADERS  += \
     ../src/pcblab/gerber/aperture/aperturemodifier.h \
     ../src/pcblab/gerber/aperture/apertureprimitive.h \
     ../src/tools/exprparser.h \
-    ../src/tools/stringsplitter.h
+    ../src/tools/stringsplitter.h \
+    ../src/pcblab/pcblab.h
 
 FORMS += \
     ../src/gui/mainwindow.ui
