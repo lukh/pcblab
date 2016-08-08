@@ -209,7 +209,7 @@ bool SyntaxParser::parseXCode_LP(istream &inStream){
             break;
 
         case 'D':
-            polarity = GraphicState::ePolClear;
+            polarity = GraphicState::ePolDark;
             break;
 
         default:

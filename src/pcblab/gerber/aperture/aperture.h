@@ -37,6 +37,11 @@ class Aperture{
         ///defines if the aperture is complete and clean
         bool isValid();
 
+        Rectangle getBoundingBox();
+
+        const IApertureTemplate &getTemplate() { return mTemplate; }
+        vector<IAperturePrimitive *> getPrimitives() {return mPrimitives; }
+
     private:
         /// Aperture number
         const uint32_t mDCode;

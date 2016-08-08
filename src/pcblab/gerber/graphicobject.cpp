@@ -1,5 +1,23 @@
 #include "graphicobject.h"
 
+
+Rectangle GraphicObjectDraw::getBoundingBox()
+{
+    return Rectangle(); //TODO
+}
+
+
+
+
+
+Rectangle GraphicObjectFlash::getBoundingBox()
+{
+    return Rectangle(); //TODO
+}
+
+
+
+
 /////////////////////////// Arcs ///////////////////////////
 
 GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture):
@@ -21,31 +39,80 @@ GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point i
         }
 
         else if(mQuadrantMode == GraphicState::eQuadrantSingle){
-            /*double signs[2] = {1.0, -1.0};
-            vector<Point> candidates;
+            double signs[2] = {1.0, -1.0};
+            vector<Point> candidates, winner;
 
+            // get the candidates for center
             for(int i = 0; i < 4; i ++){
                 //determine the Center (c) point
-                Point c( inStartPoint.mX + signs[i&0x1] * inCenterOffset.mX, inStartPoint.mY + signs[(i>>1)&0x1] * inCenterOffset.mY  );
+                Point c( inStartPoint.mX + signs[i&0x1] * std::abs(inCenterOffset.mX), inStartPoint.mY + signs[(i>>1)&0x1] * std::abs(inCenterOffset.mY)  );
 
-                double Rs2c = sqrt( pow(inStartPoint.mX - inCenterOffset.mX, 2) + pow(inStartPoint.mY - inCenterOffset.mY, 2) );
-                double Re2c = sqrt( pow(inEndPoint.mX - inCenterOffset.mX, 2) + pow(inEndPoint.mY - inCenterOffset.mY, 2) );
+                double Rs2c = sqrt( pow(inStartPoint.mX - c.mX, 2) + pow(inStartPoint.mY - c.mY, 2) );
+                double Re2c = sqrt( pow(inEndPoint.mX - c.mX, 2) + pow(inEndPoint.mY - c.mY, 2) );
 
                 if(Rs2c == Re2c){
-                    candidates.push_back(c);
+
+                    //check if the point is not in the candidates list already
+                    bool added = false;
+                    for(vector<Point>::iterator it_p = candidates.begin(); it_p != candidates.end(); ++it_p){
+                        Point temp = *it_p;
+                        if(temp.mX == c.mX && temp.mY == c.mY) {added = true; }
+                    }
+                    if(!added) { candidates.push_back(c); }
                 }
             }
 
-            mValid = true; //maybe*/
+            if(candidates.size() == 0){
+                err_printf("GraphicObjectArc/GraphicObjectArc: no candidates founds for the center");
+            }
+
+            else{
+                // check if the candidates allows the arc to go in the right direction CCW/CW, and if the angle is smaller than 90deg
+                for (vector<Point>::iterator it_p = candidates.begin(); it_p != candidates.end(); ++it_p){
+
+                    Point c = *it_p; //this is the candidate
+
+                    double v0_x = inStartPoint.mX - c.mX;
+                    double v0_y = inStartPoint.mY - c.mY;
+                    double v1_x = inEndPoint.mX - c.mX;
+                    double v1_y = inEndPoint.mY - c.mY;
+
+                    //find angle
+                    double dot = v0_x*v1_x + v0_y*v1_y;
+                    double cross = v0_x*v1_y - v0_y*v1_x;
+
+                    double angle = std::atan2(cross, dot);
+
+                    if(
+                            std::abs(angle) <= M_PI/2 &&
+                                (angle > 0 && mInterpolationMode == GraphicState::eInterpolCCWCircular ||
+                                angle < 0 && mInterpolationMode == GraphicState::eInterpolCWCircular)
+                            )
+                    {
+                        winner.push_back(c);
+                    }
+                }
+
+
+                if (winner.size() == 1){
+                    mValid = true;
+                    mCenter = winner.at(0);
+                }
+            }
         }
 
         else{
-            err_printf("GraphicObjectArc/getCenter: quadrant mode is undefined or unknown");
+            err_printf("GraphicObjectArc/GraphicObjectArc: quadrant mode is undefined or unknown");
         }
 
     }
 
     d_printf("Creating GraphicObjectArc: start =(" + to_string(inStartPoint.mX) + ", " +to_string(inStartPoint.mY) + ") end =(" + to_string(inEndPoint.mX) + ", " +to_string(inEndPoint.mY) + ")", 4, 0, false);
+}
+
+Rectangle GraphicObjectArc::getBoundingBox()
+{
+    return Rectangle(); //TODO
 }
 
 
@@ -269,101 +336,6 @@ bool GraphicObjectRegion::Contour::isCrossing(IGraphicObject *inObject)
 
 bool GraphicObjectRegion::Contour::isCrossing(GraphicObjectDraw *inDraw1, GraphicObjectDraw *inDraw2)
 {
-    // try to find the intersection of
-    // D1: y = ax+b, For E1 = [x1, x2]
-    // D2: y = cx+d, For E2 = [x3, x4]
-    // in E1 intersect E2
-
-    // find xlimits
-    double x1 = inDraw1->getStartPoint().mX < inDraw1->getEndPoint().mX ? inDraw1->getStartPoint().mX : inDraw1->getEndPoint().mX;
-    double x2 = inDraw1->getStartPoint().mX > inDraw1->getEndPoint().mX ? inDraw1->getStartPoint().mX : inDraw1->getEndPoint().mX;
-    double x3 = inDraw2->getStartPoint().mX < inDraw2->getEndPoint().mX ? inDraw2->getStartPoint().mX : inDraw2->getEndPoint().mX;
-    double x4 = inDraw2->getStartPoint().mX > inDraw2->getEndPoint().mX ? inDraw2->getStartPoint().mX : inDraw2->getEndPoint().mX;
-
-    // find intersection
-    double xintmin = x1 < x3 ? x1 : x3;
-    double xintmax = x2 > x4 ? x2 : x4;
-
-
-    // if both lines are vertical:
-    if(inDraw1->getStartPoint().mX == inDraw1->getEndPoint().mX && inDraw2->getStartPoint().mX == inDraw2->getEndPoint().mX){
-        //case: x s are !=
-        if(inDraw1->getStartPoint().mX != inDraw2->getStartPoint().mX){
-            return false;
-        }
-        else{
-            double minY1 = inDraw1->getStartPoint().mY < inDraw1->getEndPoint().mY ? inDraw1->getStartPoint().mY : inDraw1->getEndPoint().mY;
-            double maxY1 = inDraw1->getStartPoint().mY > inDraw1->getEndPoint().mY ? inDraw1->getStartPoint().mY : inDraw1->getEndPoint().mY;
-
-            double minY2 = inDraw2->getStartPoint().mY < inDraw2->getEndPoint().mY ? inDraw2->getStartPoint().mY : inDraw2->getEndPoint().mY;
-            double maxY2 = inDraw2->getStartPoint().mY > inDraw2->getEndPoint().mY ? inDraw2->getStartPoint().mY : inDraw2->getEndPoint().mY;
-
-            //TODO: do we have to check in the other way ???
-            return (minY2 >= minY1 && minY2 <= maxY1) || (maxY2 >= minY1 && maxY2 <= maxY1);
-        }
-    }
-
-    //find a,b,c,d
-    // y = [(yb-ya)/(xb-xa)] * (x - xa) + ya
-    // y =        m          * (x - xa) + ya
-    // y =        mx - m*xa + ya
-
-    else if(inDraw1->getStartPoint().mX != inDraw1->getEndPoint().mX && inDraw2->getStartPoint().mX != inDraw2->getEndPoint().mX){
-        //D1
-        double a = (inDraw1->getEndPoint().mY - inDraw1->getStartPoint().mY) / (inDraw1->getEndPoint().mX - inDraw1->getStartPoint().mX);
-        double b = inDraw1->getStartPoint().mY - a * inDraw1->getStartPoint().mX;
-
-
-        //D2
-        double c = (inDraw2->getEndPoint().mY - inDraw2->getStartPoint().mY) / (inDraw2->getEndPoint().mX - inDraw2->getStartPoint().mX);
-        double d = inDraw2->getStartPoint().mY - c * inDraw2->getStartPoint().mX;
-
-
-        // CASE: D1 and D2 are not vertical
-        // ax + b = cx + d
-        // (a - c) x = (d - b)
-        // x = (d - b) / (a - c)
-
-        //case d1 and d2 are parallel (a = c)
-        if(a == c){
-            return false;
-        }
-
-        double crossX = (d-b)/(a-c);
-
-
-        return crossX >= xintmin && crossX <= xintmax;
-    }
-
-
-    else if(inDraw1->getStartPoint().mX == inDraw1->getEndPoint().mX){
-        double minY1 = inDraw1->getStartPoint().mY < inDraw1->getEndPoint().mY ? inDraw1->getStartPoint().mY : inDraw1->getEndPoint().mY;
-        double maxY1 = inDraw1->getStartPoint().mY > inDraw1->getEndPoint().mY ? inDraw1->getStartPoint().mY : inDraw1->getEndPoint().mY;
-
-        //D2
-        double c = (inDraw2->getEndPoint().mY - inDraw2->getStartPoint().mY) / (inDraw2->getEndPoint().mX - inDraw2->getStartPoint().mX);
-        double d = inDraw2->getStartPoint().mY - c * inDraw2->getStartPoint().mX;
-
-
-        double crossY2 = c*inDraw1->getEndPoint().mX + d;
-        return crossY2 >= minY1 && crossY2 <= maxY1;
-    }
-
-    else if(inDraw2->getStartPoint().mX == inDraw2->getEndPoint().mX){
-        double minY2 = inDraw2->getStartPoint().mY < inDraw2->getEndPoint().mY ? inDraw2->getStartPoint().mY : inDraw2->getEndPoint().mY;
-        double maxY2 = inDraw2->getStartPoint().mY > inDraw2->getEndPoint().mY ? inDraw2->getStartPoint().mY : inDraw2->getEndPoint().mY;
-
-        //D2
-        double a = (inDraw1->getEndPoint().mY - inDraw1->getStartPoint().mY) / (inDraw1->getEndPoint().mX - inDraw1->getStartPoint().mX);
-        double b = inDraw1->getStartPoint().mY - a * inDraw1->getStartPoint().mX;
-
-
-        double crossY1 = a*inDraw2->getEndPoint().mX + b;
-        return crossY1 >= minY2 && crossY1 <= maxY2;
-    }
-
-
-    err_printf("ERROR: (GraphicObjectRegion::Contour::isCrossing): Unexpected case reached");
     return false;
 }
 
@@ -439,6 +411,11 @@ GraphicObjectRegion:: ~GraphicObjectRegion(){
     for (vector<Contour *>::iterator it = mContours.begin() ; it != mContours.end(); ++it){
         delete (*it);
     }
+}
+
+Rectangle GraphicObjectRegion::getBoundingBox()
+{
+    return Rectangle(); //TODO
 }
 
 
@@ -540,6 +517,8 @@ void GraphicObjectRegion::addContour(GraphicObjectRegion::Contour *inContour)
 {
     mContours.push_back(inContour);
 }
+
+
 
 
 

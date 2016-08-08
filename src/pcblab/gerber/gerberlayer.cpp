@@ -140,6 +140,12 @@ void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName, const vec
 
 void GerberLayer::defineApertureTemplate(string &inName, const vector<string> &inRawCmds)
 {
+    if(inName == "C" || inName == "R" || inName == "O" || inName == "P"){
+        err_printf("ERROR(GerberLayer::defineApertureTemplate): The Aperture macro can't be call with the standard aperture names");
+    }
+
+
+
     MacroApertureTemplate *at = new MacroApertureTemplate(inName);
 
     mApertureTemplates.push_back(at);
@@ -179,6 +185,12 @@ void GerberLayer::interpolate(Point inPointXY, Point inPointIJ){
     endPoint.updateCoordinates(inPointXY);
 
     d_printf("GERBERLAYER: interpolate",1,0);
+
+    if(mCurrentLevel == NULL){
+        // error.
+        err_printf("ERROR(GerberLayer::interpolate): No existing level");
+        return;
+    }
 
     switch(mState.getRegMode()){
         case GraphicState::eRegModeOff:

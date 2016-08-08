@@ -42,7 +42,8 @@ class GerberLayer: public SyntaxParser {
                 void makeGraphicObjectRegions(Aperture *inAperture);
 
 
-
+                vector <IGraphicObject *> getObjects() { return mObjects; }
+                GraphicState::eLevelPolarity getPolarity() const { return mPolarity; }
 
 
             private:
@@ -61,6 +62,10 @@ class GerberLayer: public SyntaxParser {
 
         /// open from the file given
         bool open(const string &inFileName);
+
+
+
+        vector<GerberLevel *> &getLevels() { return mLevels; }
 
 
 
@@ -172,12 +177,12 @@ class GerberLayer: public SyntaxParser {
         string &getName() { return mName; }
 
 
+
+
         // ------------------------------------------------------
         // ----------------- For unit test ----------------------
         // ------------------------------------------------------
         GraphicState& getState() { return mState; }
-
-        vector<GerberLevel *> &getLevels() { return mLevels; }
 
         //const vector<Aperture> &getApertures() const { return mApertures; }
         //const vector<ApertureTemplate *> & getApertures() const { return mApertureTemplates; }

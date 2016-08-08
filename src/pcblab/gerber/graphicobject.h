@@ -19,7 +19,6 @@
 
 #include "../common.h"
 #include "aperture/aperture.h"
-#include "igerberview.h"
 #include "graphicstate.h"
 
 using namespace std;
@@ -47,9 +46,13 @@ class IGraphicObject{
             d_printf("%%% Deleting GraphicObject", 4, 0, false);
         }
 
+
+        Aperture *getAperture() const { return mAperture; }
         eType getType() { return mType; }
 
-        virtual void draw(IGerberView *inView) = 0;
+        bool isValid() const { return mValid; }
+
+        virtual Rectangle getBoundingBox() = 0;
 
     protected:
         Aperture *mAperture; //should it be DCode ?
@@ -66,8 +69,8 @@ class IGraphicObjectTrack{
     public:
         IGraphicObjectTrack(Point inStartPoint, Point inEndPoint): mStartPoint(inStartPoint), mEndPoint(inEndPoint){}
 
-        const Point& getStartPoint() {return mStartPoint; }
-        const Point& getEndPoint() { return mEndPoint; }
+        const Point& getStartPoint() const {return mStartPoint; }
+        const Point& getEndPoint() const { return mEndPoint; }
 
 
     protected:
@@ -91,7 +94,7 @@ class GraphicObjectDraw: public IGraphicObject, public IGraphicObjectTrack{
         virtual ~GraphicObjectDraw() {}
 
 
-        virtual void draw(IGerberView *inView) { (void)inView; }
+        virtual Rectangle getBoundingBox();
 };
 
 
@@ -105,16 +108,16 @@ class GraphicObjectArc: public IGraphicObject, public IGraphicObjectTrack{
 
         virtual ~GraphicObjectArc() {}
 
-        virtual void draw(IGerberView *inView) { (void)inView; }
+        virtual Rectangle getBoundingBox();
 
         /// returns the center (and not the offset !)
-        Point getCenter() { return mCenter; }
+        Point getCenter() const { return mCenter; }
 
         GraphicState::eQuadrantMode getQuadrantMode() const;
         GraphicState::eInterpolationMode getInterpolationMode() const;
 
 
-private:
+    private:
         // calculate from center offset
         Point mCenter;
 
@@ -128,7 +131,8 @@ class GraphicObjectFlash: public IGraphicObject{
     public:
         GraphicObjectFlash(Point inPoint, Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeFlash, inAperture), mPoint(inPoint) { mValid = true; }
 
-        virtual void draw(IGerberView *inView) { (void)inView; }
+
+        virtual Rectangle getBoundingBox();
 
     private:
         Point mPoint;
@@ -165,6 +169,12 @@ class GraphicObjectRegion: public IGraphicObject{
 
                 /// Implements the closing of the contour
                 void close();
+
+
+                /// get the segments list
+                const vector <IGraphicObject *> getSegments() { return mSegments; }
+
+
 
                 /// checks if the Point is in the contour (contour must be closed)
                 bool isInside(Point inPoint);
@@ -229,7 +239,11 @@ class GraphicObjectRegion: public IGraphicObject{
 
         virtual ~GraphicObjectRegion();
 
-        virtual void draw(IGerberView *inView) { (void)inView; }
+
+        const vector<Contour *> getContours() { return mContours; }
+
+
+        virtual Rectangle getBoundingBox();
 
 
     private:
