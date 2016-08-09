@@ -56,6 +56,8 @@ class GerberLayer: public SyntaxParser {
         GerberLayer(): GerberLayer("") {}
         virtual ~GerberLayer();
 
+
+
         // ------------------------------------------------------
         // ----------------- I/O methods. -----------------------
         // ------------------------------------------------------
@@ -63,7 +65,10 @@ class GerberLayer: public SyntaxParser {
         /// open from the file given
         bool open(const string &inFileName);
 
-
+        // ------------------------------------------------------
+        // ---------------- getters/ setters --------------------
+        // ------------------------------------------------------
+        string getName() { return mName; }
 
         vector<GerberLevel *> &getLevels() { return mLevels; }
 
@@ -171,14 +176,6 @@ class GerberLayer: public SyntaxParser {
         vector<IApertureTemplate *> mApertureTemplates;
 
     protected:
-        // ------------------------------------------------------
-        // ---------------- getters/ setters --------------------
-        // ------------------------------------------------------
-        string &getName() { return mName; }
-
-
-
-
         // ------------------------------------------------------
         // ----------------- For unit test ----------------------
         // ------------------------------------------------------
