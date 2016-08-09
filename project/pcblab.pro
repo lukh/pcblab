@@ -38,7 +38,8 @@ SOURCES += \
     ../src/gui/opencvviewer/qtopencvviewer.cpp \
     ../src/pcblab/viewprocessor/viewprocessor.cpp \
     ../src/gui/cairogerberviewer/cairogerberviewer.cpp \
-    ../src/pcblab/pcblab.cpp
+    ../src/pcblab/pcblab.cpp \
+    ../src/pcblab/gerber/gerberhandler.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
