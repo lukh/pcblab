@@ -11,6 +11,10 @@ class PcbLab
         PcbLab();
 
 
+        //getters
+        GerberHandler &getGerberHandler() { return mGerberHandler; }
+
+
     private:
         GerberHandler mGerber;
 
