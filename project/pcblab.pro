@@ -37,7 +37,7 @@ SOURCES += \
     ../src/pcblab/gerber/aperture/apertureprimitive.cpp \
     ../src/gui/opencvviewer/qtopencvviewer.cpp \
     ../src/pcblab/viewprocessor/viewprocessor.cpp \
-    ../src/gui/cairogerberviewer/cairogerberviewer.cpp
+    ../src/gui/cairogerberviewer/cairogerberviewer.cpp \
     ../src/pcblab/pcblab.cpp
 
 HEADERS  += \
@@ -59,8 +59,8 @@ HEADERS  += \
     ../src/tools/stringsplitter.h \
     ../src/gui/opencvviewer/qtopencvviewer.h \
     ../src/pcblab/viewprocessor/viewprocessor.h \
-    ../src/gui/cairogerberviewer/cairogerberviewer.h
-    ../src/gui/opencvviewer/iopencvviewer.h
+    ../src/gui/cairogerberviewer/cairogerberviewer.h \
+    ../src/gui/opencvviewer/iopencvviewer.h \
     ../src/pcblab/pcblab.h
 
 
@@ -110,7 +110,6 @@ INCLUDEPATH += \
     $$CAIRO_PATH/include/
 
 
->>>>>>> graphics
 
 FORMS += \
     ../src/gui/mainwindow.ui
