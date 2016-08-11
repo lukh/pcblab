@@ -14,6 +14,9 @@ class ViewProcessor
         ViewProcessor(IOpenCVViewer *inCVViewer, CairoGerberViewer *inGerberView);
 
 
+        void update();
+
+        // temp method since the arch is not fully finished
         void update(GerberLayer &inGerberLayer);
 
         void recalculateSize();
