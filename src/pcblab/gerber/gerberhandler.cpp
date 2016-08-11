@@ -7,16 +7,14 @@ GerberHandler::GerberHandler()
 
 GerberHandler::~GerberHandler()
 {
-    for(vector<GerberLayer *>::iterator it = mLayers.begin(); it != mLayers.end(); ++it){
-        GerberLayer *layer = *it;
-        delete layer;
-    }
+    close();
 }
 
-void GerberHandler::openFolder()
+void GerberHandler::openFolder(string &inFolderName, GerberHandler::ExtensionOrderMap &inOrder)
 {
 
 }
+
 
 void GerberHandler::openGerberLayer(string &inName, string &inFilename, uint8_t inPosition)
 {
@@ -24,5 +22,16 @@ void GerberHandler::openGerberLayer(string &inName, string &inFilename, uint8_t 
 
     layer->open(inFilename);
 
-    mLayers.push_back(layer);
+    mLayers[inPosition] = layer;
+}
+
+
+
+
+void GerberHandler::close()
+{
+    for(LayerMap::iterator it = mLayers.begin(); it != mLayers.end(); ++it){
+        GerberLayer *layer = it->second;
+        delete layer;
+    }
 }
