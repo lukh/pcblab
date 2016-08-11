@@ -44,7 +44,7 @@ class CairoGerberViewer: public IGerberView
         void drawAperturePrimitive_Circle(APrimCircle *inCircle);
         void drawAperturePrimitive_VectorLine(APrimVectorLine *inLine);
         void drawAperturePrimitive_CenterLine(APrimCenterLine *inLine);
-        void drawAperturePrimitive_OutLine(APrimOutline *inOutline);
+        void drawAperturePrimitive_Outline(APrimOutline *inOutline);
         void drawAperturePrimitive_Polygon(APrimPolygon *inPoly);
         void drawAperturePrimitive_Moire(APrimMoire *inMoire);
         void drawAperturePrimitive_Thermal(APrimThermal *inThermal);
