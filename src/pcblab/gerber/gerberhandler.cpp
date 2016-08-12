@@ -1,5 +1,7 @@
 #include "gerberhandler.h"
 
+const GerberHandler::ExtensionOrderMap sDefaultExtOrderMap = GerberHandler::createExtensionOrderMap();
+
 GerberHandler::GerberHandler()
 {
 
