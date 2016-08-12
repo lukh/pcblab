@@ -5,6 +5,8 @@
 #include <string>
 #include <cstdlib>
 #include <algorithm>
+#include <vector>
+#include <math.h>
 
 using namespace std;
 
@@ -28,6 +30,8 @@ enum eExtension{
 typedef map<eExtension, string> PcbFiles;
 
 
+static const double kEqThreshold = 0.000000001;
+bool isEqual(double a, double b);
 
 
 class Point{
@@ -80,7 +84,8 @@ class Rectangle{
         inline Point getTopRight() { return mPtr; }
         inline Point getBottomLeft() { return mPbl; }
 
-        static Rectangle getBounds(Rectangle r1,Rectangle r2);
+        static Rectangle getBounds(Rectangle &r1,Rectangle &r2);
+        static Rectangle getBounds(vector<Point> &inPoints);
 
     private:
         Point mPbl;
@@ -107,7 +112,6 @@ bool isNumber(char inChar);
 uint8_t charToNum(char inChar);
 
 double stringToDouble(string &str);
-
 
 void d_printf(const string &str, int inLevel=2, int inTabs=0, bool inLeftAlign=true);
 void err_printf(const string &str);

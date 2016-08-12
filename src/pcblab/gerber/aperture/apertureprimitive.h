@@ -86,7 +86,7 @@ class APrimCircle: public IAperturePrimitive{
         inline double getDiameter() { if (!isValid()){return 0.0;} return mModifiers.at(1); }
         inline double getX() { if (!isValid()){return 0.0;} return mModifiers.at(2); }
         inline double getY() { if (!isValid()){return 0.0;} return mModifiers.at(3); }
-        inline double getRot() { if (!isValid()){return 0.0;} return mModifiers.at(4); }
+        inline double getRot() { if (!isValid() || mModifiers.size() < 5){return 0.0;} return mModifiers.at(4); }
 
         virtual bool isValid();
         virtual string getStringInfos() {

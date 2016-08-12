@@ -37,5 +37,17 @@ bool Aperture::isValid(){
 
 Rectangle Aperture::getBoundingBox()
 {
-    return Rectangle(); //TODO
+    if(mPrimitives.size() == 0){
+        err_printf("ERROR (Aperture..getBoundingBox: No primitives" );
+        return Rectangle();
+    }
+
+    Rectangle rect = mPrimitives.at(0);
+    for (vector<IAperturePrimitive *>::iterator it = mPrimitives.begin(); it != mPrimitives.end(); ++it) {
+        IAperturePrimitive *prim = *it;
+
+        rect = Rectangle::getBounds(rect, prim->getBoundingBox());
+    }
+
+    return rect;
 }
