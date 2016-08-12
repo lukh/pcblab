@@ -4,10 +4,10 @@
 #include <QThread>
 #include "pcblab/viewprocessor/viewprocessor.h"
 
-class ProcessorWrapper
+class ProcessorWrapper: public QThread
 {
     public:
-        ProcessorWrapper(ViewProcessor &inProcessor): mProcessor(inProcessor) {}
+        ProcessorWrapper(ViewProcessor &inProcessor): QThread(), mProcessor(inProcessor) {}
 
     protected:
         virtual void run(){
