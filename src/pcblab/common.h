@@ -84,7 +84,7 @@ class Rectangle{
         inline Point getTopRight() { return mPtr; }
         inline Point getBottomLeft() { return mPbl; }
 
-        static Rectangle getBounds(Rectangle &r1,Rectangle &r2);
+        static Rectangle getBounds(Rectangle r1,Rectangle r2);
         static Rectangle getBounds(vector<Point> &inPoints);
 
     private:

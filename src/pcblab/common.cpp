@@ -83,7 +83,7 @@ Rectangle::Rectangle(Point p1, Point p2)
     mPtr.mY = (p1.mY > p2.mY) ? p1.mY : p2.mY;
 }
 
-Rectangle Rectangle::getBounds(Rectangle &r1, Rectangle &r2)
+Rectangle Rectangle::getBounds(Rectangle r1, Rectangle r2)
 {
     double x1, x2, y1, y2;
     Point pbl, ptr;
