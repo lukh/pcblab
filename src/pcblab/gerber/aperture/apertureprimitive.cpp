@@ -106,10 +106,10 @@ Rectangle APrimVectorLine::getBoundingBox()
     double angle = atan2(pe.mY-ps.mY, pe.mX-ps.mX);
 
     p1.mX = ps.mX - getWidth()*sin(angle)/2.0;
-    p2.mX = ps.mX + getWidth()*sin(angle)/2.0;
+    p2.mX = pe.mX + getWidth()*sin(angle)/2.0;
 
     p1.mY = ps.mY - getWidth()*cos(angle)/2.0;
-    p1.mY = ps.mY + getWidth()*cos(angle)/2.0;
+    p2.mY = pe.mY + getWidth()*cos(angle)/2.0;
 
     //compute with  rotation.
     //TOCHECK
