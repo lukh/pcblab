@@ -42,7 +42,7 @@ Rectangle Aperture::getBoundingBox()
         return Rectangle();
     }
 
-    Rectangle rect = mPrimitives.at(0);
+    Rectangle rect = mPrimitives.at(0)->getBoundingBox();
     for (vector<IAperturePrimitive *>::iterator it = mPrimitives.begin(); it != mPrimitives.end(); ++it) {
         IAperturePrimitive *prim = *it;
 
