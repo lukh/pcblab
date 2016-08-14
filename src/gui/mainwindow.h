@@ -27,8 +27,8 @@ private Q_SLOTS:
 private:
     Ui::MainWindow *ui;
 
-    Q_DebugStream *mQdbcout;
-    Q_DebugStream *mQdbcerr;
+    //Q_DebugStream *mQdbcout;
+    //Q_DebugStream *mQdbcerr;
 
     GerberLayer *mGerberLayer;
 

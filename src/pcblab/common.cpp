@@ -26,20 +26,16 @@ void d_printf(const string &str, int inLevel, int inTabs, bool inLeftAlign){
 
     string tabs;
 
-    /*if(inLevel > 1){
-        return;
-    }*/
-
     if(inLeftAlign){
         for(int i=0; i < inTabs; i ++){
             tabs+= "\t";
         }
     }
     else{
-        tabs += "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
+        tabs += "\t\t\t\t\t\t\t\t\t";
     }
 
-    string color;
+    /*string color;
     if(inLevel <= 1){
         color = "orange";
     }
@@ -51,13 +47,13 @@ void d_printf(const string &str, int inLevel, int inTabs, bool inLeftAlign){
     }
     else{
         color = "black";
-    }
+    }*/
 
-    cout << tabs + "<font color=" + color + ">" + str + "</font>" << endl;
+    cout << tabs << str << endl;
 }
 
 void err_printf(const string &str){
-    cerr << "<font color=red>*** " + str + "</font>" << endl;
+    cerr << "!!! [" <<str << "]" << endl;
 }
 
 
