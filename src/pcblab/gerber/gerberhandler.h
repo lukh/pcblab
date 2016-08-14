@@ -36,7 +36,7 @@ class GerberHandler{
         void close();
 
 
-    private:
+    public:
         static ExtensionOrderMap createExtensionOrderMap(){
             ExtensionOrderMap map;
 
@@ -51,6 +51,7 @@ class GerberHandler{
 
             return map;
         }
+    private:
         static const ExtensionOrderMap sDefaultExtOrderMap;
 
 
