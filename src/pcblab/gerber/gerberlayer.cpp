@@ -4,15 +4,18 @@
 
 // --------------------------------- GerberLevel ---------------------------------
 GerberLayer::GerberLevel::GerberLevel(GraphicState::eLevelPolarity inPolarity): mPolarity(inPolarity){
+#ifdef DEBUG_PRINT
     d_printf("%%% Creating GerberLevel", 4, 0, false);
+#endif
 }
 
 GerberLayer::GerberLevel::~GerberLevel(){
     for(vector<IGraphicObject *>::iterator it = mObjects.begin(); it != mObjects.end(); ++it){
         delete (*it);
     }
-
+#ifdef DEBUG_PRINT
     d_printf("%%% Deleting GerberLevel", 4, 0, false);
+#endif
 }
 
 void GerberLayer::GerberLevel::makeGraphicObjectDraw(Point inStart, Point inStop, Aperture *inAperture){
@@ -46,7 +49,9 @@ void GerberLayer::GerberLevel::makeGraphicObjectRegions(Aperture *inAperture){
 GerberLayer::GerberLayer(const string &inName): SyntaxParser(),
     mName(inName), mCurrentLevel(NULL)
 {
+#ifdef DEBUG_PRINT
     d_printf("%%% Creating GerberLevel", 4, 0, false);
+#endif
 
     //adding default aperture templates
     IApertureTemplate *t;
@@ -81,7 +86,9 @@ GerberLayer::~GerberLayer(){
 
     GraphicObjectRegion::flushContoursPool();
 
+#ifdef DEBUG_PRINT
     d_printf("%%% Deleting GerberLayer", 4, 0, false);
+#endif
 }
 
 
@@ -108,14 +115,18 @@ void GerberLayer::setRegionMode(GraphicState::eRegionMode inRegMode) {
             break;
     }
 
+#ifdef DEBUG_PRINT
     d_printf("GERBERLAYER: setRegionMode",1,0);
+#endif
 }
 
 void GerberLayer::addNewLevel(GraphicState::eLevelPolarity inPolarity){
     mCurrentLevel = new GerberLevel(inPolarity);
     mLevels.push_back(mCurrentLevel);
 
+#ifdef DEBUG_PRINT
     d_printf("GERBERLAYER: addNewLevel" ,1,0);
+#endif
 }
 
 
@@ -130,7 +141,10 @@ void GerberLayer::addAperture(uint32_t inDCode, string inTemplateName, const vec
 
     Aperture *ap = new Aperture(inDCode, *aper_temp);
     mApertures.push_back(ap);
+
+#ifdef DEBUG_PRINT
     d_printf("GERBERLAYER: Aperture D" + to_string(inDCode) + "(" + inTemplateName + ") Added", 1, 0);
+#endif
 
     ap->build(inModifiers);
 }
@@ -149,7 +163,10 @@ void GerberLayer::defineApertureTemplate(string &inName, const vector<string> &i
     MacroApertureTemplate *at = new MacroApertureTemplate(inName);
 
     mApertureTemplates.push_back(at);
+
+#ifdef DEBUG_PRINT
     d_printf("GERBERLAYER: ApertureTemplate " + inName + " added", 1, 0);
+#endif
 
 
     for(vector<string>::const_iterator it = inRawCmds.begin(); it != inRawCmds.end(); ++it){
@@ -172,7 +189,10 @@ void GerberLayer::setCurrentAperture(uint32_t inDCode){
 
 
     mState.setCurrentAperture(curr_aperture);
+
+#ifdef DEBUG_PRINT
     d_printf("GERBERLAYER: setCurrentAperture D" + to_string(inDCode), 1, 0);
+#endif
 }
 
 
@@ -184,7 +204,9 @@ void GerberLayer::interpolate(Point inPointXY, Point inPointIJ){
     Point endPoint = startPoint;
     endPoint.updateCoordinates(inPointXY);
 
+#ifdef DEBUG_PRINT
     d_printf("GERBERLAYER: interpolate",1,0);
+#endif
 
     if(mCurrentLevel == NULL){
         // error.
@@ -245,7 +267,9 @@ void GerberLayer::move(Point inPointXY){
         GraphicObjectRegion::closeContour();
     }
 
+#ifdef DEBUG_PRINT
     d_printf("GERBERLAYER: move",1,0);
+#endif
 }
 
 
@@ -253,7 +277,9 @@ void GerberLayer::flash(Point inPointXY){
     // set the current point
     mState.setCurrentPoint(inPointXY);
 
+#ifdef DEBUG_PRINT
     d_printf("GERBERLAYER: flash",1,0);
+#endif
 
     //check for forbidden uses
     if(mState.getRegMode() == GraphicState::eRegModeOn){

@@ -64,7 +64,8 @@ HEADERS  += \
     ../src/gui/cairogerberviewer/cairogerberviewer.h \
     ../src/gui/opencvviewer/iopencvviewer.h \
     ../src/pcblab/pcblab.h \
-    ../src/gui/processorwrapper.h
+    ../src/gui/processorwrapper.h \
+    ../src/config.h
 
 
 

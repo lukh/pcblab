@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <algorithm>
 
+#include "config.h"
+
 using namespace std;
 
 enum eExtension{

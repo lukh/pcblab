@@ -21,12 +21,16 @@ bool SyntaxParser::parse(istream &inStream){
                 if(getOpCode(inStream) == 2 && inStream.get() == '*'){
                     //this is the end of the file, what should we do ???
                     eof_cmd = true;
+#ifdef DEBUG_PRINT
                     d_printf("SYNTAXPARSER > EndOfFile(M02)");
+#endif
                 }
                 break;
 
             case '%':
+#ifdef DEBUG_PRINT
                 d_printf("SYNTAXPARSER > XCode");
+#endif
                 parseXCode(inStream);
                 break;
 
@@ -34,35 +38,47 @@ bool SyntaxParser::parse(istream &inStream){
                 break;
 
             case 'D': //DCode
+#ifdef DEBUG_PRINT
                 d_printf("SYNTAXPARSER > DCode:");
+#endif
                 parseDCode(inStream);
                 resetPointsAttributes();
 
                 break;
 
             case 'G': //GCode
+#ifdef DEBUG_PRINT
                 d_printf("SYNTAXPARSER > GCode");
+#endif
                 parseGCode(inStream);
                 resetPointsAttributes();
                 break;
 
             case 'X':
+#ifdef DEBUG_PRINT
                 d_printf("SYNTAXPARSER > X");
+#endif
                 mXY.mIsXOmitted = false;
                 mXY.mX = convertCoordinate(getRawCoord(inStream));
                 break;
             case 'Y':
+#ifdef DEBUG_PRINT
                 d_printf("SYNTAXPARSER > Y");
+#endif
                 mXY.mIsYOmitted = false;
                 mXY.mY = convertCoordinate(getRawCoord(inStream));
                 break;
             case 'I':
+#ifdef DEBUG_PRINT
                 d_printf("SYNTAXPARSER > I");
+#endif
                 mIJ.mIsXOmitted = false;
                 mIJ.mX = convertCoordinate(getRawCoord(inStream));
                 break;
             case 'J':
+#ifdef DEBUG_PRINT
                 d_printf("SYNTAXPARSER > J");
+#endif
                 mIJ.mIsYOmitted = false;
                 mIJ.mY = convertCoordinate(getRawCoord(inStream));
 

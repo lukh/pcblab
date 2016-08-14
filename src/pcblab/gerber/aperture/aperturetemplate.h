@@ -34,8 +34,16 @@ typedef map<string, ApertureVariable> ApVarSymbolTable;
 /// The command is executed during AD, either to update variables or create primitives
 class ATCommand{
     public:
-        ATCommand(): mValid(false) { d_printf("%%% Creating ATCommand", 4, 0, false);}
-        virtual ~ATCommand(){ d_printf("%%% Deleting ATCommand", 4, 0, false); }
+        ATCommand(): mValid(false) {
+#ifdef DEBUG_PRINT
+            d_printf("%%% Creating ATCommand", 4, 0, false);
+#endif
+        }
+        virtual ~ATCommand(){
+#ifdef DEBUG_PRINT
+            d_printf("%%% Deleting ATCommand", 4, 0, false);
+#endif
+        }
 
         virtual bool build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives) = 0;
 

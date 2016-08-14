@@ -36,7 +36,11 @@ class IAperturePrimitive{
 
         ///
         IAperturePrimitive(eType inType);
-        virtual ~IAperturePrimitive() { d_printf("%%% Deleting IAperturePrimitive", 4, 0, false); }
+        virtual ~IAperturePrimitive() {
+#ifdef DEBUG_PRINT
+            d_printf("%%% Deleting IAperturePrimitive", 4, 0, false);
+#endif
+}
 
 
         /// add a modifier

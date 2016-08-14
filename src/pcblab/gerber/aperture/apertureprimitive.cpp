@@ -3,6 +3,7 @@
 IAperturePrimitive::IAperturePrimitive(IAperturePrimitive::eType inType):
     mType(inType)
 {
+#ifdef DEBUG_PRINT
     string str = "%%% Creating IAperturePrimitive: ";
 
     switch (inType) {
@@ -40,6 +41,7 @@ IAperturePrimitive::IAperturePrimitive(IAperturePrimitive::eType inType):
     }
 
     d_printf(str, 4, 0, false);
+#endif
 }
 
 

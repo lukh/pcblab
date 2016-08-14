@@ -106,8 +106,9 @@ GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point i
         }
 
     }
-
+#ifdef DEBUG_PRINT
     d_printf("Creating GraphicObjectArc: start =(" + to_string(inStartPoint.mX) + ", " +to_string(inStartPoint.mY) + ") end =(" + to_string(inEndPoint.mX) + ", " +to_string(inEndPoint.mY) + ")", 4, 0, false);
+#endif
 }
 
 Rectangle GraphicObjectArc::getBoundingBox()

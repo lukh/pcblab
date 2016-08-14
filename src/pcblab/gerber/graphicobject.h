@@ -40,10 +40,14 @@ class IGraphicObject{
 
         //IGraphicObject(): mType(eTypeNone) {}
         IGraphicObject(eType inType, Aperture *inAperture): mAperture(inAperture), mValid(false), mType(inType) {
+#ifdef DEBUG_PRINT
             d_printf("%%% Creating GraphicObject", 4, 0, false);
+#endif
         }
         virtual ~IGraphicObject() {
+#ifdef DEBUG_PRINT
             d_printf("%%% Deleting GraphicObject", 4, 0, false);
+#endif
         }
 
 
@@ -88,7 +92,9 @@ class GraphicObjectDraw: public IGraphicObject, public IGraphicObjectTrack{
         GraphicObjectDraw(Point inStartPoint, Point inEndPoint, Aperture *inAperture):
             IGraphicObject(IGraphicObject::eTypeLine, inAperture), IGraphicObjectTrack(inStartPoint, inEndPoint){
                 mValid = true;
+#ifdef DEBUG_PRINT
                 d_printf("Creating GraphicObjectDraw: start =(" + to_string(inStartPoint.mX) + ", " +to_string(inStartPoint.mY) + ") end =(" + to_string(inEndPoint.mX) + ", " +to_string(inEndPoint.mY) + ")", 4, 0, false);
+#endif
         }
 
         virtual ~GraphicObjectDraw() {}

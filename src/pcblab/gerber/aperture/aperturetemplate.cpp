@@ -39,7 +39,10 @@ bool ATCmdVarDef::build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive
 
     inVariables[mDestVar] = val;
 
+#ifdef DEBUG_PRINT
     d_printf("ATCmdVarDef::build " + mDestVar + " = " + mExpr + " = " + to_string(val), 1, 1);
+#endif
+
 
     return true;
 }
@@ -99,7 +102,9 @@ bool ATCmdPrimitive::build(ApVarSymbolTable &inVariables, vector<IAperturePrimit
         return false;
     }
 
+#ifdef DEBUG_PRINT
     d_printf("ATCmdPrimitive::build", 1, 1);
+#endif
 
     //creating the primitive...
     IAperturePrimitive *prim;
@@ -147,7 +152,9 @@ bool ATCmdPrimitive::build(ApVarSymbolTable &inVariables, vector<IAperturePrimit
 
         ApertureModifier mod = expr.evaluate(&inVariables);
 
+#ifdef DEBUG_PRINT
         d_printf("ATCmdPrimitive/build, ModifierExpression: " + strmod + " = " + to_string(mod), 1, 2);
+#endif
 
 
         prim->addModifier(mod);
@@ -156,7 +163,9 @@ bool ATCmdPrimitive::build(ApVarSymbolTable &inVariables, vector<IAperturePrimit
     bool prim_ok = prim->isValid();
 
     if(prim_ok){
+#ifdef DEBUG_PRINT
         d_printf("ATCmdPrimitive::build, adding: " + prim->getStringInfos(), 1, 2);
+#endif
         outPrimitives.push_back(prim);
     }
 
@@ -177,12 +186,16 @@ bool ATCmdPrimitive::build(ApVarSymbolTable &inVariables, vector<IAperturePrimit
 
 IApertureTemplate::IApertureTemplate(const string &inName): mName(inName)
 {
+#ifdef DEBUG_PRINT
     d_printf("%%% Creating IApertureTemplate", 4, 0, false);
+#endif
 }
 
 IApertureTemplate::~IApertureTemplate()
 {
+#ifdef DEBUG_PRINT
     d_printf("%%% Deleting IApertureTemplate", 4, 0, false);
+#endif
 }
 
 
@@ -196,7 +209,9 @@ MacroApertureTemplate::MacroApertureTemplate(const string &inName): IApertureTem
 
 
 MacroApertureTemplate::~MacroApertureTemplate(){
+#ifdef DEBUG_PRINT
     d_printf("%%% Deleting MacroApertureTemplate", 4, 0, false);
+#endif
 
     for (vector<ATCommand *>::iterator it = mCommands.begin(); it != mCommands.end(); ++it){
         delete (*it);
@@ -206,7 +221,9 @@ MacroApertureTemplate::~MacroApertureTemplate(){
 bool MacroApertureTemplate::addCommand(const string &inCmd)
 {
     ATCommand *cmd;
+#ifdef DEBUG_PRINT
     d_printf("GERBERLAYER/ApertureTemplate "+ mName +": adding " + inCmd, 1, 0);
+#endif
 
     //time to define what we have...
 
@@ -312,7 +329,9 @@ bool ApertureTemplateCircle::buildAperturePrimitives(const vector<ApertureModifi
 
     if(p->isValid()){
         outPrimitives.push_back(p);
+#ifdef DEBUG_PRINT
         d_printf("ApertureTemplateCircle::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+#endif
     }
 
     else{
@@ -333,7 +352,9 @@ bool ApertureTemplateCircle::buildAperturePrimitives(const vector<ApertureModifi
 
         if(p->isValid()){
             outPrimitives.push_back(p);
+#ifdef DEBUG_PRINT
             d_printf("ApertureTemplateCircle::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+#endif
         }
 
         else{
@@ -368,7 +389,9 @@ bool ApertureTemplateRectangle::buildAperturePrimitives(const vector<ApertureMod
 
     if(p->isValid()){
         outPrimitives.push_back(p);
+#ifdef DEBUG_PRINT
         d_printf("ApertureTemplateRectangle::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);d_printf("ATCmdPrimitive/build: " + p->getStringInfos(), 1, 2);
+#endif
     }
 
     else{
@@ -390,7 +413,9 @@ bool ApertureTemplateRectangle::buildAperturePrimitives(const vector<ApertureMod
 
         if(p->isValid()){
             outPrimitives.push_back(p);
+#ifdef DEBUG_PRINT
             d_printf("ApertureTemplateRectangle::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+#endif
         }
 
         else{
@@ -431,7 +456,9 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
 
         if(p->isValid()){
             outPrimitives.push_back(p);
+#ifdef DEBUG_PRINT
             d_printf("ApertureTemplateObround::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+#endif
         }
 
         else{
@@ -451,7 +478,9 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
 
         if(p->isValid()){
             outPrimitives.push_back(p);
+#ifdef DEBUG_PRINT
             d_printf("ApertureTemplateObround::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+#endif
         }
 
         else{
@@ -470,7 +499,9 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
 
         if(p->isValid()){
             outPrimitives.push_back(p);
+#ifdef DEBUG_PRINT
             d_printf("ApertureTemplateObround::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+#endif
         }
 
         else{
@@ -493,7 +524,9 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
 
         if(p->isValid()){
             outPrimitives.push_back(p);
+#ifdef DEBUG_PRINT
             d_printf("ApertureTemplateObround::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+#endif
         }
 
         else{
@@ -513,7 +546,9 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
 
         if(p->isValid()){
             outPrimitives.push_back(p);
+#ifdef DEBUG_PRINT
             d_printf("ApertureTemplateObround::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+#endif
         }
 
         else{
@@ -532,7 +567,9 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
 
         if(p->isValid()){
             outPrimitives.push_back(p);
+#ifdef DEBUG_PRINT
             d_printf("ApertureTemplateObround::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+#endif
         }
 
         else{
@@ -556,7 +593,9 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
 
         if(p->isValid()){
             outPrimitives.push_back(p);
+#ifdef DEBUG_PRINT
             d_printf("ApertureTemplateObround::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+#endif
         }
 
         else{
@@ -611,7 +650,9 @@ bool ApertureTemplateRegularPolygon::buildAperturePrimitives(const vector<Apertu
 
     if(p->isValid()){
         outPrimitives.push_back(p);
+#ifdef DEBUG_PRINT
         d_printf("ApertureTemplateRegularPolygon::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+#endif
     }
 
     else{
@@ -633,7 +674,9 @@ bool ApertureTemplateRegularPolygon::buildAperturePrimitives(const vector<Apertu
 
         if(p->isValid()){
             outPrimitives.push_back(p);
+#ifdef DEBUG_PRINT
             d_printf("ApertureTemplateRegularPolygon::buildAperturePrimitives: " + p->getStringInfos(), 1, 2);
+#endif
         }
 
         else{

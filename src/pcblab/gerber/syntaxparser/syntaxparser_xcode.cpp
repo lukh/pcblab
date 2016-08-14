@@ -28,7 +28,9 @@ bool SyntaxParser::parseXCode(istream &inStream){
                 break; // it is necessary to continue to scan the Extended block
 
             case eXCodeFs:
+#ifdef DEBUG_PRINT
                 d_printf("SyntaxParser(XCode) > CoordinateFormat(FS)", 2, 1);
+#endif
                 if(!parseXCode_FS(inStream)){
                     return false;
                 }
@@ -36,7 +38,9 @@ bool SyntaxParser::parseXCode(istream &inStream){
                 break;
 
             case eXCodeMo:
+#ifdef DEBUG_PRINT
                 d_printf("SyntaxParser(XCode) > UnitSelection(MM)", 2, 1);
+#endif
                 if(!parseXCode_MO(inStream)){
                     return false;
                 }
@@ -45,7 +49,9 @@ bool SyntaxParser::parseXCode(istream &inStream){
 
 
             case eXCodeLp:
+#ifdef DEBUG_PRINT
                 d_printf("SyntaxParser(XCode) > Add new level (LP)", 2, 1);
+#endif
                 if(!parseXCode_LP(inStream)){
                     return false;
                 }
@@ -53,7 +59,9 @@ bool SyntaxParser::parseXCode(istream &inStream){
 
 
             case eXCodeAd:
+#ifdef DEBUG_PRINT
                 d_printf("SyntaxParser(XCode) > Add Aperture (AD)", 2, 1);
+#endif
                 if(!parseXCode_AD(inStream)){
                     return false;
                 }
@@ -61,7 +69,9 @@ bool SyntaxParser::parseXCode(istream &inStream){
 
 
             case eXCodeAm:
+#ifdef DEBUG_PRINT
                 d_printf("SyntaxParser(XCode) > Add ApertureTemplate (AM)", 2, 1);
+#endif
                 if(!parseXCode_AM(inStream)){
                     return false;
                 }
@@ -69,8 +79,10 @@ bool SyntaxParser::parseXCode(istream &inStream){
 
 
             default:
+#ifdef DEBUG_PRINT
                 //let's ignore the full unknown command
                 d_printf("WARNING: unhandled XCmd:" + string(1, ch1) + string(1, ch2), 1, 1);
+#endif
                 do{
                     ch = inStream.get();
                 }while(ch != '*' && ch != EOF);
@@ -95,7 +107,9 @@ bool SyntaxParser::parseXCode_FS(istream &inStream){
             err_printf("ERROR(ParseXCode): Trailing zero omission is deprecated" );
             break;
         case 'L':
+#ifdef DEBUG_PRINT
             d_printf("Leading zeros: ok", 2, 2);
+#endif
             break;
         default:
             err_printf("ERROR(ParseXCode): Wrong char in FS cmd (expected L or T)" );
@@ -108,7 +122,9 @@ bool SyntaxParser::parseXCode_FS(istream &inStream){
            err_printf("ERROR(ParseXCode): Incremental coord is deprecated" );
             break;
         case 'A':
+#ifdef DEBUG_PRINT
             d_printf("Absolute coords: ok", 2, 2);
+#endif
             break;
         default:
             err_printf("ERROR(ParseXCode): Wrong char in FS cmd (expected A or I)" );
@@ -126,14 +142,18 @@ bool SyntaxParser::parseXCode_FS(istream &inStream){
     if(isNumber(ch)){
         format.mIntegers = charToNum(ch);
 
+#ifdef DEBUG_PRINT
         d_printf("INT_X = " + to_string(format.mIntegers), 2, 2);
+#endif
     } else {err_printf("ERROR(ParseXCode): Wrong char in FS cmd (Expected X Int num)" ); return false; }
     //dec
     ch = inStream.get();
     if(isNumber(ch)){
         format.mDecimals = charToNum(ch);
 
+#ifdef DEBUG_PRINT
         d_printf("DEC_X = " + to_string(format.mDecimals), 2, 2);
+#endif
     } else {err_printf("ERROR(ParseXCode): Wrong char in FS cmd (Expected X Dec num)" ); return false; }
 
 
@@ -222,7 +242,9 @@ bool SyntaxParser::parseXCode_LP(istream &inStream){
         return false;
     }
 
+#ifdef DEBUG_PRINT
     d_printf("addNewLevel", 2, 2);
+#endif
     addNewLevel(polarity);
     return true;
 }
@@ -271,12 +293,16 @@ bool SyntaxParser::parseXCode_AD(istream &inStream){
     // extract the name
     while((ch = inStream.get()) != EOF){
         if(ch == '*'){
+#ifdef DEBUG_PRINT
             d_printf("addAperture: (" + name + ") D" + to_string(dcode), 2, 2);
+#endif
             addAperture(dcode, name, modifiers); //does it have any sense ???
             return true;
         }
         else if(ch == ','){
+#ifdef DEBUG_PRINT
             d_printf("addAperture: (" + name + ") D" + to_string(dcode), 2, 2);
+#endif
             break;
         }
         else{
@@ -327,7 +353,9 @@ bool SyntaxParser::extractApertureModifiers(istream &inStream, vector<ApertureMo
                     outStatus = false;
                     return false;
                 };
+#ifdef DEBUG_PRINT
                 d_printf("addApertureModifier: (" + to_string(mod) + ")", 2, 3);
+#endif
 
                 return not_done;
 
@@ -363,7 +391,9 @@ bool SyntaxParser::parseXCode_AM(istream &inStream){
         name.push_back(read);
     }
 
+#ifdef DEBUG_PRINT
     d_printf("adding: ApertureTemplate(" + name + ")", 2, 2);
+#endif
 
     //extract content
     bool iscmt=false, newcmd = true;
@@ -388,7 +418,9 @@ bool SyntaxParser::parseXCode_AM(istream &inStream){
                 break;
 
             case '%':
+#ifdef DEBUG_PRINT
                 d_printf("defineApertureTemplate(" + name + ")", 2, 2);
+#endif
                 defineApertureTemplate(name, v_content);
                 return true;
 
@@ -414,7 +446,9 @@ bool SyntaxParser::parseXCode_AM(istream &inStream){
 
 
 bool SyntaxParser::extractAM_Content(string &inContent, vector<string> &outContent){
+#ifdef DEBUG_PRINT
     d_printf("addAMCmd: (" + inContent + ")", 2, 3);
+#endif
 
     string allowed_chars("$0123456789.()+-x/=,");
 
