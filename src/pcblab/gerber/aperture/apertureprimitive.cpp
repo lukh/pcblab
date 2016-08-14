@@ -43,6 +43,40 @@ IAperturePrimitive::IAperturePrimitive(IAperturePrimitive::eType inType):
     d_printf(str, 4, 0, false);
 }
 
+Rectangle IAperturePrimitive::rotateBoundingBox(Rectangle inRect, double inAngle)
+{
+    Point p1 = inRect.getBottomLeft();
+    Point p2 = inRect.getTopRight();
+
+    //compute with  rotation.
+    //the four points of the rectangle
+    Point pa(p1.mX,p1.mY), pb(p1.mX, p2.mY), pc(p2.mX,p1.mY), pd(p2.mX,p2.mY);
+
+    //With Rotation
+    // in radian
+    double rot = inAngle* M_PI / 180;
+    double cosTheta = cos(rot);
+    double sinTheta = sin(rot);
+
+
+    // defines the for point of the rotated rectangle
+    Point pa_p(pa.mX*cosTheta - pa.mY*sinTheta, pa.mX*sinTheta + pa.mY*cosTheta);
+    Point pb_p(pb.mX*cosTheta - pb.mY*sinTheta, pb.mX*sinTheta + pb.mY*cosTheta);
+    Point pc_p(pc.mX*cosTheta - pc.mY*sinTheta, pc.mX*sinTheta + pc.mY*cosTheta);
+    Point pd_p(pd.mX*cosTheta - pd.mY*sinTheta, pd.mX*sinTheta + pd.mY*cosTheta);
+
+
+    //find min and max for x,y
+    vector<Point> pts_list;
+    pts_list.push_back(pa_p);
+    pts_list.push_back(pb_p);
+    pts_list.push_back(pc_p);
+    pts_list.push_back(pd_p);
+
+
+    return Rectangle::getBounds(pts_list);
+}
+
 
 
 APrimCircle::APrimCircle(): IAperturePrimitive(eCircle) {}
@@ -61,32 +95,11 @@ Rectangle APrimCircle::getBoundingBox()
     double x2 = getX()+getDiameter()/2;
     double y2 = getY()+getDiameter()/2;
 
-    //the for points of the rectangle
-    Point p1(x1,y1), p2(x1, y2), p3(x2,y1), p4(x2,y2);
+    Point p1(x1,y1), p2(x2,y2);
 
-    //With Rotation
-    // in radian
-    double angle = getRot()* M_PI / 180;
-    double cosTheta = cos(angle);
-    double sinTheta = sin(angle);
+    Rectangle bb(p1, p2);
 
-
-    // defines the for point of the rotated rectangle
-    Point p1_p(p1.mX*cosTheta - p1.mY*sinTheta, p1.mX*sinTheta + p1.mY*cosTheta);
-    Point p2_p(p2.mX*cosTheta - p2.mY*sinTheta, p2.mX*sinTheta + p2.mY*cosTheta);
-    Point p3_p(p3.mX*cosTheta - p3.mY*sinTheta, p3.mX*sinTheta + p3.mY*cosTheta);
-    Point p4_p(p4.mX*cosTheta - p4.mY*sinTheta, p4.mX*sinTheta + p4.mY*cosTheta);
-
-
-    //find min and max for x,y
-    vector<Point> pts_list;
-    pts_list.push_back(p1_p);
-    pts_list.push_back(p2_p);
-    pts_list.push_back(p3_p);
-    pts_list.push_back(p4_p);
-
-
-    return Rectangle::getBounds(pts_list);
+    return rotateBoundingBox(bb, getRot());
 }
 
 APrimVectorLine::APrimVectorLine(): IAperturePrimitive(eVectorLine) {}
@@ -111,15 +124,9 @@ Rectangle APrimVectorLine::getBoundingBox()
     p1.mY = ps.mY - getWidth()*cos(angle)/2.0;
     p2.mY = pe.mY + getWidth()*cos(angle)/2.0;
 
-    //compute with  rotation.
-    //TOCHECK
-    p1.mX = p1.mX * cos(M_PI*getRot()/180.0);
-    p2.mX = p2.mX * cos(M_PI*getRot()/180.0);
+    Rectangle bb(p1, p2);
 
-    p1.mY = p1.mY * sin(M_PI*getRot()/180.0);
-    p2.mY = p2.mY * sin(M_PI*getRot()/180.0);
-
-    return Rectangle(p1,p2);
+    return rotateBoundingBox(bb, getRot());
 }
 
 APrimCenterLine::APrimCenterLine(): IAperturePrimitive(eCenterLine) {}

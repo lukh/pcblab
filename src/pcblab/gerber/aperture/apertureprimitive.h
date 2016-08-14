@@ -69,6 +69,10 @@ class IAperturePrimitive{
 
 
     protected:
+        /// Gets the bounding box of a rectangle inRect, rotated by a angle of inAngle (deg) regarding (0,0) point
+        static Rectangle rotateBoundingBox(Rectangle inRect, double inAngle);
+
+    protected:
         vector <ApertureModifier> mModifiers;
 
     private:
