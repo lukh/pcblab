@@ -30,7 +30,7 @@ enum eExtension{
 typedef map<eExtension, string> PcbFiles;
 
 
-static const double kEqThreshold = 0.000000001;
+static const double kEqThreshold = 0.00001;
 bool isEqual(double a, double b);
 
 

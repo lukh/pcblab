@@ -152,9 +152,91 @@ void Test_APCircle::test_boundingBox_Rotation90()
 
 
 
+
+
+
+Test_APVectorLine::Test_APVectorLine()
+{
+
+}
+
+void Test_APVectorLine::setUp()
+{
+    // --- Vector line - 0 degree ---
+    //exposure
+    mVL0deg.addModifier(1.0);
+    //width
+    mVL0deg.addModifier(2.0);
+    //x1
+    mVL0deg.addModifier(0.0);
+    //y1
+    mVL0deg.addModifier(0.0);
+    //x2
+    mVL0deg.addModifier(10.0);
+    //y2
+    mVL0deg.addModifier(10.0);
+    //rot - degree
+    mVL0deg.addModifier(0.0);
+
+    // --- Vector line - 0 degree - Inverted---
+    //exposure
+    mVL0degInv.addModifier(1.0);
+    //width
+    mVL0degInv.addModifier(2.0);
+    //x1
+    mVL0degInv.addModifier(10.0);
+    //y1
+    mVL0degInv.addModifier(10.0);
+    //x2
+    mVL0degInv.addModifier(0.0);
+    //y2
+    mVL0degInv.addModifier(0.0);
+    //rot - degree
+    mVL0degInv.addModifier(0.0);
+
+}
+
+void Test_APVectorLine::tearDown()
+{
+
+}
+
+void Test_APVectorLine::test_isValid()
+{
+    CPPUNIT_ASSERT(mVL0deg.isValid());
+}
+
+void Test_APVectorLine::test_boundingBox_0Deg()
+{
+    // this one
+    Rectangle bb = mVL0deg.getBoundingBox();
+
+    CPPUNIT_ASSERT(isEqual(bb.getBottomLeft().mX, -0.7071067));
+    CPPUNIT_ASSERT(isEqual(bb.getBottomLeft().mY, -0.7071067));
+    CPPUNIT_ASSERT(isEqual(bb.getTopRight().mX, 10.7071067));
+    CPPUNIT_ASSERT(isEqual(bb.getTopRight().mY, 10.7071067));
+}
+
+void Test_APVectorLine::test_boundingBox_0DegInv()
+{
+    // this one
+    Rectangle bb = mVL0degInv.getBoundingBox();
+
+    CPPUNIT_ASSERT(isEqual(bb.getBottomLeft().mX, -0.7071067));
+    CPPUNIT_ASSERT(isEqual(bb.getBottomLeft().mY, -0.7071067));
+    CPPUNIT_ASSERT(isEqual(bb.getTopRight().mX, 10.7071067));
+    CPPUNIT_ASSERT(isEqual(bb.getTopRight().mY, 10.7071067));
+}
+
+
+
+
+
+
 int main(int argc, char **argv){
     CppUnit::TextUi::TestRunner runner;
     runner.addTest( Test_APCircle::suite() );
+    runner.addTest( Test_APVectorLine::suite() );
 
     runner.run();
     return 0;
