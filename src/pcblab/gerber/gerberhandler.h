@@ -48,22 +48,30 @@ class GerberHandler{
         void close();
 
 
+        /// get the existing order list
+        const ExtensionOrderList& getOrderList() { return mMap; }
+
+        /// set a new order list
+        /// if a identifier doesn't exist in the layers, it is ignored, all missing identifiers in the list are added to the end
+        void setOrderList(const ExtensionOrderList &inList);
+
+
     private:
         /// defines the map of layer, with their identifier
         typedef map<string, GerberLayer *> LayerMap;
 
 
-        static ExtensionOrderList createExtensionOrderMap(){
+        static ExtensionOrderList createExtensionOrderMap_Altium(){
             ExtensionOrderList map;
 
-            /*map["GBO"] = 0; //silkscreen
-            map["GBP"] = 1; //paste
-            map["GBS"] = 2; //solder
-            map["GBL"] = 3; //layer
-            map["GTL"] = 4; //layer
-            map["GTS"] = 5; //solder
-            map["GTP"] = 6; //paste
-            map["GTO"] = 7; //silkscreen*/
+            map.push_back("GBO"); //silkscreen
+            map.push_back("GBP"); //paste
+            map.push_back("GBS"); //solder
+            map.push_back("GBL"); //layer
+            map.push_back("GTL"); //layer
+            map.push_back("GTS"); //solder
+            map.push_back("GTP"); //paste
+            map.push_back("GTO"); //silkscreen
 
             return map;
         }

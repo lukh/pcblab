@@ -103,3 +103,38 @@ void GerberHandler::close()
     mLayers.clear();
     mMap.clear();
 }
+
+void GerberHandler::setOrderList(const GerberHandler::ExtensionOrderList &inList)
+{
+    mMap.clear();
+
+
+    ExtensionOrderList missing;
+
+    // add missing ext/id if linList doesn't contain all elements
+    for(LayerMap::iterator it = mLayers.begin(); it != mLayers.end(); ++it){
+        string id = *it->first;
+        //if the existing id is not in the list given
+        if (find(inList.begin(), inList.end(), id) == inList.end()){
+            missing.push_back(id);
+        }
+    }
+
+    // add the id to the mMap if needed, other are ignored
+    for(ExtensionOrderList::iterator it = inOrder.begin(); it != inOrder.end(); ++it){
+        string id = *it;
+        if(mLayers.count(id) != 0){
+            mMap.push_back(id);
+        }
+    }
+
+    // add the missing ids
+    for(ExtensionOrderList::iterator it = missing.begin(); it != missing.end(); ++it){
+        string id = *it;
+        mMap.push_back(id);
+    }
+}
+
+
+
+
