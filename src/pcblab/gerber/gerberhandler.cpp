@@ -23,8 +23,9 @@ void GerberHandler::openFolder(const string &inFolderName, ExtensionOrderList in
         return;
     }
 
-
-    //cout << "--- Listing all files in the folder " << inFolderName << endl;
+#ifdef DEBUG_PRINT
+    d_printf("--- Listing all files in the folder " + inFolderName, 1, 0);
+#endif
 
     // list the existing files
     for(vector<string>::iterator it = files.begin(); it != files.end(); ++it){
@@ -34,14 +35,18 @@ void GerberHandler::openFolder(const string &inFolderName, ExtensionOrderList in
         if(getExtensionFromFilename(file, ext)){
             transform(ext.begin(), ext.end(),ext.begin(), ::toupper);
 
-            //cout << "   > ext:" << ext << "= " << file  << ", added to mapped_files" << endl;
+#ifdef DEBUG_PRINT
+            d_printf("   > ext:" + ext + "= " + file  + " found", 1, 0);
+#endif
 
             mapped_files[ext] = file;
         }
     }
 
 
-    cout << " --- Filtering the files" << endl;
+#ifdef DEBUG_PRINT
+    d_printf("--- Adding the files to the handler ---", 1, 0);
+#endif
 
     // add the file if in the order list and in the folder
     uint8_t idx = 0;
@@ -52,7 +57,9 @@ void GerberHandler::openFolder(const string &inFolderName, ExtensionOrderList in
         if(mapped_files.count(ext) != 0){
             string full_path = inFolderName + "/" + mapped_files[ext];
 
-            //cout << "   > " << ext << ": " << full_path << " added to the map" << endl;
+#ifdef DEBUG_PRINT
+            d_printf("   > " + ext + ": " + full_path + " added", 1, 0);
+#endif
 
             mMap.push_back(ext);
             openGerberLayer(ext, full_path, ext, idx++);
