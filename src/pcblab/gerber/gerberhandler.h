@@ -21,7 +21,7 @@ class GerberHandler{
     public:
         /// defines a map of extension for searching/opening a folder
         /// The index is the position, 0 is the top
-        typedef list<string> ExtensionOrderList;
+        typedef vector<string> ExtensionOrderList;
 
 
 
@@ -34,7 +34,7 @@ class GerberHandler{
 
         /// Opens a folder containing all gerber files, based on files names (filenames are used for names and identifiers)
         /// The first entry ([0]) of the list is the top
-        void openFolder(const string &inFolderName, vector<string> inFileNames);
+        void openFolderWithList(const string &inFolderName, vector<string> inFileNames);
 
         /// Opens a Gerber Layer,
         /// The name is given to the layer object,
@@ -46,6 +46,12 @@ class GerberHandler{
 
         /// clean existing layers
         void close();
+
+        /// get the number of layers
+        uint8_t getLayersCount() const { return mLayers.size(); }
+
+        /// return the layer specified by inIdx, return value specifies if failed or not
+        bool getLayer(uint8_t inIdx, GerberLayer **outLayer);
 
 
 

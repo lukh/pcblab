@@ -68,7 +68,7 @@ void GerberHandler::openFolder(const string &inFolderName, ExtensionOrderList in
 
 }
 
-void GerberHandler::openFolder(const string &inFolderName, vector<string> inFileNames)
+void GerberHandler::openFolderWithList(const string &inFolderName, vector<string> inFileNames)
 {
     close();
 
@@ -109,6 +109,17 @@ void GerberHandler::close()
 
     mLayers.clear();
     mMap.clear();
+}
+
+bool GerberHandler::getLayer(uint8_t inIdx, GerberLayer **outLayer) {
+    if(inIdx >= getLayersCount()){ return false; }
+
+    string id = mMap[inIdx];
+
+    if(mLayers.count(id) != 1){ return false; }
+
+    *outLayer = mLayers[id];
+    return true;
 }
 
 void GerberHandler::setOrderList(const GerberHandler::ExtensionOrderList &inList)
