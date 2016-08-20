@@ -141,13 +141,13 @@ bool QtOpenCVViewer::showImage(cv::Mat &inImage)
     return true;
 }
 
-uint32_t QtOpenCVViewer::getWidth()
+uint32_t QtOpenCVViewer::getWidth() const
 {
     //return mRenderWidth;
     return width();
 }
 
-uint32_t QtOpenCVViewer::getHeight()
+uint32_t QtOpenCVViewer::getHeight() const
 {
     //return mRenderHeight;
     return height();

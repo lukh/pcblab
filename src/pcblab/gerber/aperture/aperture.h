@@ -32,15 +32,15 @@ class Aperture{
         // build the primitives from the template and aperture modifiers
         void build(const vector<ApertureModifier> &inModifiers);
 
-        uint32_t getDCode() { return mDCode; }
+        uint32_t getDCode() const { return mDCode; }
 
         ///defines if the aperture is complete and clean
-        bool isValid();
+        bool isValid() const;
 
-        Rectangle getBoundingBox();
+        Rectangle getBoundingBox() const;
 
-        const IApertureTemplate &getTemplate() { return mTemplate; }
-        vector<IAperturePrimitive *> getPrimitives() {return mPrimitives; }
+        const IApertureTemplate &getTemplate() const { return mTemplate; }
+        const vector<IAperturePrimitive *> getPrimitives() const { return mPrimitives; }
 
     private:
         /// Aperture number

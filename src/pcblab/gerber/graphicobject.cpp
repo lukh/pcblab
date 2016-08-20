@@ -1,7 +1,7 @@
 #include "graphicobject.h"
 
 
-Rectangle GraphicObjectDraw::getBoundingBox()
+Rectangle GraphicObjectDraw::getBoundingBox() const
 {
     return Rectangle(); //TODO
 }
@@ -10,7 +10,7 @@ Rectangle GraphicObjectDraw::getBoundingBox()
 
 
 
-Rectangle GraphicObjectFlash::getBoundingBox()
+Rectangle GraphicObjectFlash::getBoundingBox() const
 {
     return Rectangle(); //TODO
 }
@@ -111,7 +111,7 @@ GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point i
 #endif
 }
 
-Rectangle GraphicObjectArc::getBoundingBox()
+Rectangle GraphicObjectArc::getBoundingBox() const
 {
     return Rectangle(); //TODO
 }
@@ -151,9 +151,9 @@ void GraphicObjectRegion::Contour::addSegment(Point inStart, Point inStop, Point
 }
 
 /// checks if the contour is closed
-bool GraphicObjectRegion::Contour::isClosed(){
+bool GraphicObjectRegion::Contour::isClosed() const{
     IGraphicObjectTrack *track, *last_track = NULL;
-    for(vector<IGraphicObject*>::iterator it = mSegments.begin(); it != mSegments.end(); ++it){
+    for(vector<IGraphicObject*>::const_iterator it = mSegments.begin(); it != mSegments.end(); ++it){
         //extract the track information
         track = convert2Track((*it));
 
@@ -201,7 +201,7 @@ void GraphicObjectRegion::Contour::close()
 }
 
 /// checks if the Point is in the contour (contour must be closed)
-bool GraphicObjectRegion::Contour::isInside(Point inPoint){
+bool GraphicObjectRegion::Contour::isInside(Point inPoint) const{
     // a point is inside the contour if: the contour is closed, the point is on the same side of wich track
     if(!isClosed()){
         return false;
@@ -211,7 +211,7 @@ bool GraphicObjectRegion::Contour::isInside(Point inPoint){
     // check positition of the point regarding to the track
     double nx, ny, nxp1, nyp1; //vector coordinates normalized against inPoint
     double w = 0; //winding number
-    for(vector<IGraphicObject*>::iterator it = mSegments.begin(); it != mSegments.end(); ++it){
+    for(vector<IGraphicObject*>::const_iterator it = mSegments.begin(); it != mSegments.end(); ++it){
         switch((*it)->getType()){
             case IGraphicObject::eTypeLine:{
                 GraphicObjectDraw *draw = static_cast<GraphicObjectDraw*>((*it));
@@ -286,11 +286,11 @@ bool GraphicObjectRegion::Contour::isInside(Point inPoint){
     return w!=0;
 }
 
-bool GraphicObjectRegion::Contour::isCrossing(IGraphicObject *inObject)
+bool GraphicObjectRegion::Contour::isCrossing(IGraphicObject *inObject) const
 {
     bool ret = false;
 
-    for(vector<IGraphicObject*>::iterator it = mSegments.begin(); it != mSegments.end(); ++it){
+    for(vector<IGraphicObject*>::const_iterator it = mSegments.begin(); it != mSegments.end(); ++it){
         switch((*it)->getType()){
             case IGraphicObject::eTypeLine:{
                 GraphicObjectDraw *draw = static_cast<GraphicObjectDraw*>((*it));
@@ -355,7 +355,7 @@ bool GraphicObjectRegion::Contour::isCrossing(GraphicObjectArc *inArc1, GraphicO
 
 
 /// checks the connection with another contour
-GraphicObjectRegion::Contour::eContoursConnection GraphicObjectRegion::Contour::getConnection(const Contour &inContour){
+GraphicObjectRegion::Contour::eContoursConnection GraphicObjectRegion::Contour::getConnection(const Contour &inContour) const{
     (void)inContour;
 }
 
@@ -414,7 +414,7 @@ GraphicObjectRegion:: ~GraphicObjectRegion(){
     }
 }
 
-Rectangle GraphicObjectRegion::getBoundingBox()
+Rectangle GraphicObjectRegion::getBoundingBox() const
 {
     return Rectangle(); //TODO
 }

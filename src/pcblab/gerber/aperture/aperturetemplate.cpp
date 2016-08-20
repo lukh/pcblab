@@ -24,7 +24,7 @@ ATCmdVarDef::ATCmdVarDef(const string &inVariableDef): ATCommand() {
     mValid = true;
 }
 
-bool ATCmdVarDef::build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives)
+bool ATCmdVarDef::build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives) const
 {
     if(!mValid){
         return false;
@@ -96,7 +96,7 @@ ATCmdPrimitive::ATCmdPrimitive(const string &inPrimitiveDescr): ATCommand() {
     mValid = true;
 }
 
-bool ATCmdPrimitive::build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives)
+bool ATCmdPrimitive::build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives) const
 {
     if(!mValid){
         return false;
@@ -145,8 +145,8 @@ bool ATCmdPrimitive::build(ApVarSymbolTable &inVariables, vector<IAperturePrimit
 
 
     //evaluate and add modifiers
-    for (vector<string>::iterator it = mStrModifiers.begin(); it != mStrModifiers.end(); ++it) {
-        string &strmod = *it;
+    for (vector<string>::const_iterator it = mStrModifiers.begin(); it != mStrModifiers.end(); ++it) {
+        const string &strmod = *it;
 
         AlgorithmExpr expr(strmod);
 

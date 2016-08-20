@@ -50,7 +50,7 @@ class GerberHandler{
 
 
         /// get the existing order list
-        const ExtensionOrderList& getOrderList() { return mMap; }
+        const ExtensionOrderList& getOrderList() const { return mMap; }
 
         /// set a new order list
         /// if a identifier doesn't exist in the layers, it is ignored, all missing identifiers in the list are added to the end

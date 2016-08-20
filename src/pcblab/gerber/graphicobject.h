@@ -52,11 +52,11 @@ class IGraphicObject{
 
 
         Aperture *getAperture() const { return mAperture; }
-        eType getType() { return mType; }
+        eType getType() const { return mType; }
 
         bool isValid() const { return mValid; }
 
-        virtual Rectangle getBoundingBox() = 0;
+        virtual Rectangle getBoundingBox() const = 0;
 
     protected:
         Aperture *mAperture; //should it be DCode ?
@@ -100,7 +100,7 @@ class GraphicObjectDraw: public IGraphicObject, public IGraphicObjectTrack{
         virtual ~GraphicObjectDraw() {}
 
 
-        virtual Rectangle getBoundingBox();
+        virtual Rectangle getBoundingBox() const;
 };
 
 
@@ -114,7 +114,7 @@ class GraphicObjectArc: public IGraphicObject, public IGraphicObjectTrack{
 
         virtual ~GraphicObjectArc() {}
 
-        virtual Rectangle getBoundingBox();
+        virtual Rectangle getBoundingBox() const;
 
         /// returns the center (and not the offset !)
         Point getCenter() const { return mCenter; }
@@ -138,7 +138,7 @@ class GraphicObjectFlash: public IGraphicObject{
         GraphicObjectFlash(Point inPoint, Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeFlash, inAperture), mPoint(inPoint) { mValid = true; }
 
 
-        virtual Rectangle getBoundingBox();
+        virtual Rectangle getBoundingBox() const;
 
     private:
         Point mPoint;
@@ -171,29 +171,29 @@ class GraphicObjectRegion: public IGraphicObject{
                 void addSegment(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode);
 
                 /// checks if the contour is closed
-                bool isClosed();
+                bool isClosed() const;
 
                 /// Implements the closing of the contour
                 void close();
 
 
                 /// get the segments list
-                const vector <IGraphicObject *> getSegments() { return mSegments; }
+                const vector <IGraphicObject *> getSegments() const { return mSegments; }
 
 
 
                 /// checks if the Point is in the contour (contour must be closed)
-                bool isInside(Point inPoint);
+                bool isInside(Point inPoint) const;
 
                 /// checks if the Segment crosses the contour
-                bool isCrossing(IGraphicObject *inObject);
+                bool isCrossing(IGraphicObject *inObject) const;
 
                 static bool isCrossing(GraphicObjectDraw *inDraw1, GraphicObjectDraw *inDraw2);
                 static bool isCrossing(GraphicObjectArc *inArc, GraphicObjectDraw *inDraw);
                 static bool isCrossing(GraphicObjectArc *inArc1, GraphicObjectArc *inArc2);
 
                 /// checks the connection with another contour
-                eContoursConnection getConnection(const Contour &inContour);
+                eContoursConnection getConnection(const Contour &inContour) const;
 
 
 
@@ -246,10 +246,10 @@ class GraphicObjectRegion: public IGraphicObject{
         virtual ~GraphicObjectRegion();
 
 
-        const vector<Contour *> getContours() { return mContours; }
+        const vector<Contour *> getContours() const { return mContours; }
 
 
-        virtual Rectangle getBoundingBox();
+        virtual Rectangle getBoundingBox() const;
 
 
     private:

@@ -5,7 +5,7 @@ PcbLab::PcbLab()
 
 }
 
-void PcbLab::openFolder(string &inFolderName, GerberHandler::ExtensionOrderList inOrder)
+void PcbLab::openFolder(const string &inFolderName, GerberHandler::ExtensionOrderList inOrder)
 {
     mGerber.openFolder(inFolderName, inOrder);
     //mPnp.open...
@@ -14,12 +14,12 @@ void PcbLab::openFolder(string &inFolderName, GerberHandler::ExtensionOrderList 
 }
 
 
-void PcbLab::openPnPLayer(string &inFilename)
+void PcbLab::openPnPLayer(const string &inFilename)
 {
 
 }
 
-void PcbLab::openNetlistLayer(string &inFilename)
+void PcbLab::openNetlistLayer(const string &inFilename)
 {
 
 }

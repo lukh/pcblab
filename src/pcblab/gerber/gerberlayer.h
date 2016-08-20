@@ -68,7 +68,7 @@ class GerberLayer: public SyntaxParser {
         // ------------------------------------------------------
         // ---------------- getters/ setters --------------------
         // ------------------------------------------------------
-        string getName() { return mName; }
+        string getName() const { return mName; }
 
         vector<GerberLevel *> &getLevels() { return mLevels; }
 

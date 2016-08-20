@@ -393,7 +393,7 @@ void CairoGerberViewer::drawRegion(GraphicObjectRegion *inRegion)
 
 }
 
-uint32_t CairoGerberViewer::getWidth()
+uint32_t CairoGerberViewer::getWidth() const
 {
     if(mSurface == NULL){
         return 0;
@@ -402,7 +402,7 @@ uint32_t CairoGerberViewer::getWidth()
     return cairo_image_surface_get_width(mSurface);
 }
 
-uint32_t CairoGerberViewer::getHeight()
+uint32_t CairoGerberViewer::getHeight() const
 {
     if(mSurface == NULL){
         return 0;

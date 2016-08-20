@@ -14,12 +14,12 @@ using namespace std;
 class IOpenCVViewer{
     public:
         IOpenCVViewer() {}
-        virtual ~IOpenCVViewer() {};
+        virtual ~IOpenCVViewer() {}
 
         virtual bool showImage(cv::Mat &inImage) = 0; /// Used to set the image to be viewed
 
-        virtual uint32_t getWidth() = 0;
-        virtual uint32_t getHeight() = 0;
+        virtual uint32_t getWidth() const = 0;
+        virtual uint32_t getHeight() const = 0;
 };
 
 

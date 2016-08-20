@@ -24,8 +24,8 @@ class CairoGerberViewer: public IGerberView
         void drawRegion(GraphicObjectRegion *inRegion);
 
 
-        virtual uint32_t getWidth();
-        virtual uint32_t getHeight();
+        virtual uint32_t getWidth() const;
+        virtual uint32_t getHeight() const;
 
 
         cairo_surface_t *getSurface() {return mSurface;}

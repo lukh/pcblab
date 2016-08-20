@@ -95,33 +95,33 @@ class GraphicState {
     virtual ~GraphicState () {}
 
 
-    CoordinateFormat &getCoordFormat () { return mCoordFormat; }
+    const CoordinateFormat &getCoordFormat () const { return mCoordFormat; }
     void setCoordFormat(CoordinateFormat inCoordFormat) { mCoordFormat = inCoordFormat; }
 
-    eUnit getUnit () { return mUnit; }
+    eUnit getUnit () const { return mUnit; }
     void setUnit(eUnit inUnit) { mUnit = inUnit; }
 
-    Aperture* getCurrentAperture () { return mCurrentAperture; }
+    Aperture* getCurrentAperture () const { return mCurrentAperture; }
     void setCurrentAperture(Aperture* inCurrentAperture) { mCurrentAperture = inCurrentAperture; }
 
-    eQuadrantMode getQuadrantMode () { return mQuadrantMode; }
+    eQuadrantMode getQuadrantMode () const { return mQuadrantMode; }
     void setQuadrantMode(eQuadrantMode inQuadrantMode) { mQuadrantMode = inQuadrantMode; }
 
-    eInterpolationMode getInterpolationMode () { return mInterpolationMode; }
+    eInterpolationMode getInterpolationMode () const { return mInterpolationMode; }
     void setInterpolationMode(eInterpolationMode inInterpolationMode) { mInterpolationMode = inInterpolationMode; }
 
-    Point &getCurrentPoint () { return mCurrentPoint; }
+    const Point &getCurrentPoint () const { return mCurrentPoint; }
     void setCurrentPoint(Point inCurrentPoint) {
         mCurrentPoint.updateCoordinates(inCurrentPoint);
     }
 
-    StepAndRepeat & getSR () { return mSR; }
+    const StepAndRepeat &getSR () const { return mSR; }
     //void setSR(StepAndRepeat inSR) { mSR = inSR; }
 
-    eLevelPolarity getLevelPolarity () { return mLevelPolarity; }
+    eLevelPolarity getLevelPolarity () const { return mLevelPolarity; }
     void setLevelPolarity(eLevelPolarity inLevelPolarity) { mLevelPolarity = inLevelPolarity; }
 
-    eRegionMode getRegMode () { return mRegMode; }
+    eRegionMode getRegMode () const { return mRegMode; }
     void setRegMode(eRegionMode inRegMode) { mRegMode = inRegMode; }
 
   private:

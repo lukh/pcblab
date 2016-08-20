@@ -28,8 +28,8 @@ class QtOpenCVViewer : public QOpenGLWidget, protected QOpenGLFunctions_2_0, pub
     public:
         virtual bool showImage(cv::Mat &inImage); /// Used to set the image to be viewed
 
-        virtual uint32_t getWidth();
-        virtual uint32_t getHeight();
+        virtual uint32_t getWidth() const;
+        virtual uint32_t getHeight() const;
 
     protected:
         void initializeGL(); /// OpenGL initialization
