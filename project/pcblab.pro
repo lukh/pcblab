@@ -40,7 +40,8 @@ SOURCES += \
     ../src/gui/cairogerberviewer/cairogerberviewer.cpp \
     ../src/pcblab/pcblab.cpp \
     ../src/pcblab/gerber/gerberhandler.cpp \
-    ../src/gui/processorwrapper.cpp
+    ../src/gui/processorwrapper.cpp \
+    ../src/tools/fio.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -66,6 +67,8 @@ HEADERS  += \
     ../src/pcblab/pcblab.h \
     ../src/gui/processorwrapper.h \
     ../src/config.h
+    ../src/tools/fio.h
+
 
 
 
