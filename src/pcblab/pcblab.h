@@ -18,11 +18,7 @@ class PcbLab
 
 
         /// Opens a folder containing all CAD files (gerbers, pnp, netlists, etc)
-        void openFolder(string &inFolderName);
-
-
-        /// Opens a specific layer
-        void openGerberLayer(string &inName, string &inFilename, uint8_t inPosition);
+        void openFolder(string &inFolderName, GerberHandler::ExtensionOrderList inOrder);
 
         /// Opens a PickAndPlace layer
         void openPnPLayer(string &inFilename);

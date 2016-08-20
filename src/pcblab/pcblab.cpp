@@ -5,15 +5,14 @@ PcbLab::PcbLab()
 
 }
 
-void PcbLab::openFolder(string &inFolderName)
+void PcbLab::openFolder(string &inFolderName, GerberHandler::ExtensionOrderList inOrder)
 {
-
+    mGerber.openFolder(inFolderName, inOrder);
+    //mPnp.open...
+    //mNetList.open...
+    //mDrills.open...
 }
 
-void PcbLab::openGerberLayer(string &inName, string &inFilename, uint8_t inPosition)
-{
-    mGerber.openGerberLayer(inName, inFilename, inPosition);
-}
 
 void PcbLab::openPnPLayer(string &inFilename)
 {
