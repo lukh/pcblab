@@ -113,7 +113,7 @@ void GerberHandler::setOrderList(const GerberHandler::ExtensionOrderList &inList
 
     // add missing ext/id if linList doesn't contain all elements
     for(LayerMap::iterator it = mLayers.begin(); it != mLayers.end(); ++it){
-        string id = *it->first;
+        string id = it->first;
         //if the existing id is not in the list given
         if (find(inList.begin(), inList.end(), id) == inList.end()){
             missing.push_back(id);
@@ -121,8 +121,8 @@ void GerberHandler::setOrderList(const GerberHandler::ExtensionOrderList &inList
     }
 
     // add the id to the mMap if needed, other are ignored
-    for(ExtensionOrderList::iterator it = inOrder.begin(); it != inOrder.end(); ++it){
-        string id = *it;
+    for(ExtensionOrderList::const_iterator it = inList.begin(); it != inList.end(); ++it){
+        const string id = *it;
         if(mLayers.count(id) != 0){
             mMap.push_back(id);
         }
