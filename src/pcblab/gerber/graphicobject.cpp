@@ -85,8 +85,8 @@ GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point i
 
                     if(
                             std::abs(angle) <= M_PI/2 &&
-                                (angle > 0 && mInterpolationMode == GraphicState::eInterpolCCWCircular ||
-                                angle < 0 && mInterpolationMode == GraphicState::eInterpolCWCircular)
+                                ((angle > 0 && mInterpolationMode == GraphicState::eInterpolCCWCircular) ||
+                                (angle < 0 && mInterpolationMode == GraphicState::eInterpolCWCircular))
                             )
                     {
                         winner.push_back(c);
