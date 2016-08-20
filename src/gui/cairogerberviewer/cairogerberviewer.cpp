@@ -14,9 +14,12 @@ CairoGerberViewer::~CairoGerberViewer(){
 
 }
 
-void CairoGerberViewer::drawAll()
+void CairoGerberViewer::drawAll(const GerberHandler &inGerber)
 {
+    uint8_t layers_cnt = inGerber.getLayersCount();
+    for(uint8_t idx = 0; idx < layers_cnt; idx++){
 
+    }
 }
 
 void CairoGerberViewer::drawLayer(GerberLayer &inLayer)

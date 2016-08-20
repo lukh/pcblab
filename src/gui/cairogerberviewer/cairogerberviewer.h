@@ -13,7 +13,7 @@ class CairoGerberViewer: public IGerberView
         CairoGerberViewer();
         virtual ~CairoGerberViewer();
 
-        virtual void drawAll(/*TODO*/);
+        virtual void drawAll(const GerberHandler &inGerber);
         virtual void drawLayer(GerberLayer &inLayer);
 
 

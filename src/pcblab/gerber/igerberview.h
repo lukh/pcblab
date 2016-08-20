@@ -23,7 +23,7 @@ class IGerberView{
         IGerberView() /*, mPixOffsetX(0), mPixOffsetY(0) */{}
         virtual ~IGerberView() {}
 
-        virtual void drawAll() = 0;
+        virtual void drawAll(const GerberHandler &inGerber) = 0;
         virtual void drawLayer(GerberLayer &inLayer) = 0;
 
         virtual uint32_t getWidth() const = 0;
