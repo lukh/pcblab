@@ -22,15 +22,26 @@ void CairoToMat(cairo_surface_t *surface,cv::Mat &MC3)
 
 
 
-ViewProcessor::ViewProcessor(IOpenCVViewer *inCVViewer, CairoGerberViewer *inGerberView):
-    mCVViewer(inCVViewer), mGerberViewer(inGerberView)
+ViewProcessor::ViewProcessor(PcbLab &inPcb, IOpenCVViewer *inCVViewer, CairoGerberViewer *inGerberView):
+   mPcb(inPcb), mCVViewer(inCVViewer), mGerberViewer(inGerberView)
 {
 
 }
 
 void ViewProcessor::update()
 {
+    recalculateSize();
 
+    mGerberViewer->drawAll(mPcb.getGerber());
+    cairo_surface_t *surface = mGerberViewer->getSurface();
+
+    cv::Mat m(mGerberViewer->getWidth(), mGerberViewer->getHeight(), CV_8UC3);
+
+
+    CairoToMat(surface, m);
+
+
+    mCVViewer->showImage(m);
 }
 
 void ViewProcessor::update(GerberLayer &inGerberLayer)

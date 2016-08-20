@@ -5,13 +5,13 @@
 #include "cairogerberviewer.h"
 #include "iopencvviewer.h"
 
-#include "gerberlayer.h"
+#include "pcblab/pcblab.h"
 
 
 class ViewProcessor
 {
     public:
-        ViewProcessor(IOpenCVViewer *inCVViewer, CairoGerberViewer *inGerberView);
+        ViewProcessor(PcbLab &inPcb, IOpenCVViewer *inCVViewer, CairoGerberViewer *inGerberView);
 
 
         void update();
@@ -22,6 +22,7 @@ class ViewProcessor
         void recalculateSize();
 
     private:
+        PcbLab &mPcb;
         IOpenCVViewer *mCVViewer;
         CairoGerberViewer *mGerberViewer;
 };

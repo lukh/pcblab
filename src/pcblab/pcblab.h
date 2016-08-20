@@ -31,6 +31,9 @@ class PcbLab
         void closeFolder();
 
 
+        const GerberHandler &getGerber() { return mGerber; }
+
+
     private:
         GerberHandler mGerber;
 

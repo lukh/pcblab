@@ -13,14 +13,15 @@ MainWindow::MainWindow(QWidget *parent) :
     //mQdbcerr = new Q_DebugStream(std::cerr, ui->textEdit); //Redirect Console output to QTextEdit
     //mQdbcout = new Q_DebugStream(std::cout, ui->textEdit); //Redirect Console output to QTextEdit
 
+    GerberHandler::ExtensionOrderList list;
+    list.push_back("GBL");
 
-    mGerberLayer = new GerberLayer("Layer1");
-    mGerberLayer->open("../../data/BassDrum.grb");
+    mPcb.openFolder("../../data", list);
 
     mGerberViewer = new CairoGerberViewer();
 
 
-    mProcessor = new ViewProcessor(ui->openCVViewer, mGerberViewer);
+    mProcessor = new ViewProcessor(mPcb, ui->openCVViewer, mGerberViewer);
 
 
 }
@@ -34,11 +35,9 @@ MainWindow::~MainWindow()
 
     delete ui;
     delete mGerberViewer;
-
-    delete mGerberLayer;
 }
 
 void MainWindow::on_actionStart_triggered()
 {
-    mProcessor->update(*mGerberLayer);
+    //mProcessor->update(*mGerberLayer);
 }

@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "q_debugstream.h"
 
-#include "pcblab/gerber/gerberlayer.h"
+#include "pcblab/pcblab.h"
 #include "cairogerberviewer.h"
 
 #include "viewprocessor.h"
@@ -30,7 +30,7 @@ private:
     //Q_DebugStream *mQdbcout;
     //Q_DebugStream *mQdbcerr;
 
-    GerberLayer *mGerberLayer;
+    PcbLab mPcb;
 
     CairoGerberViewer *mGerberViewer;
 
