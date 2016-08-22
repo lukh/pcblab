@@ -14,7 +14,7 @@ class CairoGerberViewer: public IGerberView
         virtual ~CairoGerberViewer();
 
         virtual void drawAll(const GerberHandler &inGerber);
-        virtual void drawLayer(GerberLayer &inLayer);
+        virtual void drawLayer(GerberLayer *inLayer);
 
 
         void drawFlash(GraphicObjectFlash *inFlash);

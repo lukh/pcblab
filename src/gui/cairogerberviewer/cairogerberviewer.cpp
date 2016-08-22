@@ -18,13 +18,16 @@ void CairoGerberViewer::drawAll(const GerberHandler &inGerber)
 {
     uint8_t layers_cnt = inGerber.getLayersCount();
     for(uint8_t idx = 0; idx < layers_cnt; idx++){
-
+        GerberLayer *layer;
+        if(inGerber.getLayer(idx, layer)){
+            drawLayer(layer);
+        }
     }
 }
 
-void CairoGerberViewer::drawLayer(GerberLayer &inLayer)
+void CairoGerberViewer::drawLayer(GerberLayer *inLayer)
 {
-    vector<GerberLayer::GerberLevel *>levels = inLayer.getLevels();
+    vector<GerberLayer::GerberLevel *>levels = inLayer->getLevels();
 
 
     for (vector<GerberLayer::GerberLevel *>::iterator it_lvl = levels.begin(); it_lvl != levels.end(); ++it_lvl){

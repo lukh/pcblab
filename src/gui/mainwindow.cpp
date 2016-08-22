@@ -22,8 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     mProcessor = new ViewProcessor(mPcb, ui->openCVViewer, mGerberViewer);
-
-
 }
 
 MainWindow::~MainWindow()
@@ -39,5 +37,5 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionStart_triggered()
 {
-    //mProcessor->update(*mGerberLayer);
+    mProcessor->update();
 }

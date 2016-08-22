@@ -48,7 +48,7 @@ void ViewProcessor::update(GerberLayer &inGerberLayer)
 {
     recalculateSize();
 
-    mGerberViewer->drawLayer(inGerberLayer);
+    mGerberViewer->drawLayer(&inGerberLayer);
     cairo_surface_t *surface = mGerberViewer->getSurface();
 
     cv::Mat m(mGerberViewer->getWidth(), mGerberViewer->getHeight(), CV_8UC3);
