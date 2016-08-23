@@ -138,16 +138,19 @@ bool APrimCenterLine::isValid()
 
 Rectangle APrimCenterLine::getBoundingBox()
 {
-    //TOCHECK
-    double relw, relh;
+    Point p1, p2;
 
-    relw = fabs(cos(M_PI*getRot()/180.0)) * getWidth() + fabs(sin(M_PI*getRot()/180.0)) * getHeight();
-    relh = fabs(sin(M_PI*getRot()/180.0)) * getWidth() + fabs(cos(M_PI*getRot()/180.0)) * getHeight();
+    p1.mX = getX() - getWidth()/2.0;
+    p1.mY = getY() - getHeight()/2.0;
 
-    Point p1(cos(M_PI*getRot()/180.0)*getX()-relw/2, sin(M_PI*getRot()/180.0)*getY()-relh/2);
-    Point p2(cos(M_PI*getRot()/180.0)*getX()+relw/2, sin(M_PI*getRot()/180.0)*getY()+relh/2);
+    p2.mX = getX() + getWidth()/2.0;
+    p2.mY = getY() + getHeight()/2.0;
 
-    return Rectangle(p1, p2);
+
+    // the rectangle without rotation
+    Rectangle bb(p1, p2);
+
+    return rotateBoundingBox(bb, getRot());
 }
 
 APrimOutline::APrimOutline(): IAperturePrimitive(eOutLine) {}
