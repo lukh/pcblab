@@ -40,6 +40,7 @@ class CairoGerberViewer: public IGerberView
     private:
         void setLevelPolarity(GraphicState::eLevelPolarity inPol);
         void setDarkColor(uint8_t inR, uint8_t inG, uint8_t inB) { mColor = Color(inR,inG,inB); }
+        void applyRenderTransformation();
 
         void drawAperturePrimitive_Circle(APrimCircle *inCircle);
         void drawAperturePrimitive_VectorLine(APrimVectorLine *inLine);

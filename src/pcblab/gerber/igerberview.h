@@ -29,6 +29,10 @@ class IGerberView{
         virtual uint32_t getWidth() = 0;
         virtual uint32_t getHeight() = 0;
 
+
+        /// zoom to fit the area given in the real world coordinates into the surface
+        void setRenderTransformation(const Rectangle &inRealWorldArea) { mRealWorldArea = inRealWorldArea; }
+
     protected:
 
         /// Converts a point from real to the surface
@@ -45,13 +49,7 @@ class IGerberView{
         }
 
 
-        /*uint32_t r2p(double inReal) { return (uint32_t)(inReal*mPixPerUnit); }
-        double p2r(uint32_t inPix) { return (double)inPix/mPixPerUnit; }
-
-        double mPixPerUnit;*/
-
-        //uint32_t mPixOffsetX;
-        //uint32_t mPixOffsetY;
+        Rectangle mRealWorldArea;
 };
 
 #endif

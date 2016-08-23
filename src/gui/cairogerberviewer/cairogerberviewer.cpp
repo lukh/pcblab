@@ -451,6 +451,15 @@ void CairoGerberViewer::setLevelPolarity(GraphicState::eLevelPolarity inPol)
     }
 }
 
+
+void CairoGerberViewer::applyRenderTransformation(const Rectangle &inRealWorldArea)
+{
+
+}
+
+
+
+
 void CairoGerberViewer::drawAperturePrimitive_Circle(APrimCircle *inCircle)
 {
 
