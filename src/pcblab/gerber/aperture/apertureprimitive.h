@@ -141,13 +141,18 @@ class APrimOutline: public IAperturePrimitive{
     public:
         APrimOutline();
 
+        /// returns the number of subseq points, between 1 and N
         inline uint16_t getSubSequentPointsCount() { if (!isValid()){return 0.0;} return (uint16_t)mModifiers.at(1); }
-        inline double getStartX() { if (!isValid()){return 0.0;} return mModifiers.at(2); }
-        inline double getStartY() { if (!isValid()){return 0.0;} return mModifiers.at(3); }
-        ///subsequent point >= 1
-        inline double getNX(uint16_t inN) { if (!isValid()){return 0.0;} if(inN < 1 || inN > 4+2*mModifiers.at(1)){return 0;} return mModifiers.at(3+2*inN); }
-        ///subsequent point >= 1
-        inline double getNY(uint16_t inN) { if (!isValid()){return 0.0;} if(inN < 1 || inN > 4+2*mModifiers.at(1)){return 0;} return mModifiers.at(4+2*inN); }
+
+        ///subsequent point, inN = [0; N[
+        inline Point getPoint(uint16_t inN) {
+            if (!isValid()){return Point();}
+
+            if(inN >= getSubSequentPointsCount()){return Point();}
+
+            return Point(mModifiers.at(3+2*inN), mModifiers.at(4+2*inN));
+        }
+
         inline double getRot(){ if (!isValid()){return 0.0;} return mModifiers.at(5+2*mModifiers.at(1)); }
 
         virtual bool isValid();
@@ -155,8 +160,6 @@ class APrimOutline: public IAperturePrimitive{
             if(!isValid()) { return "INVALID"; }
             return "PrimitiveOutLine: Exp="+ to_string(int(getExposure())) + \
                     " , SubSeqs="+ to_string(getSubSequentPointsCount()) + \
-                    ", StartX=" + to_string(getStartX()) + \
-                    ", StartY=" + to_string(getStartY()) + \
                     ", Rot=" + to_string(getRot());
         }
         virtual Rectangle getBoundingBox();
