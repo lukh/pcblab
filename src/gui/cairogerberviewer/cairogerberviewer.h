@@ -39,7 +39,6 @@ class CairoGerberViewer: public IGerberView
 
     private:
         void setLevelPolarity(GraphicState::eLevelPolarity inPol);
-        void setDarkColor(uint8_t inR, uint8_t inG, uint8_t inB) { mColor = Color(inR,inG,inB); }
 
         void drawAperturePrimitive_Circle(APrimCircle *inCircle);
         void drawAperturePrimitive_VectorLine(APrimVectorLine *inLine);
@@ -51,13 +50,14 @@ class CairoGerberViewer: public IGerberView
 
 
 
+
+
     private:
         cairo_t *mContext;
         cairo_surface_t *mSurface;
 
 
-        // used for dark
-        Color mColor;
+        IGerberView::ColorList mColorList;
 };
 
 #endif // CAIROGERBERVIEWER_H

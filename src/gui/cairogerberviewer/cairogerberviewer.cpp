@@ -6,8 +6,6 @@ CairoGerberViewer::CairoGerberViewer(): IGerberView()
 {
     mContext = NULL;
     mSurface = NULL;
-
-    mColor = Color(255,0,0);
 }
 
 CairoGerberViewer::~CairoGerberViewer(){
@@ -27,12 +25,18 @@ void CairoGerberViewer::drawAll(const GerberHandler &inGerber)
 
 void CairoGerberViewer::drawLayer(GerberLayer *inLayer)
 {
+    //increment the color
+    mColorList.increment();
+
+    //update context for a new layer
+    //TODO
+
+    //navigate through levels
     vector<GerberLayer::GerberLevel *>levels = inLayer->getLevels();
-
-
     for (vector<GerberLayer::GerberLevel *>::iterator it_lvl = levels.begin(); it_lvl != levels.end(); ++it_lvl){
         GerberLayer::GerberLevel *level = *it_lvl;
 
+        //change the level polarity
         setLevelPolarity(level->getPolarity());
 
         vector<IGraphicObject *> gos = level->getObjects();
@@ -450,12 +454,15 @@ void CairoGerberViewer::setLevelPolarity(GraphicState::eLevelPolarity inPol)
     }
 
     if(inPol == GraphicState::ePolDark){
-        cairo_set_source_rgb(mContext, (double)mColor.mR/255.0, (double)mColor.mG/255.0, (double)mColor.mB/255.0);
+        const Color &color = mColorList.getCurrentColor();
+        cairo_set_source_rgb(mContext, (double)color.mR/255.0, (double)color.mG/255.0, (double)color.mB/255.0);
     }
     else{
         cairo_set_source_rgb(mContext, 0,0,0);
     }
 }
+
+
 
 void CairoGerberViewer::drawAperturePrimitive_Circle(APrimCircle *inCircle)
 {
