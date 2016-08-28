@@ -176,6 +176,17 @@ bool APrimOutline::isValid() const
 Rectangle APrimOutline::getBoundingBox()
 {
     if(!isValid()) { return Rectangle(); }
+
+    vector <Point> pts;
+
+    uint16_t num_p = getSubSequentPointsCount();
+    for(uint16_t p_idx = 0; p_idx < num_p; p_idx ++){
+        pts.push_back(getPoint(p_idx));
+    }
+
+    Rectangle bb = Rectangle::getBounds(pts);
+
+    return rotateBoundingBox(bb, getRot());
 }
 
 APrimPolygon::APrimPolygon(): IAperturePrimitive(ePolygon) {}
@@ -189,6 +200,17 @@ Rectangle APrimPolygon::getBoundingBox()
 {
     if(!isValid()) { return Rectangle(); }
 
+    //Bounding box without rotation
+    double x1 = getX()-getDiameter()/2;
+    double y1 = getY()-getDiameter()/2;
+    double x2 = getX()+getDiameter()/2;
+    double y2 = getY()+getDiameter()/2;
+
+    Point p1(x1,y1), p2(x2,y2);
+
+    Rectangle bb(p1, p2);
+
+    return rotateBoundingBox(bb, getRot());
 }
 
 APrimMoire::APrimMoire(): IAperturePrimitive(eMoire) {}
@@ -202,6 +224,19 @@ Rectangle APrimMoire::getBoundingBox()
 {
     if(!isValid()) { return Rectangle(); }
 
+    double outer_dia = getOuterDiaOfOutRing() > getCrossHairLength() ? getOuterDiaOfOutRing() : getCrossHairLength();
+
+    //Bounding box without rotation
+    double x1 = getX()-outer_dia/2;
+    double y1 = getY()-outer_dia/2;
+    double x2 = getX()+outer_dia/2;
+    double y2 = getY()+outer_dia/2;
+
+    Point p1(x1,y1), p2(x2,y2);
+
+    Rectangle bb(p1, p2);
+
+    return rotateBoundingBox(bb, getRot());
 }
 
 APrimThermal::APrimThermal(): IAperturePrimitive(eThermal) {}
@@ -221,6 +256,17 @@ Rectangle APrimThermal::getBoundingBox()
 {
     if(!isValid()) { return Rectangle(); }
 
+    //Bounding box without rotation
+    double x1 = getX()-getOuterDia()/2;
+    double y1 = getY()-getOuterDia()/2;
+    double x2 = getX()+getOuterDia()/2;
+    double y2 = getY()+getOuterDia()/2;
+
+    Point p1(x1,y1), p2(x2,y2);
+
+    Rectangle bb(p1, p2);
+
+    return rotateBoundingBox(bb, getRot());
 }
 
 
