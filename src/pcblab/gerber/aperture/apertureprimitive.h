@@ -187,6 +187,38 @@ class APrimPolygon: public IAperturePrimitive{
 class APrimMoire: public IAperturePrimitive{
     public:
         APrimMoire();
+
+
+        //X coordinate of center point, a decimal
+        inline double getX()             const { if (!isValid()){return 0.0;} return mModifiers.at(0); }
+
+        //Y coordinate of center point, a decimal
+        inline double getY()             const { if (!isValid()){return 0.0;} return mModifiers.at(1); }
+
+        //Outer diameter of outer concentric ring, a decimal ≥ 0
+        inline double getOuterDiaOfOutRing() const { if (!isValid()){return 0.0;} return mModifiers.at(2); }
+
+        //Ring thickness, a decimal ≥ 0
+        inline double getRingThickness() const { if (!isValid()) { return 0.0; } return mModifiers.at(3); }
+
+        //Gap between rings, a decimal ≥ 0
+        inline double getGapBtwRings() const { if (!isValid()) { return 0.0; } return mModifiers.at(4); }
+
+        //Maximum number of rings, an integer ≥ 0
+        inline double getMaxNumOfRings() const { if (!isValid()) { return 0.0; } return mModifiers.at(5); }
+
+        //Cross hair thickness, a decimal ≥ 0
+        inline double getCrossHaireThickness() const { if (!isValid()) { return 0.0; } return mModifiers.at(6); }
+
+        //Cross hair length, a decimal ≥ 0
+        inline double getCrossHairLength() const { if (!isValid()) { return 0.0; } return mModifiers.at(7); }
+
+        //Rotation angle of the moiré primitive
+        //The rotation angle is specified by a decimal, in degrees. The primitive is rotated around the origin of the macro definition, i.e. the (0, 0) point of macro coordinates
+        //Note: Rotation is only allowed if the primitive center point coincides with the origin of the macro definition
+        inline double getRot() const { if (!isValid()) { return 0.0; } return mModifiers.at(8); }
+
+
         virtual bool isValid() const;
         virtual string getStringInfos() const {
             if(!isValid()) { return "INVALID"; }
@@ -198,6 +230,29 @@ class APrimMoire: public IAperturePrimitive{
 class APrimThermal: public IAperturePrimitive{
     public:
         APrimThermal();
+
+
+        //X coordinate of center point, a decimal
+        inline double getX()             const { if (!isValid()){return 0.0;} return mModifiers.at(0); }
+
+        //Y coordinate of center point, a decimal
+        inline double getY()             const { if (!isValid()){return 0.0;} return mModifiers.at(1); }
+
+        //Outer diameter, a decimal > inner diameter
+        inline double getOuterDia()      const { if (!isValid()){return 0.0;} return mModifiers.at(2); }
+
+        //Inner diameter, a decimal ≥ 0
+        inline double getInnerDia()      const { if (!isValid()){return 0.0;} return mModifiers.at(3); }
+
+        //Gap thickness, a decimal < (outer diameter)/sqrt(2)
+        inline double getGapThickness()      const { if (!isValid()){return 0.0;} return mModifiers.at(4); }
+
+        //Rotation angle of the thermal primitive
+        //The rotation angle is specified by a decimal, in degrees. The primitive is rotated around the origin of the macro definition, i.e. (0, 0) point of macro coordinates. The gaps are on the X and Y axes through the center when the rotation angle is zero
+        //Note: Rotation is only allowed if the pri
+        inline double getRot()      const { if (!isValid()){return 0.0;} return mModifiers.at(5); }
+
+
         virtual bool isValid() const;
         virtual string getStringInfos() const {
             if(!isValid()) { return "INVALID"; }
