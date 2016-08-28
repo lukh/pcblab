@@ -1,7 +1,6 @@
 #ifndef APERTUREPRIMITIVE_H
 #define APERTUREPRIMITIVE_H
 
-
 #include <vector>
 
 #include "../../common.h"
@@ -66,9 +65,16 @@ class IAperturePrimitive{
         /// implementation can count the number of modifiers for instance
         virtual bool isValid() const = 0;
 
+        /// This implementation of getBounding box returns the box relative to the center of the aperture !
+        virtual Rectangle getBoundingBox() = 0;
+
 
         virtual string getStringInfos() const = 0;
 
+
+    protected:
+        /// Gets the bounding box of a rectangle inRect, rotated by a angle of inAngle (deg) regarding (0,0) point
+        static Rectangle rotateBoundingBox(Rectangle inRect, double inAngle);
 
     protected:
         vector <ApertureModifier> mModifiers;
@@ -88,13 +94,14 @@ class APrimCircle: public IAperturePrimitive{
         inline double getDiameter() const { if (!isValid()){return 0.0;} return mModifiers.at(1); }
         inline double getX() const { if (!isValid()){return 0.0;} return mModifiers.at(2); }
         inline double getY() const { if (!isValid()){return 0.0;} return mModifiers.at(3); }
-        inline double getRot() const { if (!isValid()){return 0.0;} return mModifiers.at(4); }
+        inline double getRot() const { if (!isValid() || mModifiers.size() < 5){return 0.0;} return mModifiers.at(4); }
 
         virtual bool isValid() const;
         virtual string getStringInfos() const{
             if(!isValid()) { return "INVALID"; }
             return "Circle: Exp="+ to_string(int(getExposure())) +" , D="+ to_string(getDiameter()) +", X=" + to_string(getX()) + ", Y=" + to_string(getY()) + ", rot=" + to_string(getRot());
         }
+        virtual Rectangle getBoundingBox();
 };
 
 class APrimVectorLine: public IAperturePrimitive{
@@ -113,6 +120,7 @@ class APrimVectorLine: public IAperturePrimitive{
             if(!isValid()) { return "INVALID"; }
             return "VectorLine: Exp="+ to_string(int(getExposure())) +" , StartX="+ to_string(getStartX()) +", StartY=" + to_string(getStartY()) + ", EndX=" + to_string(getEndX()) + ", EndY=" + to_string(getEndY()) + ", Rot=" + to_string(getRot());
         }
+        virtual Rectangle getBoundingBox();
 };
 
 class APrimCenterLine: public IAperturePrimitive{
@@ -130,6 +138,7 @@ class APrimCenterLine: public IAperturePrimitive{
             if(!isValid()) { return "INVALID"; }
             return "CenterLine: Exp="+ to_string(int(getExposure())) +" , W="+ to_string(getWidth()) +", H=" + to_string(getHeight()) + ", X=" + to_string(getX()) + ", Y=" + to_string(getY()) + ", Rot=" + to_string(getRot());
         }
+        virtual Rectangle getBoundingBox();
 };
 
 class APrimOutline: public IAperturePrimitive{
@@ -154,6 +163,7 @@ class APrimOutline: public IAperturePrimitive{
                     ", StartY=" + to_string(getStartY()) + \
                     ", Rot=" + to_string(getRot());
         }
+        virtual Rectangle getBoundingBox();
 };
 
 class APrimPolygon: public IAperturePrimitive{
@@ -171,6 +181,7 @@ class APrimPolygon: public IAperturePrimitive{
             if(!isValid()) { return "INVALID"; }
             return "Polygon: Exp="+ to_string(int(getExposure())) +" , Vertices="+ to_string(getVerticesCount()) +", X=" + to_string(getX()) + ", Y=" + to_string(getY()) + ", Dia=" + to_string(getDiameter()) + ", rot=" + to_string(getRot());
         }
+        virtual Rectangle getBoundingBox();
 };
 
 class APrimMoire: public IAperturePrimitive{
@@ -181,6 +192,7 @@ class APrimMoire: public IAperturePrimitive{
             if(!isValid()) { return "INVALID"; }
             return "Moire";
         }
+        virtual Rectangle getBoundingBox();
 };
 
 class APrimThermal: public IAperturePrimitive{
@@ -191,6 +203,7 @@ class APrimThermal: public IAperturePrimitive{
             if(!isValid()) { return "INVALID"; }
             return "Thermal";
         }
+        virtual Rectangle getBoundingBox();
 };
 
 

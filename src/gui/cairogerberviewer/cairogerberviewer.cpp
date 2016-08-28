@@ -131,16 +131,3 @@ void CairoGerberViewer::setLevelPolarity(GraphicState::eLevelPolarity inPol)
         cairo_set_source_rgb(mContext, 0,0,0);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
