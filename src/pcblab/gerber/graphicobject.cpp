@@ -3,7 +3,27 @@
 /////////////////////////// Draws ///////////////////////////
 Rectangle GraphicObjectDraw::getBoundingBox() const
 {
-    return Rectangle(); //TODO
+    if(!isValid()) {return Rectangle(); }
+
+    // points of the draw
+    Point p1 = getStartPoint();
+    Point p2 = getEndPoint();
+
+    // Bounding box of the aperture
+    const Aperture *ap = getAperture();
+    Rectangle ap_bb = ap->getBoundingBox();
+
+    Rectangle bb(p1, p2);
+
+    //enlarge
+    //this one works if ap_bb is centered !!! (???)
+    p2.mX = bb.getTopRight().mX + ap_bb.getTopRight().mX;
+    p2.mY = bb.getTopRight().mY + ap_bb.getTopRight().mY;
+
+    p1.mX = bb.getBottomLeft().mX - ap_bb.getBottomLeft().mX;
+    p1.mY = bb.getBottomLeft().mY - ap_bb.getBottomLeft().mY;
+
+    return Rectangle(p1, p2);
 }
 
 
@@ -129,7 +149,9 @@ GraphicState::eInterpolationMode GraphicObjectArc::getInterpolationMode() const
 /////////////////////////// Flashs ///////////////////////////
 Rectangle GraphicObjectFlash::getBoundingBox() const
 {
-    return Rectangle(); //TODO
+    if(!isValid()) { return Rectangle(); }
+
+    return getAperture()->getBoundingBox();
 }
 
 
@@ -436,7 +458,16 @@ GraphicObjectRegion:: ~GraphicObjectRegion(){
 
 Rectangle GraphicObjectRegion::getBoundingBox() const
 {
-    return Rectangle(); //TODO
+    if(!isValid() || mContours.size() == 0) { return Rectangle(); }
+
+    Rectangle bb = mContours.at(0)->getBoundingBox();
+
+    for (vector<Contour *>::const_iterator it = mContours.begin() ; it != mContours.end(); ++it){
+        Contour *c = *it;
+        bb = Rectangle::getBounds(bb, c->getBoundingBox());
+    }
+
+    return bb;
 }
 
 
@@ -541,7 +572,7 @@ void GraphicObjectRegion::addContour(GraphicObjectRegion::Contour *inContour)
     mContours.push_back(inContour);
 
     //udpdate the valid status, if the contour is invalid then all the region is invalid
-    mValid = mValid & inContour->isClosed();
+    mValid = mValid & inContour->isValid();
 }
 
 
