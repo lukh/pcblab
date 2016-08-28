@@ -26,7 +26,7 @@ class CairoGerberViewer: public IGerberView
         //--- >>>
 
 
-        cairo_surface_t *getSurface() {return mSurface;}
+        cairo_surface_t *getSurface() const { return mSurface; }
 
 
         void deinitCairo();
