@@ -239,7 +239,7 @@ class GraphicObjectRegion: public IGraphicObject{
 
 
     public:
-        GraphicObjectRegion(Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeRegion, inAperture) { mValid=false; }
+        GraphicObjectRegion(Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeRegion, inAperture) { mValid=true; }
 
         void addContour(Contour *inContour);
 

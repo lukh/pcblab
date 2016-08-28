@@ -479,8 +479,10 @@ vector<GraphicObjectRegion *> GraphicObjectRegion::createRegionsFromContours(Ape
 
     //for now, one region is one contour
     for (vector<Contour *>::iterator it = GraphicObjectRegion::sContours.begin() ; it != GraphicObjectRegion::sContours.end(); ++it){
+        Contour *c = *it;
+
         reg = new GraphicObjectRegion(inAperture);
-        reg->addContour(*it);
+        reg->addContour(c);
 
         regions.push_back(reg);
     }
@@ -517,6 +519,9 @@ void GraphicObjectRegion::flushContoursPool()
 void GraphicObjectRegion::addContour(GraphicObjectRegion::Contour *inContour)
 {
     mContours.push_back(inContour);
+
+    //udpdate the valid status, if the contour is invalid then all the region is invalid
+    mValid = mValid & inContour->isClosed();
 }
 
 
