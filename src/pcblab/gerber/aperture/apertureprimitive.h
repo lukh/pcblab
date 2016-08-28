@@ -178,7 +178,7 @@ class APrimPolygon: public IAperturePrimitive{
         APrimPolygon();
 
         inline eExposure getExposure() const { if(!isValid()){ return eExposureOff; } return (mModifiers.at(0) == 1.0) ? eExposureOn : eExposureOff; }
-        inline double getVerticesCount() const { if (!isValid()){return 0.0;} return mModifiers.at(1); }
+        inline uint16_t getVerticesCount() const { if (!isValid()){return 0.0;} return static_cast<uint16_t>(mModifiers.at(1)); }
         inline double getX()             const { if (!isValid()){return 0.0;} return mModifiers.at(2); }
         inline double getY()             const { if (!isValid()){return 0.0;} return mModifiers.at(3); }
         inline double getDiameter()      const { if (!isValid()){return 0.0;} return mModifiers.at(4); }
