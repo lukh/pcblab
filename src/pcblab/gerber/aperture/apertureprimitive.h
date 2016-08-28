@@ -87,12 +87,14 @@ class APrimCircle: public IAperturePrimitive{
         inline double getY() const { if (!isValid()){return 0.0;} return mModifiers.at(3); }
         inline double getRot() const { if (!isValid() || mModifiers.size() < 5){return 0.0;} return mModifiers.at(4); }
 
+        //<<< --- Implementation of IAperturePrimitive
         virtual bool isValid() const;
         virtual string getStringInfos() const{
             if(!isValid()) { return "INVALID"; }
             return "Circle: Exp="+ to_string(int(getExposure())) +" , D="+ to_string(getDiameter()) +", X=" + to_string(getX()) + ", Y=" + to_string(getY()) + ", rot=" + to_string(getRot());
         }
         virtual Rectangle getBoundingBox();
+        //--- >>>
 };
 
 class APrimVectorLine: public IAperturePrimitive{
@@ -107,12 +109,14 @@ class APrimVectorLine: public IAperturePrimitive{
         inline double getEndY()   const { if (!isValid()){return 0.0;} return mModifiers.at(5); }
         inline double getRot()    const { if (!isValid()){return 0.0;} return mModifiers.at(6); }
 
+        //<<< --- Implementation of IAperturePrimitive
         virtual bool isValid() const;
         virtual string getStringInfos() const {
             if(!isValid()) { return "INVALID"; }
             return "VectorLine: Exp="+ to_string(int(getExposure())) +" , StartX="+ to_string(getStartX()) +", StartY=" + to_string(getStartY()) + ", EndX=" + to_string(getEndX()) + ", EndY=" + to_string(getEndY()) + ", Rot=" + to_string(getRot());
         }
         virtual Rectangle getBoundingBox();
+        //--- >>>
 };
 
 class APrimCenterLine: public IAperturePrimitive{
@@ -126,12 +130,14 @@ class APrimCenterLine: public IAperturePrimitive{
         inline double getY()      const { if (!isValid()){return 0.0;} return mModifiers.at(4); }
         inline double getRot()    const { if (!isValid()){return 0.0;} return mModifiers.at(5); }
 
+        //<<< --- Implementation of IAperturePrimitive
         virtual bool isValid() const;
         virtual string getStringInfos() const {
             if(!isValid()) { return "INVALID"; }
             return "CenterLine: Exp="+ to_string(int(getExposure())) +" , W="+ to_string(getWidth()) +", H=" + to_string(getHeight()) + ", X=" + to_string(getX()) + ", Y=" + to_string(getY()) + ", Rot=" + to_string(getRot());
         }
         virtual Rectangle getBoundingBox();
+        //--- >>>
 };
 
 class APrimOutline: public IAperturePrimitive{
@@ -155,6 +161,7 @@ class APrimOutline: public IAperturePrimitive{
         inline double getRot() const { if (!isValid()){return 0.0;} return mModifiers.at(5+2*mModifiers.at(1)); }
 
 
+        //<<< --- Implementation of IAperturePrimitive
         virtual bool isValid() const;
         virtual string getStringInfos() const {
             if(!isValid()) { return "INVALID"; }
@@ -163,6 +170,7 @@ class APrimOutline: public IAperturePrimitive{
                     ", Rot=" + to_string(getRot());
         }
         virtual Rectangle getBoundingBox();
+        //--- >>>
 };
 
 class APrimPolygon: public IAperturePrimitive{
@@ -176,12 +184,14 @@ class APrimPolygon: public IAperturePrimitive{
         inline double getDiameter()      const { if (!isValid()){return 0.0;} return mModifiers.at(4); }
         inline double getRot()           const { if (!isValid()){return 0.0;} return mModifiers.at(5); }
 
+        //<<< --- Implementation of IAperturePrimitive
         virtual bool isValid() const;
         virtual string getStringInfos() const {
             if(!isValid()) { return "INVALID"; }
             return "Polygon: Exp="+ to_string(int(getExposure())) +" , Vertices="+ to_string(getVerticesCount()) +", X=" + to_string(getX()) + ", Y=" + to_string(getY()) + ", Dia=" + to_string(getDiameter()) + ", rot=" + to_string(getRot());
         }
         virtual Rectangle getBoundingBox();
+        //--- >>>
 };
 
 class APrimMoire: public IAperturePrimitive{
@@ -219,12 +229,14 @@ class APrimMoire: public IAperturePrimitive{
         inline double getRot() const { if (!isValid()) { return 0.0; } return mModifiers.at(8); }
 
 
+        //<<< --- Implementation of IAperturePrimitive
         virtual bool isValid() const;
         virtual string getStringInfos() const {
             if(!isValid()) { return "INVALID"; }
             return "Moire";
         }
         virtual Rectangle getBoundingBox();
+        //--- >>>
 };
 
 class APrimThermal: public IAperturePrimitive{
@@ -253,12 +265,14 @@ class APrimThermal: public IAperturePrimitive{
         inline double getRot()      const { if (!isValid()){return 0.0;} return mModifiers.at(5); }
 
 
+        //<<< --- Implementation of IAperturePrimitive
         virtual bool isValid() const;
         virtual string getStringInfos() const {
             if(!isValid()) { return "INVALID"; }
             return "Thermal";
         }
         virtual Rectangle getBoundingBox();
+        //--- >>>
 };
 
 
