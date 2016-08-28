@@ -34,9 +34,6 @@ void CairoGerberViewer::drawLayer(const GerberLayer *inLayer)
 {
     if(!isViewerReady()){ return; }
 
-    //increment the color
-    mColorList.increment();
-
     //update context for a new layer
     //TODO
 
@@ -72,6 +69,9 @@ void CairoGerberViewer::drawLayer(const GerberLayer *inLayer)
             }
         }
     }
+
+    //increment the color
+    mColorList.increment();
 
 }
 
@@ -131,3 +131,10 @@ void CairoGerberViewer::setLevelPolarity(GraphicState::eLevelPolarity inPol)
         cairo_set_source_rgb(mContext, 0,0,0);
     }
 }
+
+void CairoGerberViewer::applyRenderTransformation()
+{
+
+}
+
+
