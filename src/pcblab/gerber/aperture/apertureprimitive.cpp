@@ -110,7 +110,7 @@ APrimVectorLine::APrimVectorLine(): IAperturePrimitive(eVectorLine) {}
 
 bool APrimVectorLine::isValid() const
 {
-    return mModifiers.size() == 7;
+    return mModifiers.size() == 7 && getWidth() >= 0;
 }
 
 Rectangle APrimVectorLine::getBoundingBox()
