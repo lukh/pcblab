@@ -50,8 +50,10 @@ class IAperturePrimitive{
 
         eType getType() const { return mType; }
 
+        /// exposure of the primitive
+        virtual eExposure getExposure() const = 0;
 
-        /// rotation is present in all the primitives
+        /// rotation of the primitive
         virtual double getRot() const = 0;
 
 
@@ -85,7 +87,7 @@ class APrimCircle: public IAperturePrimitive{
     public:
         APrimCircle();
 
-        inline eExposure getExposure() const { if(!isValid()){ return eExposureOff; } return (mModifiers.at(0) == 1.0) ? eExposureOn : eExposureOff; }
+        virtual eExposure getExposure() const { if(!isValid()){ return eExposureOff; } return (mModifiers.at(0) == 1.0) ? eExposureOn : eExposureOff; }
         inline double getDiameter() const { if (!isValid()){return 0.0;} return mModifiers.at(1); }
         inline double getX() const { if (!isValid()){return 0.0;} return mModifiers.at(2); }
         inline double getY() const { if (!isValid()){return 0.0;} return mModifiers.at(3); }
@@ -105,7 +107,7 @@ class APrimVectorLine: public IAperturePrimitive{
     public:
         APrimVectorLine();
 
-        inline eExposure getExposure() const { if(!isValid()){ return eExposureOff; } return (mModifiers.at(0) == 1.0) ? eExposureOn : eExposureOff; }
+        virtual eExposure getExposure() const { if(!isValid()){ return eExposureOff; } return (mModifiers.at(0) == 1.0) ? eExposureOn : eExposureOff; }
         inline double getWidth()  const { if (!isValid()){return 0.0;} return mModifiers.at(1); }
         inline double getStartX() const { if (!isValid()){return 0.0;} return mModifiers.at(2); }
         inline double getStartY() const { if (!isValid()){return 0.0;} return mModifiers.at(3); }
@@ -127,7 +129,7 @@ class APrimCenterLine: public IAperturePrimitive{
     public:
         APrimCenterLine();
 
-        inline eExposure getExposure() const { if(!isValid()){ return eExposureOff; } return (mModifiers.at(0) == 1.0) ? eExposureOn : eExposureOff; }
+        virtual eExposure getExposure() const { if(!isValid()){ return eExposureOff; } return (mModifiers.at(0) == 1.0) ? eExposureOn : eExposureOff; }
         inline double getWidth()  const { if (!isValid()){return 0.0;} return mModifiers.at(1); }
         inline double getHeight() const { if (!isValid()){return 0.0;} return mModifiers.at(2); }
         inline double getX()      const { if (!isValid()){return 0.0;} return mModifiers.at(3); }
@@ -148,7 +150,7 @@ class APrimOutline: public IAperturePrimitive{
     public:
         APrimOutline();
 
-        inline eExposure getExposure() const { if(!isValid()){ return eExposureOff; } return (mModifiers.at(0) == 1.0) ? eExposureOn : eExposureOff; }
+        virtual eExposure getExposure() const { if(!isValid()){ return eExposureOff; } return (mModifiers.at(0) == 1.0) ? eExposureOn : eExposureOff; }
 
         /// returns the number of subseq points, between 1 and N
         inline uint16_t getSubSequentPointsCount() const { if (!isValid()){return 0.0;} return (uint16_t)mModifiers.at(1); }
@@ -181,7 +183,7 @@ class APrimPolygon: public IAperturePrimitive{
     public:
         APrimPolygon();
 
-        inline eExposure getExposure() const { if(!isValid()){ return eExposureOff; } return (mModifiers.at(0) == 1.0) ? eExposureOn : eExposureOff; }
+        virtual eExposure getExposure() const { if(!isValid()){ return eExposureOff; } return (mModifiers.at(0) == 1.0) ? eExposureOn : eExposureOff; }
         inline uint16_t getVerticesCount() const { if (!isValid()){return 0.0;} return static_cast<uint16_t>(mModifiers.at(1)); }
         inline double getX()             const { if (!isValid()){return 0.0;} return mModifiers.at(2); }
         inline double getY()             const { if (!isValid()){return 0.0;} return mModifiers.at(3); }
@@ -202,6 +204,8 @@ class APrimMoire: public IAperturePrimitive{
     public:
         APrimMoire();
 
+        //always on
+        virtual eExposure getExposure() const { return IAperturePrimitive::eExposureOn; }
 
         //X coordinate of center point, a decimal
         inline double getX()             const { if (!isValid()){return 0.0;} return mModifiers.at(0); }
@@ -247,6 +251,8 @@ class APrimThermal: public IAperturePrimitive{
     public:
         APrimThermal();
 
+        //always on
+        virtual eExposure getExposure() const { return IAperturePrimitive::eExposureOn; }
 
         //X coordinate of center point, a decimal
         inline double getX()             const { if (!isValid()){return 0.0;} return mModifiers.at(0); }
