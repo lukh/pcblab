@@ -20,6 +20,8 @@ void CairoGerberViewer::drawAll(const GerberHandler &inGerber)
     cairo_set_source_rgb (mContext, 0, 0, 0);
     cairo_paint (mContext);
 
+    mColorList.reset();
+
     //draw...
     uint8_t layers_cnt = inGerber.getLayersCount();
     for(uint8_t idx = 0; idx < layers_cnt; idx++){

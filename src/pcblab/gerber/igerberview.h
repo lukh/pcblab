@@ -37,6 +37,9 @@ class IGerberView{
                 /// increments the current color, and restart to the first if the end is reached
                 void increment() { mCurrentColorIdx = (mCurrentColorIdx+1) % mColorList.size(); }
 
+                /// reset the current idx
+                void reset() { mCurrentColorIdx = 0; }
+
             private:
                 vector<Color> mColorList;
                 uint32_t mCurrentColorIdx;
