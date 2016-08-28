@@ -199,7 +199,13 @@ APrimThermal::APrimThermal(): IAperturePrimitive(eThermal) {}
 
 bool APrimThermal::isValid() const
 {
-    return mModifiers.size() == 6 && !(getRot() != 0.0 && (getX() != 0.0 || getY() != 0.0));
+    bool is_thermal_specific_valid =  \
+        getOuterDia() > getInnerDia() && \
+        getInnerDia() >= 0 && \
+        getGapThickness() < (getOuterDia()/sqrt(2.0));
+
+
+    return mModifiers.size() == 6 && !(getRot() != 0.0 && (getX() != 0.0 || getY() != 0.0)) and is_thermal_specific_valid;
 }
 
 Rectangle APrimThermal::getBoundingBox()
