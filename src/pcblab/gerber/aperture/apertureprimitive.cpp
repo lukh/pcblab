@@ -175,7 +175,7 @@ APrimPolygon::APrimPolygon(): IAperturePrimitive(ePolygon) {}
 
 bool APrimPolygon::isValid() const
 {
-    return mModifiers.size() == 6;
+    return (mModifiers.size() == 6) && !(getRot() != 0.0 && (getX() != 0.0 || getY() != 0.0));
 }
 
 Rectangle APrimPolygon::getBoundingBox()
@@ -187,7 +187,7 @@ APrimMoire::APrimMoire(): IAperturePrimitive(eMoire) {}
 
 bool APrimMoire::isValid() const
 {
-    return mModifiers.size() == 9;
+    return mModifiers.size() == 9 && !(getRot() != 0.0 && (getX() != 0.0 || getY() != 0.0));
 }
 
 Rectangle APrimMoire::getBoundingBox()
@@ -199,7 +199,7 @@ APrimThermal::APrimThermal(): IAperturePrimitive(eThermal) {}
 
 bool APrimThermal::isValid() const
 {
-    return mModifiers.size() == 6;
+    return mModifiers.size() == 6 && !(getRot() != 0.0 && (getX() != 0.0 || getY() != 0.0));
 }
 
 Rectangle APrimThermal::getBoundingBox()
