@@ -1,20 +1,10 @@
 #include "graphicobject.h"
 
-
+/////////////////////////// Draws ///////////////////////////
 Rectangle GraphicObjectDraw::getBoundingBox() const
 {
     return Rectangle(); //TODO
 }
-
-
-
-
-
-Rectangle GraphicObjectFlash::getBoundingBox() const
-{
-    return Rectangle(); //TODO
-}
-
 
 
 
@@ -130,6 +120,17 @@ GraphicState::eInterpolationMode GraphicObjectArc::getInterpolationMode() const
 }
 
 
+
+
+
+
+
+
+/////////////////////////// Flashs ///////////////////////////
+Rectangle GraphicObjectFlash::getBoundingBox() const
+{
+    return Rectangle(); //TODO
+}
 
 
 
