@@ -51,6 +51,10 @@ class IAperturePrimitive{
         eType getType() const { return mType; }
 
 
+        /// rotation is present in all the primitives
+        virtual double getRot() const = 0;
+
+
         /// abstract method used to define if the primitive is valid.
         /// implementation can count the number of modifiers for instance
         virtual bool isValid() const = 0;
@@ -85,7 +89,7 @@ class APrimCircle: public IAperturePrimitive{
         inline double getDiameter() const { if (!isValid()){return 0.0;} return mModifiers.at(1); }
         inline double getX() const { if (!isValid()){return 0.0;} return mModifiers.at(2); }
         inline double getY() const { if (!isValid()){return 0.0;} return mModifiers.at(3); }
-        inline double getRot() const { if (!isValid() || mModifiers.size() < 5){return 0.0;} return mModifiers.at(4); }
+        virtual double getRot() const { if (!isValid() || mModifiers.size() < 5){return 0.0;} return mModifiers.at(4); }
 
         //<<< --- Implementation of IAperturePrimitive
         virtual bool isValid() const;
@@ -107,7 +111,7 @@ class APrimVectorLine: public IAperturePrimitive{
         inline double getStartY() const { if (!isValid()){return 0.0;} return mModifiers.at(3); }
         inline double getEndX()   const { if (!isValid()){return 0.0;} return mModifiers.at(4); }
         inline double getEndY()   const { if (!isValid()){return 0.0;} return mModifiers.at(5); }
-        inline double getRot()    const { if (!isValid()){return 0.0;} return mModifiers.at(6); }
+        virtual double getRot()    const { if (!isValid()){return 0.0;} return mModifiers.at(6); }
 
         //<<< --- Implementation of IAperturePrimitive
         virtual bool isValid() const;
@@ -128,7 +132,7 @@ class APrimCenterLine: public IAperturePrimitive{
         inline double getHeight() const { if (!isValid()){return 0.0;} return mModifiers.at(2); }
         inline double getX()      const { if (!isValid()){return 0.0;} return mModifiers.at(3); }
         inline double getY()      const { if (!isValid()){return 0.0;} return mModifiers.at(4); }
-        inline double getRot()    const { if (!isValid()){return 0.0;} return mModifiers.at(5); }
+        virtual double getRot()    const { if (!isValid()){return 0.0;} return mModifiers.at(5); }
 
         //<<< --- Implementation of IAperturePrimitive
         virtual bool isValid() const;
@@ -158,7 +162,7 @@ class APrimOutline: public IAperturePrimitive{
             return Point(mModifiers.at(3+2*inN), mModifiers.at(4+2*inN));
         }
 
-        inline double getRot() const { if (!isValid()){return 0.0;} return mModifiers.at(5+2*mModifiers.at(1)); }
+        virtual double getRot() const { if (!isValid()){return 0.0;} return mModifiers.at(5+2*mModifiers.at(1)); }
 
 
         //<<< --- Implementation of IAperturePrimitive
@@ -182,7 +186,7 @@ class APrimPolygon: public IAperturePrimitive{
         inline double getX()             const { if (!isValid()){return 0.0;} return mModifiers.at(2); }
         inline double getY()             const { if (!isValid()){return 0.0;} return mModifiers.at(3); }
         inline double getDiameter()      const { if (!isValid()){return 0.0;} return mModifiers.at(4); }
-        inline double getRot()           const { if (!isValid()){return 0.0;} return mModifiers.at(5); }
+        virtual double getRot()           const { if (!isValid()){return 0.0;} return mModifiers.at(5); }
 
         //<<< --- Implementation of IAperturePrimitive
         virtual bool isValid() const;
@@ -226,7 +230,7 @@ class APrimMoire: public IAperturePrimitive{
         //Rotation angle of the moiré primitive
         //The rotation angle is specified by a decimal, in degrees. The primitive is rotated around the origin of the macro definition, i.e. the (0, 0) point of macro coordinates
         //Note: Rotation is only allowed if the primitive center point coincides with the origin of the macro definition
-        inline double getRot() const { if (!isValid()) { return 0.0; } return mModifiers.at(8); }
+        virtual double getRot() const { if (!isValid()) { return 0.0; } return mModifiers.at(8); }
 
 
         //<<< --- Implementation of IAperturePrimitive
@@ -262,7 +266,7 @@ class APrimThermal: public IAperturePrimitive{
         //Rotation angle of the thermal primitive
         //The rotation angle is specified by a decimal, in degrees. The primitive is rotated around the origin of the macro definition, i.e. (0, 0) point of macro coordinates. The gaps are on the X and Y axes through the center when the rotation angle is zero
         //Note: Rotation is only allowed if the pri
-        inline double getRot()      const { if (!isValid()){return 0.0;} return mModifiers.at(5); }
+        virtual double getRot()      const { if (!isValid()){return 0.0;} return mModifiers.at(5); }
 
 
         //<<< --- Implementation of IAperturePrimitive
