@@ -41,7 +41,11 @@ SOURCES += \
     ../src/pcblab/pcblab.cpp \
     ../src/pcblab/gerber/gerberhandler.cpp \
     ../src/gui/processorwrapper.cpp \
-    ../src/tools/fio.cpp
+    ../src/tools/fio.cpp \
+    ../src/gui/cairogerberviewer/cgv_draws.cpp \
+    ../src/gui/cairogerberviewer/cgv_arcs.cpp \
+    ../src/gui/cairogerberviewer/cgb_regions.cpp \
+    ../src/gui/cairogerberviewer/cgv_flashs.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \

@@ -13,19 +13,14 @@ class CairoGerberViewer: public IGerberView
         CairoGerberViewer();
         virtual ~CairoGerberViewer();
 
+
+        //<<< --- Implementation of IGerberView
         virtual void drawAll(const GerberHandler &inGerber);
         virtual void drawLayer(const GerberLayer *inLayer);
 
-
-        void drawFlash(GraphicObjectFlash *inFlash);
-        void drawAperturePrimitive(IAperturePrimitive *inPrim);
-        void drawDraw(GraphicObjectDraw *inDraw);
-        void drawArc(GraphicObjectArc *inArc);
-        void drawRegion(GraphicObjectRegion *inRegion);
-
-
         virtual uint32_t getWidth() const;
         virtual uint32_t getHeight() const;
+        //--- >>>
 
 
         cairo_surface_t *getSurface() {return mSurface;}
@@ -39,6 +34,14 @@ class CairoGerberViewer: public IGerberView
 
     private:
         void setLevelPolarity(GraphicState::eLevelPolarity inPol);
+
+
+        void drawDraw(GraphicObjectDraw *inDraw);
+        void drawArc(GraphicObjectArc *inArc);
+        void drawRegion(GraphicObjectRegion *inRegion);
+
+        void drawFlash(GraphicObjectFlash *inFlash);
+        void drawAperturePrimitive(IAperturePrimitive *inPrim);
 
         void drawAperturePrimitive_Circle(APrimCircle *inCircle);
         void drawAperturePrimitive_VectorLine(APrimVectorLine *inLine);
