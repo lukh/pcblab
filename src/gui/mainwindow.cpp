@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     GerberHandler::ExtensionOrderList list;
     list.push_back("GBL");
+    list.push_back("GTL");
 
     mPcb.openFolder("../../data", list);
 
