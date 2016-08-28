@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 
 
-#include "pcblab/gerber/gerberlayer.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,18 +10,32 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    mQdbcerr = new Q_DebugStream(std::cerr, ui->textEdit); //Redirect Console output to QTextEdit
-    mQdbcout = new Q_DebugStream(std::cout, ui->textEdit); //Redirect Console output to QTextEdit
+    //mQdbcerr = new Q_DebugStream(std::cerr, ui->textEdit); //Redirect Console output to QTextEdit
+    //mQdbcout = new Q_DebugStream(std::cout, ui->textEdit); //Redirect Console output to QTextEdit
+
+    GerberHandler::ExtensionOrderList list;
+    list.push_back("GBL");
+
+    mPcb.openFolder("../../data", list);
+
+    mGerberViewer = new CairoGerberViewer();
 
 
-    GerberLayer gl("Layer1");
-    gl.open("../../data/contours.grb");
+    mProcessor = new ViewProcessor(mPcb, ui->openCVViewer, mGerberViewer);
 }
 
 MainWindow::~MainWindow()
 {
-    delete mQdbcout;
-    delete mQdbcerr;
+    //delete mQdbcout;
+    //delete mQdbcerr;
+
+    delete mProcessor;
 
     delete ui;
+    delete mGerberViewer;
+}
+
+void MainWindow::on_actionStart_triggered()
+{
+    mProcessor->update();
 }

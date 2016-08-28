@@ -3,6 +3,7 @@
 IAperturePrimitive::IAperturePrimitive(IAperturePrimitive::eType inType):
     mType(inType)
 {
+#ifdef DEBUG_PRINT
     string str = "%%% Creating IAperturePrimitive: ";
 
     switch (inType) {
@@ -40,13 +41,14 @@ IAperturePrimitive::IAperturePrimitive(IAperturePrimitive::eType inType):
     }
 
     d_printf(str, 4, 0, false);
+#endif
 }
 
 
 
 APrimCircle::APrimCircle(): IAperturePrimitive(eCircle) {}
 
-bool APrimCircle::isValid()
+bool APrimCircle::isValid() const
 {
     // params count = 5: Exp, D, X, Y, rot
     return mModifiers.size() == 5;
@@ -54,21 +56,21 @@ bool APrimCircle::isValid()
 
 APrimVectorLine::APrimVectorLine(): IAperturePrimitive(eVectorLine) {}
 
-bool APrimVectorLine::isValid()
+bool APrimVectorLine::isValid() const
 {
     return mModifiers.size() == 7;
 }
 
 APrimCenterLine::APrimCenterLine(): IAperturePrimitive(eCenterLine) {}
 
-bool APrimCenterLine::isValid()
+bool APrimCenterLine::isValid() const
 {
     return mModifiers.size() == 6;
 }
 
 APrimOutline::APrimOutline(): IAperturePrimitive(eOutLine) {}
 
-bool APrimOutline::isValid()
+bool APrimOutline::isValid() const
 {
     if (mModifiers.size() < 6){
         return false;
@@ -80,21 +82,21 @@ bool APrimOutline::isValid()
 
 APrimPolygon::APrimPolygon(): IAperturePrimitive(ePolygon) {}
 
-bool APrimPolygon::isValid()
+bool APrimPolygon::isValid() const
 {
     return mModifiers.size() == 6;
 }
 
 APrimMoire::APrimMoire(): IAperturePrimitive(eMoire) {}
 
-bool APrimMoire::isValid()
+bool APrimMoire::isValid() const
 {
     return mModifiers.size() == 9;
 }
 
 APrimThermal::APrimThermal(): IAperturePrimitive(eThermal) {}
 
-bool APrimThermal::isValid()
+bool APrimThermal::isValid() const
 {
     return mModifiers.size() == 6;
 }

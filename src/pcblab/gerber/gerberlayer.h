@@ -42,7 +42,8 @@ class GerberLayer: public SyntaxParser {
                 void makeGraphicObjectRegions(Aperture *inAperture);
 
 
-
+                vector <IGraphicObject *> getObjects() { return mObjects; }
+                GraphicState::eLevelPolarity getPolarity() const { return mPolarity; }
 
 
             private:
@@ -55,12 +56,21 @@ class GerberLayer: public SyntaxParser {
         GerberLayer(): GerberLayer("") {}
         virtual ~GerberLayer();
 
+
+
         // ------------------------------------------------------
         // ----------------- I/O methods. -----------------------
         // ------------------------------------------------------
 
         /// open from the file given
         bool open(const string &inFileName);
+
+        // ------------------------------------------------------
+        // ---------------- getters/ setters --------------------
+        // ------------------------------------------------------
+        string getName() const { return mName; }
+
+        vector<GerberLevel *> &getLevels() { return mLevels; }
 
 
 
@@ -74,25 +84,33 @@ class GerberLayer: public SyntaxParser {
         /// MO cmd
         virtual void setUnit(GraphicState::eUnit inUnit){
             mState.setUnit(inUnit);
+#ifdef DEBUG_PRINT
             d_printf("GERBERLAYER: setUnit", 1, 0);
+#endif
         }
 
         /// FS cmd
         virtual void setCoordinateFormat(GraphicState::CoordinateFormat inFormat){
             mState.setCoordFormat(inFormat);
+#ifdef DEBUG_PRINT
             d_printf("GERBERLAYER: setCoordinatesFormat", 1, 0);
+#endif
         }
 
         /// G74/75 cmd
         virtual void setQuadrantMode(GraphicState::eQuadrantMode inQuadrantMode){
             mState.setQuadrantMode(inQuadrantMode);
+#ifdef DEBUG_PRINT
             d_printf("GERBERLAYER: setQuadrantMode mode",1, 0);
+#endif
         }
 
         /// G01/02/03 cmd
         virtual void setInterpolationMode(GraphicState::eInterpolationMode inInterpolationMode){
             mState.setInterpolationMode(inInterpolationMode);
+#ifdef DEBUG_PRINT
             d_printf("GERBERLAYER: setInterpolation mode",1,0);
+#endif
         }
 
 
@@ -167,17 +185,9 @@ class GerberLayer: public SyntaxParser {
 
     protected:
         // ------------------------------------------------------
-        // ---------------- getters/ setters --------------------
-        // ------------------------------------------------------
-        string &getName() { return mName; }
-
-
-        // ------------------------------------------------------
         // ----------------- For unit test ----------------------
         // ------------------------------------------------------
         GraphicState& getState() { return mState; }
-
-        vector<GerberLevel *> &getLevels() { return mLevels; }
 
         //const vector<Aperture> &getApertures() const { return mApertures; }
         //const vector<ApertureTemplate *> & getApertures() const { return mApertureTemplates; }

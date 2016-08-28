@@ -19,7 +19,6 @@
 
 #include "../common.h"
 #include "aperture/aperture.h"
-#include "igerberview.h"
 #include "graphicstate.h"
 
 using namespace std;
@@ -41,15 +40,23 @@ class IGraphicObject{
 
         //IGraphicObject(): mType(eTypeNone) {}
         IGraphicObject(eType inType, Aperture *inAperture): mAperture(inAperture), mValid(false), mType(inType) {
+#ifdef DEBUG_PRINT
             d_printf("%%% Creating GraphicObject", 4, 0, false);
+#endif
         }
         virtual ~IGraphicObject() {
+#ifdef DEBUG_PRINT
             d_printf("%%% Deleting GraphicObject", 4, 0, false);
+#endif
         }
 
-        eType getType() { return mType; }
 
-        virtual void draw(IGerberView *inView) = 0;
+        Aperture *getAperture() const { return mAperture; }
+        eType getType() const { return mType; }
+
+        bool isValid() const { return mValid; }
+
+        virtual Rectangle getBoundingBox() const = 0;
 
     protected:
         Aperture *mAperture; //should it be DCode ?
@@ -66,8 +73,8 @@ class IGraphicObjectTrack{
     public:
         IGraphicObjectTrack(Point inStartPoint, Point inEndPoint): mStartPoint(inStartPoint), mEndPoint(inEndPoint){}
 
-        const Point& getStartPoint() {return mStartPoint; }
-        const Point& getEndPoint() { return mEndPoint; }
+        const Point& getStartPoint() const {return mStartPoint; }
+        const Point& getEndPoint() const { return mEndPoint; }
 
 
     protected:
@@ -85,13 +92,15 @@ class GraphicObjectDraw: public IGraphicObject, public IGraphicObjectTrack{
         GraphicObjectDraw(Point inStartPoint, Point inEndPoint, Aperture *inAperture):
             IGraphicObject(IGraphicObject::eTypeLine, inAperture), IGraphicObjectTrack(inStartPoint, inEndPoint){
                 mValid = true;
+#ifdef DEBUG_PRINT
                 d_printf("Creating GraphicObjectDraw: start =(" + to_string(inStartPoint.mX) + ", " +to_string(inStartPoint.mY) + ") end =(" + to_string(inEndPoint.mX) + ", " +to_string(inEndPoint.mY) + ")", 4, 0, false);
+#endif
         }
 
         virtual ~GraphicObjectDraw() {}
 
 
-        virtual void draw(IGerberView *inView) { (void)inView; }
+        virtual Rectangle getBoundingBox() const;
 };
 
 
@@ -105,16 +114,16 @@ class GraphicObjectArc: public IGraphicObject, public IGraphicObjectTrack{
 
         virtual ~GraphicObjectArc() {}
 
-        virtual void draw(IGerberView *inView) { (void)inView; }
+        virtual Rectangle getBoundingBox() const;
 
         /// returns the center (and not the offset !)
-        Point getCenter() { return mCenter; }
+        Point getCenter() const { return mCenter; }
 
         GraphicState::eQuadrantMode getQuadrantMode() const;
         GraphicState::eInterpolationMode getInterpolationMode() const;
 
 
-private:
+    private:
         // calculate from center offset
         Point mCenter;
 
@@ -128,7 +137,8 @@ class GraphicObjectFlash: public IGraphicObject{
     public:
         GraphicObjectFlash(Point inPoint, Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeFlash, inAperture), mPoint(inPoint) { mValid = true; }
 
-        virtual void draw(IGerberView *inView) { (void)inView; }
+
+        virtual Rectangle getBoundingBox() const;
 
     private:
         Point mPoint;
@@ -161,23 +171,29 @@ class GraphicObjectRegion: public IGraphicObject{
                 void addSegment(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode);
 
                 /// checks if the contour is closed
-                bool isClosed();
+                bool isClosed() const;
 
                 /// Implements the closing of the contour
                 void close();
 
+
+                /// get the segments list
+                const vector <IGraphicObject *> getSegments() const { return mSegments; }
+
+
+
                 /// checks if the Point is in the contour (contour must be closed)
-                bool isInside(Point inPoint);
+                bool isInside(Point inPoint) const;
 
                 /// checks if the Segment crosses the contour
-                bool isCrossing(IGraphicObject *inObject);
+                bool isCrossing(IGraphicObject *inObject) const;
 
                 static bool isCrossing(GraphicObjectDraw *inDraw1, GraphicObjectDraw *inDraw2);
                 static bool isCrossing(GraphicObjectArc *inArc, GraphicObjectDraw *inDraw);
                 static bool isCrossing(GraphicObjectArc *inArc1, GraphicObjectArc *inArc2);
 
                 /// checks the connection with another contour
-                eContoursConnection getConnection(const Contour &inContour);
+                eContoursConnection getConnection(const Contour &inContour) const;
 
 
 
@@ -229,7 +245,11 @@ class GraphicObjectRegion: public IGraphicObject{
 
         virtual ~GraphicObjectRegion();
 
-        virtual void draw(IGerberView *inView) { (void)inView; }
+
+        const vector<Contour *> getContours() const { return mContours; }
+
+
+        virtual Rectangle getBoundingBox() const;
 
 
     private:

@@ -34,13 +34,21 @@ typedef map<string, ApertureVariable> ApVarSymbolTable;
 /// The command is executed during AD, either to update variables or create primitives
 class ATCommand{
     public:
-        ATCommand(): mValid(false) { d_printf("%%% Creating ATCommand", 4, 0, false);}
-        virtual ~ATCommand(){ d_printf("%%% Deleting ATCommand", 4, 0, false); }
+        ATCommand(): mValid(false) {
+#ifdef DEBUG_PRINT
+            d_printf("%%% Creating ATCommand", 4, 0, false);
+#endif
+        }
+        virtual ~ATCommand(){
+#ifdef DEBUG_PRINT
+            d_printf("%%% Deleting ATCommand", 4, 0, false);
+#endif
+        }
 
-        virtual bool build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives) = 0;
+        virtual bool build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives) const = 0;
 
 
-        bool isValid() { return mValid; }
+        bool isValid() const { return mValid; }
 
     protected:
         bool mValid;
@@ -55,7 +63,7 @@ class ATCmdVarDef: public ATCommand{
         ATCmdVarDef(const string &inVariableDef);
         virtual ~ATCmdVarDef() {}
 
-        virtual bool build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives);
+        virtual bool build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives) const;
 
 
     private:
@@ -72,7 +80,7 @@ class ATCmdPrimitive: public ATCommand{
         ATCmdPrimitive(const string &inPrimitiveDescr);
         virtual ~ATCmdPrimitive() {}
 
-        virtual bool build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives);
+        virtual bool build(ApVarSymbolTable &inVariables, vector<IAperturePrimitive *> &outPrimitives) const;
 
     private:
         /// defines the type of primitive to build

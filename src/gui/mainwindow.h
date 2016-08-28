@@ -4,6 +4,11 @@
 #include <QMainWindow>
 #include "q_debugstream.h"
 
+#include "pcblab/pcblab.h"
+#include "cairogerberviewer.h"
+
+#include "viewprocessor.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -16,11 +21,21 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private Q_SLOTS:
+    void on_actionStart_triggered();
+
 private:
     Ui::MainWindow *ui;
 
-    Q_DebugStream *mQdbcout;
-    Q_DebugStream *mQdbcerr;
+    //Q_DebugStream *mQdbcout;
+    //Q_DebugStream *mQdbcerr;
+
+    PcbLab mPcb;
+
+    CairoGerberViewer *mGerberViewer;
+
+
+    ViewProcessor *mProcessor;
 };
 
 #endif // MAINWINDOW_H

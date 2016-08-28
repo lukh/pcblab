@@ -34,3 +34,4 @@ Makefile*
 *.qmlproject.user.*
 
 build/*
+test/gerber/debug/*

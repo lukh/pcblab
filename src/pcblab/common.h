@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <algorithm>
 
+#include "config.h"
+
 using namespace std;
 
 enum eExtension{
@@ -69,6 +71,30 @@ class Point{
 };
 
 
+
+
+
+class Rectangle{
+    public:
+        Rectangle() {}
+        Rectangle(Point p1, Point p2);
+
+    public:
+        Point mPbl;
+        Point mPtr;
+};
+
+
+
+class Color{
+    public:
+        Color():mR(0), mG(0), mB(0) {}
+        Color(uint8_t inR,uint8_t inG,uint8_t inB): mR(inR), mG(inG), mB(inB) {}
+
+        uint8_t mR;
+        uint8_t mG;
+        uint8_t mB;
+};
 
 
 
