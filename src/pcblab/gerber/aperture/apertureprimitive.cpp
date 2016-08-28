@@ -165,10 +165,10 @@ APrimOutline::APrimOutline(): IAperturePrimitive(eOutLine) {}
 
 bool APrimOutline::isValid() const
 {
-    if (mModifiers.size() < 6){
+    // at least, one point...
+    if (mModifiers.size() < 7){
         return false;
     }
-
 
     return mModifiers.size() > 5+2*mModifiers.at(1);
 }
