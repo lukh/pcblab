@@ -16,14 +16,14 @@ void CairoGerberViewer::drawAll(const GerberHandler &inGerber)
 {
     uint8_t layers_cnt = inGerber.getLayersCount();
     for(uint8_t idx = 0; idx < layers_cnt; idx++){
-        GerberLayer *layer;
-        if(inGerber.getLayer(idx, layer)){
+        const GerberLayer *layer = inGerber.getLayer(idx);
+        if(layer != NULL){
             drawLayer(layer);
         }
     }
 }
 
-void CairoGerberViewer::drawLayer(GerberLayer *inLayer)
+void CairoGerberViewer::drawLayer(const GerberLayer *inLayer)
 {
     //increment the color
     mColorList.increment();
@@ -32,9 +32,9 @@ void CairoGerberViewer::drawLayer(GerberLayer *inLayer)
     //TODO
 
     //navigate through levels
-    vector<GerberLayer::GerberLevel *>levels = inLayer->getLevels();
-    for (vector<GerberLayer::GerberLevel *>::iterator it_lvl = levels.begin(); it_lvl != levels.end(); ++it_lvl){
-        GerberLayer::GerberLevel *level = *it_lvl;
+
+    for (uint16_t idx = 0; idx < inLayer->getLevelsCount(); idx ++){
+        GerberLayer::GerberLevel *level = inLayer->getLevel(idx);
 
         //change the level polarity
         setLevelPolarity(level->getPolarity());

@@ -70,7 +70,9 @@ class GerberLayer: public SyntaxParser {
         // ------------------------------------------------------
         string getName() const { return mName; }
 
-        vector<GerberLevel *> &getLevels() { return mLevels; }
+        uint16_t getLevelsCount() const { return mLevels.size(); }
+
+        GerberLevel *getLevel(uint16_t inIdx) const;
 
 
 

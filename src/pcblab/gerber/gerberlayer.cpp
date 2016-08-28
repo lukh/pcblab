@@ -366,3 +366,9 @@ bool GerberLayer::open(const string &inFileName){
 
     return true;
 }
+
+GerberLayer::GerberLevel *GerberLayer::getLevel(uint16_t inIdx) const {
+    if(inIdx >= mLevels.size()) { return NULL; }
+
+    return mLevels[inIdx];
+}

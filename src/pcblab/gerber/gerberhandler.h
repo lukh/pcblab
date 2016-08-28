@@ -51,7 +51,7 @@ class GerberHandler{
         uint8_t getLayersCount() const { return mLayers.size(); }
 
         /// return the layer specified by inIdx, return value specifies if failed or not
-        bool getLayer(uint8_t inIdx, GerberLayer *&outLayer) const;
+        GerberLayer * getLayer(uint8_t inIdx) const;
 
 
 

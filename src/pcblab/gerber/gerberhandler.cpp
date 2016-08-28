@@ -111,16 +111,15 @@ void GerberHandler::close()
     mMap.clear();
 }
 
-bool GerberHandler::getLayer(uint8_t inIdx, GerberLayer *&outLayer) const {
-    if(inIdx >= getLayersCount()){ return false; }
+GerberLayer *GerberHandler::getLayer(uint8_t inIdx) const {
+    if(inIdx >= getLayersCount()){ return NULL; }
 
     string id = mMap[inIdx];
     LayerMap::const_iterator it;
     it = mLayers.find(id);
-    if (it == mLayers.end()) return false;
+    if (it == mLayers.end()) return NULL;
 
-    outLayer = it->second;
-    return true;
+    return it->second;
 }
 
 void GerberHandler::setOrderList(const GerberHandler::ExtensionOrderList &inList)
