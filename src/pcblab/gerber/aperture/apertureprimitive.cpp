@@ -91,6 +91,8 @@ bool APrimCircle::isValid() const
 
 Rectangle APrimCircle::getBoundingBox()
 {
+    if(!isValid()) { return Rectangle(); }
+
     //Bounding box without rotation
     double x1 = getX()-getDiameter()/2;
     double y1 = getY()-getDiameter()/2;
@@ -113,6 +115,8 @@ bool APrimVectorLine::isValid() const
 
 Rectangle APrimVectorLine::getBoundingBox()
 {
+    if(!isValid()) { return Rectangle(); }
+
     Point p1,p2;
 
     Point ps(getStartX(), getStartY());
@@ -140,6 +144,8 @@ bool APrimCenterLine::isValid() const
 
 Rectangle APrimCenterLine::getBoundingBox()
 {
+    if(!isValid()) { return Rectangle(); }
+
     Point p1, p2;
 
     p1.mX = getX() - getWidth()/2.0;
@@ -169,6 +175,7 @@ bool APrimOutline::isValid() const
 
 Rectangle APrimOutline::getBoundingBox()
 {
+    if(!isValid()) { return Rectangle(); }
 }
 
 APrimPolygon::APrimPolygon(): IAperturePrimitive(ePolygon) {}
@@ -180,6 +187,7 @@ bool APrimPolygon::isValid() const
 
 Rectangle APrimPolygon::getBoundingBox()
 {
+    if(!isValid()) { return Rectangle(); }
 
 }
 
@@ -192,6 +200,7 @@ bool APrimMoire::isValid() const
 
 Rectangle APrimMoire::getBoundingBox()
 {
+    if(!isValid()) { return Rectangle(); }
 
 }
 
@@ -210,6 +219,7 @@ bool APrimThermal::isValid() const
 
 Rectangle APrimThermal::getBoundingBox()
 {
+    if(!isValid()) { return Rectangle(); }
 
 }
 
