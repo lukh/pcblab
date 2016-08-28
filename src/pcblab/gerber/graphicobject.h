@@ -177,6 +177,11 @@ class GraphicObjectRegion: public IGraphicObject{
                 /// Implements the closing of the contour
                 void close();
 
+                /// checks if the contour is valid
+                bool isValid() const;
+
+
+                Rectangle getBoundingBox() const;
 
                 /// get the segments list
                 const vector <IGraphicObject *> getSegments() const { return mSegments; }

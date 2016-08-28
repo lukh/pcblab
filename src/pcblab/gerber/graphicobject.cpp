@@ -201,6 +201,25 @@ void GraphicObjectRegion::Contour::close()
     addSegment(t_last->getEndPoint(), t_first->getStartPoint());
 }
 
+bool GraphicObjectRegion::Contour::isValid() const
+{
+    return isClosed();
+}
+
+Rectangle GraphicObjectRegion::Contour::getBoundingBox() const
+{
+    if(!isValid() || mSegments.size() == 0) { return Rectangle(); }
+
+    Rectangle bb = mSegments.at(0)->getBoundingBox();
+
+    for (vector<IGraphicObject *>::const_iterator it = mSegments.begin(); it != mSegments.end(); ++it){
+        IGraphicObject *igo = *it;
+        bb = Rectangle::getBounds(bb, igo->getBoundingBox());
+    }
+
+    return bb;
+}
+
 /// checks if the Point is in the contour (contour must be closed)
 bool GraphicObjectRegion::Contour::isInside(Point inPoint) const{
     // a point is inside the contour if: the contour is closed, the point is on the same side of wich track
