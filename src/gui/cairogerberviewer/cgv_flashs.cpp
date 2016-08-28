@@ -104,3 +104,22 @@ void CairoGerberViewer::drawAperturePrimitive_Thermal(APrimThermal *inThermal)
 {
 
 }
+
+void CairoGerberViewer::setApertureExposure(IAperturePrimitive::eExposure inExposure)
+{
+    if(!isViewerReady()){ return; }
+
+    if(inExposure == IAperturePrimitive::eExposureOn){
+        cairo_set_operator (mContext, CAIRO_OPERATOR_OVER);
+    }
+    else{
+        cairo_set_operator (mContext, CAIRO_OPERATOR_CLEAR);
+    }
+}
+
+void CairoGerberViewer::setApertureRotation(double inAngle)
+{
+    if(!isViewerReady()){ return; }
+
+    cairo_rotate(mContext, inAngle * M_PI / 180.0);
+}

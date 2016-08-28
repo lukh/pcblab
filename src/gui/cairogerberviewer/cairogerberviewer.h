@@ -57,6 +57,11 @@ class CairoGerberViewer: public IGerberView
         void drawAperturePrimitive_Thermal(APrimThermal *inThermal);
 
 
+        /// changes the exposure of the primitive
+        void setApertureExposure(IAperturePrimitive::eExposure inExposure);
+
+        /// update the actual context with a rotation in degree for the primitive
+        void setApertureRotation(double inAngle);
 
 
 
