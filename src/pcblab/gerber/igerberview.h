@@ -53,6 +53,8 @@ class IGerberView{
         virtual uint32_t getWidth() const = 0;
         virtual uint32_t getHeight() const = 0;
 
+        virtual bool isViewerReady() const = 0;
+
     protected:
 
         /// Converts a point from real to the surface

@@ -5,14 +5,9 @@
 
 void CairoGerberViewer::drawArc(GraphicObjectArc *inArc)
 {
-    if(inArc == NULL){
-        return;
-    }
+    if(!isViewerReady()){ return; }
 
-
-    if(mContext == NULL){
-        return;
-    }
+    if(inArc == NULL){ return; }
 
     if(!inArc->isValid()){
         err_printf("ERROR(CairoGerberViewer::drawArc): The arc is invalid");

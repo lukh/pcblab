@@ -14,6 +14,13 @@ CairoGerberViewer::~CairoGerberViewer(){
 
 void CairoGerberViewer::drawAll(const GerberHandler &inGerber)
 {
+    if(!isViewerReady()){ return; }
+
+    //clean...
+    cairo_set_source_rgb (mContext, 0, 0, 0);
+    cairo_paint (mContext);
+
+    //draw...
     uint8_t layers_cnt = inGerber.getLayersCount();
     for(uint8_t idx = 0; idx < layers_cnt; idx++){
         const GerberLayer *layer = inGerber.getLayer(idx);
@@ -25,6 +32,8 @@ void CairoGerberViewer::drawAll(const GerberHandler &inGerber)
 
 void CairoGerberViewer::drawLayer(const GerberLayer *inLayer)
 {
+    if(!isViewerReady()){ return; }
+
     //increment the color
     mColorList.increment();
 
@@ -72,18 +81,14 @@ void CairoGerberViewer::drawLayer(const GerberLayer *inLayer)
 
 uint32_t CairoGerberViewer::getWidth() const
 {
-    if(mSurface == NULL){
-        return 0;
-    }
+    if(!isViewerReady()){ return 0; }
 
     return cairo_image_surface_get_width(mSurface);
 }
 
 uint32_t CairoGerberViewer::getHeight() const
 {
-    if(mSurface == NULL){
-        return 0;
-    }
+    if(!isViewerReady()){ return 0; }
 
     return cairo_image_surface_get_height(mSurface);
 }
@@ -116,9 +121,7 @@ void CairoGerberViewer::initCairo(uint32_t inW, uint32_t inH)
 
 void CairoGerberViewer::setLevelPolarity(GraphicState::eLevelPolarity inPol)
 {
-    if(mContext == NULL){
-        return;
-    }
+    if(!isViewerReady()){ return; }
 
     if(inPol == GraphicState::ePolDark){
         const Color &color = mColorList.getCurrentColor();

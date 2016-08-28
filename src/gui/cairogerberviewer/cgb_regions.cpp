@@ -8,11 +8,12 @@ void CairoGerberViewer::drawRegion(GraphicObjectRegion *inRegion)
 {
     Point p0,p1;
 
-    if(mContext == NULL){
-        return;
-    }
+    if(!isViewerReady()){ return; }
 
-    if (inRegion == NULL){
+    if (inRegion == NULL){ return; }
+
+    if(!inRegion->isValid()) {
+        err_printf("ERROR(CairoGerberViewer::drawRegion): The region is invalid");
         return;
     }
 

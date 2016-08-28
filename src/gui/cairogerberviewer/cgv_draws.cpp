@@ -9,15 +9,9 @@ void CairoGerberViewer::drawDraw(GraphicObjectDraw *inDraw)
     Point p0 = inDraw->getStartPoint();
     Point p1 = inDraw->getEndPoint();
 
+    if(!isViewerReady()){ return; }
 
-    if(inDraw == NULL){
-        return;
-    }
-
-
-    if(mContext == NULL){
-        return;
-    }
+    if(inDraw == NULL){ return; }
 
     if(!inDraw->isValid()){
         err_printf("ERROR(CairoGerberViewer::drawDraw): The draw is invalid");

@@ -20,6 +20,9 @@ class CairoGerberViewer: public IGerberView
 
         virtual uint32_t getWidth() const;
         virtual uint32_t getHeight() const;
+
+        /// returns the status of the renderer
+        virtual bool isViewerReady() const { return mContext != NULL && mSurface != NULL; }
         //--- >>>
 
 
@@ -30,6 +33,7 @@ class CairoGerberViewer: public IGerberView
 
         /// resize the surface
         void initCairo(uint32_t inW, uint32_t inH);
+
 
 
     private:

@@ -6,14 +6,9 @@
 
 void CairoGerberViewer::drawFlash(GraphicObjectFlash *inFlash)
 {
-    if(inFlash == NULL){
-        return;
-    }
+    if(!isViewerReady()){ return; }
 
-
-    if(mContext == NULL){
-        return;
-    }
+    if(inFlash == NULL){ return; }
 
     if(!inFlash->isValid()){
         err_printf("ERROR(CairoGerberViewer::drawFlash): The flash is invalid");
