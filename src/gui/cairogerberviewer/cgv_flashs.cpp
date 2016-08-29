@@ -94,27 +94,67 @@ void CairoGerberViewer::drawAperturePrimitive(IAperturePrimitive *inPrim)
 
 void CairoGerberViewer::drawAperturePrimitive_Circle(APrimCircle *inCircle)
 {
-
+    //draw circle
+    cairo_move_to(mContext, inCircle->getX() + inCircle->getDiameter()/2, inCircle->getY());
+    cairo_arc (mContext, inCircle->getX(), inCircle->getY(), inCircle->getDiameter()/2, 0.0, 2 * M_PI);
 }
 
 void CairoGerberViewer::drawAperturePrimitive_VectorLine(APrimVectorLine *inLine)
 {
+    cairo_set_line_cap(mContext, CAIRO_LINE_CAP_BUTT);
 
+    //set the line
+    double ux=inLine->getWidth(), uy=inLine->getWidth();
+    cairo_device_to_user_distance (mContext, &ux, &uy);
+    if (ux < uy) ux = uy;
+    cairo_set_line_width (mContext, ux);
+
+    // draw the line
+    cairo_move_to (mContext, r2p_X(inLine->getStartX()), r2p_Y(inLine->getStartY()));
+    cairo_line_to (mContext, r2p_X(inLine->getEndX()), r2p_Y(inLine->getEndY()));
+    cairo_stroke (mContext);
 }
 
 void CairoGerberViewer::drawAperturePrimitive_CenterLine(APrimCenterLine *inLine)
 {
+    cairo_move_to(mContext, inLine->getX() - inLine->getWidth()/2.0, inLine->getY() - inLine->getHeight()/2.0);
 
+    cairo_line_to(mContext, inLine->getX() + inLine->getWidth()/2.0, inLine->getY() - inLine->getHeight()/2.0);
+    cairo_line_to(mContext, inLine->getX() + inLine->getWidth()/2.0, inLine->getY() + inLine->getHeight()/2.0);
+    cairo_line_to(mContext, inLine->getX() - inLine->getWidth()/2.0, inLine->getY() + inLine->getHeight()/2.0);
+    cairo_line_to(mContext, inLine->getX() - inLine->getWidth()/2.0, inLine->getY() - inLine->getHeight()/2.0);
+
+    cairo_fill(mContext);
 }
 
 void CairoGerberViewer::drawAperturePrimitive_Outline(APrimOutline *inOutline)
 {
+    if(inOutline->getSubSequentPointsCount() == 0) { return; }
 
+    for(uint16_t p_idx = 0; p_idx < inOutline->getSubSequentPointsCount(); p_idx ++){
+        Point p = inOutline->getPoint(p_idx);
+
+        if(p_idx == 0){ cairo_move_to(mContext, p.mX, p.mY); }
+
+        else { cairo_line_to(mContext, p.mX, p.mY); }
+    }
+
+    cairo_fill(mContext);
 }
 
 void CairoGerberViewer::drawAperturePrimitive_Polygon(APrimPolygon *inPoly)
 {
+    double part_angle = 360.0 / inPoly->getVerticesCount();
+    cairo_move_to(mContext, inPoly->getX(), inPoly->getY());
 
+    cairo_save(mContext);
+    for(uint16_t vert_idx = 0; vert_idx < inPoly->getVerticesCount(); vert_idx++){
+        cairo_rotate(mContext, M_PI * part_angle / 180);
+        cairo_line_to(mContext, inPoly->getDiameter()/2.0, 0.0);
+    }
+    cairo_restore(mContext);
+
+    cairo_fill(mContext);
 }
 
 void CairoGerberViewer::drawAperturePrimitive_Moire(APrimMoire *inMoire)
