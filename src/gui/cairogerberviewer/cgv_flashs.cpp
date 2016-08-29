@@ -159,7 +159,45 @@ void CairoGerberViewer::drawAperturePrimitive_Polygon(APrimPolygon *inPoly)
 
 void CairoGerberViewer::drawAperturePrimitive_Moire(APrimMoire *inMoire)
 {
+    double dia = inMoire->getOuterDiaOfOutRing() - inMoire->getRingThickness();
 
+
+    cairo_set_line_cap(mContext, CAIRO_LINE_CAP_ROUND);
+    cairo_set_line_join(mContext, CAIRO_LINE_JOIN_ROUND);
+    double ux=inThermal->getGapThickness(), uy=inThermal->getGapThickness();
+    cairo_device_to_user_distance (mContext, &ux, &uy);
+    if (ux < uy){ ux = uy; }
+    cairo_set_line_width (mContext, ux);
+
+    //draw the circles
+    uint16_t num_rings=0;
+    while (dia >= 0 && num_rings < inMoire->getMaxNumOfRings()){
+        cairo_move_to(mContext, inMoire->getX()+dia/2.0, inMoire->getY());
+        cairo_arc(mContext, inMoire->getX(), inMoire->getY(), dia/2.0, 0.0, 2*M_PI);
+        cairo_stroke(mContext);
+
+        dia -= 2.0*(inMoire->getGapBtwRings() + inMoire->getRingThickness());
+        num_rings++;
+    }
+
+    //draw cross
+    //set the line
+    cairo_set_line_cap(mContext, CAIRO_LINE_CAP_BUTT);
+    cairo_set_line_join(mContext, CAIRO_LINE_JOIN_BEVEL);
+    double ux=inMoire->getCrossHaireThickness(), uy=inMoire->getCrossHaireThickness();
+    cairo_device_to_user_distance (mContext, &ux, &uy);
+    if (ux < uy){ ux = uy; }
+    cairo_set_line_width (mContext, ux);
+
+
+
+    cairo_move_to(mContext, inMoire->getX(), inMoire->getY()-inMoire->getCrossHairLength()/2.0);
+    cairo_line_to(mContext, inMoire->getX(), inMoire->getY()+inMoire->getCrossHairLength()/2.0);
+    cairo_stroke(mContext);
+
+    cairo_move_to(mContext, inMoire->getX()-inMoire->getCrossHairLength()/2.0, inMoire->getY());
+    cairo_line_to(mContext, inMoire->getX()+inMoire->getCrossHairLength()/2.0, inMoire->getY());
+    cairo_stroke(mContext);
 }
 
 void CairoGerberViewer::drawAperturePrimitive_Thermal(APrimThermal *inThermal)
