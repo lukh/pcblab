@@ -41,10 +41,9 @@ void CairoGerberViewer::drawLayer(const GerberLayer *inLayer)
     cairo_set_source_rgb(mContext, (double)color.mR/255.0, (double)color.mG/255.0, (double)color.mB/255.0);
 
     //update context for a new layer
-    //TODO
+    cairo_push_group(mContext);
 
     //navigate through levels
-
     for (uint16_t idx = 0; idx < inLayer->getLevelsCount(); idx ++){
         GerberLayer::GerberLevel *level = inLayer->getLevel(idx);
 
