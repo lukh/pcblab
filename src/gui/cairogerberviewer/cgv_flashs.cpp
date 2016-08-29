@@ -202,7 +202,39 @@ void CairoGerberViewer::drawAperturePrimitive_Moire(APrimMoire *inMoire)
 
 void CairoGerberViewer::drawAperturePrimitive_Thermal(APrimThermal *inThermal)
 {
+    //draw outer circle
+    cairo_set_operator(mContext, CAIRO_OPERATOR_OVER);
+    cairo_move_to(mContext, inThermal->getX()+inThermal->getOuterDia()/2.0, inThermal->getY());
+    cairo_arc(mContext, inThermal->getX(), inThermal->getY(), inThermal->getOuterDia()/2.0, 0.0, 2*M_PI);
+    cairo_fill(mContext);
 
+
+
+    cairo_set_operator(mContext, CAIRO_OPERATOR_CLEAR);
+
+    // ----- remove inner circle ------
+    cairo_move_to(mContext, inThermal->getX()+inThermal->getInnerDia()/2.0, inThermal->getY());
+    cairo_arc(mContext, inThermal->getX(), inThermal->getY(), inThermal->getInnerDia()/2.0, 0.0, 2*M_PI);
+    cairo_fill(mContext);
+
+    //----- remove cross --------
+    //set the line
+    cairo_set_line_cap(mContext, CAIRO_LINE_CAP_BUTT);
+    cairo_set_line_join(mContext, CAIRO_LINE_JOIN_BEVEL);
+    double ux=inThermal->getGapThickness(), uy=inThermal->getGapThickness();
+    cairo_device_to_user_distance (mContext, &ux, &uy);
+    if (ux < uy){ ux = uy; }
+    cairo_set_line_width (mContext, ux);
+
+
+
+    cairo_move_to(mContext, inThermal->getX(), inThermal->getY()-inThermal->getOuterDia()/2.0);
+    cairo_line_to(mContext, inThermal->getX(), inThermal->getY()+inThermal->getOuterDia()/2.0);
+    cairo_stroke(mContext);
+
+    cairo_move_to(mContext, inThermal->getX()-inThermal->getOuterDia()/2.0, inThermal->getY());
+    cairo_line_to(mContext, inThermal->getX()+inThermal->getOuterDia()/2.0, inThermal->getY());
+    cairo_stroke(mContext);
 }
 
 void CairoGerberViewer::setApertureExposure(IAperturePrimitive::eExposure inExposure)
