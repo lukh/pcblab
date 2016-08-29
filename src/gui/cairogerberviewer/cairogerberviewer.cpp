@@ -36,6 +36,10 @@ void CairoGerberViewer::drawLayer(const GerberLayer *inLayer)
 {
     if(!isViewerReady()){ return; }
 
+    //layer color
+    const Color &color = mColorList.getCurrentColor();
+    cairo_set_source_rgb(mContext, (double)color.mR/255.0, (double)color.mG/255.0, (double)color.mB/255.0);
+
     //update context for a new layer
     //TODO
 
@@ -72,7 +76,12 @@ void CairoGerberViewer::drawLayer(const GerberLayer *inLayer)
         }
     }
 
-    //increment the color
+
+    //update context for a layer
+    cairo_pop_group_to_source(mContext);
+    cairo_paint(mContext);
+
+    //increment the color for next layer
     mColorList.increment();
 
 }
