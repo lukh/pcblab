@@ -63,10 +63,10 @@ void CairoGerberViewer::drawArc(GraphicObjectArc *inArc)
 
     switch(inArc->getInterpolationMode()){
         case GraphicState::eInterpolCWCircular:
-            cairo_arc(mContext, r2p_X(cx), r2p_Y(cy), radius, angle1, angle2);
+            cairo_arc(mContext, cx, cy, radius, angle1, angle2);
             break;
         case GraphicState::eInterpolCCWCircular:
-            cairo_arc_negative(mContext, r2p_X(cx), r2p_Y(cy), radius, angle1, angle2);
+            cairo_arc_negative(mContext, cx, cy, radius, angle1, angle2);
             break;
         default:
             err_printf("ERROR(CairoGerberViewer::drawArc): The arc is invalid");

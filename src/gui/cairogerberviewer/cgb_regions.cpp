@@ -39,7 +39,7 @@ void CairoGerberViewer::drawRegion(GraphicObjectRegion *inRegion)
         IGraphicObjectTrack *first_track = GraphicObjectRegion::Contour::convert2Track(first_seg);
         p0 = first_track->getStartPoint();
         p1 = first_track->getStartPoint(); //allows to pass the first test of connection
-        cairo_move_to(mContext, r2p_X(p0.mX), r2p_Y(p0.mY));
+        cairo_move_to(mContext, p0.mX, p0.mY);
 
         for(vector<IGraphicObject *>::iterator sit = segments.begin(); sit != segments.end(); ++sit){
             IGraphicObject *igo = *sit;
@@ -60,7 +60,7 @@ void CairoGerberViewer::drawRegion(GraphicObjectRegion *inRegion)
                     p1 = seq_draw->getEndPoint();
 
 
-                    cairo_line_to(mContext, r2p_X(p1.mX), r2p_Y(p1.mY));
+                    cairo_line_to(mContext, p1.mX, p1.mY);
 
                     break;}
                 default:

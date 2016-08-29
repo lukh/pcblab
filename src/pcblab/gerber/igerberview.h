@@ -63,21 +63,6 @@ class IGerberView{
         void setRenderTransformation(const Rectangle &inRealWorldArea) { mRealWorldArea = inRealWorldArea; }
 
     protected:
-
-        /// Converts a point from real to the surface
-        inline uint32_t r2p_X(double inX) const{
-            return inX;
-        }
-
-        inline uint32_t r2p_Y(double inY) const {
-            return (getHeight() - inY);
-        }
-
-        inline double r2p_angle(double inAngle) const{
-            return -inAngle;
-        }
-
-
         ColorList mColorList;
         Rectangle mRealWorldArea;
 };

@@ -43,8 +43,8 @@ void CairoGerberViewer::drawDraw(GraphicObjectDraw *inDraw)
         cairo_set_line_width (mContext, ux);
 
         // draw the line
-        cairo_move_to (mContext, r2p_X(p0.mX), r2p_Y(p0.mY));
-        cairo_line_to (mContext, r2p_X(p1.mX), r2p_Y(p1.mY));
+        cairo_move_to (mContext, p0.mX, p0.mY);
+        cairo_line_to (mContext, p1.mX, p1.mY);
         cairo_stroke (mContext);
     }
 
@@ -55,50 +55,50 @@ void CairoGerberViewer::drawDraw(GraphicObjectDraw *inDraw)
 
         //draw shape
         if(p0.mX < p1.mX && p0.mY < p1.mY){
-            cairo_move_to (mContext, r2p_X(p0.mX - wp), r2p_Y(p0.mY - hp));
-            cairo_line_to(mContext, r2p_X(p0.mX + wp), r2p_Y(p0.mY - hp));
+            cairo_move_to (mContext, p0.mX - wp, p0.mY - hp);
+            cairo_line_to(mContext, p0.mX + wp, p0.mY - hp);
 
-            cairo_line_to(mContext, r2p_X(p1.mX + wp), r2p_Y(p1.mY - hp));
-            cairo_line_to(mContext, r2p_X(p1.mX + wp), r2p_Y(p1.mY + hp));
-            cairo_line_to(mContext, r2p_X(p1.mX - wp), r2p_Y(p1.mY + hp));
+            cairo_line_to(mContext, p1.mX + wp, p1.mY - hp);
+            cairo_line_to(mContext, p1.mX + wp, p1.mY + hp);
+            cairo_line_to(mContext, p1.mX - wp, p1.mY + hp);
 
-            cairo_line_to(mContext, r2p_X(p0.mX - wp), r2p_Y(p0.mY + hp));
-            cairo_line_to(mContext, r2p_X(p0.mX - wp), r2p_Y(p0.mY - hp));
+            cairo_line_to(mContext, p0.mX - wp, p0.mY + hp);
+            cairo_line_to(mContext, p0.mX - wp, p0.mY - hp);
         }
         else if(p0.mX < p1.mX && p0.mY >= p1.mY){
-            cairo_move_to (mContext, r2p_X(p0.mX - wp), r2p_Y(p0.mY + hp));
-            cairo_line_to (mContext, r2p_X(p0.mX - wp), r2p_Y(p0.mY - hp));
+            cairo_move_to (mContext, p0.mX - wp, p0.mY + hp);
+            cairo_line_to (mContext, p0.mX - wp, p0.mY - hp);
 
-            cairo_line_to (mContext, r2p_X(p1.mX - wp), r2p_Y(p1.mY - hp));
-            cairo_line_to (mContext, r2p_X(p1.mX + wp), r2p_Y(p1.mY - hp));
-            cairo_line_to (mContext, r2p_X(p1.mX + wp), r2p_Y(p1.mY + hp));
+            cairo_line_to (mContext, p1.mX - wp, p1.mY - hp);
+            cairo_line_to (mContext, p1.mX + wp, p1.mY - hp);
+            cairo_line_to (mContext, p1.mX + wp, p1.mY + hp);
 
-            cairo_line_to (mContext, r2p_X(p0.mX + wp), r2p_Y(p0.mY + hp));
-            cairo_line_to (mContext, r2p_X(p0.mX - wp), r2p_Y(p0.mY + hp));
+            cairo_line_to (mContext, p0.mX + wp, p0.mY + hp);
+            cairo_line_to (mContext, p0.mX - wp, p0.mY + hp);
         }
 
         else if(p0.mX >= p1.mX && p0.mY < p1.mY){
-            cairo_move_to (mContext, r2p_X(p0.mX + wp), r2p_Y(p0.mY - hp));
-            cairo_line_to (mContext, r2p_X(p0.mX + wp), r2p_Y(p0.mY + hp));
+            cairo_move_to (mContext, p0.mX + wp, p0.mY - hp);
+            cairo_line_to (mContext, p0.mX + wp, p0.mY + hp);
 
-            cairo_line_to (mContext, r2p_X(p1.mX + wp), r2p_Y(p1.mY + hp));
-            cairo_line_to (mContext, r2p_X(p1.mX - wp), r2p_Y(p1.mY + hp));
-            cairo_line_to (mContext, r2p_X(p1.mX - wp), r2p_Y(p1.mY - hp));
+            cairo_line_to (mContext, p1.mX + wp, p1.mY + hp);
+            cairo_line_to (mContext, p1.mX - wp, p1.mY + hp);
+            cairo_line_to (mContext, p1.mX - wp, p1.mY - hp);
 
-            cairo_line_to (mContext, r2p_X(p0.mX - wp), r2p_Y(p0.mY - hp));
-            cairo_line_to (mContext, r2p_X(p0.mX + wp), r2p_Y(p0.mY - hp));
+            cairo_line_to (mContext, p0.mX - wp, p0.mY - hp);
+            cairo_line_to (mContext, p0.mX + wp, p0.mY - hp);
         }
 
         else if(p0.mX >= p1.mX && p0.mY >= p1.mY){
-            cairo_move_to (mContext, r2p_X(p0.mX + wp), r2p_Y(p0.mY + hp));
-            cairo_line_to (mContext, r2p_X(p0.mX - wp), r2p_Y(p0.mY + hp));
+            cairo_move_to (mContext, p0.mX + wp, p0.mY + hp);
+            cairo_line_to (mContext, p0.mX - wp, p0.mY + hp);
 
-            cairo_line_to (mContext, r2p_X(p1.mX - wp), r2p_Y(p1.mY + hp));
-            cairo_line_to (mContext, r2p_X(p1.mX - wp), r2p_Y(p1.mY - hp));
-            cairo_line_to (mContext, r2p_X(p1.mX + wp), r2p_Y(p1.mY - hp));
+            cairo_line_to (mContext, p1.mX - wp, p1.mY + hp);
+            cairo_line_to (mContext, p1.mX - wp, p1.mY - hp);
+            cairo_line_to (mContext, p1.mX + wp, p1.mY - hp);
 
-            cairo_line_to (mContext, r2p_X(p0.mX + wp), r2p_Y(p0.mY - hp));
-            cairo_line_to (mContext, r2p_X(p0.mX + wp), r2p_Y(p0.mY + hp));
+            cairo_line_to (mContext, p0.mX + wp, p0.mY - hp);
+            cairo_line_to (mContext, p0.mX + wp, p0.mY + hp);
         }
 
         else{
