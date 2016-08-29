@@ -64,6 +64,8 @@ void CairoGerberViewer::drawLayer(const GerberLayer *inLayer)
                     drawArc(arc);
                     break;}
                 case IGraphicObject::eTypeFlash:{
+                    GraphicObjectFlash *flash = static_cast<GraphicObjectFlash *>(object);
+                    drawFlash(flash);
                     break;}
                 case IGraphicObject::eTypeRegion:{
                     GraphicObjectRegion *region = static_cast<GraphicObjectRegion *>(object);

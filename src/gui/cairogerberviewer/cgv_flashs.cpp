@@ -25,11 +25,34 @@ void CairoGerberViewer::drawFlash(GraphicObjectFlash *inFlash)
         return;
     }
 
+    // create a new group for the flash
+    cairo_push_group(mContext);
+
+    //move to the point 0,0 of the flash
+    cairo_translate(mContext, inFlash->getPosition().mX, inFlash->getPosition().mY);
 
     vector<IAperturePrimitive *> primitives = ap->getPrimitives();
     for (vector<IAperturePrimitive *>::iterator it = primitives.begin(); it != primitives.end(); ++it){
-        drawAperturePrimitive(*it);
+        IAperturePrimitive *prim = *it;
+
+        // save the context to draw all the prims from 0,0 point.
+        cairo_save(mContext);
+
+        //rotation
+        setApertureRotation(prim->getRot());
+
+        //exposure
+        setApertureExposure(prim->getExposure());
+
+        //draw
+        drawAperturePrimitive(prim);
+
+        cairo_restore(mContext);
     }
+
+    // pop the group and paint
+    cairo_pop_group_to_source(mContext);
+    cairo_paint(mContext);
 }
 
 void CairoGerberViewer::drawAperturePrimitive(IAperturePrimitive *inPrim)
@@ -38,8 +61,7 @@ void CairoGerberViewer::drawAperturePrimitive(IAperturePrimitive *inPrim)
         return;
     }
 
-    //exposure
-    //inPrim->getExposure();
+    if(!inPrim->isValid()){ return; }
 
     switch(inPrim->getType()){
         case IAperturePrimitive::eCircle:
