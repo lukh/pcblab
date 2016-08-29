@@ -126,11 +126,10 @@ void CairoGerberViewer::setLevelPolarity(GraphicState::eLevelPolarity inPol)
     if(!isViewerReady()){ return; }
 
     if(inPol == GraphicState::ePolDark){
-        const Color &color = mColorList.getCurrentColor();
-        cairo_set_source_rgb(mContext, (double)color.mR/255.0, (double)color.mG/255.0, (double)color.mB/255.0);
+        cairo_set_operator (mContext, CAIRO_OPERATOR_OVER);
     }
     else{
-        cairo_set_source_rgb(mContext, 0,0,0);
+        cairo_set_operator (mContext, CAIRO_OPERATOR_CLEAR);
     }
 }
 
