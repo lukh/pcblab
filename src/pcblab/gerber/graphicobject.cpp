@@ -20,8 +20,8 @@ Rectangle GraphicObjectDraw::getBoundingBox() const
     p2.mX = bb.getTopRight().mX + ap_bb.getTopRight().mX;
     p2.mY = bb.getTopRight().mY + ap_bb.getTopRight().mY;
 
-    p1.mX = bb.getBottomLeft().mX - ap_bb.getBottomLeft().mX;
-    p1.mY = bb.getBottomLeft().mY - ap_bb.getBottomLeft().mY;
+    p1.mX = bb.getBottomLeft().mX + ap_bb.getBottomLeft().mX;
+    p1.mY = bb.getBottomLeft().mY + ap_bb.getBottomLeft().mY;
 
     return Rectangle(p1, p2);
 }
@@ -151,7 +151,11 @@ Rectangle GraphicObjectFlash::getBoundingBox() const
 {
     if(!isValid()) { return Rectangle(); }
 
-    return getAperture()->getBoundingBox();
+    Rectangle bb = getAperture()->getBoundingBox();
+
+    Rectangle r(Point(mPoint.mX + bb.getBottomLeft().mX, mPoint.mY + bb.getBottomLeft().mY), Point(mPoint.mX + bb.getTopRight().mX, mPoint.mY + bb.getTopRight().mY));
+
+    return r;
 }
 
 
