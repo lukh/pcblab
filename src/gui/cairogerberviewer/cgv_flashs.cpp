@@ -110,8 +110,8 @@ void CairoGerberViewer::drawAperturePrimitive_VectorLine(APrimVectorLine *inLine
     cairo_set_line_width (mContext, ux);
 
     // draw the line
-    cairo_move_to (mContext, r2p_X(inLine->getStartX()), r2p_Y(inLine->getStartY()));
-    cairo_line_to (mContext, r2p_X(inLine->getEndX()), r2p_Y(inLine->getEndY()));
+    cairo_move_to (mContext, inLine->getStartX(), inLine->getStartY());
+    cairo_line_to (mContext, inLine->getEndX(), inLine->getEndY());
     cairo_stroke (mContext);
 }
 
@@ -164,7 +164,7 @@ void CairoGerberViewer::drawAperturePrimitive_Moire(APrimMoire *inMoire)
 
     cairo_set_line_cap(mContext, CAIRO_LINE_CAP_ROUND);
     cairo_set_line_join(mContext, CAIRO_LINE_JOIN_ROUND);
-    double ux=inThermal->getGapThickness(), uy=inThermal->getGapThickness();
+    double ux=inMoire->getRingThickness(), uy=inMoire->getRingThickness();
     cairo_device_to_user_distance (mContext, &ux, &uy);
     if (ux < uy){ ux = uy; }
     cairo_set_line_width (mContext, ux);
@@ -184,7 +184,7 @@ void CairoGerberViewer::drawAperturePrimitive_Moire(APrimMoire *inMoire)
     //set the line
     cairo_set_line_cap(mContext, CAIRO_LINE_CAP_BUTT);
     cairo_set_line_join(mContext, CAIRO_LINE_JOIN_BEVEL);
-    double ux=inMoire->getCrossHaireThickness(), uy=inMoire->getCrossHaireThickness();
+    ux=uy=inMoire->getCrossHaireThickness();
     cairo_device_to_user_distance (mContext, &ux, &uy);
     if (ux < uy){ ux = uy; }
     cairo_set_line_width (mContext, ux);
