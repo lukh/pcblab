@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mPcb.openFolder("../../data", list);
 
     mGerberViewer = new CairoGerberViewer();
-
+    mGerberViewer->setRenderTransformation(Point(8.0,8.0), Point(22.0,22.0));
 
     mProcessor = new ViewProcessor(mPcb, ui->openCVViewer, mGerberViewer);
 }

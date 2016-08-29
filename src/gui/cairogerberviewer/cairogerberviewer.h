@@ -37,9 +37,9 @@ class CairoGerberViewer: public IGerberView
 
 
     private:
-        void setLevelPolarity(GraphicState::eLevelPolarity inPol);
         void applyRenderTransformation();
 
+        void setLevelPolarity(GraphicState::eLevelPolarity inPol);
 
         void drawDraw(GraphicObjectDraw *inDraw);
         void drawArc(GraphicObjectArc *inArc);
@@ -68,6 +68,7 @@ class CairoGerberViewer: public IGerberView
     private:
         cairo_t *mContext;
         cairo_surface_t *mSurface;
+
 };
 
 #endif // CAIROGERBERVIEWER_H

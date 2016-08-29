@@ -20,6 +20,12 @@
 
 class IGerberView{
     public:
+        enum eProportionMode{
+            eKeepProportion,
+            eAdjustToViewer
+        };
+
+
         class ColorList{
             public:
                 ColorList(): mCurrentColorIdx(0){
@@ -47,7 +53,7 @@ class IGerberView{
 
 
     public:
-        IGerberView() /*, mPixOffsetX(0), mPixOffsetY(0) */{}
+        IGerberView(): mPropMode(eKeepProportion) {}
         virtual ~IGerberView() {}
 
         virtual void drawAll(const GerberHandler &inGerber) = 0;
@@ -58,13 +64,22 @@ class IGerberView{
 
         virtual bool isViewerReady() const = 0;
 
+        void setProportionMode(eProportionMode inMode) { mPropMode = inMode; }
 
         /// zoom to fit the area given in the real world coordinates into the surface
         void setRenderTransformation(const Rectangle &inRealWorldArea) { mRealWorldArea = inRealWorldArea; }
 
+        /// zoom to fit the area given in the real world coordinates into the surface
+        void setRenderTransformation(Point p1, Point p2) {
+            Rectangle r(p1, p2);
+            setRenderTransformation(r);
+        }
+
     protected:
         ColorList mColorList;
         Rectangle mRealWorldArea;
+
+        eProportionMode mPropMode;
 };
 
 #endif

@@ -22,6 +22,9 @@ void CairoGerberViewer::drawAll(const GerberHandler &inGerber)
 
     mColorList.reset();
 
+    //transform
+    applyRenderTransformation();
+
     //draw...
     uint8_t layers_cnt = inGerber.getLayersCount();
     for(uint8_t idx = 0; idx < layers_cnt; idx++){
@@ -131,6 +134,35 @@ void CairoGerberViewer::initCairo(uint32_t inW, uint32_t inH)
     }
 }
 
+void CairoGerberViewer::applyRenderTransformation()
+{
+    //reset...
+    cairo_identity_matrix (mContext);
+
+    // scale factor
+    double sx, sy;
+    sx = getWidth() / (mRealWorldArea.getTopRight().mX-mRealWorldArea.getBottomLeft().mX);
+    sy = getHeight() / (mRealWorldArea.getTopRight().mY-mRealWorldArea.getBottomLeft().mY);
+
+    if(mPropMode == eKeepProportion){
+        if(sx < sy){ sy=sx; }
+        else { sx=sy; }
+    }
+
+    double tx, ty;
+    tx = mRealWorldArea.getBottomLeft().mX * sx;
+    ty = mRealWorldArea.getBottomLeft().mY * sy;
+
+    /* translate the draw area before drawing.  We must translate the whole
+       drawing down an additional displayHeight to account for the negative
+       y flip done later */
+    cairo_translate (mContext, -tx, ty + getHeight());
+    /* scale the drawing by the specified scale factor (inverting y since
+        cairo y axis points down) */
+    cairo_scale (mContext, sx, -sy);
+}
+
+
 void CairoGerberViewer::setLevelPolarity(GraphicState::eLevelPolarity inPol)
 {
     if(!isViewerReady()){ return; }
@@ -141,11 +173,6 @@ void CairoGerberViewer::setLevelPolarity(GraphicState::eLevelPolarity inPol)
     else{
         cairo_set_operator (mContext, CAIRO_OPERATOR_CLEAR);
     }
-}
-
-void CairoGerberViewer::applyRenderTransformation()
-{
-
 }
 
 
