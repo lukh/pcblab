@@ -1,8 +1,12 @@
 #include "cairowidget.h"
 
+#include <iostream>
+
+using namespace std;
+
 CairoWidget::CairoWidget(QWidget *parent) : QWidget(parent), mSurface(NULL)
 {
-
+    setMouseTracking(true);
 }
 
 CairoWidget::~CairoWidget()
@@ -35,14 +39,67 @@ void CairoWidget::paintEvent(QPaintEvent *event)
 
     unsigned char *data = cairo_image_surface_get_data(mSurface);
 
+    mRatio = 1.0;
+    mSurfaceW = (double)w;
+    mSurfaceH = (double)h;
 
     QImage img(data,w,h,stride,QImage::Format_ARGB32);
 
     if(w > width() || h > height()){
         img = img.scaled(QSize(width(), height()), Qt::KeepAspectRatio);
+        double rx = (double)w/(double)width();
+        double ry = (double)h/(double)height();
+        mRatio = rx > ry ? rx : ry;
     }
 
     int x = (width()-img.width())/2;
     int y = (height() - img.height())/2;
     painter.drawImage(QPoint(x,y), img);
+
+    //update the rectangle area
+    mRenderArea.setX(x);
+    mRenderArea.setY(y);
+    mRenderArea.setWidth(w);
+    mRenderArea.setHeight(h);
+}
+
+
+
+void CairoWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    double dx, dy;
+
+    if(event->buttons() & Qt::LeftButton){
+        dx = (event->x()-mLastPosition.x())*mRatio;
+        dy = -(event->y()-mLastPosition.y())*mRatio;
+
+        mLastPosition = event->pos();
+
+        Q_EMIT moved(dx, dy);
+    }
+}
+
+void CairoWidget::wheelEvent(QWheelEvent *event)
+{
+    Point p = getCoordWidget2Img(Point(event->x(), event->y()));
+
+    bool zoom_in = event->delta() > 0;
+
+    Q_EMIT zoomed(zoom_in, p);
+}
+
+Point CairoWidget::getCoordWidget2Img(Point inPoint)
+{
+    double x, y; //surface points
+
+    x = ((double)inPoint.mX - (double)mRenderArea.x())*mRatio;
+    y = ((double)inPoint.mY - (double)mRenderArea.y())*mRatio;
+
+    x = x < 0.0 ? 0.0 : x;
+    y = y < 0.0 ? 0.0 : y;
+
+    x = x > mSurfaceW ? mSurfaceW : x;
+    y = y > mSurfaceH ? mSurfaceH : y;
+
+    return Point(x, y);
 }
