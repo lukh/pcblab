@@ -17,20 +17,32 @@
    <string>PcbLab</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="2,1">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="0">
     <item>
-     <widget class="QtOpenCVViewer" name="openCVViewer" native="true"/>
-    </item>
-    <item>
-     <widget class="QTextEdit" name="textEdit">
-      <property name="font">
-       <font>
-        <pointsize>8</pointsize>
-       </font>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>1</number>
       </property>
-      <property name="acceptRichText">
-       <bool>true</bool>
-      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Tab 1</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QtOpenCVViewer" name="openCVViewer" native="true"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Tab 2</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="CairoWidget" name="cairoWidget" native="true"/>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -64,6 +76,12 @@
    <class>QtOpenCVViewer</class>
    <extends>QWidget</extends>
    <header>qtopencvviewer.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CairoWidget</class>
+   <extends>QWidget</extends>
+   <header>cairowidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

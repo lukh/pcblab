@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mGerberViewer = new CairoGerberViewer();
     mGerberViewer->setRenderTransformation(Point(8.0,8.0), Point(22.0,22.0));
 
-    mProcessor = new ViewProcessor(mPcb, ui->openCVViewer, mGerberViewer);
+    mProcessor = new ViewProcessor(mPcb, ui->openCVViewer, ui->cairoWidget, mGerberViewer);
 }
 
 MainWindow::~MainWindow()
