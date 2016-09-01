@@ -18,7 +18,8 @@ INCLUDEPATH += ../src \
     ../src/pcblab/viewprocessor \
     ../src/gui \
     ../src/gui/opencvviewer \
-    ../src/gui/cairogerberviewer
+    ../src/gui/cairogerberviewer \
+    ../src/gui/cairowidget
 
 
 SOURCES += \
@@ -45,7 +46,8 @@ SOURCES += \
     ../src/gui/cairogerberviewer/cgv_draws.cpp \
     ../src/gui/cairogerberviewer/cgv_arcs.cpp \
     ../src/gui/cairogerberviewer/cgb_regions.cpp \
-    ../src/gui/cairogerberviewer/cgv_flashs.cpp
+    ../src/gui/cairogerberviewer/cgv_flashs.cpp \
+    ../src/gui/cairowidget/cairowidget.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -70,7 +72,8 @@ HEADERS  += \
     ../src/gui/opencvviewer/iopencvviewer.h \
     ../src/pcblab/pcblab.h \
     ../src/gui/processorwrapper.h \
-    ../src/config.h
+    ../src/config.h \
+    ../src/gui/cairowidget/cairowidget.h
     ../src/tools/fio.h
 
 
