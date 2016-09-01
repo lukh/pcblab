@@ -23,6 +23,9 @@ class CairoGerberViewer: public IGerberView
 
         /// returns the status of the renderer
         virtual bool isViewerReady() const { return mContext != NULL && mSurface != NULL; }
+
+
+        virtual Point getPointInRealWorldCoordinates(Point inImgCoord) const;
         //--- >>>
 
 

@@ -64,6 +64,7 @@ class IGerberView{
 
         virtual bool isViewerReady() const = 0;
 
+        /// update the proportion mode keep/adjust proportion
         void setProportionMode(eProportionMode inMode) { mPropMode = inMode; }
 
         /// zoom to fit the area given in the real world coordinates into the surface
@@ -74,6 +75,12 @@ class IGerberView{
             Rectangle r(p1, p2);
             setRenderTransformation(r);
         }
+
+        /// returns the (real world) view area
+        const Rectangle &getRealWorldViewArea() const { return mRealWorldArea; }
+
+        /// converts a point from the render view (the image) to the real world coord
+        virtual Point getPointInRealWorldCoordinates(Point inImgCoord) const = 0;
 
     protected:
         ColorList mColorList;
