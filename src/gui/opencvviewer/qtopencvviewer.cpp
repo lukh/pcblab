@@ -1,6 +1,5 @@
 #include "qtopencvviewer.h"
 
-#include <QOpenGLFunctions>
 #include <opencv2/opencv.hpp>
 
 
@@ -11,132 +10,30 @@
 
 
 
-QtOpenCVViewer::QtOpenCVViewer(QWidget *parent) :
-QOpenGLWidget(parent)
+QtOpenCVViewer::QtOpenCVViewer(QWidget *parent)
 {
     mBgColor = QColor::fromRgb(150, 150, 150);
 
 }
 
-void QtOpenCVViewer::initializeGL()
-{
-    makeCurrent();
-    initializeOpenGLFunctions();
-
-    float r = ((float)mBgColor.darker().red())/255.0f;
-    float g = ((float)mBgColor.darker().green())/255.0f;
-    float b = ((float)mBgColor.darker().blue())/255.0f;
-    glClearColor(r,g,b,1.0f);
-}
-
-void QtOpenCVViewer::resizeGL(int width, int height)
-{
-    makeCurrent();
-    glViewport(0, 0, (GLint)width, (GLint)height);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    glOrtho(0, width, -height, 0, 0, 1);
-
-    glMatrixMode(GL_MODELVIEW);
-
-    recalculatePosition();
-
-    Q_EMIT imageSizeChanged(mRenderWidth, mRenderHeight);
-
-    updateScene();
-}
 
 
-
-void QtOpenCVViewer::updateScene()
-{
-    if (this->isVisible()) update();
-}
-
-void QtOpenCVViewer::paintGL()
-{
-    makeCurrent();
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    //showImage();
-    renderImage();
-
-}
-
-void QtOpenCVViewer::renderImage()
-{
-    makeCurrent();
-
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    if (!mRenderQtImg.isNull())
-    {
-        glLoadIdentity();
-
-        glPushMatrix();
-        {
-            /*if (mResizedImg.width() <= 0)
-            {
-                if (mRenderWidth == mRenderQtImg.width() && mRenderHeight == mRenderQtImg.height())
-                    mResizedImg = mRenderQtImg;
-                else
-                    mResizedImg = mRenderQtImg.scaled(QSize(mRenderWidth, mRenderHeight),
-                                                      Qt::IgnoreAspectRatio,
-                                                      Qt::SmoothTransformation);
-            }*/
-
-            // ---> Centering image in draw area
-
-            glRasterPos2i(mRenderPosX, mRenderPosY);
-
-            glPixelZoom(1, -1);
-
-            glDrawPixels(mRenderQtImg.width(), mRenderQtImg.height(), GL_RGBA, GL_UNSIGNED_BYTE, mRenderQtImg.bits());
-        }
-        glPopMatrix();
-
-        // end
-        glFlush();
-    }
-}
-
-void QtOpenCVViewer::recalculatePosition()
-{
-    //mImgRatio = (float)mOrigImage.cols/(float)mOrigImage.rows;
-
-    mRenderWidth = (float)mOrigImage.cols;
-    mRenderHeight = (float)mOrigImage.rows;
-
-    /*if (mRenderHeight > this->size().height())
-    {
-        mRenderHeight = this->size().height();
-        mRenderWidth = floor(mRenderHeight * mImgRatio);
-    }*/
-
-    mRenderPosX = floor((this->size().width() - mRenderWidth) / 2);
-    mRenderPosY = -floor((this->size().height() - mRenderHeight) / 2);
-
-    //mResizedImg = QImage();
-}
 
 bool QtOpenCVViewer::showImage(cv::Mat &inImage)
 {
+    //convert the image from BGR to RGBA
     if (inImage.channels() == 3)
-        cvtColor(inImage, mOrigImage, CV_BGR2RGBA);
+        cvtColor(inImage, mOrigImage, CV_BGR2BGRA);
     else if (inImage.channels() == 1)
         cvtColor(inImage, mOrigImage, CV_GRAY2RGBA);
     else return false;
 
+    //render to qimage
     mRenderQtImg = QImage((const unsigned char*)(mOrigImage.data),
                           mOrigImage.cols, mOrigImage.rows,
                           mOrigImage.step1(), QImage::Format_RGB32);
 
-    recalculatePosition();
-
-    updateScene();
+    repaint();
 
     return true;
 }
@@ -152,3 +49,55 @@ uint32_t QtOpenCVViewer::getHeight() const
     //return mRenderHeight;
     return height();
 }
+
+
+
+void QtOpenCVViewer::paintEvent(QPaintEvent *)
+{
+    QPainter painter(this);
+
+    // paint background
+    painter.fillRect(rect(), mBgColor);
+
+    //draw image
+
+    //crop...
+    int cropped_w=mRenderQtImg.width(), cropped_h=mRenderQtImg.height();
+    int x=0, y=0;
+
+    if(mRenderQtImg.width() > width()){
+        cropped_w=width();
+        x = (mRenderQtImg.width() - width())/2;
+    }
+    if(mRenderQtImg.height() > height()){
+        cropped_h = height();
+        y = (mRenderQtImg.height() - height())/2;
+    }
+
+
+    QImage croppedImg = mRenderQtImg.copy(x, y, cropped_w, cropped_h);
+
+
+    //paint image
+    x = (width()-croppedImg.width())/2;
+    y = (height() - croppedImg.height())/2;
+    painter.drawImage(x, y, croppedImg);
+
+
+    // messages
+    if(mRenderQtImg.width() > width() || mRenderQtImg.height() > height()){
+        painter.setPen(QColor("red"));
+        painter.drawText(QPointF(width() - 55, height() - 5), "Cropped !");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
