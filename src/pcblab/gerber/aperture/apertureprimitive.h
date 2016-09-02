@@ -62,7 +62,7 @@ class IAperturePrimitive{
         virtual bool isValid() const = 0;
 
         /// This implementation of getBounding box returns the box relative to the center of the aperture !
-        virtual Rectangle getBoundingBox() = 0;
+        virtual plRectangle getBoundingBox() = 0;
 
 
         virtual string getStringInfos() const = 0;
@@ -70,7 +70,7 @@ class IAperturePrimitive{
 
     protected:
         /// Gets the bounding box of a rectangle inRect, rotated by a angle of inAngle (deg) regarding (0,0) point
-        static Rectangle rotateBoundingBox(Rectangle inRect, double inAngle);
+        static plRectangle rotateBoundingBox(plRectangle inRect, double inAngle);
 
     protected:
         vector <ApertureModifier> mModifiers;
@@ -99,7 +99,7 @@ class APrimCircle: public IAperturePrimitive{
             if(!isValid()) { return "INVALID"; }
             return "Circle: Exp="+ to_string(int(getExposure())) +" , D="+ to_string(getDiameter()) +", X=" + to_string(getX()) + ", Y=" + to_string(getY()) + ", rot=" + to_string(getRot());
         }
-        virtual Rectangle getBoundingBox();
+        virtual plRectangle getBoundingBox();
         //--- >>>
 };
 
@@ -121,7 +121,7 @@ class APrimVectorLine: public IAperturePrimitive{
             if(!isValid()) { return "INVALID"; }
             return "VectorLine: Exp="+ to_string(int(getExposure())) +" , StartX="+ to_string(getStartX()) +", StartY=" + to_string(getStartY()) + ", EndX=" + to_string(getEndX()) + ", EndY=" + to_string(getEndY()) + ", Rot=" + to_string(getRot());
         }
-        virtual Rectangle getBoundingBox();
+        virtual plRectangle getBoundingBox();
         //--- >>>
 };
 
@@ -142,7 +142,7 @@ class APrimCenterLine: public IAperturePrimitive{
             if(!isValid()) { return "INVALID"; }
             return "CenterLine: Exp="+ to_string(int(getExposure())) +" , W="+ to_string(getWidth()) +", H=" + to_string(getHeight()) + ", X=" + to_string(getX()) + ", Y=" + to_string(getY()) + ", Rot=" + to_string(getRot());
         }
-        virtual Rectangle getBoundingBox();
+        virtual plRectangle getBoundingBox();
         //--- >>>
 };
 
@@ -156,12 +156,12 @@ class APrimOutline: public IAperturePrimitive{
         inline uint16_t getSubSequentPointsCount() const { if (!isValid()){return 0.0;} return (uint16_t)mModifiers.at(1); }
 
         ///subsequent point, inN = [0; N[
-        inline Point getPoint(uint16_t inN) const {
-            if (!isValid()){return Point();}
+        inline plPoint getPoint(uint16_t inN) const {
+            if (!isValid()){return plPoint();}
 
-            if(inN >= getSubSequentPointsCount()){return Point();}
+            if(inN >= getSubSequentPointsCount()){return plPoint();}
 
-            return Point(mModifiers.at(3+2*inN), mModifiers.at(4+2*inN));
+            return plPoint(mModifiers.at(3+2*inN), mModifiers.at(4+2*inN));
         }
 
         virtual double getRot() const { if (!isValid()){return 0.0;} return mModifiers.at(5+2*mModifiers.at(1)); }
@@ -175,7 +175,7 @@ class APrimOutline: public IAperturePrimitive{
                     " , SubSeqs="+ to_string(getSubSequentPointsCount()) + \
                     ", Rot=" + to_string(getRot());
         }
-        virtual Rectangle getBoundingBox();
+        virtual plRectangle getBoundingBox();
         //--- >>>
 };
 
@@ -196,7 +196,7 @@ class APrimPolygon: public IAperturePrimitive{
             if(!isValid()) { return "INVALID"; }
             return "Polygon: Exp="+ to_string(int(getExposure())) +" , Vertices="+ to_string(getVerticesCount()) +", X=" + to_string(getX()) + ", Y=" + to_string(getY()) + ", Dia=" + to_string(getDiameter()) + ", rot=" + to_string(getRot());
         }
-        virtual Rectangle getBoundingBox();
+        virtual plRectangle getBoundingBox();
         //--- >>>
 };
 
@@ -243,7 +243,7 @@ class APrimMoire: public IAperturePrimitive{
             if(!isValid()) { return "INVALID"; }
             return "Moire";
         }
-        virtual Rectangle getBoundingBox();
+        virtual plRectangle getBoundingBox();
         //--- >>>
 };
 
@@ -281,7 +281,7 @@ class APrimThermal: public IAperturePrimitive{
             if(!isValid()) { return "INVALID"; }
             return "Thermal";
         }
-        virtual Rectangle getBoundingBox();
+        virtual plRectangle getBoundingBox();
         //--- >>>
 };
 

@@ -37,7 +37,7 @@ class Aperture{
         ///defines if the aperture is complete and clean
         bool isValid() const;
 
-        Rectangle getBoundingBox() const;
+        plRectangle getBoundingBox() const;
 
         const IApertureTemplate &getTemplate() const { return mTemplate; }
         const vector<IAperturePrimitive *> getPrimitives() const { return mPrimitives; }

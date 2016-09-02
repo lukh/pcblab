@@ -41,18 +41,18 @@ bool Aperture::isValid() const{
     return mValid;
 }
 
-Rectangle Aperture::getBoundingBox() const
+plRectangle Aperture::getBoundingBox() const
 {
     if(mPrimitives.size() == 0){
         err_printf("ERROR (Aperture..getBoundingBox: No primitives" );
-        return Rectangle();
+        return plRectangle();
     }
 
-    Rectangle rect = mPrimitives.at(0)->getBoundingBox();
+    plRectangle rect = mPrimitives.at(0)->getBoundingBox();
     for (vector<IAperturePrimitive *>::const_iterator it = mPrimitives.begin(); it != mPrimitives.end(); ++it) {
         IAperturePrimitive *prim = *it;
 
-        rect = Rectangle::getBounds(rect, prim->getBoundingBox());
+        rect = plRectangle::getBounds(rect, prim->getBoundingBox());
     }
 
     return rect;

@@ -36,9 +36,9 @@ class GerberLayer: public SyntaxParser {
 
 
                 // --- MakeGraphicObjects ---
-                void makeGraphicObjectDraw(Point inStart, Point inStop, Aperture *inAperture);
-                void makeGraphicObjectArc(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture);
-                void makeGraphicObjectFlash(Point inPoint, Aperture *inAperture);
+                void makeGraphicObjectDraw(plPoint inStart, plPoint inStop, Aperture *inAperture);
+                void makeGraphicObjectArc(plPoint inStart, plPoint inStop, plPoint inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture);
+                void makeGraphicObjectFlash(plPoint inPoint, Aperture *inAperture);
                 void makeGraphicObjectRegions(Aperture *inAperture);
 
 
@@ -129,13 +129,13 @@ class GerberLayer: public SyntaxParser {
 
 
         /// interpolate operation, D01 code, with X, Y I, J. Not used coordinates are null
-        virtual void interpolate(Point inPointXY, Point inPointIJ);
+        virtual void interpolate(plPoint inPointXY, plPoint inPointIJ);
 
         /// move operation, D02
-        virtual void move(Point inPointXY);
+        virtual void move(plPoint inPointXY);
 
         /// flash operation, D03
-        virtual void flash(Point inPointXY);
+        virtual void flash(plPoint inPointXY);
 
 
 

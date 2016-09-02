@@ -73,7 +73,7 @@ bool isEqual(double a, double b){
 
 
 
-Rectangle::Rectangle(Point p1, Point p2)
+plRectangle::plRectangle(plPoint p1, plPoint p2)
 {
     mPbl.mX = (p1.mX < p2.mX) ? p1.mX : p2.mX;
     mPbl.mY = (p1.mY < p2.mY) ? p1.mY : p2.mY;
@@ -82,10 +82,19 @@ Rectangle::Rectangle(Point p1, Point p2)
     mPtr.mY = (p1.mY > p2.mY) ? p1.mY : p2.mY;
 }
 
-Rectangle Rectangle::getBounds(Rectangle r1, Rectangle r2)
+plRectangle::plRectangle(double x1, double y1, double x2, double y2)
+{
+    mPbl.mX = x1 < x2 ? x1 : x2;
+    mPbl.mY = y1 < y2 ? y1 : y2;
+
+    mPtr.mX = x1 > x2 ? x1 : x2;
+    mPtr.mY = y1 > y2 ? y1 : y2;
+}
+
+plRectangle plRectangle::getBounds(plRectangle r1, plRectangle r2)
 {
     double x1, x2, y1, y2;
-    Point pbl, ptr;
+    plPoint pbl, ptr;
 
     // Bottom Left
     x1 = r1.getBottomLeft().mX;
@@ -105,20 +114,20 @@ Rectangle Rectangle::getBounds(Rectangle r1, Rectangle r2)
     y2 = r2.getTopRight().mY;
     ptr.mY =  y1 > y2 ? y1 : y2;
 
-    return Rectangle(pbl, ptr);
+    return plRectangle(pbl, ptr);
 }
 
-Rectangle Rectangle::getBounds(vector<Point> &inPoints)
+plRectangle plRectangle::getBounds(vector<plPoint> &inPoints)
 {
     if (inPoints.size() == 0){
-        return Rectangle();
+        return plRectangle();
     }
 
-    Point p_min = inPoints.at(0);
-    Point p_max = inPoints.at(0);
+    plPoint p_min = inPoints.at(0);
+    plPoint p_max = inPoints.at(0);
 
-    for(vector<Point>::iterator it = inPoints.begin(); it != inPoints.end(); ++it){
-        Point p = *it;
+    for(vector<plPoint>::iterator it = inPoints.begin(); it != inPoints.end(); ++it){
+        plPoint p = *it;
 
         p_min.mX = (p.mX < p_min.mX) ? p.mX : p_min.mX;
         p_min.mY = (p.mY < p_min.mY) ? p.mY : p_min.mY;
@@ -126,6 +135,6 @@ Rectangle Rectangle::getBounds(vector<Point> &inPoints)
         p_max.mY = (p.mY > p_max.mY) ? p.mY : p_max.mY;
     }
 
-    return Rectangle(p_min, p_max);
+    return plRectangle(p_min, p_max);
 }
 

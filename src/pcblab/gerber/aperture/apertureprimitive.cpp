@@ -45,14 +45,14 @@ IAperturePrimitive::IAperturePrimitive(IAperturePrimitive::eType inType):
 #endif
 }
 
-Rectangle IAperturePrimitive::rotateBoundingBox(Rectangle inRect, double inAngle)
+plRectangle IAperturePrimitive::rotateBoundingBox(plRectangle inRect, double inAngle)
 {
-    Point p1 = inRect.getBottomLeft();
-    Point p2 = inRect.getTopRight();
+    plPoint p1 = inRect.getBottomLeft();
+    plPoint p2 = inRect.getTopRight();
 
     //compute with  rotation.
     //the four points of the rectangle
-    Point pa(p1.mX,p1.mY), pb(p1.mX, p2.mY), pc(p2.mX,p1.mY), pd(p2.mX,p2.mY);
+    plPoint pa(p1.mX,p1.mY), pb(p1.mX, p2.mY), pc(p2.mX,p1.mY), pd(p2.mX,p2.mY);
 
     //With Rotation
     // in radian
@@ -62,21 +62,21 @@ Rectangle IAperturePrimitive::rotateBoundingBox(Rectangle inRect, double inAngle
 
 
     // defines the for point of the rotated rectangle
-    Point pa_p(pa.mX*cosTheta - pa.mY*sinTheta, pa.mX*sinTheta + pa.mY*cosTheta);
-    Point pb_p(pb.mX*cosTheta - pb.mY*sinTheta, pb.mX*sinTheta + pb.mY*cosTheta);
-    Point pc_p(pc.mX*cosTheta - pc.mY*sinTheta, pc.mX*sinTheta + pc.mY*cosTheta);
-    Point pd_p(pd.mX*cosTheta - pd.mY*sinTheta, pd.mX*sinTheta + pd.mY*cosTheta);
+    plPoint pa_p(pa.mX*cosTheta - pa.mY*sinTheta, pa.mX*sinTheta + pa.mY*cosTheta);
+    plPoint pb_p(pb.mX*cosTheta - pb.mY*sinTheta, pb.mX*sinTheta + pb.mY*cosTheta);
+    plPoint pc_p(pc.mX*cosTheta - pc.mY*sinTheta, pc.mX*sinTheta + pc.mY*cosTheta);
+    plPoint pd_p(pd.mX*cosTheta - pd.mY*sinTheta, pd.mX*sinTheta + pd.mY*cosTheta);
 
 
     //find min and max for x,y
-    vector<Point> pts_list;
+    vector<plPoint> pts_list;
     pts_list.push_back(pa_p);
     pts_list.push_back(pb_p);
     pts_list.push_back(pc_p);
     pts_list.push_back(pd_p);
 
 
-    return Rectangle::getBounds(pts_list);
+    return plRectangle::getBounds(pts_list);
 }
 
 
@@ -89,9 +89,9 @@ bool APrimCircle::isValid() const
     return mModifiers.size() == 5 || mModifiers.size() == 4;
 }
 
-Rectangle APrimCircle::getBoundingBox()
+plRectangle APrimCircle::getBoundingBox()
 {
-    if(!isValid()) { return Rectangle(); }
+    if(!isValid()) { return plRectangle(); }
 
     //Bounding box without rotation
     double x1 = getX()-getDiameter()/2;
@@ -99,9 +99,9 @@ Rectangle APrimCircle::getBoundingBox()
     double x2 = getX()+getDiameter()/2;
     double y2 = getY()+getDiameter()/2;
 
-    Point p1(x1,y1), p2(x2,y2);
+    plPoint p1(x1,y1), p2(x2,y2);
 
-    Rectangle bb(p1, p2);
+    plRectangle bb(p1, p2);
 
     return rotateBoundingBox(bb, getRot());
 }
@@ -113,14 +113,14 @@ bool APrimVectorLine::isValid() const
     return mModifiers.size() == 7 && getWidth() >= 0;
 }
 
-Rectangle APrimVectorLine::getBoundingBox()
+plRectangle APrimVectorLine::getBoundingBox()
 {
-    if(!isValid()) { return Rectangle(); }
+    if(!isValid()) { return plRectangle(); }
 
-    Point p1,p2;
+    plPoint p1,p2;
 
-    Point ps(getStartX(), getStartY());
-    Point pe(getEndX(),   getEndY());
+    plPoint ps(getStartX(), getStartY());
+    plPoint pe(getEndX(),   getEndY());
 
     double angle = atan2(pe.mY-ps.mY, pe.mX-ps.mX);
 
@@ -130,7 +130,7 @@ Rectangle APrimVectorLine::getBoundingBox()
     p1.mY = ps.mY - getWidth()*cos(angle)/2.0;
     p2.mY = pe.mY + getWidth()*cos(angle)/2.0;
 
-    Rectangle bb(p1, p2);
+    plRectangle bb(p1, p2);
 
     return rotateBoundingBox(bb, getRot());
 }
@@ -142,11 +142,11 @@ bool APrimCenterLine::isValid() const
     return mModifiers.size() == 6;
 }
 
-Rectangle APrimCenterLine::getBoundingBox()
+plRectangle APrimCenterLine::getBoundingBox()
 {
-    if(!isValid()) { return Rectangle(); }
+    if(!isValid()) { return plRectangle(); }
 
-    Point p1, p2;
+    plPoint p1, p2;
 
     p1.mX = getX() - getWidth()/2.0;
     p1.mY = getY() - getHeight()/2.0;
@@ -156,7 +156,7 @@ Rectangle APrimCenterLine::getBoundingBox()
 
 
     // the rectangle without rotation
-    Rectangle bb(p1, p2);
+    plRectangle bb(p1, p2);
 
     return rotateBoundingBox(bb, getRot());
 }
@@ -173,18 +173,18 @@ bool APrimOutline::isValid() const
     return mModifiers.size() > 5+2*mModifiers.at(1);
 }
 
-Rectangle APrimOutline::getBoundingBox()
+plRectangle APrimOutline::getBoundingBox()
 {
-    if(!isValid()) { return Rectangle(); }
+    if(!isValid()) { return plRectangle(); }
 
-    vector <Point> pts;
+    vector <plPoint> pts;
 
     uint16_t num_p = getSubSequentPointsCount();
     for(uint16_t p_idx = 0; p_idx < num_p; p_idx ++){
         pts.push_back(getPoint(p_idx));
     }
 
-    Rectangle bb = Rectangle::getBounds(pts);
+    plRectangle bb = plRectangle::getBounds(pts);
 
     return rotateBoundingBox(bb, getRot());
 }
@@ -196,9 +196,9 @@ bool APrimPolygon::isValid() const
     return (mModifiers.size() == 6) && !(getRot() != 0.0 && (getX() != 0.0 || getY() != 0.0));
 }
 
-Rectangle APrimPolygon::getBoundingBox()
+plRectangle APrimPolygon::getBoundingBox()
 {
-    if(!isValid()) { return Rectangle(); }
+    if(!isValid()) { return plRectangle(); }
 
     //Bounding box without rotation
     double x1 = getX()-getDiameter()/2;
@@ -206,9 +206,9 @@ Rectangle APrimPolygon::getBoundingBox()
     double x2 = getX()+getDiameter()/2;
     double y2 = getY()+getDiameter()/2;
 
-    Point p1(x1,y1), p2(x2,y2);
+    plPoint p1(x1,y1), p2(x2,y2);
 
-    Rectangle bb(p1, p2);
+    plRectangle bb(p1, p2);
 
     return rotateBoundingBox(bb, getRot());
 }
@@ -220,9 +220,9 @@ bool APrimMoire::isValid() const
     return mModifiers.size() == 9 && !(getRot() != 0.0 && (getX() != 0.0 || getY() != 0.0));
 }
 
-Rectangle APrimMoire::getBoundingBox()
+plRectangle APrimMoire::getBoundingBox()
 {
-    if(!isValid()) { return Rectangle(); }
+    if(!isValid()) { return plRectangle(); }
 
     double outer_dia = getOuterDiaOfOutRing() > getCrossHairLength() ? getOuterDiaOfOutRing() : getCrossHairLength();
 
@@ -232,9 +232,9 @@ Rectangle APrimMoire::getBoundingBox()
     double x2 = getX()+outer_dia/2;
     double y2 = getY()+outer_dia/2;
 
-    Point p1(x1,y1), p2(x2,y2);
+    plPoint p1(x1,y1), p2(x2,y2);
 
-    Rectangle bb(p1, p2);
+    plRectangle bb(p1, p2);
 
     return rotateBoundingBox(bb, getRot());
 }
@@ -252,9 +252,9 @@ bool APrimThermal::isValid() const
     return mModifiers.size() == 6 && !(getRot() != 0.0 && (getX() != 0.0 || getY() != 0.0)) and is_thermal_specific_valid;
 }
 
-Rectangle APrimThermal::getBoundingBox()
+plRectangle APrimThermal::getBoundingBox()
 {
-    if(!isValid()) { return Rectangle(); }
+    if(!isValid()) { return plRectangle(); }
 
     //Bounding box without rotation
     double x1 = getX()-getOuterDia()/2;
@@ -262,9 +262,9 @@ Rectangle APrimThermal::getBoundingBox()
     double x2 = getX()+getOuterDia()/2;
     double y2 = getY()+getOuterDia()/2;
 
-    Point p1(x1,y1), p2(x2,y2);
+    plPoint p1(x1,y1), p2(x2,y2);
 
-    Rectangle bb(p1, p2);
+    plRectangle bb(p1, p2);
 
     return rotateBoundingBox(bb, getRot());
 }

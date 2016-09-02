@@ -6,8 +6,8 @@
 
 void CairoGerberViewer::drawDraw(GraphicObjectDraw *inDraw)
 {
-    Point p0 = inDraw->getStartPoint();
-    Point p1 = inDraw->getEndPoint();
+    plPoint p0 = inDraw->getStartPoint();
+    plPoint p1 = inDraw->getEndPoint();
 
     if(!isViewerReady()){ return; }
 

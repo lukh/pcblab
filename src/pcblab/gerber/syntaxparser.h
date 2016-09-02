@@ -53,13 +53,13 @@ class SyntaxParser {
 
 
         /// interpolate operation, D01 code, with X, Y I, J. Not used coordinates are null
-        virtual void interpolate(Point inPointXY, Point inPointIJ) = 0;
+        virtual void interpolate(plPoint inPointXY, plPoint inPointIJ) = 0;
 
         /// move operation, D02
-        virtual void move(Point inPointXY) = 0;
+        virtual void move(plPoint inPointXY) = 0;
 
         /// flash operation, D03
-        virtual void flash(Point inPointXY) = 0;
+        virtual void flash(plPoint inPointXY) = 0;
 
         virtual void handleComment(string &inStr) = 0;
 
@@ -136,8 +136,8 @@ class SyntaxParser {
 
 
     private:
-        Point mXY;
-        Point mIJ;
+        plPoint mXY;
+        plPoint mIJ;
 
 };
 

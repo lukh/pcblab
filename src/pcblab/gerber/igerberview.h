@@ -68,23 +68,23 @@ class IGerberView{
         void setProportionMode(eProportionMode inMode) { mPropMode = inMode; }
 
         /// zoom to fit the area given in the real world coordinates into the surface
-        void setRenderTransformation(const Rectangle &inRealWorldArea) { mRealWorldArea = inRealWorldArea; }
+        void setRenderTransformation(const plRectangle &inRealWorldArea) { mRealWorldArea = inRealWorldArea; }
 
         /// zoom to fit the area given in the real world coordinates into the surface
-        void setRenderTransformation(Point p1, Point p2) {
-            Rectangle r(p1, p2);
+        void setRenderTransformation(plPoint p1, plPoint p2) {
+            plRectangle r(p1, p2);
             setRenderTransformation(r);
         }
 
         /// returns the (real world) view area
-        const Rectangle &getRealWorldViewArea() const { return mRealWorldArea; }
+        const plRectangle &getRealWorldViewArea() const { return mRealWorldArea; }
 
         /// converts a point from the render view (the image) to the real world coord
-        virtual Point getPointInRealWorldCoordinates(Point inImgCoord) const = 0;
+        virtual plPoint getPointInRealWorldCoordinates(plPoint inImgCoord) const = 0;
 
     protected:
         ColorList mColorList;
-        Rectangle mRealWorldArea;
+        plRectangle mRealWorldArea;
 
         eProportionMode mPropMode;
 };

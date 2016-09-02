@@ -108,14 +108,19 @@ uint32_t CairoGerberViewer::getHeight() const
     return cairo_image_surface_get_height(mSurface);
 }
 
-Point CairoGerberViewer::getPointInRealWorldCoordinates(Point inImgCoord) const
+plPoint CairoGerberViewer::getPointInRealWorldCoordinates(plPoint inImgCoord) const
 {
     double x, y;
     x = inImgCoord.mX;
     y = inImgCoord.mY;
     cairo_device_to_user(mContext, &x, &y);
 
-    return Point(x, y);
+    return plPoint(x, y);
+}
+
+void CairoGerberViewer::getVectorInRealWorldCoordinates(double *inDx, double *inDy) const
+{
+    cairo_device_to_user_distance(mContext, inDx, inDy);
 }
 
 void CairoGerberViewer::deinitCairo()

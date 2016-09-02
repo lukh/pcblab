@@ -56,7 +56,7 @@ class IGraphicObject{
 
         bool isValid() const { return mValid; }
 
-        virtual Rectangle getBoundingBox() const = 0;
+        virtual plRectangle getBoundingBox() const = 0;
 
     protected:
         Aperture *mAperture; //should it be DCode ?
@@ -71,15 +71,15 @@ class IGraphicObject{
 /// Interface to handles tracks (arcs and draw)
 class IGraphicObjectTrack{
     public:
-        IGraphicObjectTrack(Point inStartPoint, Point inEndPoint): mStartPoint(inStartPoint), mEndPoint(inEndPoint){}
+        IGraphicObjectTrack(plPoint inStartPoint, plPoint inEndPoint): mStartPoint(inStartPoint), mEndPoint(inEndPoint){}
 
-        const Point& getStartPoint() const {return mStartPoint; }
-        const Point& getEndPoint() const { return mEndPoint; }
+        const plPoint& getStartPoint() const {return mStartPoint; }
+        const plPoint& getEndPoint() const { return mEndPoint; }
 
 
     protected:
-        Point mStartPoint;
-        Point mEndPoint;
+        plPoint mStartPoint;
+        plPoint mEndPoint;
 };
 
 
@@ -89,7 +89,7 @@ class IGraphicObjectTrack{
 ///     stop point
 class GraphicObjectDraw: public IGraphicObject, public IGraphicObjectTrack{
     public:
-        GraphicObjectDraw(Point inStartPoint, Point inEndPoint, Aperture *inAperture):
+        GraphicObjectDraw(plPoint inStartPoint, plPoint inEndPoint, Aperture *inAperture):
             IGraphicObject(IGraphicObject::eTypeLine, inAperture), IGraphicObjectTrack(inStartPoint, inEndPoint){
                 mValid = true;
 #ifdef DEBUG_PRINT
@@ -100,7 +100,7 @@ class GraphicObjectDraw: public IGraphicObject, public IGraphicObjectTrack{
         virtual ~GraphicObjectDraw() {}
 
 
-        virtual Rectangle getBoundingBox() const;
+        virtual plRectangle getBoundingBox() const;
 };
 
 
@@ -110,14 +110,14 @@ class GraphicObjectDraw: public IGraphicObject, public IGraphicObjectTrack{
 ///     quadrant mode, interpolation mode (CCW or CW)
 class GraphicObjectArc: public IGraphicObject, public IGraphicObjectTrack{
     public:
-        GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture);
+        GraphicObjectArc(plPoint inStartPoint, plPoint inEndPoint, plPoint inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture);
 
         virtual ~GraphicObjectArc() {}
 
-        virtual Rectangle getBoundingBox() const;
+        virtual plRectangle getBoundingBox() const;
 
         /// returns the center (and not the offset !)
-        Point getCenter() const { return mCenter; }
+        plPoint getCenter() const { return mCenter; }
 
         GraphicState::eQuadrantMode getQuadrantMode() const;
         GraphicState::eInterpolationMode getInterpolationMode() const;
@@ -125,7 +125,7 @@ class GraphicObjectArc: public IGraphicObject, public IGraphicObjectTrack{
 
     private:
         // calculate from center offset
-        Point mCenter;
+        plPoint mCenter;
 
         GraphicState::eQuadrantMode mQuadrantMode;
         GraphicState::eInterpolationMode mInterpolationMode;
@@ -135,14 +135,14 @@ class GraphicObjectArc: public IGraphicObject, public IGraphicObjectTrack{
 /// defines a flash with the current aperture at the given point
 class GraphicObjectFlash: public IGraphicObject{
     public:
-        GraphicObjectFlash(Point inPoint, Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeFlash, inAperture), mPoint(inPoint) { mValid = true; }
+        GraphicObjectFlash(plPoint inPoint, Aperture *inAperture): IGraphicObject(IGraphicObject::eTypeFlash, inAperture), mPoint(inPoint) { mValid = true; }
 
-        Point getPosition() const { return mPoint; }
+        plPoint getPosition() const { return mPoint; }
 
-        virtual Rectangle getBoundingBox() const;
+        virtual plRectangle getBoundingBox() const;
 
     private:
-        Point mPoint;
+        plPoint mPoint;
 };
 
 
@@ -166,10 +166,10 @@ class GraphicObjectRegion: public IGraphicObject{
                 ~Contour();
 
                 /// Adds a linear segment
-                void addSegment(Point inStart, Point inStop);
+                void addSegment(plPoint inStart, plPoint inStop);
 
                 /// Adds an arc segment
-                void addSegment(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode);
+                void addSegment(plPoint inStart, plPoint inStop, plPoint inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode);
 
                 /// checks if the contour is closed
                 bool isClosed() const;
@@ -181,7 +181,7 @@ class GraphicObjectRegion: public IGraphicObject{
                 bool isValid() const;
 
 
-                Rectangle getBoundingBox() const;
+                plRectangle getBoundingBox() const;
 
                 /// get the segments list
                 const vector <IGraphicObject *> getSegments() const { return mSegments; }
@@ -189,7 +189,7 @@ class GraphicObjectRegion: public IGraphicObject{
 
 
                 /// checks if the Point is in the contour (contour must be closed)
-                bool isInside(Point inPoint) const;
+                bool isInside(plPoint inPoint) const;
 
                 /// checks if the Segment crosses the contour
                 bool isCrossing(IGraphicObject *inObject) const;
@@ -217,10 +217,10 @@ class GraphicObjectRegion: public IGraphicObject{
         static void openContour();
 
         /// adds a linear segment to the current contour
-        static void addSegment(Point inStart, Point inStop);
+        static void addSegment(plPoint inStart, plPoint inStop);
 
         /// adds an arc segment to the current contour
-        static void addSegment(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode);
+        static void addSegment(plPoint inStart, plPoint inStop, plPoint inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode);
 
         /// closes a contour (D02)
         static void closeContour();
@@ -255,7 +255,7 @@ class GraphicObjectRegion: public IGraphicObject{
         const vector<Contour *> getContours() const { return mContours; }
 
 
-        virtual Rectangle getBoundingBox() const;
+        virtual plRectangle getBoundingBox() const;
 
 
     private:

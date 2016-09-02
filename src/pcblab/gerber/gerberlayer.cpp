@@ -18,19 +18,19 @@ GerberLayer::GerberLevel::~GerberLevel(){
 #endif
 }
 
-void GerberLayer::GerberLevel::makeGraphicObjectDraw(Point inStart, Point inStop, Aperture *inAperture){
+void GerberLayer::GerberLevel::makeGraphicObjectDraw(plPoint inStart, plPoint inStop, Aperture *inAperture){
     GraphicObjectDraw *draw = new GraphicObjectDraw(inStart, inStop, inAperture);
 
     mObjects.push_back(draw);
 }
 
-void GerberLayer::GerberLevel::makeGraphicObjectArc(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture){
+void GerberLayer::GerberLevel::makeGraphicObjectArc(plPoint inStart, plPoint inStop, plPoint inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture){
     GraphicObjectArc *arc = new GraphicObjectArc(inStart, inStop, inCenterOffset, inQuadrantMode, inInterpolationMode, inAperture);
 
     mObjects.push_back(arc);
 }
 
-void GerberLayer::GerberLevel::makeGraphicObjectFlash(Point inPoint, Aperture *inAperture){
+void GerberLayer::GerberLevel::makeGraphicObjectFlash(plPoint inPoint, Aperture *inAperture){
     GraphicObjectFlash *flash = new GraphicObjectFlash(inPoint, inAperture);
 
     mObjects.push_back(flash);
@@ -197,11 +197,11 @@ void GerberLayer::setCurrentAperture(uint32_t inDCode){
 
 
 
-void GerberLayer::interpolate(Point inPointXY, Point inPointIJ){
+void GerberLayer::interpolate(plPoint inPointXY, plPoint inPointIJ){
     // save the current point as start point
-    Point startPoint = mState.getCurrentPoint();
+    plPoint startPoint = mState.getCurrentPoint();
     // defines the end point, modal mode (keeps the coord of the previous if the new is not provided)
-    Point endPoint = startPoint;
+    plPoint endPoint = startPoint;
     endPoint.updateCoordinates(inPointXY);
 
 #ifdef DEBUG_PRINT
@@ -259,7 +259,7 @@ void GerberLayer::interpolate(Point inPointXY, Point inPointIJ){
 }
 
 
-void GerberLayer::move(Point inPointXY){
+void GerberLayer::move(plPoint inPointXY){
     // move the current point
     mState.setCurrentPoint(inPointXY);
 
@@ -273,7 +273,7 @@ void GerberLayer::move(Point inPointXY){
 }
 
 
-void GerberLayer::flash(Point inPointXY){
+void GerberLayer::flash(plPoint inPointXY){
     // set the current point
     mState.setCurrentPoint(inPointXY);
 

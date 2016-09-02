@@ -84,7 +84,7 @@ class GraphicState {
         mCurrentAperture(NULL),
         mQuadrantMode(eQuadrantUndefined),
         mInterpolationMode(eInterpolUndefined),
-        mCurrentPoint(Point()),
+        mCurrentPoint(plPoint()),
         mSR(StepAndRepeat()),
         mLevelPolarity(ePolDark),
         mRegMode(eRegModeOff)
@@ -110,8 +110,8 @@ class GraphicState {
     eInterpolationMode getInterpolationMode () const { return mInterpolationMode; }
     void setInterpolationMode(eInterpolationMode inInterpolationMode) { mInterpolationMode = inInterpolationMode; }
 
-    const Point &getCurrentPoint () const { return mCurrentPoint; }
-    void setCurrentPoint(Point inCurrentPoint) {
+    const plPoint &getCurrentPoint () const { return mCurrentPoint; }
+    void setCurrentPoint(plPoint inCurrentPoint) {
         mCurrentPoint.updateCoordinates(inCurrentPoint);
     }
 
@@ -130,7 +130,7 @@ class GraphicState {
         Aperture *mCurrentAperture;
         eQuadrantMode mQuadrantMode;
         eInterpolationMode mInterpolationMode;
-        Point mCurrentPoint;
+        plPoint mCurrentPoint;
         StepAndRepeat mSR;
         eLevelPolarity mLevelPolarity;
         eRegionMode mRegMode;

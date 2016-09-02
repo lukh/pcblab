@@ -132,7 +132,7 @@ void CairoGerberViewer::drawAperturePrimitive_Outline(APrimOutline *inOutline)
     if(inOutline->getSubSequentPointsCount() == 0) { return; }
 
     for(uint16_t p_idx = 0; p_idx < inOutline->getSubSequentPointsCount(); p_idx ++){
-        Point p = inOutline->getPoint(p_idx);
+        plPoint p = inOutline->getPoint(p_idx);
 
         if(p_idx == 0){ cairo_move_to(mContext, p.mX, p.mY); }
 

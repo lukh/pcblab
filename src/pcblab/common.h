@@ -36,15 +36,15 @@ static const double kEqThreshold = 0.00001;
 bool isEqual(double a, double b);
 
 
-class Point{
+class plPoint{
 
   public:
-    Point(): mX(0.0), mY(0.0), mIsXOmitted(false), mIsYOmitted(false) {}
-    Point(double inX, double inY): mX(inX), mY(inY), mIsXOmitted(false), mIsYOmitted(false) {}
+    plPoint(): mX(0.0), mY(0.0), mIsXOmitted(false), mIsYOmitted(false) {}
+    plPoint(double inX, double inY): mX(inX), mY(inY), mIsXOmitted(false), mIsYOmitted(false) {}
 
 
     /// updates the point regarding Is_Omitted, allowing to keep the previous value of one of the coordinates
-    void updateCoordinates(Point &inPoint){
+    void updateCoordinates(plPoint &inPoint){
         //here, the point is modal (if one coordinate is ommitted, it uses the last one
         if(! inPoint.mIsXOmitted) {
             mX = inPoint.mX;
@@ -64,11 +64,11 @@ class Point{
     bool mIsXOmitted;
     bool mIsYOmitted;
 
-    bool operator ==(const Point &p) const{
+    bool operator ==(const plPoint &p) const{
         return (mX == p.mX) && (mY == p.mY);
     }
 
-    bool operator !=(const Point &p) const{
+    bool operator !=(const plPoint &p) const{
         return (mX != p.mX) || (mY != p.mY);
     }
 
@@ -78,20 +78,27 @@ class Point{
 
 
 
-class Rectangle{
+class plRectangle{
     public:
-        Rectangle() {}
-        Rectangle(Point p1, Point p2);
+        plRectangle() {}
+        plRectangle(plPoint p1, plPoint p2);
+        plRectangle(double x1, double y1, double x2, double y2);
 
-        inline Point getTopRight() { return mPtr; }
-        inline Point getBottomLeft() { return mPbl; }
+        inline plPoint getTopRight() { return mPtr; }
+        inline plPoint getBottomLeft() { return mPbl; }
 
-        static Rectangle getBounds(Rectangle r1,Rectangle r2);
-        static Rectangle getBounds(vector<Point> &inPoints);
+        inline double getX1() { return mPbl.mX; }
+        inline double getY1() { return mPbl.mY; }
+
+        inline double getX2() { return mPtr.mX; }
+        inline double getY2() { return mPtr.mY; }
+
+        static plRectangle getBounds(plRectangle r1,plRectangle r2);
+        static plRectangle getBounds(vector<plPoint> &inPoints);
 
     private:
-        Point mPbl;
-        Point mPtr;
+        plPoint mPbl;
+        plPoint mPtr;
 };
 
 

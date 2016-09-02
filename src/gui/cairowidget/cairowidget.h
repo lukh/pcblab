@@ -24,7 +24,7 @@ class CairoWidget : public QWidget
 
 
     Q_SIGNALS:
-        void zoomed(bool inZoomIn, Point p);
+        void zoomed(bool inZoomIn, plPoint p);
         void moved(double dx, double dy);
 
     protected:
@@ -33,7 +33,7 @@ class CairoWidget : public QWidget
         void wheelEvent(QWheelEvent *event);
 
 
-        Point getCoordWidget2Img(Point inPoint);
+        plPoint getCoordWidget2Img(plPoint inPoint);
 
     private:
         cairo_surface_t *mSurface;

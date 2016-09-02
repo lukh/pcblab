@@ -6,7 +6,7 @@
 
 void CairoGerberViewer::drawRegion(GraphicObjectRegion *inRegion)
 {
-    Point p0,p1;
+    plPoint p0,p1;
 
     if(!isViewerReady()){ return; }
 

@@ -1,19 +1,19 @@
 #include "graphicobject.h"
 
 /////////////////////////// Draws ///////////////////////////
-Rectangle GraphicObjectDraw::getBoundingBox() const
+plRectangle GraphicObjectDraw::getBoundingBox() const
 {
-    if(!isValid()) {return Rectangle(); }
+    if(!isValid()) {return plRectangle(); }
 
     // points of the draw
-    Point p1 = getStartPoint();
-    Point p2 = getEndPoint();
+    plPoint p1 = getStartPoint();
+    plPoint p2 = getEndPoint();
 
     // Bounding box of the aperture
     const Aperture *ap = getAperture();
-    Rectangle ap_bb = ap->getBoundingBox();
+    plRectangle ap_bb = ap->getBoundingBox();
 
-    Rectangle bb(p1, p2);
+    plRectangle bb(p1, p2);
 
     //enlarge
     //this one works if ap_bb is centered !!! (???)
@@ -23,14 +23,14 @@ Rectangle GraphicObjectDraw::getBoundingBox() const
     p1.mX = bb.getBottomLeft().mX + ap_bb.getBottomLeft().mX;
     p1.mY = bb.getBottomLeft().mY + ap_bb.getBottomLeft().mY;
 
-    return Rectangle(p1, p2);
+    return plRectangle(p1, p2);
 }
 
 
 
 /////////////////////////// Arcs ///////////////////////////
 
-GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture):
+GraphicObjectArc::GraphicObjectArc(plPoint inStartPoint, plPoint inEndPoint, plPoint inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode, Aperture *inAperture):
     IGraphicObject(IGraphicObject::eTypeArc, inAperture),
     IGraphicObjectTrack(inStartPoint, inEndPoint),
     mQuadrantMode(inQuadrantMode), mInterpolationMode(inInterpolationMode)
@@ -44,18 +44,18 @@ GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point i
 
         if(mQuadrantMode == GraphicState::eQuadrantMulti){
             //it's easy here, since the center offset is signed
-            mCenter = Point(mStartPoint.mX + inCenterOffset.mX, mStartPoint.mY + inCenterOffset.mY);
+            mCenter = plPoint(mStartPoint.mX + inCenterOffset.mX, mStartPoint.mY + inCenterOffset.mY);
             mValid = true;
         }
 
         else if(mQuadrantMode == GraphicState::eQuadrantSingle){
             double signs[2] = {1.0, -1.0};
-            vector<Point> candidates, winner;
+            vector<plPoint> candidates, winner;
 
             // get the candidates for center
             for(int i = 0; i < 4; i ++){
                 //determine the Center (c) point
-                Point c( inStartPoint.mX + signs[i&0x1] * std::abs(inCenterOffset.mX), inStartPoint.mY + signs[(i>>1)&0x1] * std::abs(inCenterOffset.mY)  );
+                plPoint c( inStartPoint.mX + signs[i&0x1] * std::abs(inCenterOffset.mX), inStartPoint.mY + signs[(i>>1)&0x1] * std::abs(inCenterOffset.mY)  );
 
                 double Rs2c = sqrt( pow(inStartPoint.mX - c.mX, 2) + pow(inStartPoint.mY - c.mY, 2) );
                 double Re2c = sqrt( pow(inEndPoint.mX - c.mX, 2) + pow(inEndPoint.mY - c.mY, 2) );
@@ -64,8 +64,8 @@ GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point i
 
                     //check if the point is not in the candidates list already
                     bool added = false;
-                    for(vector<Point>::iterator it_p = candidates.begin(); it_p != candidates.end(); ++it_p){
-                        Point temp = *it_p;
+                    for(vector<plPoint>::iterator it_p = candidates.begin(); it_p != candidates.end(); ++it_p){
+                        plPoint temp = *it_p;
                         if(temp.mX == c.mX && temp.mY == c.mY) {added = true; }
                     }
                     if(!added) { candidates.push_back(c); }
@@ -78,9 +78,9 @@ GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point i
 
             else{
                 // check if the candidates allows the arc to go in the right direction CCW/CW, and if the angle is smaller than 90deg
-                for (vector<Point>::iterator it_p = candidates.begin(); it_p != candidates.end(); ++it_p){
+                for (vector<plPoint>::iterator it_p = candidates.begin(); it_p != candidates.end(); ++it_p){
 
-                    Point c = *it_p; //this is the candidate
+                    plPoint c = *it_p; //this is the candidate
 
                     double v0_x = inStartPoint.mX - c.mX;
                     double v0_y = inStartPoint.mY - c.mY;
@@ -121,9 +121,9 @@ GraphicObjectArc::GraphicObjectArc(Point inStartPoint, Point inEndPoint, Point i
 #endif
 }
 
-Rectangle GraphicObjectArc::getBoundingBox() const
+plRectangle GraphicObjectArc::getBoundingBox() const
 {
-    return Rectangle(); //TODO
+    return plRectangle(); //TODO
 }
 
 
@@ -147,13 +147,13 @@ GraphicState::eInterpolationMode GraphicObjectArc::getInterpolationMode() const
 
 
 /////////////////////////// Flashs ///////////////////////////
-Rectangle GraphicObjectFlash::getBoundingBox() const
+plRectangle GraphicObjectFlash::getBoundingBox() const
 {
-    if(!isValid()) { return Rectangle(); }
+    if(!isValid()) { return plRectangle(); }
 
-    Rectangle bb = getAperture()->getBoundingBox();
+    plRectangle bb = getAperture()->getBoundingBox();
 
-    Rectangle r(Point(mPoint.mX + bb.getBottomLeft().mX, mPoint.mY + bb.getBottomLeft().mY), Point(mPoint.mX + bb.getTopRight().mX, mPoint.mY + bb.getTopRight().mY));
+    plRectangle r(plPoint(mPoint.mX + bb.getBottomLeft().mX, mPoint.mY + bb.getBottomLeft().mY), plPoint(mPoint.mX + bb.getTopRight().mX, mPoint.mY + bb.getTopRight().mY));
 
     return r;
 }
@@ -164,14 +164,14 @@ Rectangle GraphicObjectFlash::getBoundingBox() const
 
 
 /// Adds a linear segment
-void GraphicObjectRegion::Contour::addSegment(Point inStart, Point inStop){
+void GraphicObjectRegion::Contour::addSegment(plPoint inStart, plPoint inStop){
     GraphicObjectDraw *draw = new GraphicObjectDraw(inStart, inStop, NULL);
 
     mSegments.push_back(draw);
 }
 
 /// Adds an arc segment
-void GraphicObjectRegion::Contour::addSegment(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode){
+void GraphicObjectRegion::Contour::addSegment(plPoint inStart, plPoint inStop, plPoint inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode){
     GraphicObjectArc *arc = new GraphicObjectArc(inStart, inStop, inCenterOffset, inQuadrantMode, inInterpolationMode, NULL);
 
     mSegments.push_back(arc);
@@ -232,22 +232,22 @@ bool GraphicObjectRegion::Contour::isValid() const
     return isClosed();
 }
 
-Rectangle GraphicObjectRegion::Contour::getBoundingBox() const
+plRectangle GraphicObjectRegion::Contour::getBoundingBox() const
 {
-    if(!isValid() || mSegments.size() == 0) { return Rectangle(); }
+    if(!isValid() || mSegments.size() == 0) { return plRectangle(); }
 
-    Rectangle bb = mSegments.at(0)->getBoundingBox();
+    plRectangle bb = mSegments.at(0)->getBoundingBox();
 
     for (vector<IGraphicObject *>::const_iterator it = mSegments.begin(); it != mSegments.end(); ++it){
         IGraphicObject *igo = *it;
-        bb = Rectangle::getBounds(bb, igo->getBoundingBox());
+        bb = plRectangle::getBounds(bb, igo->getBoundingBox());
     }
 
     return bb;
 }
 
 /// checks if the Point is in the contour (contour must be closed)
-bool GraphicObjectRegion::Contour::isInside(Point inPoint) const{
+bool GraphicObjectRegion::Contour::isInside(plPoint inPoint) const{
     // a point is inside the contour if: the contour is closed, the point is on the same side of wich track
     if(!isClosed()){
         return false;
@@ -460,15 +460,15 @@ GraphicObjectRegion:: ~GraphicObjectRegion(){
     }
 }
 
-Rectangle GraphicObjectRegion::getBoundingBox() const
+plRectangle GraphicObjectRegion::getBoundingBox() const
 {
-    if(!isValid() || mContours.size() == 0) { return Rectangle(); }
+    if(!isValid() || mContours.size() == 0) { return plRectangle(); }
 
-    Rectangle bb = mContours.at(0)->getBoundingBox();
+    plRectangle bb = mContours.at(0)->getBoundingBox();
 
     for (vector<Contour *>::const_iterator it = mContours.begin() ; it != mContours.end(); ++it){
         Contour *c = *it;
-        bb = Rectangle::getBounds(bb, c->getBoundingBox());
+        bb = plRectangle::getBounds(bb, c->getBoundingBox());
     }
 
     return bb;
@@ -495,7 +495,7 @@ void GraphicObjectRegion::openContour(){
     GraphicObjectRegion::sContours.push_back(sContour);
 }
 
-void GraphicObjectRegion::addSegment(Point inStart, Point inStop){
+void GraphicObjectRegion::addSegment(plPoint inStart, plPoint inStop){
     if (GraphicObjectRegion::sContour == NULL){
         openContour();
     }
@@ -503,7 +503,7 @@ void GraphicObjectRegion::addSegment(Point inStart, Point inStop){
     GraphicObjectRegion::sContour->addSegment(inStart, inStop);
 }
 
-void GraphicObjectRegion::addSegment(Point inStart, Point inStop, Point inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode){
+void GraphicObjectRegion::addSegment(plPoint inStart, plPoint inStop, plPoint inCenterOffset, GraphicState::eQuadrantMode inQuadrantMode, GraphicState::eInterpolationMode inInterpolationMode){
     if (GraphicObjectRegion::sContour == NULL){
         openContour();
     }
