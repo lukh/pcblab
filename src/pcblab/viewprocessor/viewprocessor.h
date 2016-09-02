@@ -18,6 +18,11 @@ class ViewProcessor
         void update();
 
 
+        //related to zoom
+        void updateZoom(bool inZoomIn, plPoint inPoint);
+
+        /// move regarding the delta, in the surface coordinate
+        void move(double inDx, double inDy);
 
 
     private:

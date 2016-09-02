@@ -82,6 +82,9 @@ class IGerberView{
         /// converts a point from the render view (the image) to the real world coord
         virtual plPoint getPointInRealWorldCoordinates(plPoint inImgCoord) const = 0;
 
+        /// converts a vector from the render view (the image) to the real world coord
+        virtual void getVectorInRealWorldCoordinates(double *inDx, double *inDy) const = 0;
+
     protected:
         ColorList mColorList;
         plRectangle mRealWorldArea;

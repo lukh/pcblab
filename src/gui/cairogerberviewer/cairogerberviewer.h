@@ -26,6 +26,7 @@ class CairoGerberViewer: public IGerberView
 
 
         virtual plPoint getPointInRealWorldCoordinates(plPoint inImgCoord) const;
+        virtual void getVectorInRealWorldCoordinates(double *inDx, double *inDy) const;
         //--- >>>
 
 

@@ -18,7 +18,6 @@ void CairoWidget::showImage(cairo_surface_t *inSurface)
     mSurface = inSurface;
     int w = cairo_image_surface_get_width(inSurface);
     int h = cairo_image_surface_get_height(inSurface);
-    resize(w,h);
 
     repaint();
 }
@@ -63,11 +62,22 @@ void CairoWidget::paintEvent(QPaintEvent *event)
     mRenderArea.setHeight(h);
 }
 
+void CairoWidget::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() & Qt::LeftButton){
+        mLastPosition.setX(event->x());
+        mLastPosition.setY(event->y());
+    }
+}
+
 
 
 void CairoWidget::mouseMoveEvent(QMouseEvent *event)
 {
     double dx, dy;
+
+    if(mLastPosition.x() == 0) { mLastPosition.setX(event->x()); }
+    if(mLastPosition.y() == 0) { mLastPosition.setY(event->y()); }
 
     if(event->buttons() & Qt::LeftButton){
         dx = (event->x()-mLastPosition.x())*mRatio;
@@ -75,20 +85,20 @@ void CairoWidget::mouseMoveEvent(QMouseEvent *event)
 
         mLastPosition = event->pos();
 
-        Q_EMIT moved(dx, dy);
+        Q_EMIT(moved(dx, dy));
     }
 }
 
 void CairoWidget::wheelEvent(QWheelEvent *event)
 {
-    Point p = getCoordWidget2Img(Point(event->x(), event->y()));
+    plPoint p = getCoordWidget2Img(plPoint(event->x(), event->y()));
 
     bool zoom_in = event->delta() > 0;
 
-    Q_EMIT zoomed(zoom_in, p);
+    Q_EMIT(zoomed(zoom_in, p));
 }
 
-Point CairoWidget::getCoordWidget2Img(Point inPoint)
+plPoint CairoWidget::getCoordWidget2Img(plPoint inPoint)
 {
     double x, y; //surface points
 
@@ -101,5 +111,5 @@ Point CairoWidget::getCoordWidget2Img(Point inPoint)
     x = x > mSurfaceW ? mSurfaceW : x;
     y = y > mSurfaceH ? mSurfaceH : y;
 
-    return Point(x, y);
+    return plPoint(x, y);
 }

@@ -44,3 +44,24 @@ void ViewProcessor::update()
 
 
 
+void ViewProcessor::updateZoom(bool inZoomIn, plPoint inPoint)
+{
+
+}
+
+void ViewProcessor::move(double inDx, double inDy)
+{
+    //convert dx, dy into real coordinates
+    mGerberViewer->getVectorInRealWorldCoordinates(&inDx, &inDy);
+
+    plRectangle rect = mGerberViewer->getRealWorldViewArea();
+
+    plRectangle n_rect(rect.getX1() - inDx, rect.getY1() + inDy, rect.getX2() - inDx, rect.getY2() + inDy);
+
+    mGerberViewer->setRenderTransformation(n_rect);
+
+    update();
+}
+
+
+

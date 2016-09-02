@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
     mGerberViewer->setRenderTransformation(plPoint(8.0,8.0), plPoint(22.0,22.0));
 
     mProcessor = new ViewProcessor(mPcb, ui->openCVViewer, ui->cairoWidget, mGerberViewer);
+
+    QObject::connect(ui->cairoWidget, SIGNAL(moved(double, double)), this, SLOT(updateMove(double, double)));
 }
 
 MainWindow::~MainWindow()
@@ -39,4 +41,14 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionStart_triggered()
 {
     mProcessor->update();
+}
+
+void MainWindow::updateZoom(bool inZoomIn, plPoint inPoint)
+{
+    mProcessor->updateZoom(inZoomIn, inPoint);
+}
+
+void MainWindow::updateMove(double inDx, double inDy)
+{
+    mProcessor->move(inDx, inDy);
 }

@@ -24,6 +24,10 @@ public:
 private Q_SLOTS:
     void on_actionStart_triggered();
 
+
+    void updateZoom(bool inZoomIn, plPoint inPoint);
+    void updateMove(double inDx, double inDy);
+
 private:
     Ui::MainWindow *ui;
 
