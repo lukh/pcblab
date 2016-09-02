@@ -46,7 +46,96 @@ void ViewProcessor::update()
 
 void ViewProcessor::updateZoom(bool inZoomIn, plPoint inPoint)
 {
+    cout << inZoomIn << endl;
+    double zoomFactor;
 
+    if(inZoomIn) { zoomFactor = 1.1; }
+    else { zoomFactor = 1/1.1; }
+
+
+    plRectangle viewRect = mGerberViewer->getRealWorldViewArea();
+    plPoint mousePos = mGerberViewer->getPointInRealWorldCoordinates(inPoint);
+    /*
+        VARIABLES (all in space coordinates, not pixel coordinates):
+
+          input:
+            viewRect = rectangle of the viewed area
+            zoomFactor = factor of zoom relative to viewRect, ex 1.1
+            mousePos = position of the mouse
+
+          output:
+            zoomedRect = viexRect after zoom
+    */
+
+    /*
+        A little schema:
+
+          viewRect
+        *-----------------------------------------------------------------------*
+        |                       ^                                               |
+        |                       | d_up                                          |
+        |        zoomedRect     v                                               |
+        |      *-----------------------------------------*                      |
+        |d_left|                                         |       d_right        |
+        |<---->|                mousePos                 |<-------------------->|
+        |      |                    +                    |                      |
+        |      |                                         |                      |
+        |      |                                         |                      |
+        |      *-----------------------------------------*                      |
+        |                       ^                                               |
+        |                       |                                               |
+        |                       |                                               |
+        |                       | d_down                                        |
+        |                       |                                               |
+        |                       v                                               |
+        *-----------------------------------------------------------------------*
+
+        dX = d_left + d_right
+        dY = d_up + d_down
+        The origin of rects is the upper left corner.
+    */
+
+    /*
+        First, find differences of size between zoomed rect and original rect
+        Here, 1 / zoomFactor is used, because computations are made relative to the
+        original view area, not the final rect):
+    */
+
+
+    double dX = viewRect.getW() * (1 - 1 / zoomFactor);
+    double dY = viewRect.getH() * (1 - 1 / zoomFactor);
+
+    /*
+        Second, find d_* using the position of the mouse.
+        pX = position of the mouse along X axis, relative to viewRect (percentage)
+        pY = position of the mouse along Y axis, relative to viewRect (percentage)
+        The value of d_right and d_down is not computed because is not directly needed
+        in the final result.
+    */
+    double pX = (mousePos.mX - viewRect.getBottomLeft().mX) / viewRect.getW();
+    double pY = (mousePos.mY - viewRect.getBottomLeft().mY) / viewRect.getH();
+
+    double d_left = pX * dX;
+    double d_up = pY * dY;
+
+    /*
+        Third and last, compute the output rect
+    */
+    plPoint p1 = viewRect.getBottomLeft(), p2=viewRect.getTopRight();
+
+    //dX - d_left =  d_right
+    //dY - d_up = d_down
+    p1.mX += d_left;
+    p1.mY += d_up;
+    p2.mX -= dX - d_left;
+    p2.mY -= dY - d_up;
+
+    // That's it!
+
+
+    mGerberViewer->setRenderTransformation(p1, p2);
+
+    update();
 }
 
 void ViewProcessor::move(double inDx, double inDy)

@@ -93,6 +93,9 @@ class plRectangle{
         inline double getX2() { return mPtr.mX; }
         inline double getY2() { return mPtr.mY; }
 
+        inline double getW() { return mPtr.mX - mPbl.mX; }
+        inline double getH() { return mPtr.mY - mPbl.mY; }
+
         static plRectangle getBounds(plRectangle r1,plRectangle r2);
         static plRectangle getBounds(vector<plPoint> &inPoints);
 
