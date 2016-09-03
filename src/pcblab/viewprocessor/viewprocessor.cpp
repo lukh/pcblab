@@ -46,7 +46,6 @@ void ViewProcessor::update()
 
 void ViewProcessor::updateZoom(bool inZoomIn, plPoint inPoint)
 {
-    cout << inZoomIn << endl;
     double zoomFactor;
 
     if(inZoomIn) { zoomFactor = 1.1; }
@@ -56,6 +55,7 @@ void ViewProcessor::updateZoom(bool inZoomIn, plPoint inPoint)
     plRectangle viewRect = mGerberViewer->getRealWorldViewArea();
     plPoint mousePos = mGerberViewer->getPointInRealWorldCoordinates(inPoint);
     /*
+     * from: http://stackoverflow.com/questions/13316481/zooming-into-a-window-based-on-the-mouse-position
         VARIABLES (all in space coordinates, not pixel coordinates):
 
           input:
