@@ -20,7 +20,7 @@ void CairoGerberViewer::drawFlash(GraphicObjectFlash *inFlash)
         err_printf("ERROR(CairoGerberViewer::drawFlash): The flash aperture is NULL");
         return;
     }
-    if(ap->isValid()){
+    if(! ap->isValid()){
         err_printf("ERROR(CairoGerberViewer::drawFlash): The flash aperture is invalid");
         return;
     }
