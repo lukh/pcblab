@@ -60,14 +60,17 @@
     <property name="title">
      <string>Start</string>
     </property>
-    <addaction name="actionStart"/>
+    <addaction name="actionOpen"/>
    </widget>
    <addaction name="menuStart"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionStart">
+  <action name="actionOpen">
    <property name="text">
-    <string>Start</string>
+    <string>Open</string>
+   </property>
+   <property name="shortcut">
+    <string>O</string>
    </property>
   </action>
  </widget>
