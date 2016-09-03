@@ -93,6 +93,11 @@ GerberLayer::~GerberLayer(){
 
 
 void GerberLayer::setRegionMode(GraphicState::eRegionMode inRegMode) {
+    if(mCurrentLevel == NULL){
+        err_printf("WARNING(GerberLayer::setRegion): No existing level");
+        addNewLevel(GraphicState::ePolDark);
+    }
+
     //update the graphic state
     mState.setRegMode(inRegMode);
 
@@ -209,9 +214,8 @@ void GerberLayer::interpolate(plPoint inPointXY, plPoint inPointIJ){
 #endif
 
     if(mCurrentLevel == NULL){
-        // error.
-        err_printf("ERROR(GerberLayer::interpolate): No existing level");
-        return;
+        err_printf("WARNING(GerberLayer::interpolate): No existing level");
+        addNewLevel(GraphicState::ePolDark);
     }
 
     switch(mState.getRegMode()){
@@ -274,6 +278,12 @@ void GerberLayer::move(plPoint inPointXY){
 
 
 void GerberLayer::flash(plPoint inPointXY){
+    if(mCurrentLevel == NULL){
+        err_printf("WARNING(GerberLayer::flash): No existing level");
+        addNewLevel(GraphicState::ePolDark);
+    }
+
+
     // set the current point
     mState.setCurrentPoint(inPointXY);
 
