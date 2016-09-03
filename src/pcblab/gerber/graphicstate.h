@@ -31,6 +31,11 @@ class GraphicState {
           CoordinateFormat(uint8_t inIntegers, uint8_t inDecimals): mIntegers(inIntegers), mDecimals(inDecimals) {}
           uint8_t mIntegers;
           uint8_t mDecimals;
+
+          bool isValid() const {
+              //The number of decimal places must be 4, 5 or 6. The number of integer places must be not more than 6
+              return mDecimals <= 6 && mDecimals >= 4 && mIntegers <= 6;
+          }
     };
 
 

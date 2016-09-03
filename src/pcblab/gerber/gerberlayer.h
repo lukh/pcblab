@@ -93,6 +93,12 @@ class GerberLayer: public SyntaxParser {
 
         /// FS cmd
         virtual void setCoordinateFormat(GraphicState::CoordinateFormat inFormat){
+            if(!inFormat.isValid()){
+                err_printf("The coordinate format is not valid !");
+                return;
+                //TODO: What to do ?
+            }
+
             mState.setCoordFormat(inFormat);
 #ifdef DEBUG_PRINT
             d_printf("GERBERLAYER: setCoordinatesFormat", 1, 0);
