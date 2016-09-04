@@ -16,6 +16,8 @@ void CairoGerberViewer::drawAll(const GerberHandler &inGerber)
 {
     if(!isViewerReady()){ return; }
 
+    cairo_set_antialias(mContext, CAIRO_ANTIALIAS_BEST);
+
     //clean...
     cairo_set_source_rgb (mContext, 0, 0, 0);
     cairo_paint (mContext);
