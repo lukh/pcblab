@@ -33,11 +33,7 @@ void CairoGerberViewer::drawArc(GraphicObjectArc *inArc)
         cairo_set_line_join(mContext, CAIRO_LINE_JOIN_ROUND);
 
         //set the line
-        double ux=width, uy=width;
-        cairo_device_to_user_distance (mContext, &ux, &uy);
-        if (ux < uy)
-            ux = uy;
-        cairo_set_line_width (mContext, ux);
+        cairo_set_line_width (mContext, width);
     }
 
     else{

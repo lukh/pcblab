@@ -104,10 +104,10 @@ void CairoGerberViewer::drawAperturePrimitive_VectorLine(APrimVectorLine *inLine
     cairo_set_line_cap(mContext, CAIRO_LINE_CAP_BUTT);
 
     //set the line
-    double ux=inLine->getWidth(), uy=inLine->getWidth();
+    /*double ux=inLine->getWidth(), uy=inLine->getWidth();
     cairo_device_to_user_distance (mContext, &ux, &uy);
-    if (ux < uy) ux = uy;
-    cairo_set_line_width (mContext, ux);
+    if (ux < uy) ux = uy;*/
+    cairo_set_line_width (mContext, inLine->getWidth());
 
     // draw the line
     cairo_move_to (mContext, inLine->getStartX(), inLine->getStartY());
@@ -164,10 +164,10 @@ void CairoGerberViewer::drawAperturePrimitive_Moire(APrimMoire *inMoire)
 
     cairo_set_line_cap(mContext, CAIRO_LINE_CAP_ROUND);
     cairo_set_line_join(mContext, CAIRO_LINE_JOIN_ROUND);
-    double ux=inMoire->getRingThickness(), uy=inMoire->getRingThickness();
+    /*double ux=inMoire->getRingThickness(), uy=inMoire->getRingThickness();
     cairo_device_to_user_distance (mContext, &ux, &uy);
-    if (ux < uy){ ux = uy; }
-    cairo_set_line_width (mContext, ux);
+    if (ux < uy){ ux = uy; }*/
+    cairo_set_line_width (mContext, inMoire->getRingThickness());
 
     //draw the circles
     uint16_t num_rings=0;
@@ -184,10 +184,10 @@ void CairoGerberViewer::drawAperturePrimitive_Moire(APrimMoire *inMoire)
     //set the line
     cairo_set_line_cap(mContext, CAIRO_LINE_CAP_BUTT);
     cairo_set_line_join(mContext, CAIRO_LINE_JOIN_BEVEL);
-    ux=uy=inMoire->getCrossHaireThickness();
+    /*ux=uy=inMoire->getCrossHaireThickness();
     cairo_device_to_user_distance (mContext, &ux, &uy);
-    if (ux < uy){ ux = uy; }
-    cairo_set_line_width (mContext, ux);
+    if (ux < uy){ ux = uy; }*/
+    cairo_set_line_width (mContext, inMoire->getCrossHaireThickness());
 
 
 
@@ -221,10 +221,10 @@ void CairoGerberViewer::drawAperturePrimitive_Thermal(APrimThermal *inThermal)
     //set the line
     cairo_set_line_cap(mContext, CAIRO_LINE_CAP_BUTT);
     cairo_set_line_join(mContext, CAIRO_LINE_JOIN_BEVEL);
-    double ux=inThermal->getGapThickness(), uy=inThermal->getGapThickness();
+    /*double ux=inThermal->getGapThickness(), uy=inThermal->getGapThickness();
     cairo_device_to_user_distance (mContext, &ux, &uy);
-    if (ux < uy){ ux = uy; }
-    cairo_set_line_width (mContext, ux);
+    if (ux < uy){ ux = uy; }*/
+    cairo_set_line_width (mContext, inThermal->getGapThickness());
 
 
 
