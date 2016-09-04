@@ -84,17 +84,17 @@ class plRectangle{
         plRectangle(plPoint p1, plPoint p2);
         plRectangle(double x1, double y1, double x2, double y2);
 
-        inline plPoint getTopRight() { return mPtr; }
-        inline plPoint getBottomLeft() { return mPbl; }
+        inline plPoint getTopRight() const { return mPtr; }
+        inline plPoint getBottomLeft() const { return mPbl; }
 
-        inline double getX1() { return mPbl.mX; }
-        inline double getY1() { return mPbl.mY; }
+        inline double getX1() const { return mPbl.mX; }
+        inline double getY1() const { return mPbl.mY; }
 
-        inline double getX2() { return mPtr.mX; }
-        inline double getY2() { return mPtr.mY; }
+        inline double getX2() const { return mPtr.mX; }
+        inline double getY2() const { return mPtr.mY; }
 
-        inline double getW() { return mPtr.mX - mPbl.mX; }
-        inline double getH() { return mPtr.mY - mPbl.mY; }
+        inline double getW() const { return mPtr.mX - mPbl.mX; }
+        inline double getH() const { return mPtr.mY - mPbl.mY; }
 
         static plRectangle getBounds(plRectangle r1,plRectangle r2);
         static plRectangle getBounds(vector<plPoint> &inPoints);
