@@ -11,7 +11,10 @@ plRectangle GraphicObjectDraw::getBoundingBox() const
 
     // Bounding box of the aperture
     const Aperture *ap = getAperture();
-    plRectangle ap_bb = ap->getBoundingBox();
+    plRectangle ap_bb;
+    if(ap != NULL){
+        ap_bb = ap->getBoundingBox();
+    }
 
     plRectangle bb(p1, p2);
 

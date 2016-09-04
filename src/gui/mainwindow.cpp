@@ -46,7 +46,7 @@ void MainWindow::on_actionOpen_triggered()
 
     mPcb.openFolder(std_dir, sExtList);
 
-    mGerberViewer->setRenderTransformation(plPoint(0, 0), plPoint(20,20));
+    mGerberViewer->setRenderTransformation(mPcb.getGerber().getBoundingBox());
     mProcessor->update();
 
 }

@@ -122,6 +122,21 @@ GerberLayer *GerberHandler::getLayer(uint8_t inIdx) const {
     return it->second;
 }
 
+plRectangle GerberHandler::getBoundingBox() const
+{
+    if(mLayers.size() == 0){
+        return plRectangle();
+    }
+
+    plRectangle bb = mLayers.begin()->second->getBoundingBox();
+    for(LayerMap::const_iterator it = mLayers.begin(); it != mLayers.end(); ++it){
+        GerberLayer *layer = it->second;
+        bb = plRectangle::getBounds(bb, layer->getBoundingBox());
+    }
+
+    return bb;
+}
+
 void GerberHandler::setOrderList(const GerberHandler::ExtensionOrderList &inList)
 {
     mMap.clear();

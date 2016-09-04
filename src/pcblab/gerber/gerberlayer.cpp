@@ -43,6 +43,21 @@ void GerberLayer::GerberLevel::makeGraphicObjectRegions(Aperture *inAperture){
     }
 }
 
+plRectangle GerberLayer::GerberLevel::getBoundingBox() const
+{
+    if(mObjects.size() == 0){
+        return plRectangle();
+    }
+
+    plRectangle bb = mObjects[0]->getBoundingBox();
+    for(vector<IGraphicObject *>::const_iterator it = mObjects.begin(); it != mObjects.end(); ++it){
+        IGraphicObject *igo = *it;
+        bb = plRectangle::getBounds(bb, igo->getBoundingBox());
+    }
+
+    return bb;
+}
+
 
 
 // ---------------------------------- GerberLayer --------------------------------
@@ -381,4 +396,19 @@ GerberLayer::GerberLevel *GerberLayer::getLevel(uint16_t inIdx) const {
     if(inIdx >= mLevels.size()) { return NULL; }
 
     return mLevels[inIdx];
+}
+
+plRectangle GerberLayer::getBoundingBox() const
+{
+    if(mLevels.size() == 0){
+        return plRectangle();
+    }
+
+    plRectangle bb = mLevels[0]->getBoundingBox();
+    for(vector<GerberLevel *>::const_iterator it = mLevels.begin(); it != mLevels.end(); ++it){
+        GerberLevel *level = *it;
+        bb = plRectangle::getBounds(bb, level->getBoundingBox());
+    }
+
+    return bb;
 }

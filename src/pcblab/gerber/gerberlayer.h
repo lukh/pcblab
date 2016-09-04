@@ -46,6 +46,9 @@ class GerberLayer: public SyntaxParser {
                 GraphicState::eLevelPolarity getPolarity() const { return mPolarity; }
 
 
+                plRectangle getBoundingBox() const;
+
+
             private:
                 const GraphicState::eLevelPolarity mPolarity;
                 vector <IGraphicObject *> mObjects;
@@ -73,6 +76,8 @@ class GerberLayer: public SyntaxParser {
         uint16_t getLevelsCount() const { return mLevels.size(); }
 
         GerberLevel *getLevel(uint16_t inIdx) const;
+
+        plRectangle getBoundingBox() const;
 
 
 

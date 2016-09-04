@@ -54,6 +54,9 @@ class GerberHandler{
         GerberLayer * getLayer(uint8_t inIdx) const;
 
 
+        plRectangle getBoundingBox() const;
+
+
 
         /// get the existing order list
         const ExtensionOrderList& getOrderList() const { return mMap; }
