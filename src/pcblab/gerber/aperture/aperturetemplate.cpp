@@ -540,8 +540,8 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
         //adding needed modifiers
         p->addModifier(1.0); //exposure on
         p->addModifier(X); //D
-        p->addModifier(-(Y-X)/2.0); //x
-        p->addModifier(0.0); //y
+        p->addModifier(0.0); //x
+        p->addModifier(-(Y-X)/2.0); //y
         p->addModifier(0.0); //rot
 
         if(p->isValid()){
@@ -561,8 +561,8 @@ bool ApertureTemplateObround::buildAperturePrimitives(const vector<ApertureModif
         //adding needed modifiers
         p->addModifier(1.0); //exposure on
         p->addModifier(X); //D
-        p->addModifier((Y-X)/2.0); //x
-        p->addModifier(0.0); //y
+        p->addModifier(0.0); //x
+        p->addModifier((Y-X)/2.0); //y
         p->addModifier(0.0); //rot
 
         if(p->isValid()){
