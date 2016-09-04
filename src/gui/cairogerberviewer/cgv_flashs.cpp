@@ -97,6 +97,8 @@ void CairoGerberViewer::drawAperturePrimitive_Circle(APrimCircle *inCircle)
     //draw circle
     cairo_move_to(mContext, inCircle->getX() + inCircle->getDiameter()/2, inCircle->getY());
     cairo_arc (mContext, inCircle->getX(), inCircle->getY(), inCircle->getDiameter()/2, 0.0, 2 * M_PI);
+
+    cairo_fill(mContext);
 }
 
 void CairoGerberViewer::drawAperturePrimitive_VectorLine(APrimVectorLine *inLine)
