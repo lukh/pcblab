@@ -25,6 +25,9 @@ void CairoGerberViewer::drawFlash(GraphicObjectFlash *inFlash)
         return;
     }
 
+    // save the context to draw all the prims from 0,0 point.
+    cairo_save(mContext);
+
     // create a new group for the flash
     cairo_push_group(mContext);
 
@@ -53,6 +56,8 @@ void CairoGerberViewer::drawFlash(GraphicObjectFlash *inFlash)
     // pop the group and paint
     cairo_pop_group_to_source(mContext);
     cairo_paint(mContext);
+
+    cairo_restore(mContext);
 }
 
 void CairoGerberViewer::drawAperturePrimitive(IAperturePrimitive *inPrim)
