@@ -170,7 +170,7 @@ bool APrimOutline::isValid() const
         return false;
     }
 
-    return mModifiers.size() > 5+2*mModifiers.at(1);
+    return mModifiers.size() == 5+2*mModifiers.at(1);
 }
 
 plRectangle APrimOutline::getBoundingBox()

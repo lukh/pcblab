@@ -161,10 +161,10 @@ class APrimOutline: public IAperturePrimitive{
 
             if(inN >= getSubSequentPointsCount()){return plPoint();}
 
-            return plPoint(mModifiers.at(3+2*inN), mModifiers.at(4+2*inN));
+            return plPoint(mModifiers.at(2+2*inN), mModifiers.at(3+2*inN));
         }
 
-        virtual double getRot() const { if (!isValid()){return 0.0;} return mModifiers.at(5+2*mModifiers.at(1)); }
+        virtual double getRot() const { if (!isValid()){return 0.0;} return mModifiers.at(4+2*mModifiers.at(1)); }
 
 
         //<<< --- Implementation of IAperturePrimitive
