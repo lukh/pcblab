@@ -13,6 +13,8 @@
 
 #include "pcblab/common.h"
 
+
+/// draws a cairo_surface_t to a widget, and provide signals for mouse events
 class CairoWidget : public QWidget
 {
     Q_OBJECT
