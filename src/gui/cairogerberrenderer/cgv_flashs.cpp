@@ -1,10 +1,10 @@
-#include "cairogerberviewer.h"
+#include "cairogerberrenderer.h"
 
 #include <math.h>
 
 
 
-void CairoGerberViewer::drawFlash(GraphicObjectFlash *inFlash)
+void CairoGerberRenderer::drawFlash(GraphicObjectFlash *inFlash)
 {
     if(!isViewerReady()){ return; }
 
@@ -60,7 +60,7 @@ void CairoGerberViewer::drawFlash(GraphicObjectFlash *inFlash)
     cairo_restore(mContext);
 }
 
-void CairoGerberViewer::drawAperturePrimitive(IAperturePrimitive *inPrim)
+void CairoGerberRenderer::drawAperturePrimitive(IAperturePrimitive *inPrim)
 {
     if(inPrim == NULL){
         return;
@@ -97,7 +97,7 @@ void CairoGerberViewer::drawAperturePrimitive(IAperturePrimitive *inPrim)
 }
 
 
-void CairoGerberViewer::drawAperturePrimitive_Circle(APrimCircle *inCircle)
+void CairoGerberRenderer::drawAperturePrimitive_Circle(APrimCircle *inCircle)
 {
     //draw circle
     cairo_move_to(mContext, inCircle->getX() + inCircle->getDiameter()/2, inCircle->getY());
@@ -106,7 +106,7 @@ void CairoGerberViewer::drawAperturePrimitive_Circle(APrimCircle *inCircle)
     cairo_fill(mContext);
 }
 
-void CairoGerberViewer::drawAperturePrimitive_VectorLine(APrimVectorLine *inLine)
+void CairoGerberRenderer::drawAperturePrimitive_VectorLine(APrimVectorLine *inLine)
 {
     cairo_set_line_cap(mContext, CAIRO_LINE_CAP_BUTT);
 
@@ -122,7 +122,7 @@ void CairoGerberViewer::drawAperturePrimitive_VectorLine(APrimVectorLine *inLine
     cairo_stroke (mContext);
 }
 
-void CairoGerberViewer::drawAperturePrimitive_CenterLine(APrimCenterLine *inLine)
+void CairoGerberRenderer::drawAperturePrimitive_CenterLine(APrimCenterLine *inLine)
 {
     cairo_move_to(mContext, inLine->getX() - inLine->getWidth()/2.0, inLine->getY() - inLine->getHeight()/2.0);
 
@@ -134,7 +134,7 @@ void CairoGerberViewer::drawAperturePrimitive_CenterLine(APrimCenterLine *inLine
     cairo_fill(mContext);
 }
 
-void CairoGerberViewer::drawAperturePrimitive_Outline(APrimOutline *inOutline)
+void CairoGerberRenderer::drawAperturePrimitive_Outline(APrimOutline *inOutline)
 {
     if(inOutline->getSubSequentPointsCount() == 0) { return; }
 
@@ -149,7 +149,7 @@ void CairoGerberViewer::drawAperturePrimitive_Outline(APrimOutline *inOutline)
     cairo_fill(mContext);
 }
 
-void CairoGerberViewer::drawAperturePrimitive_Polygon(APrimPolygon *inPoly)
+void CairoGerberRenderer::drawAperturePrimitive_Polygon(APrimPolygon *inPoly)
 {
     double part_angle = 360.0 / inPoly->getVerticesCount();
     cairo_move_to(mContext, inPoly->getX(), inPoly->getY());
@@ -164,7 +164,7 @@ void CairoGerberViewer::drawAperturePrimitive_Polygon(APrimPolygon *inPoly)
     cairo_fill(mContext);
 }
 
-void CairoGerberViewer::drawAperturePrimitive_Moire(APrimMoire *inMoire)
+void CairoGerberRenderer::drawAperturePrimitive_Moire(APrimMoire *inMoire)
 {
     double dia = inMoire->getOuterDiaOfOutRing() - inMoire->getRingThickness();
 
@@ -207,7 +207,7 @@ void CairoGerberViewer::drawAperturePrimitive_Moire(APrimMoire *inMoire)
     cairo_stroke(mContext);
 }
 
-void CairoGerberViewer::drawAperturePrimitive_Thermal(APrimThermal *inThermal)
+void CairoGerberRenderer::drawAperturePrimitive_Thermal(APrimThermal *inThermal)
 {
     //draw outer circle
     cairo_set_operator(mContext, CAIRO_OPERATOR_OVER);
@@ -244,7 +244,7 @@ void CairoGerberViewer::drawAperturePrimitive_Thermal(APrimThermal *inThermal)
     cairo_stroke(mContext);
 }
 
-void CairoGerberViewer::setApertureExposure(IAperturePrimitive::eExposure inExposure)
+void CairoGerberRenderer::setApertureExposure(IAperturePrimitive::eExposure inExposure)
 {
     if(!isViewerReady()){ return; }
 
@@ -256,7 +256,7 @@ void CairoGerberViewer::setApertureExposure(IAperturePrimitive::eExposure inExpo
     }
 }
 
-void CairoGerberViewer::setApertureRotation(double inAngle)
+void CairoGerberRenderer::setApertureRotation(double inAngle)
 {
     if(!isViewerReady()){ return; }
 

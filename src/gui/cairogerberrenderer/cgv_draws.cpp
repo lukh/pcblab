@@ -1,10 +1,10 @@
-#include "cairogerberviewer.h"
+#include "cairogerberrenderer.h"
 
 #include <math.h>
 
 
 
-void CairoGerberViewer::drawDraw(GraphicObjectDraw *inDraw)
+void CairoGerberRenderer::drawDraw(GraphicObjectDraw *inDraw)
 {
     plPoint p0 = inDraw->getStartPoint();
     plPoint p1 = inDraw->getEndPoint();

@@ -1,18 +1,17 @@
-#include "cairogerberviewer.h"
+#include "cairogerberrenderer.h"
 
 #include <math.h>
 
-CairoGerberViewer::CairoGerberViewer(): IGerberView()
+CairoGerberRenderer::CairoGerberRenderer(): IGerberView()
 {
-    mContext = NULL;
-    mSurface = NULL;
-}
-
-CairoGerberViewer::~CairoGerberViewer(){
 
 }
 
-void CairoGerberViewer::drawAll(const GerberHandler &inGerber)
+CairoGerberRenderer::~CairoGerberRenderer(){
+
+}
+
+void CairoGerberRenderer::drawAll(const GerberHandler &inGerber)
 {
     if(!isViewerReady()){ return; }
 
@@ -37,7 +36,7 @@ void CairoGerberViewer::drawAll(const GerberHandler &inGerber)
     }
 }
 
-void CairoGerberViewer::drawLayer(const GerberLayer *inLayer)
+void CairoGerberRenderer::drawLayer(const GerberLayer *inLayer)
 {
     if(!isViewerReady()){ return; }
 
@@ -94,23 +93,7 @@ void CairoGerberViewer::drawLayer(const GerberLayer *inLayer)
 
 
 
-
-
-uint32_t CairoGerberViewer::getWidth() const
-{
-    if(!isViewerReady()){ return 0; }
-
-    return cairo_image_surface_get_width(mSurface);
-}
-
-uint32_t CairoGerberViewer::getHeight() const
-{
-    if(!isViewerReady()){ return 0; }
-
-    return cairo_image_surface_get_height(mSurface);
-}
-
-plPoint CairoGerberViewer::getPointInRealWorldCoordinates(plPoint inImgCoord) const
+plPoint CairoGerberRenderer::getPointInRealWorldCoordinates(plPoint inImgCoord) const
 {
     double x, y;
     x = inImgCoord.mX;
@@ -120,38 +103,13 @@ plPoint CairoGerberViewer::getPointInRealWorldCoordinates(plPoint inImgCoord) co
     return plPoint(x, y);
 }
 
-void CairoGerberViewer::getVectorInRealWorldCoordinates(double *inDx, double *inDy) const
+void CairoGerberRenderer::getVectorInRealWorldCoordinates(double *inDx, double *inDy) const
 {
     cairo_device_to_user_distance(mContext, inDx, inDy);
 }
 
-void CairoGerberViewer::deinitCairo()
-{
-    if(mContext != NULL){
-        cairo_destroy(mContext);
-    }
-    if(mSurface != NULL){
-        cairo_surface_destroy(mSurface);
-    }
 
-    mContext = NULL;
-    mSurface = NULL;
-}
-
-void CairoGerberViewer::initCairo(uint32_t inW, uint32_t inH)
-{
-    deinitCairo();
-
-    if(mSurface == NULL){
-        mSurface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, inW, inH);
-    }
-
-    if(mContext == NULL){
-        mContext = cairo_create (mSurface);
-    }
-}
-
-void CairoGerberViewer::applyRenderTransformation()
+void CairoGerberRenderer::applyRenderTransformation()
 {
     //reset...
     cairo_identity_matrix (mContext);
@@ -180,7 +138,7 @@ void CairoGerberViewer::applyRenderTransformation()
 }
 
 
-void CairoGerberViewer::setLevelPolarity(GraphicState::eLevelPolarity inPol)
+void CairoGerberRenderer::setLevelPolarity(GraphicState::eLevelPolarity inPol)
 {
     if(!isViewerReady()){ return; }
 
