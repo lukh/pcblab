@@ -5,9 +5,9 @@
 #include "q_debugstream.h"
 
 #include "pcblab/pcblab.h"
-#include "cairogerberviewer.h"
+#include "cairogerberrenderer.h"
 
-#include "viewprocessor.h"
+#include "displayviewprocessor.h"
 
 namespace Ui {
 class MainWindow;
@@ -36,10 +36,7 @@ private:
 
     PcbLab mPcb;
 
-    CairoGerberViewer *mGerberViewer;
-
-
-    ViewProcessor *mProcessor;
+    DisplayViewProcessor *mProcessor;
 };
 
 #endif // MAINWINDOW_H

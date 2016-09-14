@@ -37,7 +37,6 @@ SOURCES += \
     ../src/pcblab/gerber/aperture/aperturetemplate.cpp \
     ../src/pcblab/gerber/aperture/apertureprimitive.cpp \
     ../src/gui/opencvviewer/qtopencvviewer.cpp \
-    ../src/pcblab/viewprocessor/viewprocessor.cpp \
     ../src/pcblab/pcblab.cpp \
     ../src/pcblab/gerber/gerberhandler.cpp \
     ../src/gui/processorwrapper.cpp \
@@ -46,7 +45,11 @@ SOURCES += \
     ../src/gui/cairogerberrenderer/cgv_arcs.cpp \
     ../src/gui/cairogerberrenderer/cgb_regions.cpp \
     ../src/gui/cairogerberrenderer/cgv_flashs.cpp \
+    ../src/gui/cairowidget/cairowidget.cpp \
+    ../src/gui/cairoviewport/cairoviewport.cpp \
     ../src/gui/cairogerberrenderer/cairogerberrenderer.cpp \
+    ../src/gui/icairoviewer.cpp \
+    ../src/pcblab/viewprocessor/displayviewprocessor.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -66,13 +69,15 @@ HEADERS  += \
     ../src/tools/exprparser.h \
     ../src/tools/stringsplitter.h \
     ../src/gui/opencvviewer/qtopencvviewer.h \
-    ../src/pcblab/viewprocessor/viewprocessor.h \
     ../src/gui/opencvviewer/iopencvviewer.h \
     ../src/pcblab/pcblab.h \
     ../src/gui/processorwrapper.h \
     ../src/config.h \
-    ../src/gui/cairowidget/cairowidget.h
+    ../src/gui/cairowidget/cairowidget.h \
+    ../src/gui/cairoviewport/cairoviewport.h \
     ../src/gui/cairogerberrenderer/cairogerberrenderer.h \
+    ../src/gui/icairoviewer.h \
+    ../src/pcblab/viewprocessor/displayviewprocessor.h
     ../src/tools/fio.h
 
 
@@ -132,7 +137,8 @@ DISTFILES += \
     ../data/apertures.grb \
     ../data/contours.grb \
     ../data/firstdraws.grb \
-    ../data/arcs.grb
+    ../data/arcs.grb \
+    ../TODO
 
 
 

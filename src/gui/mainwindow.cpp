@@ -18,9 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     sExtList.push_back("GTL");
 
 
-    mGerberViewer = new CairoGerberViewer();
-
-    mProcessor = new ViewProcessor(mPcb, ui->openCVViewer, ui->cairoWidget, mGerberViewer);
+    mProcessor = new DisplayViewProcessor(mPcb, ui->cairoWidget);
 
     QObject::connect(ui->cairoWidget, SIGNAL(moved(double, double)), this, SLOT(updateMove(double, double)));
     QObject::connect(ui->cairoWidget, SIGNAL(zoomed(bool, plPoint)), this, SLOT(updateZoom(bool, plPoint)));
@@ -34,21 +32,19 @@ MainWindow::~MainWindow()
     delete mProcessor;
 
     delete ui;
-    delete mGerberViewer;
 }
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-                                                    "~", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    //DO NOT COMMIT
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "D:/documents/projets/dev/pcblab/data", 0);
 
     string std_dir = dir.toStdString();
 
     mPcb.openFolder(std_dir, sExtList);
 
-    mGerberViewer->setRenderTransformation(mPcb.getGerber().getBoundingBox());
-    mProcessor->update();
-
+    mProcessor->init(800, 600);
+    mProcessor->refresh();
 }
 
 void MainWindow::updateZoom(bool inZoomIn, plPoint inPoint)
