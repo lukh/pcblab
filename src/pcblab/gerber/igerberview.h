@@ -30,7 +30,7 @@ class IGerberView{
             public:
                 ColorList(): mCurrentColorIdx(0){
                     mColorList.push_back(Color(255,0,0));
-                    mColorList.push_back(Color(255,255,0));
+                    mColorList.push_back(Color(127,127,255));
                     mColorList.push_back(Color(255,0,255));
                     mColorList.push_back(Color(0,255,0));
                     mColorList.push_back(Color(0,255,255));
@@ -59,10 +59,6 @@ class IGerberView{
         virtual void drawAll(const GerberHandler &inGerber) = 0;
         virtual void drawLayer(const GerberLayer *inLayer) = 0;
 
-        virtual uint32_t getWidth() const = 0;
-        virtual uint32_t getHeight() const = 0;
-
-        virtual bool isViewerReady() const = 0;
 
         /// update the proportion mode keep/adjust proportion
         void setProportionMode(eProportionMode inMode) { mPropMode = inMode; }
@@ -85,8 +81,38 @@ class IGerberView{
         /// converts a vector from the render view (the image) to the real world coord
         virtual void getVectorInRealWorldCoordinates(double *inDx, double *inDy) const = 0;
 
+
+
+
+    private:
+        virtual void setLevelPolarity(GraphicState::eLevelPolarity inPol) = 0;
+
+        virtual void drawDraw(GraphicObjectDraw *inDraw) = 0;
+        virtual void drawArc(GraphicObjectArc *inArc) = 0;
+        virtual void drawRegion(GraphicObjectRegion *inRegion) = 0;
+
+        virtual void drawFlash(GraphicObjectFlash *inFlash) = 0;
+        virtual void drawAperturePrimitive(IAperturePrimitive *inPrim) = 0;
+
+        virtual void drawAperturePrimitive_Circle(APrimCircle *inCircle) = 0;
+        virtual void drawAperturePrimitive_VectorLine(APrimVectorLine *inLine) = 0;
+        virtual void drawAperturePrimitive_CenterLine(APrimCenterLine *inLine) = 0;
+        virtual void drawAperturePrimitive_Outline(APrimOutline *inOutline) = 0;
+        virtual void drawAperturePrimitive_Polygon(APrimPolygon *inPoly) = 0;
+        virtual void drawAperturePrimitive_Moire(APrimMoire *inMoire) = 0;
+        virtual void drawAperturePrimitive_Thermal(APrimThermal *inThermal) = 0;
+
+
+        /// changes the exposure of the primitive
+        virtual void setApertureExposure(IAperturePrimitive::eExposure inExposure) = 0;
+
+        /// update the actual context with a rotation in degree for the primitive
+        virtual void setApertureRotation(double inAngle) = 0;
+
     protected:
         ColorList mColorList;
+
+        ///defines the area rendered on the surface
         plRectangle mRealWorldArea;
 
         eProportionMode mPropMode;
