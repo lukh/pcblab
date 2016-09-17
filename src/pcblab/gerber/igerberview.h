@@ -11,15 +11,22 @@
 #ifndef IGERBERVIEW_H
 #define IGERBERVIEW_H
 
+#include <map>
+#include <vector>
+#include <string>
+
 #include "gerberhandler.h"
 #include "gerberlayer.h"
 
 
 
-
+using namespace std;
 
 class IGerberView{
     public:
+        /// links the transparency against the layers name
+        typedef map<string, uint8_t> TransparencyMap;
+
         enum eProportionMode{
             eKeepProportion,
             eAdjustToViewer
@@ -83,6 +90,9 @@ class IGerberView{
 
 
 
+        /// set the alpha channel for a layer.
+        void setAlphaChannel(string inLayerName, uint8_t inAlphaValue) { mTransparencyMap[inLayerName] = inAlphaValue; }
+
 
     private:
         virtual void setLevelPolarity(GraphicState::eLevelPolarity inPol) = 0;
@@ -111,6 +121,7 @@ class IGerberView{
 
     protected:
         ColorList mColorList;
+        TransparencyMap mTransparencyMap;
 
         ///defines the area rendered on the surface
         plRectangle mRealWorldArea;

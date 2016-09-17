@@ -40,9 +40,16 @@ void CairoGerberRenderer::drawLayer(const GerberLayer *inLayer)
 {
     if(!isViewerReady()){ return; }
 
-    //layer color
+    //layer color and transparency
     const Color &color = mColorList.getCurrentColor();
-    cairo_set_source_rgb(mContext, (double)color.mR/255.0, (double)color.mG/255.0, (double)color.mB/255.0);
+
+    TransparencyMap::const_iterator tmit;
+    tmit = mTransparencyMap.find(inLayer->getName());
+    if (tmit == mTransparencyMap.end()) { mTransparencyMap[inLayer->getName()] = 255; }
+
+    uint8_t transparency = mTransparencyMap[inLayer->getName()];
+    cairo_set_source_rgba(mContext, (double)color.mR/255.0, (double)color.mG/255.0, (double)color.mB/255.0, (double)transparency/255.0);
+
 
     //update context for a new layer
     cairo_push_group(mContext);
