@@ -166,3 +166,10 @@ void DisplayViewProcessor::move(double inDx, double inDy)
 
     update();
 }
+
+plPoint DisplayViewProcessor::convertCoordsFromImageToReal(plPoint inImgCoords)
+{
+    plPoint viewport_p = mViewport.getPointInSourceCoordinates(inImgCoords);
+
+    return mGerberRenderer.getPointInRealWorldCoordinates(viewport_p);
+}

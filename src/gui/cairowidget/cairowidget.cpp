@@ -87,6 +87,8 @@ void CairoWidget::mouseMoveEvent(QMouseEvent *event)
 
         Q_EMIT(moved(dx, dy));
     }
+
+    Q_EMIT(cursor(getCoordWidget2Img(plPoint(event->x(), event->y()))));
 }
 
 void CairoWidget::wheelEvent(QWheelEvent *event)

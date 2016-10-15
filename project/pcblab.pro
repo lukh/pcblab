@@ -17,6 +17,7 @@ INCLUDEPATH += ../src \
     ../src/pcblab/gerber \
     ../src/pcblab/viewprocessor \
     ../src/gui \
+    ../src/gui/tools \
     ../src/gui/opencvviewer \
     ../src/gui/cairogerberrenderer \
     ../src/gui/cairowidget
@@ -77,7 +78,7 @@ HEADERS  += \
     ../src/gui/cairoviewport/cairoviewport.h \
     ../src/gui/cairogerberrenderer/cairogerberrenderer.h \
     ../src/gui/icairoviewer.h \
-    ../src/pcblab/viewprocessor/displayviewprocessor.h
+    ../src/pcblab/viewprocessor/displayviewprocessor.h \
     ../src/gui/tools/qdisplayer.h
     ../src/tools/fio.h
 

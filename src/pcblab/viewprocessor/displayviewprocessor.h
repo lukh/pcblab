@@ -34,6 +34,10 @@ class DisplayViewProcessor
         void move(double inDx, double inDy);
 
 
+
+        /// convert coords from image (pixels) to reality (mm/in)
+        plPoint convertCoordsFromImageToReal(plPoint inImgCoords);
+
     private:
         PcbLab &mPcb;
 

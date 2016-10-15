@@ -28,6 +28,7 @@ class CairoWidget : public QWidget
     Q_SIGNALS:
         void zoomed(bool inZoomIn, plPoint p);
         void moved(double dx, double dy);
+        void cursor(plPoint p);
 
     protected:
         void paintEvent(QPaintEvent *event);

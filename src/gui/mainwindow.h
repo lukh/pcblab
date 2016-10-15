@@ -27,6 +27,7 @@ private Q_SLOTS:
 
     void updateZoom(bool inZoomIn, plPoint inPoint);
     void updateMove(double inDx, double inDy);
+    void updateCursor(plPoint inPoint);
 
 private:
     Ui::MainWindow *ui;
