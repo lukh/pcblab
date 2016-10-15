@@ -78,6 +78,7 @@ HEADERS  += \
     ../src/gui/cairogerberrenderer/cairogerberrenderer.h \
     ../src/gui/icairoviewer.h \
     ../src/pcblab/viewprocessor/displayviewprocessor.h
+    ../src/gui/tools/qdisplayer.h
     ../src/tools/fio.h
 
 
