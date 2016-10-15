@@ -21,6 +21,9 @@ void CairoViewport::setRenderTransformation(const plRectangle &inArea) { mRender
 
 plPoint CairoViewport::getPointInSourceCoordinates(plPoint inImgCoord) const
 {
+    if(mContext == NULL){
+        return plPoint();
+    }
     double x, y;
     x = inImgCoord.mX;
     y = inImgCoord.mY;
