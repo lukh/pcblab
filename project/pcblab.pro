@@ -80,7 +80,7 @@ HEADERS  += \
     ../src/gui/icairoviewer.h \
     ../src/pcblab/viewprocessor/displayviewprocessor.h \
     ../src/gui/tools/qdisplayer.h
-    ../src/gui/cairowidget/icairowidget.h
+    ../src/gui/cairowidget/icairowidget.h \
     ../src/tools/fio.h
 
 
