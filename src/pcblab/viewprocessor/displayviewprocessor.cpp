@@ -22,8 +22,8 @@ void DisplayViewProcessor::init(uint32_t inWidth, uint32_t inHeight)
     // /////////////////////////////
     // init the renderer
     // /////////////////////////////
-    uint32_t rw = int(r_real_hr.getW()*CairoGerberRenderer::kPixelsPerMm) & (~0x1);
-    uint32_t rh = int(r_real_hr.getH()*CairoGerberRenderer::kPixelsPerMm) & (~0x1);
+    uint32_t rw = int(r_real_hr.getW()*CairoGerberRenderer::kPixelsPerMm);
+    uint32_t rh = int(r_real_hr.getH()*CairoGerberRenderer::kPixelsPerMm);
     mGerberRenderer.initCairo(rw, rh);
     mGerberRenderer.setRenderTransformation(r_real_hr);
 
