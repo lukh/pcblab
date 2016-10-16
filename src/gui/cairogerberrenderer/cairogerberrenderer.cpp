@@ -102,6 +102,10 @@ void CairoGerberRenderer::drawLayer(const GerberLayer *inLayer)
 
 plPoint CairoGerberRenderer::getPointInRealWorldCoordinates(plPoint inImgCoord) const
 {
+    if(mContext == NULL){
+        return plPoint();
+    }
+
     double x, y;
     x = inImgCoord.mX;
     y = inImgCoord.mY;
@@ -112,6 +116,10 @@ plPoint CairoGerberRenderer::getPointInRealWorldCoordinates(plPoint inImgCoord) 
 
 void CairoGerberRenderer::getVectorInRealWorldCoordinates(double *inDx, double *inDy) const
 {
+    if(mContext == NULL){
+        return;
+    }
+
     cairo_device_to_user_distance(mContext, inDx, inDy);
 }
 
