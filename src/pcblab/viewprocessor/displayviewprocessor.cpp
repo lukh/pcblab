@@ -1,6 +1,6 @@
 #include "displayviewprocessor.h"
 
-DisplayViewProcessor::DisplayViewProcessor(PcbLab &inPcb, CairoWidget *inCairoWidget):
+DisplayViewProcessor::DisplayViewProcessor(PcbLab &inPcb, ICairoWidget *inCairoWidget):
     mPcb(inPcb), mCairoWidget(inCairoWidget)
 {
 

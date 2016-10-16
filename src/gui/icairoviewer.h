@@ -5,6 +5,8 @@
 
 #include <cairo/cairo.h>
 
+/// Handles the low level of a cairo setup (surface and context)
+/// and the lows level configuration
 class ICairoViewer{
     public:
         ICairoViewer(): mContext(NULL), mSurface(NULL) {}

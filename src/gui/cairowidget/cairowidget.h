@@ -9,20 +9,17 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 
-#include <cairo/cairo.h>
-
-#include "pcblab/common.h"
-
+#include "icairowidget.h"
 
 /// draws a cairo_surface_t to a widget, and provide signals for mouse events
-class CairoWidget : public QWidget
+class CairoWidget : public QWidget, public ICairoWidget
 {
     Q_OBJECT
     public:
-        explicit CairoWidget(QWidget *parent = 0);
+        CairoWidget(QWidget *parent = 0);
         ~CairoWidget();
 
-        void showImage(cairo_surface_t *inSurface);
+        virtual void showImage(cairo_surface_t *inSurface);
 
 
     Q_SIGNALS:
@@ -38,7 +35,7 @@ class CairoWidget : public QWidget
         void wheelEvent(QWheelEvent *event);
 
 
-        plPoint getCoordWidget2Img(plPoint inPoint);
+        virtual plPoint getCoordWidget2Img(plPoint inPoint);
 
     private:
         cairo_surface_t *mSurface;

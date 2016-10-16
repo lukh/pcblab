@@ -4,16 +4,18 @@
 # include <stdint.h>
 
 #include "cairogerberrenderer.h"
-#include "cairowidget.h"
+#include "icairowidget.h"
 #include "cairoviewport/cairoviewport.h"
 
 #include "pcblab/pcblab.h"
 
 
+/// The display view processor handles all the processing to display a PcbLab project, in the same manner as a CAD software.
+/// It takes the PcbLab instance and the cairo widget for the rendering.
 class DisplayViewProcessor
 {
     public:
-        DisplayViewProcessor(PcbLab &inPcb, CairoWidget *inCairoWidget);
+        DisplayViewProcessor(PcbLab &inPcb, ICairoWidget *inCairoWidget);
 
 
         /// init graphics,(cairo), rendering area, etc
@@ -44,7 +46,7 @@ class DisplayViewProcessor
         CairoGerberRenderer mGerberRenderer;
         CairoViewport mViewport;
 
-        CairoWidget *mCairoWidget; //should be interfaced
+        ICairoWidget *mCairoWidget;
 };
 
 #endif // DISPLAYVIEWPROCESSOR_H
