@@ -48,8 +48,6 @@ void CairoGerberRenderer::drawLayer(const GerberLayer *inLayer)
     if (tmit == mTransparencyMap.end()) { mTransparencyMap[inLayer->getName()] = 255; }
 
     uint8_t transparency = mTransparencyMap[inLayer->getName()];
-    cairo_set_source_rgba(mContext, (double)color.mR/255.0, (double)color.mG/255.0, (double)color.mB/255.0, (double)transparency/255.0);
-
 
     //update context for a new layer
     cairo_push_group(mContext);
@@ -64,6 +62,17 @@ void CairoGerberRenderer::drawLayer(const GerberLayer *inLayer)
         vector<IGraphicObject *> gos = level->getObjects();
         for(vector<IGraphicObject *>::iterator it_go = gos.begin(); it_go != gos.end(); ++it_go){
             IGraphicObject *object = *it_go;
+
+            //defines if it is hilighted
+            bool isHilighted = find(mHilightedObjects.begin(), mHilightedObjects.end(), object) != mHilightedObjects.end();
+
+            //update the alpha
+            if(isHilighted){
+                cairo_set_source_rgba(mContext, (double)color.mR/255.0, (double)color.mG/255.0, (double)color.mB/255.0, 1.0);
+            }
+            else{
+                cairo_set_source_rgba(mContext, (double)color.mR/255.0, (double)color.mG/255.0, (double)color.mB/255.0, (double)transparency/255.0);
+            }
 
             switch(object->getType()){
                 case IGraphicObject::eTypeLine:{

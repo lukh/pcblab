@@ -14,6 +14,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include "gerberhandler.h"
 #include "gerberlayer.h"
@@ -89,10 +90,16 @@ class IGerberView{
         virtual void getVectorInRealWorldCoordinates(double *inDx, double *inDy) const = 0;
 
 
+        // --------------- Modification --------------
 
         /// set the alpha channel for a layer.
         void setAlphaChannel(string inLayerName, uint8_t inAlphaValue) { mTransparencyMap[inLayerName] = inAlphaValue; }
 
+        /// update the list og hilighted objects
+        void setHilightedObjects(vector<IGraphicObject *> inHilightedObjects) { mHilightedObjects = inHilightedObjects; }
+
+        /// clear the hilighted objects list
+        void clearHilightedObjects() { mHilightedObjects.clear(); }
 
     private:
         virtual void setLevelPolarity(GraphicState::eLevelPolarity inPol) = 0;
@@ -120,6 +127,7 @@ class IGerberView{
         virtual void setApertureRotation(double inAngle) = 0;
 
     protected:
+        //globals
         ColorList mColorList;
         TransparencyMap mTransparencyMap;
 
@@ -127,6 +135,10 @@ class IGerberView{
         plRectangle mRealWorldArea;
 
         eProportionMode mPropMode;
+
+
+        //others
+        vector<IGraphicObject *> mHilightedObjects;
 };
 
 #endif
