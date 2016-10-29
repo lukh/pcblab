@@ -17,8 +17,9 @@ INCLUDEPATH += ../src \
     ../src/pcblab/gerber \
     ../src/pcblab/viewprocessor \
     ../src/gui \
+    ../src/gui/tools \
     ../src/gui/opencvviewer \
-    ../src/gui/cairogerberviewer \
+    ../src/gui/cairogerberrenderer \
     ../src/gui/cairowidget
 
 
@@ -37,17 +38,19 @@ SOURCES += \
     ../src/pcblab/gerber/aperture/aperturetemplate.cpp \
     ../src/pcblab/gerber/aperture/apertureprimitive.cpp \
     ../src/gui/opencvviewer/qtopencvviewer.cpp \
-    ../src/pcblab/viewprocessor/viewprocessor.cpp \
-    ../src/gui/cairogerberviewer/cairogerberviewer.cpp \
     ../src/pcblab/pcblab.cpp \
     ../src/pcblab/gerber/gerberhandler.cpp \
     ../src/gui/processorwrapper.cpp \
     ../src/tools/fio.cpp \
-    ../src/gui/cairogerberviewer/cgv_draws.cpp \
-    ../src/gui/cairogerberviewer/cgv_arcs.cpp \
-    ../src/gui/cairogerberviewer/cgb_regions.cpp \
-    ../src/gui/cairogerberviewer/cgv_flashs.cpp \
-    ../src/gui/cairowidget/cairowidget.cpp
+    ../src/gui/cairogerberrenderer/cgv_draws.cpp \
+    ../src/gui/cairogerberrenderer/cgv_arcs.cpp \
+    ../src/gui/cairogerberrenderer/cgb_regions.cpp \
+    ../src/gui/cairogerberrenderer/cgv_flashs.cpp \
+    ../src/gui/cairowidget/cairowidget.cpp \
+    ../src/gui/cairoviewport/cairoviewport.cpp \
+    ../src/gui/cairogerberrenderer/cairogerberrenderer.cpp \
+    ../src/gui/icairoviewer.cpp \
+    ../src/pcblab/viewprocessor/displayviewprocessor.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -67,13 +70,17 @@ HEADERS  += \
     ../src/tools/exprparser.h \
     ../src/tools/stringsplitter.h \
     ../src/gui/opencvviewer/qtopencvviewer.h \
-    ../src/pcblab/viewprocessor/viewprocessor.h \
-    ../src/gui/cairogerberviewer/cairogerberviewer.h \
     ../src/gui/opencvviewer/iopencvviewer.h \
     ../src/pcblab/pcblab.h \
     ../src/gui/processorwrapper.h \
     ../src/config.h \
-    ../src/gui/cairowidget/cairowidget.h
+    ../src/gui/cairowidget/cairowidget.h \
+    ../src/gui/cairoviewport/cairoviewport.h \
+    ../src/gui/cairogerberrenderer/cairogerberrenderer.h \
+    ../src/gui/icairoviewer.h \
+    ../src/pcblab/viewprocessor/displayviewprocessor.h \
+    ../src/gui/tools/qdisplayer.h
+    ../src/gui/cairowidget/icairowidget.h \
     ../src/tools/fio.h
 
 
@@ -133,7 +140,8 @@ DISTFILES += \
     ../data/apertures.grb \
     ../data/contours.grb \
     ../data/firstdraws.grb \
-    ../data/arcs.grb
+    ../data/arcs.grb \
+    ../TODO
 
 
 

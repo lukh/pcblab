@@ -1,10 +1,10 @@
-#include "cairogerberviewer.h"
+#include "cairogerberrenderer.h"
 
 #include <math.h>
 
 
 
-void CairoGerberViewer::drawRegion(GraphicObjectRegion *inRegion)
+void CairoGerberRenderer::drawRegion(GraphicObjectRegion *inRegion)
 {
     plPoint p0,p1;
 

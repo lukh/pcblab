@@ -5,9 +5,9 @@
 #include "q_debugstream.h"
 
 #include "pcblab/pcblab.h"
-#include "cairogerberviewer.h"
+#include "cairogerberrenderer.h"
 
-#include "viewprocessor.h"
+#include "displayviewprocessor.h"
 
 namespace Ui {
 class MainWindow;
@@ -27,6 +27,7 @@ private Q_SLOTS:
 
     void updateZoom(bool inZoomIn, plPoint inPoint);
     void updateMove(double inDx, double inDy);
+    void updateCursor(plPoint inPoint);
 
 private:
     Ui::MainWindow *ui;
@@ -36,10 +37,7 @@ private:
 
     PcbLab mPcb;
 
-    CairoGerberViewer *mGerberViewer;
-
-
-    ViewProcessor *mProcessor;
+    DisplayViewProcessor *mProcessor;
 };
 
 #endif // MAINWINDOW_H

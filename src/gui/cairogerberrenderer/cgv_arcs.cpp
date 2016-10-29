@@ -1,9 +1,9 @@
-#include "cairogerberviewer.h"
+#include "cairogerberrenderer.h"
 
 #include <math.h>
 
 
-void CairoGerberViewer::drawArc(GraphicObjectArc *inArc)
+void CairoGerberRenderer::drawArc(GraphicObjectArc *inArc)
 {
     if(!isViewerReady()){ return; }
 

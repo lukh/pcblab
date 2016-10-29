@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->mousePosDisplayer->setName("Mouse position:");
+
     //mQdbcerr = new Q_DebugStream(std::cerr, ui->textEdit); //Redirect Console output to QTextEdit
     //mQdbcout = new Q_DebugStream(std::cout, ui->textEdit); //Redirect Console output to QTextEdit
 
@@ -18,12 +20,11 @@ MainWindow::MainWindow(QWidget *parent) :
     sExtList.push_back("GTL");
 
 
-    mGerberViewer = new CairoGerberViewer();
-
-    mProcessor = new ViewProcessor(mPcb, ui->openCVViewer, ui->cairoWidget, mGerberViewer);
+    mProcessor = new DisplayViewProcessor(mPcb, ui->cairoWidget);
 
     QObject::connect(ui->cairoWidget, SIGNAL(moved(double, double)), this, SLOT(updateMove(double, double)));
     QObject::connect(ui->cairoWidget, SIGNAL(zoomed(bool, plPoint)), this, SLOT(updateZoom(bool, plPoint)));
+    QObject::connect(ui->cairoWidget, SIGNAL(cursor(plPoint)), this, SLOT(updateCursor(plPoint)));
 }
 
 MainWindow::~MainWindow()
@@ -34,21 +35,19 @@ MainWindow::~MainWindow()
     delete mProcessor;
 
     delete ui;
-    delete mGerberViewer;
 }
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-                                                    "~", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    //DO NOT COMMIT
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "D:/documents/projets/dev/pcblab/data", 0);
 
     string std_dir = dir.toStdString();
 
     mPcb.openFolder(std_dir, sExtList);
 
-    mGerberViewer->setRenderTransformation(mPcb.getGerber().getBoundingBox());
-    mProcessor->update();
-
+    mProcessor->init(800, 600);
+    mProcessor->refresh();
 }
 
 void MainWindow::updateZoom(bool inZoomIn, plPoint inPoint)
@@ -59,4 +58,11 @@ void MainWindow::updateZoom(bool inZoomIn, plPoint inPoint)
 void MainWindow::updateMove(double inDx, double inDy)
 {
     mProcessor->move(inDx, inDy);
+}
+
+void MainWindow::updateCursor(plPoint inPoint)
+{
+    if(mProcessor != NULL){
+        ui->mousePosDisplayer->update(mProcessor->convertCoordsFromImageToReal(inPoint));
+    }
 }
