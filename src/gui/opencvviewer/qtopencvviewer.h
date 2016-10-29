@@ -1,6 +1,7 @@
 #ifndef CQTOPENCVVIEWERGL_H
 #define CQTOPENCVVIEWERGL_H
 
+#include <QWidget>
 #include <QPainter>
 
 #include <iostream>

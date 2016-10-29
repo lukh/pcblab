@@ -44,7 +44,7 @@ bool Aperture::isValid() const{
 plRectangle Aperture::getBoundingBox() const
 {
     if(mPrimitives.size() == 0){
-        err_printf("ERROR (Aperture..getBoundingBox: No primitives" );
+        err_printf("ERROR (Aperture::getBoundingBox: No primitives" );
         return plRectangle();
     }
 

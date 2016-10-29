@@ -5,8 +5,7 @@
 #include <stdint.h>
 using namespace std;
 
-#include <QOpenGLWidget>
-#include <QOpenGLFunctions_2_0>
+
 #include <opencv2/core/core.hpp>
 
 
