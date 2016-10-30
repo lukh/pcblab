@@ -1,5 +1,5 @@
-#ifndef CAIROGERBERVIEWER_H
-#define CAIROGERBERVIEWER_H
+#ifndef CAIROGERBERRENDERER_H
+#define CAIROGERBERRENDERER_H
 
 
 #include "igerberview.h"

@@ -1,5 +1,5 @@
-#ifndef IOPENCVVIEWERGL_H
-#define IOPENCVVIEWERGL_H
+#ifndef IOPENCVWIDGET_H
+#define IOPENCVWIDGET_H
 
 #include <iostream>
 #include <stdint.h>
@@ -10,10 +10,10 @@ using namespace std;
 
 
 /// This interface is dedicated to handle a Open CV context
-class IOpenCVViewer{
+class IOpenCVWidget{
     public:
-        IOpenCVViewer() {}
-        virtual ~IOpenCVViewer() {}
+        IOpenCVWidget() {}
+        virtual ~IOpenCVWidget() {}
 
         virtual bool showImage(cv::Mat &inImage) = 0; /// Used to set the image to be viewed
 

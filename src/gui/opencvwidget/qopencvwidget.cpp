@@ -1,4 +1,4 @@
-#include "qtopencvviewer.h"
+#include "qopencvwidget.h"
 
 #include <opencv2/opencv.hpp>
 
@@ -10,7 +10,7 @@
 
 
 
-QtOpenCVViewer::QtOpenCVViewer(QWidget *parent)
+QOpenCVWidget::QOpenCVWidget(QWidget *parent)
 {
     mBgColor = QColor::fromRgb(150, 150, 150);
 
@@ -19,7 +19,7 @@ QtOpenCVViewer::QtOpenCVViewer(QWidget *parent)
 
 
 
-bool QtOpenCVViewer::showImage(cv::Mat &inImage)
+bool QOpenCVWidget::showImage(cv::Mat &inImage)
 {
     //convert the image from BGR to RGBA
     if (inImage.channels() == 3)
@@ -38,13 +38,13 @@ bool QtOpenCVViewer::showImage(cv::Mat &inImage)
     return true;
 }
 
-uint32_t QtOpenCVViewer::getWidth() const
+uint32_t QOpenCVWidget::getWidth() const
 {
     //return mRenderWidth;
     return width();
 }
 
-uint32_t QtOpenCVViewer::getHeight() const
+uint32_t QOpenCVWidget::getHeight() const
 {
     //return mRenderHeight;
     return height();
@@ -52,7 +52,7 @@ uint32_t QtOpenCVViewer::getHeight() const
 
 
 
-void QtOpenCVViewer::paintEvent(QPaintEvent *)
+void QOpenCVWidget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
 

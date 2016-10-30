@@ -1,5 +1,5 @@
-#ifndef CQTOPENCVVIEWERGL_H
-#define CQTOPENCVVIEWERGL_H
+#ifndef QOPENCVWIDGET_H
+#define QOPENCVWIDGET_H
 
 #include <QWidget>
 #include <QPainter>
@@ -10,16 +10,16 @@ using namespace std;
 
 #include <opencv2/core/core.hpp>
 
-#include "iopencvviewer.h"
+#include "iopencvwidget.h"
 
 
 
-class QtOpenCVViewer : public QWidget, public IOpenCVViewer
+class QOpenCVWidget : public QWidget, public IOpenCVWidget
 {
     Q_OBJECT
     public:
-        explicit QtOpenCVViewer(QWidget *parent = 0);
-        virtual ~QtOpenCVViewer() {
+        explicit QOpenCVWidget(QWidget *parent = 0);
+        virtual ~QOpenCVWidget() {
 
         }
 

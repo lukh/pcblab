@@ -1,5 +1,5 @@
-#ifndef CAIROWIDGET_H
-#define CAIROWIDGET_H
+#ifndef QCAIROWIDGET_H
+#define QCAIROWIDGET_H
 
 #include <QWidget>
 #include <QImage>

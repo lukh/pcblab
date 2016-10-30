@@ -21,7 +21,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -29,7 +29,7 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QtOpenCVViewer" name="openCVViewer" native="true"/>
+         <widget class="QOpenCVWidget" name="openCVViewer" native="true"/>
         </item>
        </layout>
       </widget>
@@ -159,12 +159,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QtOpenCVViewer</class>
-   <extends>QWidget</extends>
-   <header>qtopencvviewer.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>QDisplayer</class>
    <extends>QWidget</extends>
    <header>qdisplayer.h</header>
@@ -174,6 +168,12 @@
    <class>QCairoWidget</class>
    <extends>QWidget</extends>
    <header>qcairowidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QOpenCVWidget</class>
+   <extends>QWidget</extends>
+   <header>qopencvwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
