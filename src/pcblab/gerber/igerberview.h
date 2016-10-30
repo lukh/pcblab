@@ -81,10 +81,7 @@ class IGerberView{
         void setRenderTransformation(const plRectangle &inRealWorldArea) { mRealWorldArea = inRealWorldArea; }
 
         /// zoom to fit the area given in the real world coordinates into the surface
-        void setRenderTransformation(plPoint p1, plPoint p2) {
-            plRectangle r(p1, p2);
-            setRenderTransformation(r);
-        }
+        void setRenderTransformation(plPoint p1, plPoint p2);
 
         /// returns the (real world) view area
         const plRectangle &getRealWorldViewArea() const { return mRealWorldArea; }
@@ -99,12 +96,10 @@ class IGerberView{
         // --------------- Modification --------------
 
         /// set the alpha channel for a layer.
-        void setAlphaChannel(string inLayerIdentifier, uint8_t inAlphaValue) {
-            if(mGraphicSettingsMap.find(inLayerIdentifier) == mGraphicSettingsMap.end()){
-                return;
-            }
-            mGraphicSettingsMap[inLayerIdentifier].mTransparency = inAlphaValue;
-        }
+        void setAlphaChannel(string inLayerIdentifier, uint8_t inAlphaValue);
+
+        /// set the color for a layer.
+        void setColor(string inLayerIdentifier, Color inColor);
 
         /// update the list og hilighted objects
         void setHilightedObjects(vector<IGraphicObject *> inHilightedObjects) { mHilightedObjects = inHilightedObjects; }
