@@ -9,10 +9,10 @@
 #include "pcblab/pcblab.h"
 
 
-class ViewProcessor
+class ProjectorProcessor
 {
     public:
-        ViewProcessor(PcbLab &inPcb, IOpenCVViewer *inCVViewer, CairoWidget *inCairoWidget, CairoGerberViewer *inGerberView);
+        ProjectorProcessor(PcbLab &inPcb, IOpenCVViewer *inCVViewer, CairoWidget *inCairoWidget, CairoGerberViewer *inGerberView);
 
 
         void update();

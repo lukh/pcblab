@@ -23,13 +23,13 @@ void CairoToMat(cairo_surface_t *surface,cv::Mat &MC3)
 
 
 
-ViewProcessor::ViewProcessor(PcbLab &inPcb, IOpenCVViewer *inCVViewer, CairoWidget *inCairoWidget, CairoGerberViewer *inGerberView):
+ProjectorProcessor::ProjectorProcessor(PcbLab &inPcb, IOpenCVViewer *inCVViewer, CairoWidget *inCairoWidget, CairoGerberViewer *inGerberView):
    mPcb(inPcb), mCVViewer(inCVViewer), mCairoWidget(inCairoWidget), mGerberViewer(inGerberView)
 {
     mGerberViewer->initCairo(800, 500);
 }
 
-void ViewProcessor::update()
+void ProjectorProcessor::update()
 {
     mGerberViewer->drawAll(mPcb.getGerber());
 
@@ -44,7 +44,7 @@ void ViewProcessor::update()
 
 
 
-void ViewProcessor::updateZoom(bool inZoomIn, plPoint inPoint)
+void ProjectorProcessor::updateZoom(bool inZoomIn, plPoint inPoint)
 {
     double zoomFactor;
 
@@ -138,7 +138,7 @@ void ViewProcessor::updateZoom(bool inZoomIn, plPoint inPoint)
     update();
 }
 
-void ViewProcessor::move(double inDx, double inDy)
+void ProjectorProcessor::move(double inDx, double inDy)
 {
     //convert dx, dy into real coordinates
     mGerberViewer->getVectorInRealWorldCoordinates(&inDx, &inDy);
