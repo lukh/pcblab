@@ -21,3 +21,22 @@ void IGerberView::setColor(string inLayerIdentifier, Color inColor) {
     mGraphicSettingsMap[inLayerIdentifier].mColor = inColor;
 }
 
+bool IGerberView::getAlphaChannel(string inLayerIdentifier, uint8_t &outAlphaValue) {
+    if(mGraphicSettingsMap.find(inLayerIdentifier) == mGraphicSettingsMap.end()){
+        return false;
+    }
+
+    outAlphaValue = mGraphicSettingsMap[inLayerIdentifier].mTransparency;
+
+    return true;
+}
+
+bool IGerberView::getColor(string inLayerIdentifier, Color &outColor) {
+    if(mGraphicSettingsMap.find(inLayerIdentifier) == mGraphicSettingsMap.end()){
+        return false;
+    }
+
+    outColor = mGraphicSettingsMap[inLayerIdentifier].mColor;
+
+    return true;
+}
