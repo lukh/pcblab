@@ -108,9 +108,8 @@ class IGerberView{
         void clearHilightedObjects() { mHilightedObjects.clear(); }
 
         // ------------ Accessors -----------------
-        bool getAlphaChannel(string inLayerIdentifier, uint8_t &outAlphaValue);
+        bool getGraphicSettings(string inLayerIdentifier, GraphicSettings &outGraphSett);
 
-        bool getColor(string inLayerIdentifier, Color &outColor);
 
     private:
         virtual void setLevelPolarity(GraphicState::eLevelPolarity inPol) = 0;
