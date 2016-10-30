@@ -39,7 +39,7 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="CairoWidget" name="cairoWidget" native="true"/>
+         <widget class="QCairoWidget" name="cairoWidget" native="true"/>
         </item>
        </layout>
       </widget>
@@ -165,15 +165,15 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>CairoWidget</class>
-   <extends>QWidget</extends>
-   <header>cairowidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>QDisplayer</class>
    <extends>QWidget</extends>
    <header>qdisplayer.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QCairoWidget</class>
+   <extends>QWidget</extends>
+   <header>qcairowidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

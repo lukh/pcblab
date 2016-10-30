@@ -1,19 +1,19 @@
-#include "cairowidget.h"
+#include "qcairowidget.h"
 
 #include <iostream>
 
 using namespace std;
 
-CairoWidget::CairoWidget(QWidget *parent) : QWidget(parent), mSurface(NULL)
+QCairoWidget::QCairoWidget(QWidget *parent) : QWidget(parent), mSurface(NULL)
 {
     setMouseTracking(true);
 }
 
-CairoWidget::~CairoWidget()
+QCairoWidget::~QCairoWidget()
 {
 }
 
-void CairoWidget::showImage(cairo_surface_t *inSurface)
+void QCairoWidget::showImage(cairo_surface_t *inSurface)
 {
     mSurface = inSurface;
     int w = cairo_image_surface_get_width(inSurface);
@@ -22,7 +22,7 @@ void CairoWidget::showImage(cairo_surface_t *inSurface)
     repaint();
 }
 
-void CairoWidget::paintEvent(QPaintEvent *event)
+void QCairoWidget::paintEvent(QPaintEvent *event)
 {
     if(mSurface == NULL) { return; }
 
@@ -62,7 +62,7 @@ void CairoWidget::paintEvent(QPaintEvent *event)
     mRenderArea.setHeight(h);
 }
 
-void CairoWidget::mousePressEvent(QMouseEvent *event)
+void QCairoWidget::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() & Qt::LeftButton){
         mLastPosition.setX(event->x());
@@ -72,7 +72,7 @@ void CairoWidget::mousePressEvent(QMouseEvent *event)
 
 
 
-void CairoWidget::mouseMoveEvent(QMouseEvent *event)
+void QCairoWidget::mouseMoveEvent(QMouseEvent *event)
 {
     double dx, dy;
 
@@ -91,7 +91,7 @@ void CairoWidget::mouseMoveEvent(QMouseEvent *event)
     Q_EMIT(cursor(getCoordWidget2Img(plPoint(event->x(), event->y()))));
 }
 
-void CairoWidget::wheelEvent(QWheelEvent *event)
+void QCairoWidget::wheelEvent(QWheelEvent *event)
 {
     plPoint p = getCoordWidget2Img(plPoint(event->x(), event->y()));
 
@@ -100,7 +100,7 @@ void CairoWidget::wheelEvent(QWheelEvent *event)
     Q_EMIT(zoomed(zoom_in, p));
 }
 
-plPoint CairoWidget::getCoordWidget2Img(plPoint inPoint)
+plPoint QCairoWidget::getCoordWidget2Img(plPoint inPoint)
 {
     double x, y; //surface points
 

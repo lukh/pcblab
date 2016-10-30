@@ -12,12 +12,12 @@
 #include "icairowidget.h"
 
 /// draws a cairo_surface_t to a widget, and provide signals for mouse events
-class CairoWidget : public QWidget, public ICairoWidget
+class QCairoWidget : public QWidget, public ICairoWidget
 {
     Q_OBJECT
     public:
-        CairoWidget(QWidget *parent = 0);
-        ~CairoWidget();
+        QCairoWidget(QWidget *parent = 0);
+        ~QCairoWidget();
 
         virtual void showImage(cairo_surface_t *inSurface);
 

@@ -46,14 +46,14 @@ SOURCES += \
     ../src/gui/cairogerberrenderer/cgv_arcs.cpp \
     ../src/gui/cairogerberrenderer/cgb_regions.cpp \
     ../src/gui/cairogerberrenderer/cgv_flashs.cpp \
-    ../src/gui/cairowidget/cairowidget.cpp \
     ../src/gui/cairoviewport/cairoviewport.cpp \
     ../src/gui/cairogerberrenderer/cairogerberrenderer.cpp \
     ../src/gui/icairoviewer.cpp \
     ../src/pcblab/viewprocessor/displayviewprocessor.cpp \
     ../src/gui/tools/qlayerconfigwidget.cpp \
     ../src/gui/tools/qlayerslist.cpp \
-    ../src/pcblab/gerber/igerberview.cpp
+    ../src/pcblab/gerber/igerberview.cpp \
+    ../src/gui/cairowidget/qcairowidget.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -77,7 +77,6 @@ HEADERS  += \
     ../src/pcblab/pcblab.h \
     #../src/gui/processorwrapper.h \
     ../src/config.h \
-    ../src/gui/cairowidget/cairowidget.h \
     ../src/gui/cairoviewport/cairoviewport.h \
     ../src/gui/cairogerberrenderer/cairogerberrenderer.h \
     ../src/gui/icairoviewer.h \
@@ -86,7 +85,8 @@ HEADERS  += \
     ../src/gui/tools/qlayerconfigwidget.h \
     ../src/gui/cairowidget/icairowidget.h \
     ../src/tools/fio.h \
-    ../src/gui/tools/qlayerslist.h
+    ../src/gui/tools/qlayerslist.h \
+    ../src/gui/cairowidget/qcairowidget.h
 
 
 
