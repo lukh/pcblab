@@ -22,7 +22,7 @@ public:
     ~MainWindow();
 
 private Q_SLOTS:
-    void on_actionOpen_triggered();
+    void on_actionOpenFolder_triggered();
 
 
     void updateZoom(bool inZoomIn, plPoint inPoint);
