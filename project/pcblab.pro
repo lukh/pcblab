@@ -54,7 +54,6 @@ SOURCES += \
     ../src/pcblab/gerber/igerberview.cpp \
     ../src/gui/cairowidget/qcairowidget.cpp \
     ../src/gui/opencvwidget/qopencvwidget.cpp \
-    ../src/gui/pcblabdisplayer.cpp \
     ../src/gui/qpcblabdisplayerwidget.cpp
 
 HEADERS  += \
@@ -89,7 +88,6 @@ HEADERS  += \
     ../src/gui/cairowidget/qcairowidget.h \
     ../src/gui/opencvwidget/qopencvwidget.h \
     ../src/gui/opencvwidget/iopencvwidget.h \
-    ../src/gui/pcblabdisplayer.h \
     ../src/gui/qpcblabdisplayerwidget.h
 
 
@@ -143,7 +141,6 @@ INCLUDEPATH += \
 
 FORMS += \
     ../src/gui/mainwindow.ui \
-    ../src/gui/pcblabdisplayer.ui \
     ../src/gui/qpcblabdisplayerwidget.ui
 
 DISTFILES += \

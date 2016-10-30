@@ -25,19 +25,11 @@ private Q_SLOTS:
     void on_actionOpenFolder_triggered();
 
 
-    void updateZoom(bool inZoomIn, plPoint inPoint);
-    void updateMove(double inDx, double inDy);
-    void updateCursor(plPoint inPoint);
-
 private:
     Ui::MainWindow *ui;
 
-    //Q_DebugStream *mQdbcout;
-    //Q_DebugStream *mQdbcerr;
 
     PcbLab mPcb;
-
-    DisplayViewProcessor *mProcessor;
 };
 
 #endif // MAINWINDOW_H
