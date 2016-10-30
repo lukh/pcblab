@@ -40,7 +40,7 @@ SOURCES += \
     ../src/gui/opencvviewer/qtopencvviewer.cpp \
     ../src/pcblab/pcblab.cpp \
     ../src/pcblab/gerber/gerberhandler.cpp \
-    ../src/gui/processorwrapper.cpp \
+    #../src/gui/processorwrapper.cpp \
     ../src/tools/fio.cpp \
     ../src/gui/cairogerberrenderer/cgv_draws.cpp \
     ../src/gui/cairogerberrenderer/cgv_arcs.cpp \
@@ -50,7 +50,9 @@ SOURCES += \
     ../src/gui/cairoviewport/cairoviewport.cpp \
     ../src/gui/cairogerberrenderer/cairogerberrenderer.cpp \
     ../src/gui/icairoviewer.cpp \
-    ../src/pcblab/viewprocessor/displayviewprocessor.cpp
+    ../src/pcblab/viewprocessor/displayviewprocessor.cpp \
+    ../src/gui/tools/qlayerconfigwidget.cpp \
+    ../src/gui/tools/qlayerslist.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -72,16 +74,18 @@ HEADERS  += \
     ../src/gui/opencvviewer/qtopencvviewer.h \
     ../src/gui/opencvviewer/iopencvviewer.h \
     ../src/pcblab/pcblab.h \
-    ../src/gui/processorwrapper.h \
+    #../src/gui/processorwrapper.h \
     ../src/config.h \
     ../src/gui/cairowidget/cairowidget.h \
     ../src/gui/cairoviewport/cairoviewport.h \
     ../src/gui/cairogerberrenderer/cairogerberrenderer.h \
     ../src/gui/icairoviewer.h \
     ../src/pcblab/viewprocessor/displayviewprocessor.h \
-    ../src/gui/tools/qdisplayer.h
+    ../src/gui/tools/qdisplayer.h \
+    ../src/gui/tools/qlayerconfigwidget.h \
     ../src/gui/cairowidget/icairowidget.h \
-    ../src/tools/fio.h
+    ../src/tools/fio.h \
+    ../src/gui/tools/qlayerslist.h
 
 
 
