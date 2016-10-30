@@ -21,7 +21,9 @@ void CairoGerberRenderer::drawAll(const GerberHandler &inGerber)
     cairo_set_source_rgb (mContext, 0, 0, 0);
     cairo_paint (mContext);
 
-    mColorList.reset();
+    //reset the map
+    mGraphicSettingsMap.clear();
+    GraphicSettings::reset();
 
     //transform
     applyRenderTransformation();
@@ -31,23 +33,25 @@ void CairoGerberRenderer::drawAll(const GerberHandler &inGerber)
     for(uint8_t idx = 0; idx < layers_cnt; idx++){
         const GerberLayer *layer = inGerber.getLayer(idx);
         if(layer != NULL){
-            drawLayer(layer);
+            drawLayer(inGerber.getLayerIdentifier(idx), layer);
         }
     }
 }
 
-void CairoGerberRenderer::drawLayer(const GerberLayer *inLayer)
+void CairoGerberRenderer::drawLayer(string inIdentifier, const GerberLayer *inLayer)
 {
     if(!isViewerReady()){ return; }
 
     //layer color and transparency
-    const Color &color = mColorList.getCurrentColor();
+    GraphicSettingsMap::const_iterator gsmi;
+    gsmi = mGraphicSettingsMap.find(inIdentifier);
+    if (gsmi == mGraphicSettingsMap.end()) { mGraphicSettingsMap[inIdentifier] = GraphicSettings(); }
 
-    TransparencyMap::const_iterator tmit;
-    tmit = mTransparencyMap.find(inLayer->getName());
-    if (tmit == mTransparencyMap.end()) { mTransparencyMap[inLayer->getName()] = 255; }
 
-    uint8_t transparency = mTransparencyMap[inLayer->getName()];
+    const Color &color = mGraphicSettingsMap[inIdentifier].mColor;
+    uint8_t transparency = mGraphicSettingsMap[inIdentifier].mTransparency;
+
+
 
     //update context for a new layer
     cairo_push_group(mContext);
@@ -102,9 +106,8 @@ void CairoGerberRenderer::drawLayer(const GerberLayer *inLayer)
     cairo_pop_group_to_source(mContext);
     cairo_paint(mContext);
 
-    //increment the color for next layer
-    mColorList.increment();
-
+    // select next color
+    GraphicSettings::increment();
 }
 
 

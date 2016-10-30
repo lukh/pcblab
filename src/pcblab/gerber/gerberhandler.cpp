@@ -122,6 +122,18 @@ GerberLayer *GerberHandler::getLayer(uint8_t inIdx) const {
     return it->second;
 }
 
+string GerberHandler::getLayerIdentifier(uint8_t inIdx) const
+{
+    if(inIdx >= getLayersCount()){ return NULL; }
+
+    string id = mMap[inIdx];
+    LayerMap::const_iterator it;
+    it = mLayers.find(id);
+    if (it == mLayers.end()) return string();
+
+    return it->first;
+}
+
 plRectangle GerberHandler::getBoundingBox() const
 {
     if(mLayers.size() == 0){

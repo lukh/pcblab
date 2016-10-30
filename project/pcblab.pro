@@ -52,7 +52,8 @@ SOURCES += \
     ../src/gui/icairoviewer.cpp \
     ../src/pcblab/viewprocessor/displayviewprocessor.cpp \
     ../src/gui/tools/qlayerconfigwidget.cpp \
-    ../src/gui/tools/qlayerslist.cpp
+    ../src/gui/tools/qlayerslist.cpp \
+    ../src/pcblab/gerber/igerberview.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \

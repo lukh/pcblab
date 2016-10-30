@@ -53,6 +53,8 @@ class GerberHandler{
         /// return the layer specified by inIdx.
         GerberLayer * getLayer(uint8_t inIdx) const;
 
+        /// return the layer identifier specified by inIdx.
+        string getLayerIdentifier(uint8_t inIdx) const;
 
         plRectangle getBoundingBox() const;
 

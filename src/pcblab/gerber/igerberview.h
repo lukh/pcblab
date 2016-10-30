@@ -23,41 +23,47 @@
 
 using namespace std;
 
+
+static const uint8_t kDefaultColorListSize = 6;
+static const Color kDefaultColorList[kDefaultColorListSize] = {
+    Color(255,0,0),
+    Color(127,127,255),
+    Color(255,0,255),
+    Color(0,255,0),
+    Color(0,255,255),
+    Color(0,0,255)
+};
+
 class IGerberView{
     public:
-        /// links the transparency against the layers name
-        typedef map<string, uint8_t> TransparencyMap;
-
         enum eProportionMode{
             eKeepProportion,
             eAdjustToViewer
         };
 
-
-        class ColorList{
+        /// Contains the settings for a layer
+        class GraphicSettings{
             public:
-                ColorList(): mCurrentColorIdx(0){
-                    mColorList.push_back(Color(255,0,0));
-                    mColorList.push_back(Color(127,127,255));
-                    mColorList.push_back(Color(255,0,255));
-                    mColorList.push_back(Color(0,255,0));
-                    mColorList.push_back(Color(0,255,255));
-                    mColorList.push_back(Color(0,0,255));
+                typedef uint8_t Transparency;
+
+            public:
+                GraphicSettings(): mTransparency(255) {
+                    mColor = kDefaultColorList[sColorIdx];
                 }
 
-                /// get the current color
-                const Color &getCurrentColor() const { return mColorList[mCurrentColorIdx]; }
+                GraphicSettings(Color inColor, Transparency inTransparency = 255): mColor(inColor), mTransparency(inTransparency){}
 
-                /// increments the current color, and restart to the first if the end is reached
-                void increment() { mCurrentColorIdx = (mCurrentColorIdx+1) % mColorList.size(); }
+                static void reset() { sColorIdx = 0; }
+                static void increment() { sColorIdx = (sColorIdx+1) % kDefaultColorListSize; }
 
-                /// reset the current idx
-                void reset() { mCurrentColorIdx = 0; }
+                Color mColor;
+                Transparency mTransparency;
 
             private:
-                vector<Color> mColorList;
-                uint32_t mCurrentColorIdx;
+                static uint32_t sColorIdx;
         };
+
+        typedef map<string, GraphicSettings> GraphicSettingsMap;
 
 
     public:
@@ -65,7 +71,7 @@ class IGerberView{
         virtual ~IGerberView() {}
 
         virtual void drawAll(const GerberHandler &inGerber) = 0;
-        virtual void drawLayer(const GerberLayer *inLayer) = 0;
+        virtual void drawLayer(string inIdentifier, const GerberLayer *inLayer) = 0;
 
 
         /// update the proportion mode keep/adjust proportion
@@ -93,7 +99,12 @@ class IGerberView{
         // --------------- Modification --------------
 
         /// set the alpha channel for a layer.
-        void setAlphaChannel(string inLayerName, uint8_t inAlphaValue) { mTransparencyMap[inLayerName] = inAlphaValue; }
+        void setAlphaChannel(string inLayerIdentifier, uint8_t inAlphaValue) {
+            if(mGraphicSettingsMap.find(inLayerIdentifier) == mGraphicSettingsMap.end()){
+                return;
+            }
+            mGraphicSettingsMap[inLayerIdentifier].mTransparency = inAlphaValue;
+        }
 
         /// update the list og hilighted objects
         void setHilightedObjects(vector<IGraphicObject *> inHilightedObjects) { mHilightedObjects = inHilightedObjects; }
@@ -128,8 +139,7 @@ class IGerberView{
 
     protected:
         //globals
-        ColorList mColorList;
-        TransparencyMap mTransparencyMap;
+        GraphicSettingsMap mGraphicSettingsMap;
 
         ///defines the area rendered on the surface
         plRectangle mRealWorldArea;
@@ -140,5 +150,6 @@ class IGerberView{
         //others
         vector<IGraphicObject *> mHilightedObjects;
 };
+
 
 #endif

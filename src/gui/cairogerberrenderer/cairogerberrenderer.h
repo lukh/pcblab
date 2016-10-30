@@ -21,7 +21,7 @@ class CairoGerberRenderer: public IGerberView, public ICairoViewer
 
         //<<< --- Implementation of IGerberView
         virtual void drawAll(const GerberHandler &inGerber);
-        virtual void drawLayer(const GerberLayer *inLayer);
+        virtual void drawLayer(string inIdentifier, const GerberLayer *inLayer);
 
         virtual plPoint getPointInRealWorldCoordinates(plPoint inImgCoord) const;
         virtual void getVectorInRealWorldCoordinates(double *inDx, double *inDy) const;
