@@ -18,7 +18,7 @@ INCLUDEPATH += ../src \
     ../src/pcblab/viewprocessor \
     ../src/gui \
     ../src/gui/tools \
-    ../src/gui/opencvviewer \
+    ../src/gui/opencvwidget \
     ../src/gui/cairogerberrenderer \
     ../src/gui/cairowidget
 
@@ -37,7 +37,6 @@ SOURCES += \
     ../src/pcblab/gerber/aperture/aperture.cpp \
     ../src/pcblab/gerber/aperture/aperturetemplate.cpp \
     ../src/pcblab/gerber/aperture/apertureprimitive.cpp \
-    ../src/gui/opencvviewer/qtopencvviewer.cpp \
     ../src/pcblab/pcblab.cpp \
     ../src/pcblab/gerber/gerberhandler.cpp \
     #../src/gui/processorwrapper.cpp \
@@ -53,7 +52,10 @@ SOURCES += \
     ../src/gui/tools/qlayerconfigwidget.cpp \
     ../src/gui/tools/qlayerslist.cpp \
     ../src/pcblab/gerber/igerberview.cpp \
-    ../src/gui/cairowidget/qcairowidget.cpp
+    ../src/gui/cairowidget/qcairowidget.cpp \
+    ../src/gui/opencvwidget/qopencvwidget.cpp \
+    ../src/gui/pcblabdisplayer.cpp \
+    ../src/gui/qpcblabdisplayerwidget.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -72,8 +74,6 @@ HEADERS  += \
     ../src/pcblab/gerber/aperture/apertureprimitive.h \
     ../src/tools/exprparser.h \
     ../src/tools/stringsplitter.h \
-    ../src/gui/opencvviewer/qtopencvviewer.h \
-    ../src/gui/opencvviewer/iopencvviewer.h \
     ../src/pcblab/pcblab.h \
     #../src/gui/processorwrapper.h \
     ../src/config.h \
@@ -86,7 +86,11 @@ HEADERS  += \
     ../src/gui/cairowidget/icairowidget.h \
     ../src/tools/fio.h \
     ../src/gui/tools/qlayerslist.h \
-    ../src/gui/cairowidget/qcairowidget.h
+    ../src/gui/cairowidget/qcairowidget.h \
+    ../src/gui/opencvwidget/qopencvwidget.h \
+    ../src/gui/opencvwidget/iopencvwidget.h \
+    ../src/gui/pcblabdisplayer.h \
+    ../src/gui/qpcblabdisplayerwidget.h
 
 
 
@@ -138,7 +142,9 @@ INCLUDEPATH += \
 
 
 FORMS += \
-    ../src/gui/mainwindow.ui
+    ../src/gui/mainwindow.ui \
+    ../src/gui/pcblabdisplayer.ui \
+    ../src/gui/qpcblabdisplayerwidget.ui
 
 DISTFILES += \
     ../doc/the_gerber_file_format_specification.pdf \
