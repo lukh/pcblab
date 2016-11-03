@@ -57,15 +57,13 @@ void DisplayViewProcessor::update()
 
 void DisplayViewProcessor::zoom(bool inZoomIn, plPoint inPoint)
 {
-    double zoomFactor;
+   double zoomFactor;
 
    if(inZoomIn) { zoomFactor = 1.1; }
    else { zoomFactor = 1/1.1; }
 
    plRectangle viewRect = mViewport.getRenderArea();
    plPoint mousePos = mViewport.getPointInSourceCoordinates(plPoint(inPoint.mX, inPoint.mY));
-   mousePos.mX = -mousePos.mX; //WTF ??
-   mousePos.mY = -mousePos.mY; //wTF is it working ???
 
    //
    /*
@@ -162,7 +160,7 @@ void DisplayViewProcessor::move(double inDx, double inDy)
 
     plRectangle rect = mViewport.getRenderArea();
 
-    plRectangle n_rect(rect.getX1() + inDx, rect.getY1() - inDy, rect.getX2() + inDx, rect.getY2() - inDy);
+    plRectangle n_rect(rect.getX1() - inDx, rect.getY1() - inDy, rect.getX2() - inDx, rect.getY2() - inDy);
 
     mViewport.setRenderTransformation(n_rect);
 

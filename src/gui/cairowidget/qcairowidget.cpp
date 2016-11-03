@@ -81,7 +81,7 @@ void QCairoWidget::mouseMoveEvent(QMouseEvent *event)
 
     if(event->buttons() & Qt::LeftButton){
         dx = (event->x()-mLastPosition.x())*mRatio;
-        dy = -(event->y()-mLastPosition.y())*mRatio;
+        dy = (event->y()-mLastPosition.y())*mRatio;
 
         mLastPosition = event->pos();
 

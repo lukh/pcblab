@@ -76,6 +76,6 @@ void CairoViewport::applyTransformation()
     ty = mRenderArea.getBottomLeft().mY * sy;
 
 
-    cairo_translate (mContext, tx, ty);
+    cairo_translate (mContext, -tx, -ty);
     cairo_scale (mContext, sx, sy);
 }
