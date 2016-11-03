@@ -25,20 +25,29 @@ class DisplayViewProcessor
         /// repaint all the surface
         void refresh();
 
-        ///update the view
+        /// update the view, change the transformations
         void update();
 
 
         /// related to zoom
-        void updateZoom(bool inZoomIn, plPoint inPoint);
+        void zoom(bool inZoomIn, plPoint inPoint);
 
         /// move regarding the delta, in the surface coordinate
         void move(double inDx, double inDy);
 
+        /// update layer color
+        void updateLayerColor(string inIdentifier, Color inColor);
+
+        /// update layer transparency
+        void updateLayerTransparency(string inIdentifier, uint8_t inTransp);
 
 
         /// convert coords from image (pixels) to reality (mm/in)
         plPoint convertCoordsFromImageToReal(plPoint inImgCoords);
+
+
+        // accessors
+        const CairoGerberRenderer &getGerberRenderer() { return mGerberRenderer; }
 
     private:
         PcbLab &mPcb;

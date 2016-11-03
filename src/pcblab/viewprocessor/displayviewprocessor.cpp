@@ -26,6 +26,8 @@ void DisplayViewProcessor::init(uint32_t inWidth, uint32_t inHeight)
     uint32_t rh = int(r_real_hr.getH()*CairoGerberRenderer::kPixelsPerMm);
     mGerberRenderer.initCairo(rw, rh);
     mGerberRenderer.setRenderTransformation(r_real_hr);
+    //reset the graphics settings
+    IGerberView::GraphicSettings::reset();
 
     // /////////////////////////////
     // init the viewport
@@ -53,7 +55,7 @@ void DisplayViewProcessor::update()
     mCairoWidget->showImage(mViewport.getSurface());
 }
 
-void DisplayViewProcessor::updateZoom(bool inZoomIn, plPoint inPoint)
+void DisplayViewProcessor::zoom(bool inZoomIn, plPoint inPoint)
 {
     double zoomFactor;
 
@@ -165,6 +167,18 @@ void DisplayViewProcessor::move(double inDx, double inDy)
     mViewport.setRenderTransformation(n_rect);
 
     update();
+}
+
+void DisplayViewProcessor::updateLayerColor(string inIdentifier, Color inColor)
+{
+    mGerberRenderer.setColor(inIdentifier, inColor);
+    refresh();
+}
+
+void DisplayViewProcessor::updateLayerTransparency(string inIdentifier, uint8_t inTransp)
+{
+    mGerberRenderer.setAlphaChannel(inIdentifier, inTransp);
+    refresh();
 }
 
 plPoint DisplayViewProcessor::convertCoordsFromImageToReal(plPoint inImgCoords)
