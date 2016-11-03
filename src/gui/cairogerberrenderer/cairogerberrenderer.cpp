@@ -21,9 +21,6 @@ void CairoGerberRenderer::drawAll(const GerberHandler &inGerber)
     cairo_set_source_rgb (mContext, 0, 0, 0);
     cairo_paint (mContext);
 
-    //reset the map
-    mGraphicSettingsMap.clear();
-    GraphicSettings::reset();
 
     //transform
     applyRenderTransformation();
@@ -45,7 +42,11 @@ void CairoGerberRenderer::drawLayer(string inIdentifier, const GerberLayer *inLa
     //layer color and transparency
     GraphicSettingsMap::const_iterator gsmi;
     gsmi = mGraphicSettingsMap.find(inIdentifier);
-    if (gsmi == mGraphicSettingsMap.end()) { mGraphicSettingsMap[inIdentifier] = GraphicSettings(); }
+    if (gsmi == mGraphicSettingsMap.end()) {
+        mGraphicSettingsMap[inIdentifier] = GraphicSettings();
+        // select next color
+        GraphicSettings::increment();
+    }
 
 
     const Color &color = mGraphicSettingsMap[inIdentifier].mColor;
@@ -105,9 +106,6 @@ void CairoGerberRenderer::drawLayer(string inIdentifier, const GerberLayer *inLa
     //update context for a layer
     cairo_pop_group_to_source(mContext);
     cairo_paint(mContext);
-
-    // select next color
-    GraphicSettings::increment();
 }
 
 
