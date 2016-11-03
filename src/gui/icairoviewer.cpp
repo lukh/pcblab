@@ -61,6 +61,29 @@ void ICairoViewer::getVectorInSourceCoords(double *inDx, double *inDy) const
     cairo_device_to_user_distance(mContext, inDx, inDy);
 }
 
+plPoint ICairoViewer::getPointInImgCoords(plPoint inSourceCoord) const
+{
+    if(mContext == NULL){
+        return plPoint();
+    }
+
+    double x, y;
+    x = inSourceCoord.mX;
+    y = inSourceCoord.mY;
+    cairo_user_to_device(mContext, &x, &y);
+
+    return plPoint(x, y);
+}
+
+void ICairoViewer::getVectorInImgCoords(double *inDx, double *inDy) const
+{
+    if(mContext == NULL){
+        return;
+    }
+
+    cairo_user_to_device_distance(mContext, inDx, inDy);
+}
+
 
 void ICairoViewer::setRenderArea(plPoint p1, plPoint p2) {
     plRectangle r(p1, p2);

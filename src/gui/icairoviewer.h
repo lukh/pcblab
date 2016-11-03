@@ -43,6 +43,9 @@ class ICairoViewer{
         plPoint getPointInSourceCoords(plPoint inImgCoord) const;
         void getVectorInSourceCoords(double *inDx, double *inDy) const;
 
+        plPoint getPointInImgCoords(plPoint inSourceCoord) const;
+        void getVectorInImgCoords(double *inDx, double *inDy) const;
+
 
         /// zoom to fit the area given in the real world coordinates into the surface
         void setRenderArea(const plRectangle &inRealWorldArea) { mRenderArea = inRealWorldArea; }
