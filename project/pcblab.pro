@@ -50,7 +50,6 @@ SOURCES += \
     ../src/gui/icairoviewer.cpp \
     ../src/pcblab/viewprocessor/displayviewprocessor.cpp \
     ../src/gui/tools/qlayerconfigwidget.cpp \
-    ../src/gui/tools/qlayerslist.cpp \
     ../src/pcblab/gerber/igerberview.cpp \
     ../src/gui/cairowidget/qcairowidget.cpp \
     ../src/gui/opencvwidget/qopencvwidget.cpp \
@@ -84,7 +83,6 @@ HEADERS  += \
     ../src/gui/tools/qlayerconfigwidget.h \
     ../src/gui/cairowidget/icairowidget.h \
     ../src/tools/fio.h \
-    ../src/gui/tools/qlayerslist.h \
     ../src/gui/cairowidget/qcairowidget.h \
     ../src/gui/opencvwidget/qopencvwidget.h \
     ../src/gui/opencvwidget/iopencvwidget.h \

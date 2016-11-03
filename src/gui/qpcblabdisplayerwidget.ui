@@ -38,9 +38,6 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">background:rgb(53, 53, 53)</string>
-     </property>
     </widget>
    </item>
    <item>
