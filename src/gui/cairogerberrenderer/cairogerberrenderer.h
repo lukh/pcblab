@@ -12,7 +12,7 @@
 class CairoGerberRenderer: public IGerberView, public ICairoViewer
 {
     public:
-        static const uint8_t kPixelsPerMm = 40;
+        static const uint8_t kPixelsPerMm = 10;
 
 
         CairoGerberRenderer();
