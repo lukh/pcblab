@@ -40,8 +40,8 @@ class ICairoViewer{
         // dedicated to rendering transformations
         // -----------------------------------------
 
-        plPoint getPointInSourceCoordinates(plPoint inImgCoord) const;
-        void getVectorInSourceCoordinates(double *inDx, double *inDy) const;
+        plPoint getPointInSourceCoords(plPoint inImgCoord) const;
+        void getVectorInSourceCoords(double *inDx, double *inDy) const;
 
 
         /// zoom to fit the area given in the real world coordinates into the surface

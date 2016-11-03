@@ -63,7 +63,7 @@ void DisplayViewProcessor::zoom(bool inZoomIn, plPoint inPoint)
    else { zoomFactor = 1/1.1; }
 
    plRectangle viewRect = mViewport.getRenderArea();
-   plPoint mousePos = mViewport.getPointInSourceCoordinates(plPoint(inPoint.mX, inPoint.mY));
+   plPoint mousePos = mViewport.getPointInSourceCoords(plPoint(inPoint.mX, inPoint.mY));
 
    //
    /*
@@ -156,7 +156,7 @@ void DisplayViewProcessor::zoom(bool inZoomIn, plPoint inPoint)
 void DisplayViewProcessor::move(double inDx, double inDy)
 {
     //convert dx, dy into real coordinates
-    mViewport.getVectorInSourceCoordinates(&inDx, &inDy);
+    mViewport.getVectorInSourceCoords(&inDx, &inDy);
 
     plRectangle rect = mViewport.getRenderArea();
 
@@ -181,7 +181,7 @@ void DisplayViewProcessor::updateLayerTransparency(string inIdentifier, uint8_t 
 
 plPoint DisplayViewProcessor::convertCoordsFromImageToReal(plPoint inImgCoords)
 {
-    plPoint viewport_p = mViewport.getPointInSourceCoordinates(inImgCoords);
+    plPoint viewport_p = mViewport.getPointInSourceCoords(inImgCoords);
 
-    return mGerberRenderer.getPointInSourceCoordinates(viewport_p);
+    return mGerberRenderer.getPointInSourceCoords(viewport_p);
 }

@@ -38,7 +38,7 @@ void ICairoViewer::initCairo(uint32_t inW, uint32_t inH)
     }
 }
 
-plPoint ICairoViewer::getPointInSourceCoordinates(plPoint inImgCoord) const
+plPoint ICairoViewer::getPointInSourceCoords(plPoint inImgCoord) const
 {
     if(mContext == NULL){
         return plPoint();
@@ -52,7 +52,7 @@ plPoint ICairoViewer::getPointInSourceCoordinates(plPoint inImgCoord) const
     return plPoint(x, y);
 }
 
-void ICairoViewer::getVectorInSourceCoordinates(double *inDx, double *inDy) const
+void ICairoViewer::getVectorInSourceCoords(double *inDx, double *inDy) const
 {
     if(mContext == NULL){
         return;
