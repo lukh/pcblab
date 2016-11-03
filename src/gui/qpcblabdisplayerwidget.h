@@ -2,6 +2,9 @@
 #define QPCBLABDISPLAYERWIDGET_H
 
 #include <QWidget>
+#include <QList>
+
+#include "qlayerconfigwidget.h"
 
 #include "pcblab/pcblab.h"
 
@@ -27,10 +30,20 @@ class QPcbLabDisplayerWidget : public QWidget
         void updateMove(double inDx, double inDy);
         void updateCursor(plPoint inPoint);
 
+        void updateColor(string inIdentifier, Color inColor);
+        void updateTransparency(string inIdentifier, uint8_t inTransp);
+
+    private:
+        void updateLayersList(PcbLab &inPcb);
+        void clearLayersList();
+
     private:
         Ui::QPcbLabDisplayerWidget *ui;
 
         DisplayViewProcessor *mProcessor;
+
+
+        QList<QLayerConfigWidget *> mLayersList;
 };
 
 #endif // QPCBLABDISPLAYERWIDGET_H
