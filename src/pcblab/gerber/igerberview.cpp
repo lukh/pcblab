@@ -21,11 +21,14 @@ void IGerberView::setColor(string inLayerIdentifier, Color inColor) {
     mGraphicSettingsMap[inLayerIdentifier].mColor = inColor;
 }
 
-bool IGerberView::getGraphicSettings(string inLayerIdentifier, GraphicSettings &outGraphSett){
+IGerberView::GraphicSettings IGerberView::getGraphicSettings(string inLayerIdentifier, bool &outStatus) const{
     if(mGraphicSettingsMap.find(inLayerIdentifier) == mGraphicSettingsMap.end()){
-        return false;
+        outStatus = false;
+        return GraphicSettings();
     }
 
-    outGraphSett = mGraphicSettingsMap[inLayerIdentifier];
-    return true;
+    outStatus = true;
+
+    GraphicSettingsMap::const_iterator cgsmit = mGraphicSettingsMap.find(inLayerIdentifier);
+    return cgsmit->second;
 }

@@ -108,7 +108,7 @@ class IGerberView{
         void clearHilightedObjects() { mHilightedObjects.clear(); }
 
         // ------------ Accessors -----------------
-        bool getGraphicSettings(string inLayerIdentifier, GraphicSettings &outGraphSett);
+        GraphicSettings getGraphicSettings(string inLayerIdentifier, bool &outStatus) const;
 
 
     private:
