@@ -5,12 +5,19 @@
 
 #include <cairo/cairo.h>
 
+#include "pcblab/common.h"
+
 /// Handles the low level of a cairo setup (surface and context)
 /// and the lows level configuration
 class ICairoViewer{
     public:
         ICairoViewer(): mContext(NULL), mSurface(NULL) {}
         virtual ~ICairoViewer() { deinitCairo(); }
+
+        // -----------------------------------------
+        // init, and surfaces access
+        // -----------------------------------------
+
 
         uint32_t getWidth() const;
 
@@ -28,9 +35,36 @@ class ICairoViewer{
         /// resize the surface
         void initCairo(uint32_t inW, uint32_t inH);
 
+
+        // -----------------------------------------
+        // dedicated to rendering transformations
+        // -----------------------------------------
+
+        plPoint getPointInSourceCoordinates(plPoint inImgCoord) const;
+        void getVectorInSourceCoordinates(double *inDx, double *inDy) const;
+
+
+        /// zoom to fit the area given in the real world coordinates into the surface
+        void setRenderArea(const plRectangle &inRealWorldArea) { mRenderArea = inRealWorldArea; }
+
+        /// zoom to fit the area given in the real world coordinates into the surface
+        void setRenderArea(plPoint p1, plPoint p2);
+
+        /// returns the (real world) view area
+        const plRectangle &getRenderArea() const { return mRenderArea; }
+
+
     protected:
         cairo_t *mContext;
         cairo_surface_t *mSurface;
+
+        ///defines the area rendered on the surface
+        plRectangle mRenderArea;
+
+
+
+    private:
+        virtual void applyRenderTransformation() = 0;
 
 };
 

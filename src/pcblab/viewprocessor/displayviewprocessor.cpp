@@ -25,7 +25,7 @@ void DisplayViewProcessor::init(uint32_t inWidth, uint32_t inHeight)
     uint32_t rw = int(r_real_hr.getW()*CairoGerberRenderer::kPixelsPerMm);
     uint32_t rh = int(r_real_hr.getH()*CairoGerberRenderer::kPixelsPerMm);
     mGerberRenderer.initCairo(rw, rh);
-    mGerberRenderer.setRenderTransformation(r_real_hr);
+    mGerberRenderer.setRenderArea(r_real_hr);
     //reset the graphics settings
     IGerberView::GraphicSettings::reset();
 
@@ -36,7 +36,7 @@ void DisplayViewProcessor::init(uint32_t inWidth, uint32_t inHeight)
     mViewport.setSource(mGerberRenderer.getSurface());
 
     plPoint p1(0,0), p2(mGerberRenderer.getWidth(), mGerberRenderer.getHeight());
-    mViewport.setRenderTransformation(plRectangle(p1, p2));
+    mViewport.setRenderArea(plRectangle(p1, p2));
 }
 
 
@@ -148,7 +148,7 @@ void DisplayViewProcessor::zoom(bool inZoomIn, plPoint inPoint)
 
    viewRect = plRectangle(p1, p2);
 
-   mViewport.setRenderTransformation(viewRect);
+   mViewport.setRenderArea(viewRect);
 
    update();
 }
@@ -162,7 +162,7 @@ void DisplayViewProcessor::move(double inDx, double inDy)
 
     plRectangle n_rect(rect.getX1() - inDx, rect.getY1() - inDy, rect.getX2() - inDx, rect.getY2() - inDy);
 
-    mViewport.setRenderTransformation(n_rect);
+    mViewport.setRenderArea(n_rect);
 
     update();
 }
@@ -183,5 +183,5 @@ plPoint DisplayViewProcessor::convertCoordsFromImageToReal(plPoint inImgCoords)
 {
     plPoint viewport_p = mViewport.getPointInSourceCoordinates(inImgCoords);
 
-    return mGerberRenderer.getPointInRealWorldCoordinates(viewport_p);
+    return mGerberRenderer.getPointInSourceCoordinates(viewport_p);
 }

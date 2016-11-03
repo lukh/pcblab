@@ -19,25 +19,18 @@ class CairoViewport: public ICairoViewer
 
 
         /// init the source context
-        void setSource(cairo_surface_t *inSourceSurface) { mSourceSurface = inSourceSurface; }
-        void setRenderTransformation(const plRectangle &inArea);
-
-        plPoint getPointInSourceCoordinates(plPoint inImgCoord) const;
-        void getVectorInSourceCoordinates(double *inDx, double *inDy) const;
-
-        const plRectangle &getRenderArea() const { return mRenderArea; }
-
+        void setSource(cairo_surface_t *inSourceSurface) { mSourceSurface = inSourceSurface; }       
 
         /// render the source ctx to the dest ctx
         void refresh();
 
-   protected:
-        void applyTransformation();
+   private:
+        //<<< --- Implementation of ICairoView
+        virtual void applyRenderTransformation();
+        //--- >>>
 
 
     private:
-        plRectangle mRenderArea;
-
         cairo_surface_t *mSourceSurface;
 };
 

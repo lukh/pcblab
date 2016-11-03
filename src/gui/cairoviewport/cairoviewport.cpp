@@ -16,31 +16,10 @@ CairoViewport::CairoViewport(uint32_t inW, uint32_t inH, cairo_surface_t *inSour
 CairoViewport::~CairoViewport(){
 }
 
-void CairoViewport::setRenderTransformation(const plRectangle &inArea) { mRenderArea = inArea; }
-
-
-plPoint CairoViewport::getPointInSourceCoordinates(plPoint inImgCoord) const
-{
-    if(mContext == NULL){
-        return plPoint();
-    }
-    double x, y;
-    x = inImgCoord.mX;
-    y = inImgCoord.mY;
-    cairo_device_to_user(mContext, &x, &y);
-
-    return plPoint(x, y);
-}
-
-void CairoViewport::getVectorInSourceCoordinates(double *inDx, double *inDy) const
-{
-    cairo_device_to_user_distance(mContext, inDx, inDy);
-}
-
 void CairoViewport::refresh()
 {
     // set the transformation matrix
-    applyTransformation();
+    applyRenderTransformation();
 
 
     //clean...
@@ -56,7 +35,7 @@ void CairoViewport::refresh()
 }
 
 
-void CairoViewport::applyTransformation()
+void CairoViewport::applyRenderTransformation()
 {
     //reset...
     cairo_identity_matrix (mContext);

@@ -110,30 +110,6 @@ void CairoGerberRenderer::drawLayer(string inIdentifier, const GerberLayer *inLa
 
 
 
-plPoint CairoGerberRenderer::getPointInRealWorldCoordinates(plPoint inImgCoord) const
-{
-    if(mContext == NULL){
-        return plPoint();
-    }
-
-    double x, y;
-    x = inImgCoord.mX;
-    y = inImgCoord.mY;
-    cairo_device_to_user(mContext, &x, &y);
-
-    return plPoint(x, y);
-}
-
-void CairoGerberRenderer::getVectorInRealWorldCoordinates(double *inDx, double *inDy) const
-{
-    if(mContext == NULL){
-        return;
-    }
-
-    cairo_device_to_user_distance(mContext, inDx, inDy);
-}
-
-
 void CairoGerberRenderer::applyRenderTransformation()
 {
     //reset...
@@ -141,8 +117,8 @@ void CairoGerberRenderer::applyRenderTransformation()
 
     // scale factor
     double sx, sy;
-    sx = getWidth() / (mRealWorldArea.getTopRight().mX-mRealWorldArea.getBottomLeft().mX);
-    sy = getHeight() / (mRealWorldArea.getTopRight().mY-mRealWorldArea.getBottomLeft().mY);
+    sx = getWidth() / (mRenderArea.getTopRight().mX-mRenderArea.getBottomLeft().mX);
+    sy = getHeight() / (mRenderArea.getTopRight().mY-mRenderArea.getBottomLeft().mY);
 
     if(mPropMode == eKeepProportion){
         if(sx < sy){ sy=sx; }
@@ -150,8 +126,8 @@ void CairoGerberRenderer::applyRenderTransformation()
     }
 
     double tx, ty;
-    tx = mRealWorldArea.getBottomLeft().mX * sx;
-    ty = mRealWorldArea.getBottomLeft().mY * sy;
+    tx = mRenderArea.getBottomLeft().mX * sx;
+    ty = mRenderArea.getBottomLeft().mY * sy;
 
     /* translate the draw area before drawing.  We must translate the whole
        drawing down an additional displayHeight to account for the negative

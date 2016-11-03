@@ -2,10 +2,6 @@
 
 uint32_t IGerberView::GraphicSettings::sColorIdx = 0;
 
-void IGerberView::setRenderTransformation(plPoint p1, plPoint p2) {
-    plRectangle r(p1, p2);
-    setRenderTransformation(r);
-}
 
 void IGerberView::setAlphaChannel(string inLayerIdentifier, uint8_t inAlphaValue) {
     if(mGraphicSettingsMap.find(inLayerIdentifier) == mGraphicSettingsMap.end()){

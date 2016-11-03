@@ -37,3 +37,33 @@ void ICairoViewer::initCairo(uint32_t inW, uint32_t inH)
         mContext = cairo_create (mSurface);
     }
 }
+
+plPoint ICairoViewer::getPointInSourceCoordinates(plPoint inImgCoord) const
+{
+    if(mContext == NULL){
+        return plPoint();
+    }
+
+    double x, y;
+    x = inImgCoord.mX;
+    y = inImgCoord.mY;
+    cairo_device_to_user(mContext, &x, &y);
+
+    return plPoint(x, y);
+}
+
+void ICairoViewer::getVectorInSourceCoordinates(double *inDx, double *inDy) const
+{
+    if(mContext == NULL){
+        return;
+    }
+
+    cairo_device_to_user_distance(mContext, inDx, inDy);
+}
+
+
+void ICairoViewer::setRenderArea(plPoint p1, plPoint p2) {
+    plRectangle r(p1, p2);
+    setRenderArea(r);
+}
+
