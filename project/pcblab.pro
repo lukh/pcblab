@@ -53,7 +53,8 @@ SOURCES += \
     ../src/pcblab/gerber/igerberview.cpp \
     ../src/gui/cairowidget/qcairowidget.cpp \
     ../src/gui/opencvwidget/qopencvwidget.cpp \
-    ../src/gui/qpcblabdisplayerwidget.cpp
+    ../src/gui/qpcblabdisplayerwidget.cpp \
+    ../src/pcblab/viewprocessor/iviewprocessor.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -86,7 +87,8 @@ HEADERS  += \
     ../src/gui/cairowidget/qcairowidget.h \
     ../src/gui/opencvwidget/qopencvwidget.h \
     ../src/gui/opencvwidget/iopencvwidget.h \
-    ../src/gui/qpcblabdisplayerwidget.h
+    ../src/gui/qpcblabdisplayerwidget.h \
+    ../src/pcblab/viewprocessor/iviewprocessor.h
 
 
 
