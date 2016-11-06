@@ -52,9 +52,18 @@ class IViewProcessor
         static plRectangle calculateMove(double inDx, double inDy, plRectangle inRect);
 
 
+        //accessor to original area
+        const plRectangle& getOriginalArea() { return mOriginalArea; }
+
+
     protected:
         PcbLab &mPcb;
         CairoGerberRenderer mGerberRenderer;
+
+
+    private:
+        // keep trace of original render area
+        plRectangle mOriginalArea;
 };
 
 #endif // IVIEWPROCESSOR_H

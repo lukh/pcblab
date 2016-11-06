@@ -20,7 +20,10 @@ void DisplayViewProcessor::init(uint32_t inWidth, uint32_t inHeight)
     mViewport.setSource(mGerberRenderer.getSurface());
 
     plPoint p1(0,0), p2(mGerberRenderer.getWidth(), mGerberRenderer.getHeight());
-    mViewport.setRenderArea(plRectangle(p1, p2));
+    plRectangle rect(p1, p2);
+    mViewport.setRenderArea(rect);
+
+    mOriginalAreaViewport = rect;
 }
 
 
@@ -39,20 +42,61 @@ void DisplayViewProcessor::refresh()
 
 void DisplayViewProcessor::zoom(bool inZoomIn, plPoint inPoint)
 {
-   double zoomFactor;
+    double zoomFactor;
 
-   if(inZoomIn) { zoomFactor = 1.1; }
-   else { zoomFactor = 1/1.1; }
-
-   plRectangle viewRect = mViewport.getRenderArea();
-   plPoint mousePos = mViewport.getPointInSourceCoords(plPoint(inPoint.mX, inPoint.mY));
+    // define zoom
+    if(inZoomIn) { zoomFactor = 1.1; }
+    else { zoomFactor = 1/1.1; }
 
 
-   viewRect = calculateZoom(zoomFactor, mousePos, viewRect);
+    // define existing area
+    plRectangle rendererRect = mViewport.getRenderArea();
+    rendererRect = mGerberRenderer.getRectInSourceCoords(rendererRect);
 
-   mViewport.setRenderArea(viewRect);
+    static bool lastZoomInViewport = true;
+    bool zoomInViewport = (double(rendererRect.getW())/double(getOriginalArea().getW())) > 0.3;
 
-   refresh();
+    // zoom in viewport
+    if(zoomInViewport){
+        plRectangle viewportRect;
+        // define existing area
+        if(lastZoomInViewport){
+            viewportRect = mViewport.getRenderArea();
+        }
+        else{
+            viewportRect = mGerberRenderer.getRectInImgCoords(mGerberRenderer.getRenderArea());
+        }
+
+        plPoint mousePos = mViewport.getPointInSourceCoords(plPoint(inPoint.mX, inPoint.mY));
+        viewportRect = calculateZoom(zoomFactor, mousePos, viewportRect);
+
+        mGerberRenderer.setRenderArea(getOriginalArea());
+        mViewport.setRenderArea(viewportRect);
+
+
+        if(!lastZoomInViewport){
+            mGerberRenderer.drawAll(mPcb.getGerber());
+        }
+    }
+
+    // zoom in gerber view
+    else{
+        // reset the gerberrenderer
+        mViewport.setRenderArea(mOriginalAreaViewport);
+
+        plPoint mousePos = mGerberRenderer.getPointInSourceCoords(mViewport.getPointInSourceCoords(plPoint(inPoint.mX, inPoint.mY)));
+        rendererRect = calculateZoom(zoomFactor, mousePos, rendererRect);
+
+        mGerberRenderer.setRenderArea(rendererRect);
+
+        mGerberRenderer.drawAll(mPcb.getGerber());
+    }
+
+    mViewport.refresh();
+
+    mCairoWidget->showImage(mViewport.getSurface());
+
+    lastZoomInViewport = zoomInViewport;
 }
 
 void DisplayViewProcessor::move(double inDx, double inDy)
@@ -66,7 +110,11 @@ void DisplayViewProcessor::move(double inDx, double inDy)
 
     mViewport.setRenderArea(n_rect);
 
-    refresh();
+
+    mGerberRenderer.drawAll(mPcb.getGerber());
+    mViewport.refresh();
+
+    mCairoWidget->showImage(mViewport.getSurface());
 }
 
 
