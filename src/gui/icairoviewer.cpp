@@ -61,6 +61,24 @@ void ICairoViewer::getVectorInSourceCoords(double *inDx, double *inDy) const
     cairo_device_to_user_distance(mContext, inDx, inDy);
 }
 
+plRectangle ICairoViewer::getRectInSourceCoords(plRectangle inImgRect) const
+{
+    if(mContext == NULL){
+        return plRectangle();
+    }
+
+    double x1, y1, x2, y2;
+    x1 = inImgRect.getX1();
+    y1 = inImgRect.getY1();
+    cairo_device_to_user(mContext, &x1, &y1);
+
+    x2 = inImgRect.getX2();
+    y2 = inImgRect.getY2();
+    cairo_device_to_user(mContext, &x2, &y2);
+
+    return plRectangle(x1, y1, x2, y2);
+}
+
 plPoint ICairoViewer::getPointInImgCoords(plPoint inSourceCoord) const
 {
     if(mContext == NULL){
@@ -82,6 +100,25 @@ void ICairoViewer::getVectorInImgCoords(double *inDx, double *inDy) const
     }
 
     cairo_user_to_device_distance(mContext, inDx, inDy);
+}
+
+plRectangle ICairoViewer::getRectInImgCoords(plRectangle inSourceRect) const
+{
+
+    if(mContext == NULL){
+        return plRectangle();
+    }
+
+    double x1, y1, x2, y2;
+    x1 = inSourceRect.getX1();
+    y1 = inSourceRect.getY1();
+    cairo_user_to_device(mContext, &x1, &y1);
+
+    x2 = inSourceRect.getX2();
+    y2 = inSourceRect.getY2();
+    cairo_user_to_device(mContext, &x2, &y2);
+
+    return plRectangle(x1, y1, x2, y2);
 }
 
 
