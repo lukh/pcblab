@@ -30,8 +30,8 @@ void DisplayViewProcessor::zoom(bool inZoomIn, plPoint inPoint)
     double zoomFactor;
 
     // define zoom
-    if(inZoomIn) { zoomFactor = 1.1; }
-    else { zoomFactor = 1/1.1; }
+    if(inZoomIn) { zoomFactor = 1.2; }
+    else { zoomFactor = 1/1.2; }
 
     plRectangle rendererRect = mGerberRenderer.getRenderArea();
 
