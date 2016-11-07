@@ -25,16 +25,31 @@ void CairoGerberRenderer::drawFlash(GraphicObjectFlash *inFlash)
         return;
     }
 
+    vector<IAperturePrimitive *> primitives = ap->getPrimitives();
+
+    //do we needs a group ?
+    bool needs_group = false;
+    for (vector<IAperturePrimitive *>::iterator it = primitives.begin(); it != primitives.end(); ++it){
+        IAperturePrimitive *prim = *it;
+        //TODO: check that this condition is enough, in all cases (for instance, inverted layer)
+        if(prim->getExposure() == IAperturePrimitive::eExposureOff){
+            needs_group = true;
+            break;
+        }
+    }
+
     // save the context to draw all the prims from 0,0 point.
     cairo_save(mContext);
 
     // create a new group for the flash
-    cairo_push_group(mContext);
+    if(needs_group){
+        cairo_push_group(mContext);
+    }
 
     //move to the point 0,0 of the flash
     cairo_translate(mContext, inFlash->getPosition().mX, inFlash->getPosition().mY);
 
-    vector<IAperturePrimitive *> primitives = ap->getPrimitives();
+
     for (vector<IAperturePrimitive *>::iterator it = primitives.begin(); it != primitives.end(); ++it){
         IAperturePrimitive *prim = *it;
 
@@ -54,8 +69,10 @@ void CairoGerberRenderer::drawFlash(GraphicObjectFlash *inFlash)
     }
 
     // pop the group and paint
-    cairo_pop_group_to_source(mContext);
-    cairo_paint(mContext);
+    if(needs_group){
+        cairo_pop_group_to_source(mContext);
+        cairo_paint(mContext);
+    }
 
     cairo_restore(mContext);
 }
