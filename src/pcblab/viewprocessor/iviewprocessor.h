@@ -7,8 +7,6 @@
 
 class IViewProcessor
 {
-    static const uint8_t kPixelsPerMm = 10;
-
     public:
         IViewProcessor(PcbLab &inPcb);
         virtual ~IViewProcessor() {}
