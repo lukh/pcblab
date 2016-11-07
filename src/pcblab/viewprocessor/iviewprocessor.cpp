@@ -34,6 +34,8 @@ void IViewProcessor::setup(uint32_t inWidth, uint32_t inHeight)
     // /////////////////////////////
     uint32_t rw = inWidth;
     uint32_t rh = inHeight;
+    //uint32_t rw = int(r_real_hr.getW()*IViewProcessor::kPixelsPerMm);
+    //uint32_t rh = int(r_real_hr.getH()*IViewProcessor::kPixelsPerMm);
     mGerberRenderer.initCairo(rw, rh);
     mGerberRenderer.setRenderArea(r_real_hr);
     //reset the graphics settings

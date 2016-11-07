@@ -40,10 +40,7 @@ class DisplayViewProcessor: public IViewProcessor
 
 
     private:
-        CairoViewport mViewport;
         ICairoWidget *mCairoWidget;
-
-        plRectangle mOriginalAreaViewport;
 };
 
 #endif // DISPLAYVIEWPROCESSOR_H
