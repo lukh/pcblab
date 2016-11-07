@@ -109,6 +109,11 @@ void QPcbLabDisplayerWidget::clearLayersList()
     for(int i = 0; i < mLayersList.size(); ++i){
         delete mLayersList.at(i);
     }
+
+    delete ui->layerConfigList->layout();
+    QVBoxLayout *layout = new QVBoxLayout(ui->layerConfigList);
+
+
     mLayersList.clear();
 }
 
