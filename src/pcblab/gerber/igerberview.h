@@ -24,14 +24,23 @@
 using namespace std;
 
 
-static const uint8_t kDefaultColorListSize = 6;
+static const uint8_t kDefaultColorListSize = 9;
 static const Color kDefaultColorList[kDefaultColorListSize] = {
-    Color(255,0,0),
-    Color(127,127,255),
-    Color(255,0,255),
+    //GBO
+    Color(127,127,0),
+
     Color(0,255,0),
-    Color(0,255,255),
-    Color(0,0,255)
+    Color(0,127,0),
+
+    Color(0,0,255),
+    Color(255,0,0),
+
+    Color(255,0,255),
+    Color(127,0,127),
+
+    Color(255,255,0),
+
+    Color(255,255,255),
 };
 
 class IGerberView{
