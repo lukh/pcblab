@@ -10,11 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //mQdbcerr = new Q_DebugStream(std::cerr, ui->textEdit); //Redirect Console output to QTextEdit
-    //mQdbcout = new Q_DebugStream(std::cout, ui->textEdit); //Redirect Console output to QTextEdit
 
-    sExtList.push_back("GBL");
-    sExtList.push_back("GTL");
+    sExtList = GerberHandler::createExtensionOrderMap_Altium();
 }
 
 MainWindow::~MainWindow()
