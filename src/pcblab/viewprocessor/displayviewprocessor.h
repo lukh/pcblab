@@ -6,7 +6,6 @@
 #include "iviewprocessor.h"
 
 #include "icairowidget.h"
-#include "cairoviewport/cairoviewport.h"
 
 
 
@@ -40,10 +39,7 @@ class DisplayViewProcessor: public IViewProcessor
 
 
     private:
-        CairoViewport mViewport;
         ICairoWidget *mCairoWidget;
-
-        plRectangle mOriginalAreaViewport;
 };
 
 #endif // DISPLAYVIEWPROCESSOR_H
