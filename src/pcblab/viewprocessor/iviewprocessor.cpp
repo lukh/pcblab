@@ -27,8 +27,6 @@ void IViewProcessor::setup(uint32_t inWidth, uint32_t inHeight)
         plPoint(r_real.getTopRight().mX + 10.0, r_real.getTopRight().mY + 10.0)
     );
 
-    mOriginalArea = r_real_hr;
-
     // /////////////////////////////
     // init the renderer
     // /////////////////////////////
