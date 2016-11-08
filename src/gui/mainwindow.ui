@@ -19,31 +19,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0">
     <item>
-     <widget class="QTabWidget" name="tabWidget">
-      <property name="currentIndex">
-       <number>1</number>
-      </property>
-      <widget class="QWidget" name="tab">
-       <attribute name="title">
-        <string>Tab 1</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QOpenCVWidget" name="openCVViewer" native="true"/>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="tab_2">
-       <attribute name="title">
-        <string>Tab 2</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
-         <widget class="QPcbLabDisplayerWidget" name="pcbDisplayer" native="true"/>
-        </item>
-       </layout>
-      </widget>
-     </widget>
+     <widget class="QPcbLabDisplayerWidget" name="pcbDisplayer" native="true"/>
     </item>
    </layout>
   </widget>
@@ -109,12 +85,6 @@
   </action>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>QOpenCVWidget</class>
-   <extends>QWidget</extends>
-   <header>qopencvwidget.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>QPcbLabDisplayerWidget</class>
    <extends>QWidget</extends>
