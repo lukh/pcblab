@@ -68,11 +68,7 @@ class GerberHandler{
         void setOrderList(const ExtensionOrderList &inList);
 
 
-    private:
-        /// defines the map of layer, with their identifier
-        typedef map<string, GerberLayer *> LayerMap;
-
-
+    public:
         static ExtensionOrderList createExtensionOrderMap_Altium(){
             ExtensionOrderList map;
 
@@ -84,9 +80,16 @@ class GerberHandler{
             map.push_back("GTS"); //solder
             map.push_back("GTP"); //paste
             map.push_back("GTO"); //silkscreen
+            map.push_back("GKO"); //KeepOut
 
             return map;
         }
+
+
+    private:
+        /// defines the map of layer, with their identifier
+        typedef map<string, GerberLayer *> LayerMap;
+
 
 
     private:
