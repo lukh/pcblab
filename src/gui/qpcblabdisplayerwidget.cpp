@@ -35,7 +35,7 @@ void QPcbLabDisplayerWidget::init(PcbLab &inPcb)
     }
 
     mProcessor = new DisplayViewProcessor(inPcb, ui->cairoWidget);
-    mProcessor->init(800, 600);
+    mProcessor->init(1000, 600);
 
     mProcessor->refresh();
     updateLayersList(inPcb);
