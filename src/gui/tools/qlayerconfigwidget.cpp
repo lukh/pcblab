@@ -2,6 +2,9 @@
 
 QLayerConfigWidget::QLayerConfigWidget(string inIdentifier, QWidget *parent) : QWidget(parent), mIdentifier(inIdentifier)
 {
+    mCheckBox = new QCheckBox();
+    mCheckBox->setCheckState(Qt::Checked);
+
     mColorButton= new QPushButton();
     mColorButton->setMinimumWidth(10);
 
@@ -15,12 +18,14 @@ QLayerConfigWidget::QLayerConfigWidget(string inIdentifier, QWidget *parent) : Q
     //layout
     QHBoxLayout *layout = new QHBoxLayout(this);
 
+    layout->addWidget(mCheckBox);
     layout->addWidget(mColorButton);
     layout->addWidget(mLabel);
     layout->addWidget(mTransparencySlider);
 
 
     // connections
+    QObject::connect(mCheckBox, SIGNAL(stateChanged(int)), this, SLOT(enableUpdated(int)));
     QObject::connect(mColorButton, SIGNAL(clicked()), this, SLOT(colorLabelPressed()));
     QObject::connect(mTransparencySlider, SIGNAL(sliderReleased()), this, SLOT(transparencySliderUpdated()));
 }
@@ -50,4 +55,15 @@ void QLayerConfigWidget::transparencySliderUpdated()
 {
     uint8_t transp = mTransparencySlider->value();
     Q_EMIT(transparencyUpdated(mIdentifier, (uint8_t)transp));
+}
+
+void QLayerConfigWidget::enableUpdated(int inState)
+{
+    uint8_t transp = mTransparencySlider->value();
+    if(inState == Qt::Checked){
+        Q_EMIT(transparencyUpdated(mIdentifier, (uint8_t)transp));
+    }
+    else{
+        Q_EMIT(transparencyUpdated(mIdentifier, 0));
+    }
 }

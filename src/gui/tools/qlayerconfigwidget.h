@@ -5,6 +5,7 @@
 #include <QLabel>
 
 #include <QHBoxLayout>
+#include <QCheckBox>
 #include <QSlider>
 #include <QColorDialog>
 #include <QPushButton>
@@ -31,10 +32,12 @@ class QLayerConfigWidget : public QWidget
     private Q_SLOTS:
         void colorLabelPressed();
         void transparencySliderUpdated();
+        void enableUpdated(int inState);
 
     private:
         string mIdentifier;
 
+        QCheckBox *mCheckBox;
         QPushButton *mColorButton;
         QLabel *mLabel;
         QSlider *mTransparencySlider;
