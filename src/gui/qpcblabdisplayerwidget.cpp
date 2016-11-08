@@ -81,9 +81,9 @@ void QPcbLabDisplayerWidget::updateLayersList(PcbLab &inPcb)
     const GerberHandler &gerber = inPcb.getGerber();
     const CairoGerberRenderer &renderer = mProcessor->getGerberRenderer();
 
-    uint32_t layers_count = gerber.getLayersCount();
+    int32_t layers_count = gerber.getLayersCount();
 
-    for(uint32_t idx = 0; idx < layers_count; idx ++){
+    for(int32_t idx = layers_count-1; idx >= 0; idx--){
         bool status = false;
         string identifier = gerber.getLayerIdentifier(idx);
         IGerberView::GraphicSettings gs = renderer.getGraphicSettings(identifier, status);
