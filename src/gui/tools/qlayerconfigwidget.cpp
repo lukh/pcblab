@@ -55,6 +55,7 @@ void QLayerConfigWidget::transparencySliderUpdated()
 {
     uint8_t transp = mTransparencySlider->value();
     Q_EMIT(transparencyUpdated(mIdentifier, (uint8_t)transp));
+    mCheckBox->setCheckState(Qt::Checked);
 }
 
 void QLayerConfigWidget::enableUpdated(int inState)
