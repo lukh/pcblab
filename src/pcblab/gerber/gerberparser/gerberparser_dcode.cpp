@@ -1,6 +1,6 @@
-#include "../syntaxparser.h"
+#include "../gerberparser.h"
 
-bool SyntaxParser::parseDCode(istream &inStream){
+bool GerberParser::parseDCode(istream &inStream){
     int op_code = getOpCode(inStream);
 
     //we should reach a * here

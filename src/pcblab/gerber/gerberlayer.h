@@ -17,7 +17,7 @@
 
 #include "../common.h"
 #include "graphicstate.h"
-#include "syntaxparser.h"
+#include "gerberparser.h"
 #include "graphicobject.h"
 #include "aperture/aperture.h"
 
@@ -25,7 +25,7 @@ using namespace std;
 
 /// Describes Gerber Layer, defines by its file
 /// Parses the file and generates Graphic Object.
-class GerberLayer: public SyntaxParser {
+class GerberLayer: public GerberParser {
     public:
 
         /// GerberLevel is a container holding all the graphic object with the same polarity

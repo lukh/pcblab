@@ -1,6 +1,6 @@
-#include "../syntaxparser.h"
+#include "../gerberparser.h"
 
-bool SyntaxParser::parseXCode(istream &inStream){
+bool GerberParser::parseXCode(istream &inStream){
     char ch1, ch2, ch;
     eXCode code;
     bool status = true;
@@ -96,7 +96,7 @@ bool SyntaxParser::parseXCode(istream &inStream){
 
 
 
-bool SyntaxParser::parseXCode_FS(istream &inStream){
+bool GerberParser::parseXCode_FS(istream &inStream){
     GraphicState::CoordinateFormat format;
     char ch;
 
@@ -188,7 +188,7 @@ bool SyntaxParser::parseXCode_FS(istream &inStream){
     return true;
 }
 
-bool SyntaxParser::parseXCode_MO(istream &inStream){
+bool GerberParser::parseXCode_MO(istream &inStream){
     char ch1, ch2;
     GraphicState::eUnit unit;
 
@@ -218,7 +218,7 @@ bool SyntaxParser::parseXCode_MO(istream &inStream){
     return true;
 }
 
-bool SyntaxParser::parseXCode_LP(istream &inStream){
+bool GerberParser::parseXCode_LP(istream &inStream){
     char ch;
     GraphicState::eLevelPolarity polarity;
 
@@ -251,7 +251,7 @@ bool SyntaxParser::parseXCode_LP(istream &inStream){
 
 
 
-bool SyntaxParser::parseXCode_AD(istream &inStream){
+bool GerberParser::parseXCode_AD(istream &inStream){
     uint32_t dcode;
     string dcode_text, name;
     char ch;
@@ -324,7 +324,7 @@ bool SyntaxParser::parseXCode_AD(istream &inStream){
 
 
 
-bool SyntaxParser::extractApertureModifiers(istream &inStream, vector<ApertureModifier> &outModifiers, bool &outStatus){
+bool GerberParser::extractApertureModifiers(istream &inStream, vector<ApertureModifier> &outModifiers, bool &outStatus){
     char ch;
     string param_str;
 
@@ -376,7 +376,7 @@ bool SyntaxParser::extractApertureModifiers(istream &inStream, vector<ApertureMo
 
 
 /// parses AM cmd
-bool SyntaxParser::parseXCode_AM(istream &inStream){
+bool GerberParser::parseXCode_AM(istream &inStream){
     char read;
     string name;
     string content; //temp for current content
@@ -445,7 +445,7 @@ bool SyntaxParser::parseXCode_AM(istream &inStream){
 
 
 
-bool SyntaxParser::extractAM_Content(string &inContent, vector<string> &outContent){
+bool GerberParser::extractAM_Content(string &inContent, vector<string> &outContent){
 #ifdef DEBUG_PRINT
     d_printf("addAMCmd: (" + inContent + ")", 2, 3);
 #endif

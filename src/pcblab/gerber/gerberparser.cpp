@@ -1,12 +1,12 @@
-#include "syntaxparser.h"
+#include "gerberparser.h"
 
 
-SyntaxParser::SyntaxParser(){
+GerberParser::GerberParser(){
     resetPointsAttributes();
 }
 
 
-bool SyntaxParser::parse(istream &inStream){
+bool GerberParser::parse(istream &inStream){
     char read;
     bool status = true, eof_cmd = false;
 
@@ -94,7 +94,7 @@ bool SyntaxParser::parse(istream &inStream){
 
 
 
-uint8_t SyntaxParser::getOpCode(istream &inStream){
+uint8_t GerberParser::getOpCode(istream &inStream){
     string str;
     char read;
 
@@ -123,7 +123,7 @@ uint8_t SyntaxParser::getOpCode(istream &inStream){
 
 
 
-SyntaxParser::eXCode SyntaxParser::getXCode(char ch1, char ch2){
+GerberParser::eXCode GerberParser::getXCode(char ch1, char ch2){
     if(ch1=='F' && ch2 == 'S'){
         return eXCodeFs;
     }
@@ -156,7 +156,7 @@ SyntaxParser::eXCode SyntaxParser::getXCode(char ch1, char ch2){
     }
 }
 
-int32_t SyntaxParser::getRawCoord(istream &inStream){
+int32_t GerberParser::getRawCoord(istream &inStream){
     string str;
     char read;
     bool neg = false;

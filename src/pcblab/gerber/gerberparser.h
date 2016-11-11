@@ -23,10 +23,10 @@
 
 using namespace std;
 
-class SyntaxParser {
+class GerberParser {
     public:
-        SyntaxParser ();
-        virtual ~SyntaxParser () {}
+        GerberParser ();
+        virtual ~GerberParser () {}
 
     protected:
         /// Parses the data stream and build the gerber layer.

@@ -61,7 +61,7 @@ plRectangle GerberLayer::GerberLevel::getBoundingBox() const
 
 
 // ---------------------------------- GerberLayer --------------------------------
-GerberLayer::GerberLayer(const string &inName): SyntaxParser(),
+GerberLayer::GerberLayer(const string &inName): GerberParser(),
     mName(inName), mCurrentLevel(NULL)
 {
 #ifdef DEBUG_PRINT

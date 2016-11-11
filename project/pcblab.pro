@@ -27,13 +27,12 @@ SOURCES += \
     ../src/main.cpp \
     ../src/gui/mainwindow.cpp \
     ../src/pcblab/gerber/gerberlayer.cpp \
-    ../src/pcblab/gerber/syntaxparser.cpp \
     ../src/pcblab/gerber/graphicobject.cpp \
     #../src/tests/pcblab/gerber/gerberlayertest.cpp \
     ../src/pcblab/common.cpp \
-    ../src/pcblab/gerber/syntaxparser/syntaxparser_dcode.cpp \
-    ../src/pcblab/gerber/syntaxparser/syntaxparser_gcode.cpp \
-    ../src/pcblab/gerber/syntaxparser/syntaxparser_xcode.cpp \
+    ../src/pcblab/gerber/gerberparser/gerberparser_dcode.cpp \
+    ../src/pcblab/gerber/gerberparser/gerberparser_gcode.cpp \
+    ../src/pcblab/gerber/gerberparser/gerberparser_xcode.cpp \
     ../src/pcblab/gerber/aperture/aperture.cpp \
     ../src/pcblab/gerber/aperture/aperturetemplate.cpp \
     ../src/pcblab/gerber/aperture/apertureprimitive.cpp \
@@ -54,7 +53,8 @@ SOURCES += \
     ../src/gui/cairowidget/qcairowidget.cpp \
     ../src/gui/opencvwidget/qopencvwidget.cpp \
     ../src/gui/qpcblabdisplayerwidget.cpp \
-    ../src/pcblab/viewprocessor/iviewprocessor.cpp
+    ../src/pcblab/viewprocessor/iviewprocessor.cpp \
+    ../src/pcblab/gerber/gerberparser.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -64,7 +64,6 @@ HEADERS  += \
     ../src/pcblab/gerber/graphicobject.h \
     ../src/pcblab/gerber/graphicstate.h \
     ../src/pcblab/gerber/igerberview.h \
-    ../src/pcblab/gerber/syntaxparser.h \
     ../src/pcblab/common.h \
     ../src/gui/mainwindow.h \
     #../src/tests/pcblab/gerber/gerberlayertest.h \
@@ -88,7 +87,8 @@ HEADERS  += \
     ../src/gui/opencvwidget/qopencvwidget.h \
     ../src/gui/opencvwidget/iopencvwidget.h \
     ../src/gui/qpcblabdisplayerwidget.h \
-    ../src/pcblab/viewprocessor/iviewprocessor.h
+    ../src/pcblab/viewprocessor/iviewprocessor.h \
+    ../src/pcblab/gerber/gerberparser.h
 
 
 
