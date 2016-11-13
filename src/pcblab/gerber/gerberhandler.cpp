@@ -11,8 +11,9 @@ GerberHandler::~GerberHandler()
 }
 
 
-void GerberHandler::openFolder(const string &inFolderName, ExtensionOrderList inOrder)
+bool GerberHandler::openFolder(const string &inFolderName, ExtensionOrderList inOrder)
 {
+    bool global_open_status = true;
     close();
 
     vector<string> files;
@@ -20,7 +21,7 @@ void GerberHandler::openFolder(const string &inFolderName, ExtensionOrderList in
     if(! listFilesInDirectory(inFolderName, files)){
         //error listing the dir
         err_printf("ERROR(GerberHandler::openFolder): impossible to list the folder given");
-        return;
+        return false;
     }
 
 #ifdef DEBUG_PRINT
@@ -62,10 +63,12 @@ void GerberHandler::openFolder(const string &inFolderName, ExtensionOrderList in
 #endif
 
             mMap.push_back(ext);
-            openGerberLayer(ext, full_path, ext, idx++);
+            bool status = openGerberLayer(ext, full_path, ext, idx++);
+            global_open_status = global_open_status && status;
         }
     }
 
+    return global_open_status;
 }
 
 void GerberHandler::openFolderWithList(const string &inFolderName, vector<string> inFileNames)
@@ -82,11 +85,11 @@ void GerberHandler::openFolderWithList(const string &inFolderName, vector<string
 }
 
 
-void GerberHandler::openGerberLayer(const string &inName, const string &inFilename, const string &inIdentifier, uint8_t inPosition)
+bool GerberHandler::openGerberLayer(const string &inName, const string &inFilename, const string &inIdentifier, uint8_t inPosition)
 {
     // create the layer
     GerberLayer *layer = new GerberLayer(inName);
-    layer->open(inFilename);
+    bool open_status = layer->open(inFilename);
 
     // add the layer to the list
     if(mLayers.count(inIdentifier) > 0){
@@ -95,6 +98,8 @@ void GerberHandler::openGerberLayer(const string &inName, const string &inFilena
         delete mLayers[inIdentifier];
     }
     mLayers[inIdentifier] = layer;
+
+    return open_status;
 }
 
 

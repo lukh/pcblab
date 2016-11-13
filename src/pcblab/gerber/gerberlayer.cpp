@@ -385,11 +385,11 @@ bool GerberLayer::open(const string &inFileName){
         return false;
     }
 
-    parse(fs);
+    bool parse_res = parse(fs);
 
     fs.close();
 
-    return true;
+    return parse_res;
 }
 
 GerberLayer::GerberLevel *GerberLayer::getLevel(uint16_t inIdx) const {

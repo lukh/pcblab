@@ -30,7 +30,7 @@ class GerberHandler{
         ~GerberHandler();
 
         /// Opens a folder containing all gerber files, based on extensions
-        void openFolder(const string &inFolderName, ExtensionOrderList inOrder);
+        bool openFolder(const string &inFolderName, ExtensionOrderList inOrder);
 
         /// Opens a folder containing all gerber files, based on files names (filenames are used for names and identifiers)
         /// The first entry ([0]) of the list is the top
@@ -41,7 +41,7 @@ class GerberHandler{
         /// The Filename is the effective filename
         /// the identifier is the one related to the ExtensionOrderMap
         /// The position is the layer position
-        void openGerberLayer(const string &inName, const string &inFilename, const string &inIdentifier, uint8_t inPosition = 0);
+        bool openGerberLayer(const string &inName, const string &inFilename, const string &inIdentifier, uint8_t inPosition = 0);
 
 
         /// clean existing layers
