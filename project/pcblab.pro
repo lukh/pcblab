@@ -54,7 +54,10 @@ SOURCES += \
     ../src/gui/opencvwidget/qopencvwidget.cpp \
     ../src/gui/qpcblabdisplayerwidget.cpp \
     ../src/pcblab/viewprocessor/iviewprocessor.cpp \
-    ../src/pcblab/gerber/gerberparser.cpp
+    ../src/pcblab/excellon/excellonparser.cpp \
+    ../src/pcblab/gerber/gerberparser.cpp \
+    ../src/pcblab/excellon/excellonstate.cpp \
+    ../src/pcblab/excellon/excellonhandler.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -88,7 +91,10 @@ HEADERS  += \
     ../src/gui/opencvwidget/iopencvwidget.h \
     ../src/gui/qpcblabdisplayerwidget.h \
     ../src/pcblab/viewprocessor/iviewprocessor.h \
-    ../src/pcblab/gerber/gerberparser.h
+    ../src/pcblab/excellon/excellonparser.h \
+    ../src/pcblab/gerber/gerberparser.h \
+    ../src/pcblab/excellon/excellonstate.h \
+    ../src/pcblab/excellon/excellonhandler.h
 
 
 

@@ -6,6 +6,7 @@
 #include <fstream>
 
 #include "gerber/gerberhandler.h"
+#include "excellon/excellonhandler.h"
 
 using namespace std;
 
@@ -26,6 +27,7 @@ class PcbLab
 
     private:
         GerberHandler mGerber;
+        ExcellonHandler mExcellon;
 
 };
 
