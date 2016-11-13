@@ -181,6 +181,30 @@ bool ExcellonParser::parseMCode(istream &inStream, bool &outEndOfProgram)
 
 bool ExcellonParser::parseGCode(istream &inStream)
 {
+    // to get the char and be sure it is the right code
+    if(inStream.get() != 'M'){
+        return false;
+    }
+
+    uint8_t code = getInteger(inStream);
+
+    switch(code){
+        case 90:
+            setCoordMode(ExcellonState::eCoordModeAbsolute);
+            break;
+        case 91:
+            setCoordMode(ExcellonState::eCoordModeIncremental);
+            break;
+
+        case 93:
+            err_printf("ExcellonParser::parseGCode: (WARNING): G code 93 (zero set) not implemented");
+            break;
+
+        default:
+            err_printf("ExcellonParser::parseGCode: (WARNING): G code not implemented");
+            break;
+    }
+
     return true;
 }
 
