@@ -100,20 +100,6 @@ string ExcellonParser::getLine(istream &inStream)
     return ret;
 }
 
-string ExcellonParser::peekLine(istream &inStream)
-{
-    char read = 0;
-    string ret;
-
-    while((read = inStream.peek()) != EOF){
-        if(read == '\n' || read == '\r'){
-            break;
-        }
-        ret.append(&read, 1);
-    }
-    return ret;
-}
-
 void ExcellonParser::eatLine(istream &inStream)
 {
     char read = 0;

@@ -54,9 +54,6 @@ class ExcellonParser
         /// returns the current line
         static string getLine(istream& inStream);
 
-        /// peek the current line
-        static string peekLine(istream& inStream);
-
         /// eat the current line
         static void eatLine(istream& inStream);
 
