@@ -63,7 +63,7 @@ class ExcellonParser
         bool parseTCode(istream &inStream);
         bool parseCoordinates(istream &inStream);
 
-        uint8_t getCommandCode(istream &inStream);
+        uint8_t getInteger(istream &inStream);
 };
 
 #endif // EXCELLONPARSER_H

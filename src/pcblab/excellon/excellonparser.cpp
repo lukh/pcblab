@@ -73,7 +73,7 @@ bool ExcellonParser::parse(istream &inStream)
 
             // unrecognized for now
             case 'R':
-                err_printf("ExcellonParser::parse: (WARNING) code unrecognized");
+                err_printf("ExcellonParser::parse: (WARNING) code R not implemented");
                 // no break
 
             default:
@@ -140,7 +140,7 @@ bool ExcellonParser::parseMCode(istream &inStream, bool &outEndOfProgram)
 
     else{
         stringstream ssline(line);
-        uint8_t code = getCommandCode(ssline);
+        uint8_t code = getInteger(ssline);
 
         switch(code){
             /// header code
@@ -195,7 +195,7 @@ bool ExcellonParser::parseCoordinates(istream &inStream)
 }
 
 
-uint8_t ExcellonParser::getCommandCode(istream &inStream){
+uint8_t ExcellonParser::getInteger(istream &inStream){
     string str;
     char read;
 
