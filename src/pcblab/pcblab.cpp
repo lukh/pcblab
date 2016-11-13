@@ -14,17 +14,4 @@ void PcbLab::openFolder(const string &inFolderName, GerberHandler::ExtensionOrde
 }
 
 
-void PcbLab::openPnPLayer(const string &inFilename)
-{
-
-}
-
-void PcbLab::openNetlistLayer(const string &inFilename)
-{
-
-}
-
-void PcbLab::closeFolder()
-{
-
 }

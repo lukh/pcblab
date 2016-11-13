@@ -20,16 +20,6 @@ class PcbLab
         /// Opens a folder containing all CAD files (gerbers, pnp, netlists, etc)
         void openFolder(const string &inFolderName, GerberHandler::ExtensionOrderList inOrder);
 
-        /// Opens a PickAndPlace layer
-        void openPnPLayer(const string &inFilename);
-
-        /// Open a netlist
-        void openNetlistLayer(const string &inFilename);
-
-
-        /// Closes the folder
-        void closeFolder();
-
 
         const GerberHandler &getGerber() { return mGerber; }
 
