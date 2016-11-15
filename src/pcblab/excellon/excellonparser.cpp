@@ -30,6 +30,12 @@ bool ExcellonParser::parse(istream &inStream)
             case 'G':
                 break;
 
+            case 'T':
+                if(!parseTCode(inStream)){
+                    return false;
+                }
+                break;
+
             case 'I': {//ICI,ON or INCHES
                 string line = getLine(inStream);
 
@@ -214,7 +220,86 @@ bool ExcellonParser::parseGCode(istream &inStream)
 
 bool ExcellonParser::parseTCode(istream &inStream)
 {
-    return true;
+    bool status = true;
+    uint8_t tool_idx = 0xFF;
+
+    double diameter = 0;
+    double infeed_rate = 0, spindle_rate = 0;
+
+    // to get the char and be sure it is the right code
+    if(inStream.get() != 'T'){
+        err_printf("ERROR(ExcellonParser::parseTCode): wrong first char, expecting T");
+        return false;
+    }
+
+    string line = getLine(inStream);
+    stringstream ssline(line);
+
+    // tool idx
+    tool_idx = getInteger(ssline);
+
+    char read = 0;
+
+    while((read = ssline.get()) != EOF){
+        switch(read){
+            // diameter
+            case 'C':{
+                string str_num;
+                while((ssline.peek() >= '0' && ssline.peek() <= '9') || ssline.peek() == '.' || ssline.peek() == ','){
+                    str_num.push_back(ssline.get());
+                }
+                try{
+                    diameter = stringToDouble(str_num);
+                }
+                catch(...){
+                    err_printf("ERROR(ExcellonParser::parseTCode): Impossible to convert the tool diameter");
+                    status = false;
+                }
+
+                break;}
+
+            // infeed rate
+            case 'F':{
+                // here, leading zero on 3 digits
+                string str_num;
+                while(ssline.peek() >= '0' && ssline.peek() <= '9'){
+                    str_num.push_back(ssline.get()); // fill the str
+                }
+                //complete with zeros
+                for(int i = 0; i < (3-str_num.size()); i ++){ str_num.push_back('0'); }
+
+                try{
+                    infeed_rate = stringToDouble(str_num);
+                }
+                catch(...){
+                    err_printf("ERROR(ExcellonParser::parseTCode): Impossible to convert the tool infeed rate");
+                    status = false;
+                }
+
+                break;}
+            // spindle rate
+            case 'S':{
+                string str_num;
+                while((ssline.peek() >= '0' && ssline.peek() <= '9') || ssline.peek() == '.' || ssline.peek() == ','){
+                    str_num.push_back(ssline.get());
+                }
+                try{
+                    spindle_rate = stringToDouble(str_num) * 1000.0;
+                }
+                catch(...){
+                    err_printf("ERROR(ExcellonParser::parseTCode): Impossible to convert the tool spindle rate");
+                    status = false;
+                }
+                break;}
+            default:
+                break;
+        }
+        if(! status) { break; }
+    }
+
+    addTool(tool_idx, diameter, infeed_rate, spindle_rate);
+
+    return status;
 }
 
 bool ExcellonParser::parseCoordinates(istream &inStream)
