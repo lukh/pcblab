@@ -12,9 +12,15 @@ uint8_t charToNum(char inChar){
 }
 
 
-double stringToDouble(string &str){
+double stringToDouble(const string &str){
     //std::replace(str.begin(), str.end(), '.', ',');
     return stod(str);
+}
+
+
+int stringToInt(const string &str)
+{
+    return stoi(str);
 }
 
 

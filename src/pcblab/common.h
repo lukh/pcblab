@@ -123,7 +123,8 @@ bool isNumber(char inChar);
 
 uint8_t charToNum(char inChar);
 
-double stringToDouble(string &str);
+double stringToDouble(const string &str);
+int stringToInt(const string &str);
 
 void d_printf(const string &str, int inLevel=2, int inTabs=0, bool inLeftAlign=true);
 void err_printf(const string &str);
