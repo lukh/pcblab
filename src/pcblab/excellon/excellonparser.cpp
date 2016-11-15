@@ -227,7 +227,7 @@ uint8_t ExcellonParser::getInteger(istream &inStream){
     string str;
     char read;
 
-    uint8_t val;
+    uint8_t val = 0;
 
     while((read = inStream.peek()) != EOF){
         if(read < '0' || read > '9')
@@ -240,12 +240,14 @@ uint8_t ExcellonParser::getInteger(istream &inStream){
     }
 
     try{
-        val = std::stoi(str);
+        val = stringToInt(str);
     }
     catch(...){
-        val=0;
-        err_printf("ERROR (ExcellonParser::getOpCode): Couldn't convert string to int" );
+        err_printf("ERROR(ExcellonParser::getInteger): Impossible to convert the string");
     }
+
 
     return val;
 }
+
+

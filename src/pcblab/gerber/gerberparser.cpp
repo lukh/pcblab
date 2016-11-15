@@ -111,7 +111,7 @@ uint8_t GerberParser::getOpCode(istream &inStream){
     }
 
     try{
-        val = std::stoi(str);
+        val = stringToInt(str);
     }
     catch(...){
         val=0;
@@ -180,11 +180,11 @@ int32_t GerberParser::getRawCoord(istream &inStream){
     }
 
     try{
-        val = std::stoi(str);
+        val = stringToInt(str);
     }
     catch(...){
         val=0;
-       err_printf("ERROR (SyntaxParser::getRawCoord): Couldn't convert string to int" );
+        err_printf("ERROR (SyntaxParser::getRawCoord): Couldn't convert string to int" );
     }
 
     return neg ? -val : val;

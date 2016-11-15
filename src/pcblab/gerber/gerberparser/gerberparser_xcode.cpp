@@ -280,7 +280,7 @@ bool GerberParser::parseXCode_AD(istream &inStream){
         }
     }
     try{
-        dcode = stoi(dcode_text);
+        dcode = stringToInt(dcode_text);
     }
     catch(...){
         err_printf("ERROR (SyntaxParser::parseXCode_AD): DCode: Couldn't convert string to int" );

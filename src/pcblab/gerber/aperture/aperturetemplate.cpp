@@ -58,7 +58,14 @@ ATCmdPrimitive::ATCmdPrimitive(const string &inPrimitiveDescr): ATCommand() {
     string prim_mods = inPrimitiveDescr.substr(pos_first_del+1);
 
     //define the type of primitive
-    uint32_t prim_code = stoi(prim_code_str); //extract the primirive code
+    uint32_t prim_code = 0;
+    try{
+        prim_code = stringToInt(prim_code_str); //extract the primirive code
+    }
+    catch(...){
+        err_printf("ERROR (ATCmdPrimitive::ATCmdPrimitive): Impossible to get the primitive code!" );
+        return;
+    }
     switch(prim_code){
         case 1: // circle
             mPrimitiveType = IAperturePrimitive::eCircle;
