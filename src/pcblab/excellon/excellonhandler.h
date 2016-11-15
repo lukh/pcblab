@@ -30,7 +30,7 @@ class ExcellonHandler: ExcellonParser
     protected:
         // <<< --- Implementation of ExcellonParser
         /// create a new tool
-        virtual void addTool();
+        virtual void addTool(uint8_t inIdx, double inHoleSize, double inInfeedRate, double inSpindleRate);
 
         /// create a new hole
         virtual void addHole();

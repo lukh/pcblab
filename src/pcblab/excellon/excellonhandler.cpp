@@ -89,7 +89,7 @@ void ExcellonHandler::close()
     //TODO: RESET TOOLS AND HOLES list
 }
 
-void ExcellonHandler::addTool()
+void ExcellonHandler::addTool(uint8_t inIdx, double inHoleSize, double inInfeedRate, double inSpindleRate)
 {
 
 }

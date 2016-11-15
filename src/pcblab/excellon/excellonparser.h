@@ -30,7 +30,9 @@ class ExcellonParser
 
         // <<< --- Interface of ExcellonParser
         /// create a new tool
-        virtual void addTool() = 0;
+        /// inHoleSize is in um or mils, and inInfeedRate is in inches/min or mm/s
+        /// spindle rate is in RPM
+        virtual void addTool(uint8_t inIdx, double inHoleSize, double inInfeedRate, double inSpindleRate) = 0;
 
         /// create a new hole
         virtual void addHole() = 0;
