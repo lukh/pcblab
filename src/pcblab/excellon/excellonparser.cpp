@@ -114,6 +114,7 @@ void ExcellonParser::eatLine(istream &inStream)
 
 bool ExcellonParser::parseMCode(istream &inStream, bool &outEndOfProgram)
 {
+    bool status = true;
     // to get the char and be sure it is the right code
     if(inStream.get() != 'M'){
         return false;
@@ -172,15 +173,16 @@ bool ExcellonParser::parseMCode(istream &inStream, bool &outEndOfProgram)
 
             default:
                 err_printf("ExcellonParser::parseMCode: (WARNING): M code not implemented");
-                break;
+                status = false;
         }
     }
 
-    return true;
+    return status;
 }
 
 bool ExcellonParser::parseGCode(istream &inStream)
 {
+    bool status = true;
     // to get the char and be sure it is the right code
     if(inStream.get() != 'M'){
         return false;
@@ -198,14 +200,16 @@ bool ExcellonParser::parseGCode(istream &inStream)
 
         case 93:
             err_printf("ExcellonParser::parseGCode: (WARNING): G code 93 (zero set) not implemented");
+            status = false;
             break;
 
         default:
             err_printf("ExcellonParser::parseGCode: (WARNING): G code not implemented");
+            status = false;
             break;
     }
 
-    return true;
+    return status;
 }
 
 bool ExcellonParser::parseTCode(istream &inStream)
