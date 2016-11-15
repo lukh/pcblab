@@ -128,3 +128,7 @@ void ExcellonHandler::setOriginPoint(plPoint inPoint)
 {
 
 }
+
+void ExcellonHandler::setCurrentTool(uint8_t inToolIdx)
+{
+}

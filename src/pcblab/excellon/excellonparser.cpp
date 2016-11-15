@@ -220,6 +220,7 @@ bool ExcellonParser::parseGCode(istream &inStream)
 
 bool ExcellonParser::parseTCode(istream &inStream)
 {
+    bool isToolChange = true; //should be useless in most of the cases, because there are no params after a tool change
     bool status = true;
     uint8_t tool_idx = 0xFF;
 
@@ -256,6 +257,8 @@ bool ExcellonParser::parseTCode(istream &inStream)
                     status = false;
                 }
 
+                isToolChange = false;
+
                 break;}
 
             // infeed rate
@@ -276,6 +279,8 @@ bool ExcellonParser::parseTCode(istream &inStream)
                     status = false;
                 }
 
+                isToolChange = false;
+
                 break;}
             // spindle rate
             case 'S':{
@@ -290,6 +295,9 @@ bool ExcellonParser::parseTCode(istream &inStream)
                     err_printf("ERROR(ExcellonParser::parseTCode): Impossible to convert the tool spindle rate");
                     status = false;
                 }
+
+                isToolChange = false;
+
                 break;}
             default:
                 break;
@@ -297,7 +305,14 @@ bool ExcellonParser::parseTCode(istream &inStream)
         if(! status) { break; }
     }
 
-    addTool(tool_idx, diameter, infeed_rate, spindle_rate);
+    if(status){
+        if(isToolChange){
+            setCurrentTool(tool_idx);
+        }
+        else{
+            addTool(tool_idx, diameter, infeed_rate, spindle_rate);
+        }
+    }
 
     return status;
 }

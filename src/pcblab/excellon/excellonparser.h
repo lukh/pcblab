@@ -49,6 +49,8 @@ class ExcellonParser
         virtual void setCurrentPoint(plPoint inPoint) = 0;
 
         virtual void setOriginPoint(plPoint inPoint) = 0;
+
+        virtual void setCurrentTool(uint8_t inToolIdx) = 0;
         // >>>
 
 
