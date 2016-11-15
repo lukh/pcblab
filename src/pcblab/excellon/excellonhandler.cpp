@@ -94,7 +94,7 @@ void ExcellonHandler::addTool(uint8_t inIdx, double inHoleSize, double inInfeedR
 
 }
 
-void ExcellonHandler::addHole()
+void ExcellonHandler::addHole(const string &inRawX, const string &inRawY)
 {
 
 }

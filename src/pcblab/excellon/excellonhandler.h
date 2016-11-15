@@ -33,7 +33,7 @@ class ExcellonHandler: ExcellonParser
         virtual void addTool(uint8_t inIdx, double inHoleSize, double inInfeedRate, double inSpindleRate);
 
         /// create a new hole
-        virtual void addHole();
+        virtual void addHole(const string &inRawX, const string & inRawY);
 
 
         virtual void setSection(ExcellonState::eSection inSection);

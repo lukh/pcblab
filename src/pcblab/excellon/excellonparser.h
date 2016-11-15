@@ -35,8 +35,9 @@ class ExcellonParser
         virtual void addTool(uint8_t inIdx, double inHoleSize, double inInfeedRate, double inSpindleRate) = 0;
 
         /// create a new hole
-        virtual void addHole() = 0;
-
+        /// string are used because the parser doesn't know the state and therefore the LZ/TZ status
+        /// if string is null, then the coord is omitted
+        virtual void addHole(const string &inRawX, const string & inRawY) = 0;
 
         virtual void setSection(ExcellonState::eSection inSection) = 0;
 
