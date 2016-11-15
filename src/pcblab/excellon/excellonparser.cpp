@@ -80,6 +80,17 @@ bool ExcellonParser::parse(istream &inStream)
                 inStream.get();
                 break;
 
+
+
+            case 'X': //no breaks
+            case 'Y':{
+                if(!parseCoordinates(inStream)){
+                    return false;
+                }
+                break;}
+
+
+
             // unrecognized for now
             case 'R':
                 err_printf("ExcellonParser::parse: (WARNING) code R not implemented");
@@ -322,6 +333,38 @@ bool ExcellonParser::parseTCode(istream &inStream)
 
 bool ExcellonParser::parseCoordinates(istream &inStream)
 {
+    char read = 0;
+    string xy[2];
+    uint8_t idx = 0;
+    bool active = false;
+
+    string line = getLine(inStream);
+    stringstream ssline(line);
+
+
+    while((read = ssline.get()) != EOF){
+        switch(read){
+            case 'X':
+                active = true;
+                idx = 0;
+                break;
+            case 'Y':
+                active = true;
+                idx = 1;
+                break;
+
+            default:
+                if(active && read >= '0' && read <= '9'){
+                    xy[idx].push_back(read);
+                }
+                else{
+                    return false;
+                }
+                break;
+        }
+    }
+
+    addHole(xy[0], xy[1]);
     return true;
 }
 
