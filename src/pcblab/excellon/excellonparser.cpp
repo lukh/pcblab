@@ -28,6 +28,9 @@ bool ExcellonParser::parse(istream &inStream)
                 break;
 
             case 'G':
+                if(!parseGCode(inStream)){
+                    return false;
+                }
                 break;
 
             case 'T':
