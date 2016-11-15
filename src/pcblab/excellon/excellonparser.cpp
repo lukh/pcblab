@@ -283,7 +283,7 @@ bool ExcellonParser::parseTCode(istream &inStream)
                     str_num.push_back(ssline.get()); // fill the str
                 }
                 //complete with zeros
-                for(int i = 0; i < (3-str_num.size()); i ++){ str_num.push_back('0'); }
+                for(uint8_t i = 0; i < (3-str_num.size()); i ++){ str_num.push_back('0'); }
 
                 try{
                     infeed_rate = stringToDouble(str_num);
