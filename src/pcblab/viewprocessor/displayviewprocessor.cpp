@@ -9,7 +9,7 @@ DisplayViewProcessor::DisplayViewProcessor(PcbLab &inPcb, ICairoWidget *inCairoW
 void DisplayViewProcessor::init(uint32_t inWidth, uint32_t inHeight)
 {
     // /////////////////////////////
-    // init the renderer
+    // init the viewer
     // /////////////////////////////
     setup(inWidth, inHeight);
 }
