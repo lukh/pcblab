@@ -14,6 +14,7 @@ class IViewProcessor
 
         // accessors
         const CairoGerberRenderer &getGerberRenderer() { return mGerberRenderer; }
+        const CairoExcellonRenderer &getExcellonRenderer() { return mExcellonRenderer; }
 
         /// update layer color
         void updateLayerColor(string inIdentifier, Color inColor);

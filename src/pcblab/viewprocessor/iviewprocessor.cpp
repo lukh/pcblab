@@ -8,13 +8,23 @@ IViewProcessor::IViewProcessor(PcbLab &inPcb): mPcb(inPcb)
 
 void IViewProcessor::updateLayerColor(string inIdentifier, Color inColor)
 {
-    mGerberRenderer.setColor(inIdentifier, inColor);
+    if(inIdentifier.compare("NC Drill") == 0){
+        mExcellonRenderer.setColor(inColor);
+    }
+    else{
+        mGerberRenderer.setColor(inIdentifier, inColor);
+    }
     refresh();
 }
 
 void IViewProcessor::updateLayerTransparency(string inIdentifier, uint8_t inTransp)
 {
-    mGerberRenderer.setAlphaChannel(inIdentifier, inTransp);
+    if(inIdentifier.compare("NC Drill") == 0){
+        mExcellonRenderer.setTransparency(inTransp);
+    }
+    else{
+        mGerberRenderer.setAlphaChannel(inIdentifier, inTransp);
+    }
     refresh();
 }
 

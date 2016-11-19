@@ -77,7 +77,7 @@ void QPcbLabDisplayerWidget::updateLayersList(PcbLab &inPcb)
 {
     clearLayersList();
 
-
+    // gerber layers
     const GerberHandler &gerber = inPcb.getGerber();
     const CairoGerberRenderer &renderer = mProcessor->getGerberRenderer();
 
@@ -99,6 +99,22 @@ void QPcbLabDisplayerWidget::updateLayersList(PcbLab &inPcb)
         QObject::connect(conf, SIGNAL(transparencyUpdated(string, uint8_t)), this, SLOT(updateTransparency(string, uint8_t)));
         QObject::connect(conf, SIGNAL(colorUpdated(string, Color)), this, SLOT(updateColor(string, Color)));
     }
+
+
+    //nc drill
+    const CairoExcellonRenderer &exc_renderer = mProcessor->getExcellonRenderer();
+    QLayerConfigWidget *conf = new QLayerConfigWidget("NC Drill");
+    mLayersList.append(conf);
+
+    ui->layerConfigList->layout()->addWidget(conf);
+
+    conf->updateTransparency(exc_renderer.getTransparency());
+    conf->updateColor(exc_renderer.getColor());
+
+    QObject::connect(conf, SIGNAL(transparencyUpdated(string, uint8_t)), this, SLOT(updateTransparency(string, uint8_t)));
+    QObject::connect(conf, SIGNAL(colorUpdated(string, Color)), this, SLOT(updateColor(string, Color)));
+
+    // spacer
 
     QSpacerItem *verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
     ui->layerConfigList->layout()->addItem(verticalSpacer);

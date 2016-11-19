@@ -19,9 +19,17 @@ class IExcellonRenderer{
         /// changes transparency
         void setTransparency(uint8_t inTransp){ mTransparency = inTransp;}
 
+
+
+        Color getColor() const { return mColor; }
+
+        uint8_t getTransparency() const { return mTransparency; }
+
     protected:
         Color mColor;
         uint8_t mTransparency;
 };
 
 #endif // IEXCELLONRENDERER_H
+
+
