@@ -15,11 +15,12 @@ TEMPLATE = app
 
 INCLUDEPATH += ../src \
     ../src/pcblab/gerber \
+    ../src/pcblab/excellon \
     ../src/pcblab/viewprocessor \
     ../src/gui \
     ../src/gui/tools \
     ../src/gui/opencvwidget \
-    ../src/gui/cairogerberrenderer \
+    ../src/gui/cairorenderer \
     ../src/gui/cairowidget
 
 
@@ -40,12 +41,12 @@ SOURCES += \
     ../src/pcblab/gerber/gerberhandler.cpp \
     #../src/gui/processorwrapper.cpp \
     ../src/tools/fio.cpp \
-    ../src/gui/cairogerberrenderer/cgv_draws.cpp \
-    ../src/gui/cairogerberrenderer/cgv_arcs.cpp \
-    ../src/gui/cairogerberrenderer/cgb_regions.cpp \
-    ../src/gui/cairogerberrenderer/cgv_flashs.cpp \
+    ../src/gui/cairorenderer/cgv_draws.cpp \
+    ../src/gui/cairorenderer/cgv_arcs.cpp \
+    ../src/gui/cairorenderer/cgb_regions.cpp \
+    ../src/gui/cairorenderer/cgv_flashs.cpp \
     ../src/gui/cairoviewport/cairoviewport.cpp \
-    ../src/gui/cairogerberrenderer/cairogerberrenderer.cpp \
+    ../src/gui/cairorenderer/cairogerberrenderer.cpp \
     ../src/gui/icairoviewer.cpp \
     ../src/pcblab/viewprocessor/displayviewprocessor.cpp \
     ../src/gui/tools/qlayerconfigwidget.cpp \
@@ -58,6 +59,8 @@ SOURCES += \
     ../src/pcblab/gerber/gerberparser.cpp \
     ../src/pcblab/excellon/excellonstate.cpp \
     ../src/pcblab/excellon/excellonhandler.cpp \
+    ../src/gui/cairorenderer/cairoexcellonrenderer.cpp \
+    ../src/gui/cairorenderer/icairorenderer.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -66,7 +69,6 @@ HEADERS  += \
     ../src/pcblab/gerber/gerberlayer.h \
     ../src/pcblab/gerber/graphicobject.h \
     ../src/pcblab/gerber/graphicstate.h \
-    ../src/pcblab/gerber/igerberview.h \
     ../src/pcblab/common.h \
     ../src/gui/mainwindow.h \
     #../src/tests/pcblab/gerber/gerberlayertest.h \
@@ -79,7 +81,7 @@ HEADERS  += \
     #../src/gui/processorwrapper.h \
     ../src/config.h \
     ../src/gui/cairoviewport/cairoviewport.h \
-    ../src/gui/cairogerberrenderer/cairogerberrenderer.h \
+    ../src/gui/cairorenderer/cairogerberrenderer.h \
     ../src/gui/icairoviewer.h \
     ../src/pcblab/viewprocessor/displayviewprocessor.h \
     ../src/gui/tools/qdisplayer.h \
@@ -95,6 +97,10 @@ HEADERS  += \
     ../src/pcblab/gerber/gerberparser.h \
     ../src/pcblab/excellon/excellonstate.h \
     ../src/pcblab/excellon/excellonhandler.h \
+    ../src/gui/cairorenderer/cairoexcellonrenderer.h \
+    ../src/pcblab/gerber/igerberrenderer.h \
+    ../src/pcblab/excellon/iexcellonrenderer.h \
+    ../src/gui/cairorenderer/icairorenderer.h
 
 
 

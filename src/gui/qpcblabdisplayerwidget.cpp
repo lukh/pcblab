@@ -86,7 +86,7 @@ void QPcbLabDisplayerWidget::updateLayersList(PcbLab &inPcb)
     for(int32_t idx = layers_count-1; idx >= 0; idx--){
         bool status = false;
         string identifier = gerber.getLayerIdentifier(idx);
-        IGerberView::GraphicSettings gs = renderer.getGraphicSettings(identifier, status);
+        IGerberRenderer::GraphicSettings gs = renderer.getGraphicSettings(identifier, status);
 
         QLayerConfigWidget *conf = new QLayerConfigWidget(identifier);
         mLayersList.append(conf);

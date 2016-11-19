@@ -38,6 +38,15 @@ void ICairoViewer::initCairo(uint32_t inW, uint32_t inH)
     }
 }
 
+void ICairoViewer::clean()
+{
+    cairo_set_antialias(mContext, CAIRO_ANTIALIAS_BEST);
+
+    //clean...
+    cairo_set_source_rgb (mContext, 0, 0, 0);
+    cairo_paint (mContext);
+}
+
 plPoint ICairoViewer::getPointInSourceCoords(plPoint inImgCoord) const
 {
     if(mContext == NULL){

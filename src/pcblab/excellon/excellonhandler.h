@@ -41,8 +41,16 @@ class ExcellonHandler: ExcellonParser
                 Hole(): mTool(NULL){}
                 Hole(Tool *inTool, plPoint inPosition): mTool(inTool), mPosition(inPosition){}
 
+                const plPoint getPoint(){ return mPosition; }
+                const Tool getTool() {
+                    Tool t = *mTool;
+                    return t;
+                }
+
+            private:
                 Tool *mTool;
                 plPoint mPosition;
+
         };
 
 
@@ -57,6 +65,10 @@ class ExcellonHandler: ExcellonParser
         bool openExcellonLayer(const string &inFileName);
 
         void close();
+
+
+        vector <Hole> &getHoles() { return mHoles; }
+
 
 
     protected:

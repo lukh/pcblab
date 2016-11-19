@@ -2,21 +2,19 @@
 #define CAIROGERBERRENDERER_H
 
 
-#include "igerberview.h"
+#include "igerberrenderer.h"
 #include "icairoviewer.h"
+#include "icairorenderer.h"
 
 #include <cairo/cairo.h>
 
 
 /// Dedicated to render a gerberhandler on a cairo surface.
-class CairoGerberRenderer: public IGerberView
+class CairoGerberRenderer: public IGerberRenderer, public ICairoRenderer
 {
     public:
         CairoGerberRenderer();
         virtual ~CairoGerberRenderer();
-
-
-        void setViewer(ICairoViewer &mViewer);
 
 
         //<<< --- Implementation of IGerberView
@@ -55,12 +53,6 @@ class CairoGerberRenderer: public IGerberView
         /// update the actual context with a rotation in degree for the primitive
         virtual void setApertureRotation(double inAngle);
         //--- >>>
-
-
-    private:
-        cairo_t *mContext;
-
-
 };
 
 #endif // CAIROGERBERVIEWER_H

@@ -2,7 +2,7 @@
 
 #include <math.h>
 
-CairoGerberRenderer::CairoGerberRenderer(): IGerberView()
+CairoGerberRenderer::CairoGerberRenderer(): IGerberRenderer()
 {
 
 }
@@ -11,20 +11,10 @@ CairoGerberRenderer::~CairoGerberRenderer(){
 
 }
 
-void CairoGerberRenderer::setViewer(ICairoViewer &mViewer)
-{
-    mContext = mViewer.getContext();
-}
 
 void CairoGerberRenderer::drawAll(const GerberHandler &inGerber)
 {
     if(mContext == NULL){ return; }
-
-    cairo_set_antialias(mContext, CAIRO_ANTIALIAS_BEST);
-
-    //clean...
-    cairo_set_source_rgb (mContext, 0, 0, 0);
-    cairo_paint (mContext);
 
     //draw...
     uint8_t layers_cnt = inGerber.getLayersCount();

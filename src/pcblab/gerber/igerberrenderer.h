@@ -43,7 +43,7 @@ static const Color kDefaultColorList[kDefaultColorListSize] = {
     Color(255,255,255),
 };
 
-class IGerberView{
+class IGerberRenderer{
     public:
         /// Contains the settings for a layer
         class GraphicSettings{
@@ -71,8 +71,8 @@ class IGerberView{
 
 
     public:
-        IGerberView() {}
-        virtual ~IGerberView() {}
+        IGerberRenderer() {}
+        virtual ~IGerberRenderer() {}
 
         virtual void drawAll(const GerberHandler &inGerber) = 0;
         virtual void drawLayer(string inIdentifier, const GerberLayer *inLayer) = 0;

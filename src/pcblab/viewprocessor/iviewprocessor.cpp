@@ -36,13 +36,14 @@ void IViewProcessor::setup(uint32_t inWidth, uint32_t inHeight)
     mViewer.initCairo(rw, rh);
     mViewer.setRenderArea(r_real_hr);
     //reset the graphics settings
-    IGerberView::GraphicSettings::reset();
+    IGerberRenderer::GraphicSettings::reset();
 
 
     // /////////////////////////////
     // Connect the renderer
     // /////////////////////////////
     mGerberRenderer.setViewer(mViewer);
+    mExcellonRenderer.setViewer(mViewer);
 }
 
 plRectangle IViewProcessor::calculateZoom(double inZoomFactor, plPoint inPoint, plRectangle inRect)

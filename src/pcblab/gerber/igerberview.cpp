@@ -1,23 +1,23 @@
-#include "igerberview.h"
+#include "igerberrenderer.h"
 
-uint32_t IGerberView::GraphicSettings::sColorIdx = 0;
+uint32_t IGerberRenderer::GraphicSettings::sColorIdx = 0;
 
 
-void IGerberView::setAlphaChannel(string inLayerIdentifier, uint8_t inAlphaValue) {
+void IGerberRenderer::setAlphaChannel(string inLayerIdentifier, uint8_t inAlphaValue) {
     if(mGraphicSettingsMap.find(inLayerIdentifier) == mGraphicSettingsMap.end()){
         return;
     }
     mGraphicSettingsMap[inLayerIdentifier].mTransparency = inAlphaValue;
 }
 
-void IGerberView::setColor(string inLayerIdentifier, Color inColor) {
+void IGerberRenderer::setColor(string inLayerIdentifier, Color inColor) {
     if(mGraphicSettingsMap.find(inLayerIdentifier) == mGraphicSettingsMap.end()){
         return;
     }
     mGraphicSettingsMap[inLayerIdentifier].mColor = inColor;
 }
 
-IGerberView::GraphicSettings IGerberView::getGraphicSettings(string inLayerIdentifier, bool &outStatus) const{
+IGerberRenderer::GraphicSettings IGerberRenderer::getGraphicSettings(string inLayerIdentifier, bool &outStatus) const{
     if(mGraphicSettingsMap.find(inLayerIdentifier) == mGraphicSettingsMap.end()){
         outStatus = false;
         return GraphicSettings();

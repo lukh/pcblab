@@ -22,7 +22,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionOpenFolder_triggered()
 {
     //DO NOT COMMIT
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "D:/documents/projets/dev/pcblab/data", 0);
+    QString dir("D:\\documents\\projets\\dev\\pcblab\\data\\Factory"); // = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "D:/documents/projets/dev/pcblab/data", 0);
 
     string std_dir = dir.toStdString();
 

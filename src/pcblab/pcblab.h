@@ -22,7 +22,8 @@ class PcbLab
         void openFolder(const string &inFolderName, GerberHandler::ExtensionOrderList inOrder);
 
 
-        const GerberHandler &getGerber() { return mGerber; }
+        const GerberHandler &getGerber() const { return mGerber; }
+        ExcellonHandler &getExcellon() { return mExcellon; }
 
 
     private:

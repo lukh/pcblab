@@ -1,11 +1,18 @@
 #ifndef CAIROEXCELLONRENDERER_H
 #define CAIROEXCELLONRENDERER_H
 
+#include "iexcellonrenderer.h"
+#include "icairorenderer.h"
 
-class CairoExcellonRenderer
+class CairoExcellonRenderer: public IExcellonRenderer, public ICairoRenderer
 {
-public:
-    CairoExcellonRenderer();
+    public:
+        CairoExcellonRenderer();
+        virtual ~CairoExcellonRenderer() {}
+
+        //<<< --- Interface of IExcellon renderer
+        virtual void draw(ExcellonHandler &inExcellonHandler);
+        //--- >>>
 };
 
 #endif // CAIROEXCELLONRENDERER_H

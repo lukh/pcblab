@@ -2,7 +2,8 @@
 #define IVIEWPROCESSOR_H
 
 #include "pcblab/pcblab.h"
-#include "cairogerberrenderer.h"
+#include "cairogerberrenderer.h" //SHOULD BE THE INTERFACE
+#include "cairoexcellonrenderer.h" //SHOULD BE THE INTERFACE
 
 
 class IViewProcessor
@@ -58,6 +59,7 @@ class IViewProcessor
         ICairoViewer mViewer;
 
         CairoGerberRenderer mGerberRenderer;
+        CairoExcellonRenderer mExcellonRenderer;
 };
 
 #endif // IVIEWPROCESSOR_H

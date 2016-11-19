@@ -36,6 +36,8 @@ class ICairoViewer{
         /// resize the surface
         void initCairo(uint32_t inW, uint32_t inH);
 
+        void clean();
+
 
         // -----------------------------------------
         // dedicated to rendering transformations
