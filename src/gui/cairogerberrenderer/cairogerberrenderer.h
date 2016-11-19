@@ -9,11 +9,14 @@
 
 
 /// Dedicated to render a gerberhandler on a cairo surface.
-class CairoGerberRenderer: public IGerberView, public ICairoViewer
+class CairoGerberRenderer: public IGerberView
 {
     public:
         CairoGerberRenderer();
         virtual ~CairoGerberRenderer();
+
+
+        void setViewer(ICairoViewer &mViewer);
 
 
         //<<< --- Implementation of IGerberView
@@ -27,12 +30,6 @@ class CairoGerberRenderer: public IGerberView, public ICairoViewer
 
 
     private:
-        //<<< --- Implementation of ICairoView
-        virtual void applyRenderTransformation();
-        //--- >>>
-
-
-
         //<<< --- Implementation of IGerberView
         virtual void setLevelPolarity(GraphicState::eLevelPolarity inPol);
 
@@ -58,6 +55,10 @@ class CairoGerberRenderer: public IGerberView, public ICairoViewer
         /// update the actual context with a rotation in degree for the primitive
         virtual void setApertureRotation(double inAngle);
         //--- >>>
+
+
+    private:
+        cairo_t *mContext;
 
 
 };

@@ -28,15 +28,21 @@ void IViewProcessor::setup(uint32_t inWidth, uint32_t inHeight)
     );
 
     // /////////////////////////////
-    // init the renderer
+    // init the viewer
     // /////////////////////////////
     uint32_t rw = inWidth;
     uint32_t rh = inHeight;
 
-    mGerberRenderer.initCairo(rw, rh);
-    mGerberRenderer.setRenderArea(r_real_hr);
+    mViewer.initCairo(rw, rh);
+    mViewer.setRenderArea(r_real_hr);
     //reset the graphics settings
     IGerberView::GraphicSettings::reset();
+
+
+    // /////////////////////////////
+    // Connect the renderer
+    // /////////////////////////////
+    mGerberRenderer.setViewer(mViewer);
 }
 
 plRectangle IViewProcessor::calculateZoom(double inZoomFactor, plPoint inPoint, plRectangle inRect)

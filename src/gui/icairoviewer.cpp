@@ -121,9 +121,44 @@ plRectangle ICairoViewer::getRectInImgCoords(plRectangle inSourceRect) const
     return plRectangle(x1, y1, x2, y2);
 }
 
+void ICairoViewer::setRenderArea(const plRectangle &inRealWorldArea) {
+    mRenderArea = inRealWorldArea;
+    applyRenderTransformation();
+}
+
 
 void ICairoViewer::setRenderArea(plPoint p1, plPoint p2) {
     plRectangle r(p1, p2);
     setRenderArea(r);
 }
+
+
+void ICairoViewer::applyRenderTransformation()
+{
+    //reset...
+    cairo_identity_matrix (mContext);
+
+    // scale factor
+    double sx, sy;
+    sx = getWidth() / (mRenderArea.getTopRight().mX-mRenderArea.getBottomLeft().mX);
+    sy = getHeight() / (mRenderArea.getTopRight().mY-mRenderArea.getBottomLeft().mY);
+
+    //if(mPropMode == eKeepProportion){
+    if(sx < sy){ sy=sx; }
+    else { sx=sy; }
+    //}
+
+    double tx, ty;
+    tx = mRenderArea.getBottomLeft().mX * sx;
+    ty = mRenderArea.getBottomLeft().mY * sy;
+
+    /* translate the draw area before drawing.  We must translate the whole
+       drawing down an additional displayHeight to account for the negative
+       y flip done later */
+    cairo_translate (mContext, -tx, ty + getHeight());
+    /* scale the drawing by the specified scale factor (inverting y since
+        cairo y axis points down) */
+    cairo_scale (mContext, sx, -sy);
+}
+
 

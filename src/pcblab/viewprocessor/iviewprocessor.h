@@ -54,6 +54,9 @@ class IViewProcessor
 
     protected:
         PcbLab &mPcb;
+
+        ICairoViewer mViewer;
+
         CairoGerberRenderer mGerberRenderer;
 };
 

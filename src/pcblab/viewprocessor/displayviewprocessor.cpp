@@ -20,7 +20,8 @@ void DisplayViewProcessor::init(uint32_t inWidth, uint32_t inHeight)
 void DisplayViewProcessor::refresh()
 {
     mGerberRenderer.drawAll(mPcb.getGerber());
-    mCairoWidget->showImage(mGerberRenderer.getSurface());
+
+    mCairoWidget->showImage(mViewer.getSurface());
 }
 
 
@@ -33,38 +34,36 @@ void DisplayViewProcessor::zoom(bool inZoomIn, plPoint inPoint)
     if(inZoomIn) { zoomFactor = 1.2; }
     else { zoomFactor = 1/1.2; }
 
-    plRectangle rendererRect = mGerberRenderer.getRenderArea();
+    plRectangle rendererRect = mViewer.getRenderArea();
 
-    plPoint mousePos = mGerberRenderer.getPointInSourceCoords(inPoint);
+    plPoint mousePos = mViewer.getPointInSourceCoords(inPoint);
     rendererRect = calculateZoom(zoomFactor, mousePos, rendererRect);
 
-    mGerberRenderer.setRenderArea(rendererRect);
+    mViewer.setRenderArea(rendererRect);
 
     mGerberRenderer.drawAll(mPcb.getGerber());
 
-
-    mCairoWidget->showImage(mGerberRenderer.getSurface());
+    mCairoWidget->showImage(mViewer.getSurface());
 }
 
 void DisplayViewProcessor::move(double inDx, double inDy)
 {
     //convert dx, dy into real coordinates
-    mGerberRenderer.getVectorInSourceCoords(&inDx, &inDy);
+    mViewer.getVectorInSourceCoords(&inDx, &inDy);
 
-    plRectangle rect = mGerberRenderer.getRenderArea();
+    plRectangle rect = mViewer.getRenderArea();
 
     plRectangle n_rect = calculateMove(inDx, inDy, rect);
 
-    mGerberRenderer.setRenderArea(n_rect);
-
+    mViewer.setRenderArea(n_rect);
 
     mGerberRenderer.drawAll(mPcb.getGerber());
 
-    mCairoWidget->showImage(mGerberRenderer.getSurface());
+    mCairoWidget->showImage(mViewer.getSurface());
 }
 
 
 plPoint DisplayViewProcessor::convertCoordsFromImageToReal(plPoint inImgCoords)
 {
-    return mGerberRenderer.getPointInSourceCoords(inImgCoords);
+    return mViewer.getPointInSourceCoords(inImgCoords);
 }

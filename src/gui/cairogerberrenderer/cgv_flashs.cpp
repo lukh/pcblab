@@ -6,7 +6,7 @@
 
 void CairoGerberRenderer::drawFlash(GraphicObjectFlash *inFlash)
 {
-    if(!isViewerReady()){ return; }
+    if(mContext == NULL){ return; }
 
     if(inFlash == NULL){ return; }
 
@@ -263,7 +263,7 @@ void CairoGerberRenderer::drawAperturePrimitive_Thermal(APrimThermal *inThermal)
 
 void CairoGerberRenderer::setApertureExposure(IAperturePrimitive::eExposure inExposure)
 {
-    if(!isViewerReady()){ return; }
+    if(mContext == NULL){ return; }
 
     if(inExposure == IAperturePrimitive::eExposureOn){
         cairo_set_operator (mContext, CAIRO_OPERATOR_OVER);
@@ -275,7 +275,7 @@ void CairoGerberRenderer::setApertureExposure(IAperturePrimitive::eExposure inEx
 
 void CairoGerberRenderer::setApertureRotation(double inAngle)
 {
-    if(!isViewerReady()){ return; }
+    if(mContext == NULL){ return; }
 
     cairo_rotate(mContext, inAngle * M_PI / 180.0);
 }
