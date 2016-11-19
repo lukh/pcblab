@@ -39,6 +39,11 @@ plPoint ExcellonState::getOriginPoint() const
     return mOriginPoint;
 }
 
+uint8_t ExcellonState::getCurrentToolIdx() const
+{
+    return mCurrentToolIdx;
+}
+
 void ExcellonState::setSection(eSection inSection)
 {
     mSection = inSection;
@@ -67,6 +72,11 @@ void ExcellonState::setCurrentPoint(plPoint inPoint)
 void ExcellonState::setOriginPoint(plPoint inPoint)
 {
     mOriginPoint = inPoint;
+}
+
+void ExcellonState::setCurrentToolIdx(const uint8_t &currentToolIdx)
+{
+    mCurrentToolIdx = currentToolIdx;
 }
 
 

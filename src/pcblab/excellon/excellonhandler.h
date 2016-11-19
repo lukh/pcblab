@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <map>
 
 #include "tools/fio.h"
 
@@ -15,6 +16,37 @@ using namespace std;
 
 class ExcellonHandler: ExcellonParser
 {
+    public:
+        class Tool{
+            public:
+                Tool() {}
+                Tool(uint8_t inIdx, double inDia, double inSpindleRate, double inInfeedRate):
+                    mIdx(inIdx), mDiameter(inDia), mSpindleRate(inSpindleRate), mInfeedRate(inInfeedRate) {}
+
+
+                uint8_t mIdx;
+
+                /// in mm(um ???) or mils
+                double mDiameter;
+
+                /// in RPM
+                double mSpindleRate;
+
+                /// in mm/s or in/min
+                double mInfeedRate;
+        };
+
+        class Hole{
+            public:
+                Hole(): mTool(NULL){}
+                Hole(Tool *inTool, plPoint inPosition): mTool(inTool), mPosition(inPosition){}
+
+                Tool *mTool;
+                plPoint mPosition;
+        };
+
+
+
     public:
         ExcellonHandler();
         virtual ~ExcellonHandler();
@@ -44,8 +76,6 @@ class ExcellonHandler: ExcellonParser
 
         virtual void setCoordMode(ExcellonState::eCoordinatesMode inCoordMode);
 
-        virtual void setCurrentPoint(plPoint inPoint);
-
         virtual void setOriginPoint(plPoint inPoint);
 
         virtual void setCurrentTool(uint8_t inToolIdx);
@@ -54,6 +84,9 @@ class ExcellonHandler: ExcellonParser
 
     private:
         ExcellonState mState;
+
+        map <uint8_t, Tool> mTools;
+        vector <Hole> mHoles;
 };
 
 #endif // EXCELLONHANDLER_H

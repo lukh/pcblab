@@ -30,7 +30,7 @@ class ExcellonParser
 
         // <<< --- Interface of ExcellonParser
         /// create a new tool
-        /// inHoleSize is in um or mils, and inInfeedRate is in inches/min or mm/s
+        /// inHoleSize is in mm or mils, and inInfeedRate is in inches/min or mm/s
         /// spindle rate is in RPM
         virtual void addTool(uint8_t inIdx, double inHoleSize, double inInfeedRate, double inSpindleRate) = 0;
 
@@ -46,8 +46,6 @@ class ExcellonParser
         virtual void setNumberFormat(ExcellonState::eNumberFormat inFormat) = 0;
 
         virtual void setCoordMode(ExcellonState::eCoordinatesMode inCoordMode) = 0;
-
-        virtual void setCurrentPoint(plPoint inPoint) = 0;
 
         virtual void setOriginPoint(plPoint inPoint) = 0;
 

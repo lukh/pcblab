@@ -31,6 +31,7 @@ class ExcellonState
         };
 
 
+
     public:
         ExcellonState();
 
@@ -48,6 +49,8 @@ class ExcellonState
 
         plPoint getOriginPoint() const;
 
+        uint8_t getCurrentToolIdx() const;
+
 
         void setSection(eSection inSection);
 
@@ -61,6 +64,7 @@ class ExcellonState
 
         void setOriginPoint(plPoint inPoint);
 
+        void setCurrentToolIdx(const uint8_t &currentToolIdx);
 
     private:
         eSection mSection;
@@ -70,6 +74,8 @@ class ExcellonState
 
         plPoint mCurrentPoint;
         plPoint mOriginPoint;
+
+        uint8_t mCurrentToolIdx;
 };
 
 #endif // EXCELLONSTATE_H
