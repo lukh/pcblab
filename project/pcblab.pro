@@ -61,6 +61,7 @@ SOURCES += \
     ../src/pcblab/excellon/excellonhandler.cpp \
     ../src/gui/cairorenderer/cairoexcellonrenderer.cpp \
     ../src/gui/cairorenderer/icairorenderer.cpp
+    ../src/tools/stringoperations.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -76,7 +77,6 @@ HEADERS  += \
     ../src/pcblab/gerber/aperture/aperturemodifier.h \
     ../src/pcblab/gerber/aperture/apertureprimitive.h \
     ../src/tools/exprparser.h \
-    ../src/tools/stringsplitter.h \
     ../src/pcblab/pcblab.h \
     #../src/gui/processorwrapper.h \
     ../src/config.h \
@@ -101,6 +101,7 @@ HEADERS  += \
     ../src/pcblab/gerber/igerberrenderer.h \
     ../src/pcblab/excellon/iexcellonrenderer.h \
     ../src/gui/cairorenderer/icairorenderer.h
+    ../src/tools/stringoperations.h
 
 
 

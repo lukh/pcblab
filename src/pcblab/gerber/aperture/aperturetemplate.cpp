@@ -1,6 +1,6 @@
 #include "aperturetemplate.h"
 #include "../../../tools/exprparser.h"
-#include "../../../tools/stringsplitter.h"
+#include "../../../tools/stringoperations.h"
 // ------------------------------- CMD -----------------------------
 
 ATCmdVarDef::ATCmdVarDef(const string &inVariableDef): ATCommand() {

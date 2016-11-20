@@ -7,7 +7,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
-#include "stringsplitter.h"
+#include "stringoperations.h"
 
 using namespace std;
 

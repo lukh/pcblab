@@ -1,5 +1,5 @@
 #include "excellonparser.h"
-#include "tools/stringsplitter.h"
+#include "tools/stringoperations.h"
 
 ExcellonParser::ExcellonParser()
 {
