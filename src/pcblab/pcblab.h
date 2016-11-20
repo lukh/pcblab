@@ -7,6 +7,7 @@
 
 #include "gerber/gerberhandler.h"
 #include "excellon/excellonhandler.h"
+#include "bom/componenthandler.h"
 
 using namespace std;
 
@@ -24,11 +25,13 @@ class PcbLab
 
         const GerberHandler &getGerber() const { return mGerber; }
         ExcellonHandler &getExcellon() { return mExcellon; }
+        ComponentHandler &getBOMHandler() { return mComponent; }
 
 
     private:
         GerberHandler mGerber;
         ExcellonHandler mExcellon;
+        ComponentHandler mComponent;
 
 };
 

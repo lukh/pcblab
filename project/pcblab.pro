@@ -60,7 +60,11 @@ SOURCES += \
     ../src/pcblab/excellon/excellonstate.cpp \
     ../src/pcblab/excellon/excellonhandler.cpp \
     ../src/gui/cairorenderer/cairoexcellonrenderer.cpp \
-    ../src/gui/cairorenderer/icairorenderer.cpp
+    ../src/gui/cairorenderer/icairorenderer.cpp \
+    ../src/pcblab/bom/bomparser.cpp \
+    ../src/pcblab/bom/componenthandler.cpp \
+    ../src/pcblab/bom/pnpparser.cpp \
+    ../src/tools/csvparser.cpp \
     ../src/tools/stringoperations.cpp
 
 HEADERS  += \
@@ -100,7 +104,12 @@ HEADERS  += \
     ../src/gui/cairorenderer/cairoexcellonrenderer.h \
     ../src/pcblab/gerber/igerberrenderer.h \
     ../src/pcblab/excellon/iexcellonrenderer.h \
-    ../src/gui/cairorenderer/icairorenderer.h
+    ../src/gui/cairorenderer/icairorenderer.h \
+    ../src/tools/csvparser.h \
+    ../src/pcblab/bom/bomparser.h \
+    ../src/pcblab/bom/componenthandler.h \
+    ../src/pcblab/bom/component.h \
+    ../src/pcblab/bom/pnpparser.h \
     ../src/tools/stringoperations.h
 
 
