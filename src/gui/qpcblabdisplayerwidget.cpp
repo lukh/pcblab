@@ -35,7 +35,7 @@ void QPcbLabDisplayerWidget::init(PcbLab &inPcb)
     }
 
     mProcessor = new DisplayViewProcessor(inPcb, ui->cairoWidget);
-    mProcessor->init(1000, 600);
+    mProcessor->init(ui->cairoWidget->width(), ui->cairoWidget->height());
 
     mProcessor->refresh();
     updateLayersList(inPcb);
@@ -145,4 +145,14 @@ void QPcbLabDisplayerWidget::clearLayersList()
 
     mLayersList.clear();
 }
+
+void QPcbLabDisplayerWidget::resizeEvent(QResizeEvent * event)
+{
+    if(mProcessor != NULL){
+        mProcessor->init(ui->cairoWidget->width(), ui->cairoWidget->height());
+        mProcessor->refresh();
+    }
+}
+
+
 

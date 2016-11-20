@@ -37,6 +37,9 @@ class QPcbLabDisplayerWidget : public QWidget
         void updateLayersList(PcbLab &inPcb);
         void clearLayersList();
 
+    protected:
+        virtual void resizeEvent(QResizeEvent *event);
+
     private:
         Ui::QPcbLabDisplayerWidget *ui;
 
