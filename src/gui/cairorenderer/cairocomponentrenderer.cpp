@@ -70,7 +70,7 @@ void CairoComponentRenderer::drawComponent(const Component &inCompo)
 
     if(!mAllComponents){
         // radius
-        double ux=50, uy=50;
+        double ux=30, uy=30;
         cairo_device_to_user_distance (mContext, &ux, &uy);
         if (ux < uy){ ux = uy; }
         double radius = ux;
