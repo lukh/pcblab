@@ -28,7 +28,7 @@ class ComponentHandler
 
         void close();
 
-        Components &getComponents() { return mComponents; }
+        const Components &getComponents() const { return mComponents; }
 
     private:
         BomParser mBOM;

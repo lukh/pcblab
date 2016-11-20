@@ -114,6 +114,19 @@ void QPcbLabDisplayerWidget::updateLayersList(PcbLab &inPcb)
     QObject::connect(conf, SIGNAL(transparencyUpdated(string, uint8_t)), this, SLOT(updateTransparency(string, uint8_t)));
     QObject::connect(conf, SIGNAL(colorUpdated(string, Color)), this, SLOT(updateColor(string, Color)));
 
+    //Components
+    const CairoComponentRenderer &compo_renderer = mProcessor->getComponentRenderer();
+    conf = new QLayerConfigWidget("Components");
+    mLayersList.append(conf);
+
+    ui->layerConfigList->layout()->addWidget(conf);
+
+    conf->updateTransparency(compo_renderer.getTransparency());
+    conf->updateColor(compo_renderer.getColor());
+
+    QObject::connect(conf, SIGNAL(transparencyUpdated(string, uint8_t)), this, SLOT(updateTransparency(string, uint8_t)));
+    QObject::connect(conf, SIGNAL(colorUpdated(string, Color)), this, SLOT(updateColor(string, Color)));
+
     // spacer
 
     QSpacerItem *verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);

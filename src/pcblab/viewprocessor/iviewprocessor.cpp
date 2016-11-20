@@ -11,6 +11,9 @@ void IViewProcessor::updateLayerColor(string inIdentifier, Color inColor)
     if(inIdentifier.compare("NC Drill") == 0){
         mExcellonRenderer.setColor(inColor);
     }
+    else if(inIdentifier.compare("Components") == 0){
+        mComponentRenderer.setColor(inColor);
+    }
     else{
         mGerberRenderer.setColor(inIdentifier, inColor);
     }
@@ -21,6 +24,9 @@ void IViewProcessor::updateLayerTransparency(string inIdentifier, uint8_t inTran
 {
     if(inIdentifier.compare("NC Drill") == 0){
         mExcellonRenderer.setTransparency(inTransp);
+    }
+    else if(inIdentifier.compare("Components") == 0){
+        mComponentRenderer.setTransparency(inTransp);
     }
     else{
         mGerberRenderer.setAlphaChannel(inIdentifier, inTransp);
@@ -54,6 +60,7 @@ void IViewProcessor::setup(uint32_t inWidth, uint32_t inHeight)
     // /////////////////////////////
     mGerberRenderer.setViewer(mViewer);
     mExcellonRenderer.setViewer(mViewer);
+    mComponentRenderer.setViewer(mViewer);
 }
 
 plRectangle IViewProcessor::calculateZoom(double inZoomFactor, plPoint inPoint, plRectangle inRect)

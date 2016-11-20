@@ -30,7 +30,6 @@ class ICairoViewer{
         cairo_surface_t *getSurface() const { return mSurface; }
         cairo_t *getContext() const { return mContext; }
 
-
         void deinitCairo();
 
         /// resize the surface
@@ -72,10 +71,6 @@ class ICairoViewer{
 
         ///defines the area rendered on the surface
         plRectangle mRenderArea;
-
-
-
-
 };
 
 

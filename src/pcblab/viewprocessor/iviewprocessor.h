@@ -4,6 +4,7 @@
 #include "pcblab/pcblab.h"
 #include "cairogerberrenderer.h" //SHOULD BE THE INTERFACE
 #include "cairoexcellonrenderer.h" //SHOULD BE THE INTERFACE
+#include "cairocomponentrenderer.h" //SHOULD BE THE INTERFACE
 
 
 class IViewProcessor
@@ -15,6 +16,7 @@ class IViewProcessor
         // accessors
         const CairoGerberRenderer &getGerberRenderer() { return mGerberRenderer; }
         const CairoExcellonRenderer &getExcellonRenderer() { return mExcellonRenderer; }
+        const CairoComponentRenderer &getComponentRenderer() { return mComponentRenderer; }
 
         /// update layer color
         void updateLayerColor(string inIdentifier, Color inColor);
@@ -61,6 +63,7 @@ class IViewProcessor
 
         CairoGerberRenderer mGerberRenderer;
         CairoExcellonRenderer mExcellonRenderer;
+        CairoComponentRenderer mComponentRenderer;
 };
 
 #endif // IVIEWPROCESSOR_H

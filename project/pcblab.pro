@@ -16,6 +16,7 @@ TEMPLATE = app
 INCLUDEPATH += ../src \
     ../src/pcblab/gerber \
     ../src/pcblab/excellon \
+    ../src/pcblab/bom \
     ../src/pcblab/viewprocessor \
     ../src/gui \
     ../src/gui/tools \
@@ -65,7 +66,9 @@ SOURCES += \
     ../src/pcblab/bom/componenthandler.cpp \
     ../src/pcblab/bom/pnpparser.cpp \
     ../src/tools/csvparser.cpp \
-    ../src/tools/stringoperations.cpp
+    ../src/tools/stringoperations.cpp \
+    ../src/gui/cairorenderer/cairocomponentrenderer.cpp \
+    ../src/pcblab/bom/icomponentrenderer.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -110,7 +113,9 @@ HEADERS  += \
     ../src/pcblab/bom/componenthandler.h \
     ../src/pcblab/bom/component.h \
     ../src/pcblab/bom/pnpparser.h \
-    ../src/tools/stringoperations.h
+    ../src/tools/stringoperations.h \
+    ../src/gui/cairorenderer/cairocomponentrenderer.h \
+    ../src/pcblab/bom/icomponentrenderer.h
 
 
 
