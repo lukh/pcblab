@@ -68,7 +68,9 @@ SOURCES += \
     ../src/tools/csvparser.cpp \
     ../src/tools/stringoperations.cpp \
     ../src/gui/cairorenderer/cairocomponentrenderer.cpp \
-    ../src/pcblab/bom/icomponentrenderer.cpp
+    ../src/pcblab/bom/icomponentrenderer.cpp \
+    ../src/gui/componentdisplayerwidget.cpp \
+    ../src/gui/componentparametersdisplayer.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -115,7 +117,9 @@ HEADERS  += \
     ../src/pcblab/bom/pnpparser.h \
     ../src/tools/stringoperations.h \
     ../src/gui/cairorenderer/cairocomponentrenderer.h \
-    ../src/pcblab/bom/icomponentrenderer.h
+    ../src/pcblab/bom/icomponentrenderer.h \
+    ../src/gui/componentdisplayerwidget.h \
+    ../src/gui/componentparametersdisplayer.h
 
 
 
@@ -168,7 +172,8 @@ INCLUDEPATH += \
 
 FORMS += \
     ../src/gui/mainwindow.ui \
-    ../src/gui/qpcblabdisplayerwidget.ui
+    ../src/gui/qpcblabdisplayerwidget.ui \
+    ../src/gui/componentdisplayerwidget.ui
 
 DISTFILES += \
     ../doc/the_gerber_file_format_specification.pdf \

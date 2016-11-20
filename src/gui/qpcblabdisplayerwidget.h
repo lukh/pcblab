@@ -33,6 +33,9 @@ class QPcbLabDisplayerWidget : public QWidget
         void updateColor(string inIdentifier, Color inColor);
         void updateTransparency(string inIdentifier, uint8_t inTransp);
 
+
+        void updateCurrentComponent(string inDes);
+
     private:
         void updateLayersList(PcbLab &inPcb);
         void clearLayersList();

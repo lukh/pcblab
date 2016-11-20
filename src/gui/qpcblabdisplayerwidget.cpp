@@ -15,6 +15,8 @@ QPcbLabDisplayerWidget::QPcbLabDisplayerWidget(QWidget *parent) :
     QObject::connect(ui->cairoWidget, SIGNAL(moved(double, double)), this, SLOT(updateMove(double, double)));
     QObject::connect(ui->cairoWidget, SIGNAL(zoomed(bool, plPoint)), this, SLOT(updateZoom(bool, plPoint)));
     QObject::connect(ui->cairoWidget, SIGNAL(cursor(plPoint)), this, SLOT(updateCursor(plPoint)));
+
+    QObject::connect(ui->componentDisplayer, SIGNAL(componentUpdated(string)), this, SLOT(updateCurrentComponent(string)));
 }
 
 QPcbLabDisplayerWidget::~QPcbLabDisplayerWidget()
@@ -38,7 +40,12 @@ void QPcbLabDisplayerWidget::init(PcbLab &inPcb)
     mProcessor->init(ui->cairoWidget->width(), ui->cairoWidget->height());
 
     mProcessor->refresh();
+
     updateLayersList(inPcb);
+
+    vector <string> des_list;
+    inPcb.getComponents().getDesignatorsList(des_list);
+    ui->componentDisplayer->setDesignatorList(des_list);
 }
 
 
@@ -71,6 +78,15 @@ void QPcbLabDisplayerWidget::updateColor(string inIdentifier, Color inColor)
 void QPcbLabDisplayerWidget::updateTransparency(string inIdentifier, uint8_t inTransp)
 {
     mProcessor->updateLayerTransparency(inIdentifier, inTransp);
+}
+
+void QPcbLabDisplayerWidget::updateCurrentComponent(string inDes)
+{
+    Component compo;
+    if(mProcessor->getComponent(inDes, compo)){
+        ui->componentDisplayer->displayComponent(compo);
+        mProcessor->displayComponent(inDes);
+    }
 }
 
 void QPcbLabDisplayerWidget::updateLayersList(PcbLab &inPcb)

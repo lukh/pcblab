@@ -16,13 +16,19 @@ class IViewProcessor
         // accessors
         const CairoGerberRenderer &getGerberRenderer() { return mGerberRenderer; }
         const CairoExcellonRenderer &getExcellonRenderer() { return mExcellonRenderer; }
-        const CairoComponentRenderer &getComponentRenderer() { return mComponentRenderer; }
+        CairoComponentRenderer &getComponentRenderer() { return mComponentRenderer; }
 
         /// update layer color
         void updateLayerColor(string inIdentifier, Color inColor);
 
         /// update layer transparency
         void updateLayerTransparency(string inIdentifier, uint8_t inTransp);
+
+        // return a component from its designator. SHOULD IT BE HERE
+        bool getComponent(string inDesignator, Component &outCompo);
+
+        /// display a component
+        void displayComponent(string inDesignator);
 
 
         void setup(uint32_t inWidth, uint32_t inHeight);

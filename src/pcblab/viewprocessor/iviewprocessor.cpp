@@ -2,7 +2,6 @@
 
 IViewProcessor::IViewProcessor(PcbLab &inPcb): mPcb(inPcb)
 {
-
 }
 
 
@@ -31,6 +30,18 @@ void IViewProcessor::updateLayerTransparency(string inIdentifier, uint8_t inTran
     else{
         mGerberRenderer.setAlphaChannel(inIdentifier, inTransp);
     }
+    refresh();
+}
+
+bool IViewProcessor::getComponent(string inDesignator, Component &outCompo)
+{
+    return mPcb.getComponents().getComponent(inDesignator, outCompo);
+}
+
+void IViewProcessor::displayComponent(string inDesignator)
+{
+    mComponentRenderer.clearActiveComponents();
+    mComponentRenderer.addComponent(inDesignator);
     refresh();
 }
 

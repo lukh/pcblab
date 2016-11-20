@@ -119,3 +119,15 @@ void ComponentHandler::getSortedAndGroupedDesignatorsList(vector<string> inDesPr
 
 }
 
+bool ComponentHandler::getComponent(const string &inDes, Component &outComponent)
+{
+    Components::const_iterator it = mComponents.find(inDes);
+    if(it == mComponents.end()){
+        return false;
+    }
+    else{
+        outComponent = mComponents[inDes];
+        return true;
+    }
+}
+

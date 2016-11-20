@@ -25,6 +25,8 @@ class QDisplayer : public QWidget
             setLayout(layout);
 
             mName->setStyleSheet("font-weight: bold;");
+
+            setMinimumHeight(80);
         }
 
         QDisplayer(QString inName, QWidget *parent = 0): QDisplayer(parent) {
@@ -47,6 +49,8 @@ class QDisplayer : public QWidget
         void update(int inValue){
             mValue->setText(QString::number(inValue));
         }
+
+        void update(QString inStr){ mValue->setText(inStr); }
 
         void update(plPoint inValue){
             QString text;

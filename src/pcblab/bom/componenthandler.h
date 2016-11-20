@@ -34,6 +34,8 @@ class ComponentHandler
 
         void getSortedAndGroupedDesignatorsList(vector<string> inDesPrefix, vector <string> & outDesList) const;
 
+        bool getComponent(const string &inDes, Component &outComponent);
+
     private:
         BomParser mBOM;
         PnpParser mPNP;
