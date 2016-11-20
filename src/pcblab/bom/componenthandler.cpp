@@ -106,3 +106,16 @@ void ComponentHandler::close()
     mComponents.clear();
 }
 
+void ComponentHandler::getDesignatorsList(vector<string> &outDesList) const
+{
+    outDesList.clear();
+    for(Components::const_iterator it = mComponents.begin(); it != mComponents.end(); ++it){
+        outDesList.push_back(it->first);
+    }
+}
+
+void ComponentHandler::getSortedAndGroupedDesignatorsList(vector<string> inDesPrefix, vector<string> &outDesList) const
+{
+
+}
+

@@ -30,6 +30,10 @@ class ComponentHandler
 
         const Components &getComponents() const { return mComponents; }
 
+        void getDesignatorsList(vector <string> & outDesList) const;
+
+        void getSortedAndGroupedDesignatorsList(vector<string> inDesPrefix, vector <string> & outDesList) const;
+
     private:
         BomParser mBOM;
         PnpParser mPNP;
