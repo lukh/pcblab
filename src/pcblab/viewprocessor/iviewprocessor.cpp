@@ -40,8 +40,7 @@ bool IViewProcessor::getComponent(string inDesignator, Component &outCompo)
 
 void IViewProcessor::displayComponent(string inDesignator)
 {
-    mComponentRenderer.clearActiveComponents();
-    mComponentRenderer.addComponent(inDesignator);
+    mComponentRenderer.setActiveComponent(inDesignator);
     refresh();
 }
 
