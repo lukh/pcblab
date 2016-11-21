@@ -70,7 +70,7 @@ void CairoComponentRenderer::drawComponent(const Component &inCompo)
 
     if(!mAllComponents){
         // radius
-        double ux=30, uy=30;
+        double ux=20, uy=20;
         cairo_device_to_user_distance (mContext, &ux, &uy);
         if (ux < uy){ ux = uy; }
         double radius = ux;
@@ -82,8 +82,25 @@ void CairoComponentRenderer::drawComponent(const Component &inCompo)
         double width = ux;
         cairo_set_line_width(mContext, width);
 
+        // draw a cirle
         cairo_move_to(mContext, pos.mX+radius, pos.mY);
         cairo_arc(mContext, pos.mX, pos.mY, radius, 0, 2*M_PI);
+
+        //draw a cross around
+        ux = 100; uy = 100;
+        cairo_device_to_user_distance (mContext, &ux, &uy);
+        if (ux < uy){ ux = uy; }
+        double cross = ux;
+
+        cairo_move_to(mContext, pos.mX - cross, pos.mY);
+        cairo_line_to(mContext, pos.mX - radius, pos.mY);
+        cairo_move_to(mContext, pos.mX + cross, pos.mY);
+        cairo_line_to(mContext, pos.mX + radius, pos.mY);
+
+        cairo_move_to(mContext, pos.mX, pos.mY - cross);
+        cairo_line_to(mContext, pos.mX, pos.mY - radius);
+        cairo_move_to(mContext, pos.mX, pos.mY + cross);
+        cairo_line_to(mContext, pos.mX, pos.mY + radius);
 
         cairo_stroke(mContext);
     }

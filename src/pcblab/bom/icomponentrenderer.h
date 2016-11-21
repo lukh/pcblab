@@ -12,7 +12,7 @@ using namespace std;
 class IComponentRenderer
 {
     public:
-        IComponentRenderer(): mColor(255, 255, 0), mTransparency(255), mAllComponents(false) {}
+        IComponentRenderer(): mColor(0, 230, 230), mTransparency(255), mAllComponents(false) {}
         virtual ~IComponentRenderer() {}
 
         //<<< ---
