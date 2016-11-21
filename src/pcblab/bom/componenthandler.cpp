@@ -68,7 +68,6 @@ bool ComponentHandler::openFolder(const string &inFolderName)
 bool ComponentHandler::openBomLayer(const string &inFileName, Components &outComponents)
 {
     ifstream fs;
-    close();
 
     fs.open(inFileName);
     if(! fs.is_open()){
@@ -86,7 +85,6 @@ bool ComponentHandler::openBomLayer(const string &inFileName, Components &outCom
 bool ComponentHandler::openPnpLayer(const string &inFileName, Components &outComponents)
 {
     ifstream fs;
-    close();
 
     fs.open(inFileName);
     if(! fs.is_open()){
