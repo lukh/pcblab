@@ -5,8 +5,11 @@
 #include <vector>
 
 #include <QWidget>
+#include <QHBoxLayout>
 
 #include "component.h"
+
+#include "qdisplayer.h"
 
 namespace Ui {
 class ComponentDisplayerWidget;
@@ -37,6 +40,8 @@ class ComponentDisplayerWidget : public QWidget
 
         vector <string> mDesList;
         vector <string>::iterator mDesIterator;
+
+        vector <QDisplayer *> mDisplayerList;
 };
 
 #endif // COMPONENTDISPLAYERWIDGET_H

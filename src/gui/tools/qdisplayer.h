@@ -5,7 +5,7 @@
 #include <QString>
 #include <QLabel>
 #include <QHBoxLayout>
-
+#include <QSpacerItem>
 
 #include "pcblab/common.h"
 
@@ -25,8 +25,6 @@ class QDisplayer : public QWidget
             setLayout(layout);
 
             mName->setStyleSheet("font-weight: bold;");
-
-            setMinimumHeight(80);
         }
 
         QDisplayer(QString inName, QWidget *parent = 0): QDisplayer(parent) {

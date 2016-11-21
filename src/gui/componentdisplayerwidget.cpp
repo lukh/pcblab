@@ -7,9 +7,7 @@ ComponentDisplayerWidget::ComponentDisplayerWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->desisgnatorDisplayer->setName("Designator");
-    ui->positionDisplayer->setName("Position");
-    ui->rotationDisplayer->setName("Rotation");
+    setMinimumHeight(150);
 }
 
 ComponentDisplayerWidget::~ComponentDisplayerWidget()
@@ -24,12 +22,40 @@ void ComponentDisplayerWidget::setDesignatorList(vector<string> inList){
 
 void ComponentDisplayerWidget::displayComponent(Component &inComponent)
 {
-    ui->desisgnatorDisplayer->update(QString::fromStdString(inComponent.getDesignator()));
-    ui->positionDisplayer->update(inComponent.getPosition());
-    ui->rotationDisplayer->update(inComponent.getRotation());
+    for(vector<QDisplayer *>::iterator it = mDisplayerList.begin(); it != mDisplayerList.end(); ++it){
+        delete *it;
+    }
+    mDisplayerList.clear();
 
-    ui->paramDisplayer->clear();
-    ui->paramDisplayer->add(inComponent.getParameters());
+    if (ui->paramWidget->layout() != NULL){
+        delete ui->paramWidget->layout();
+    }
+    QHBoxLayout *layout = new QHBoxLayout();
+
+    QDisplayer *disp= new QDisplayer("Name");
+    disp->update(QString::fromStdString(inComponent.getDesignator()));
+    layout->addWidget(disp);
+    mDisplayerList.push_back(disp);
+
+    disp= new QDisplayer("Position", ui->paramWidget);
+    layout->addWidget(disp);
+    disp->update(inComponent.getPosition());
+    mDisplayerList.push_back(disp);
+
+    disp= new QDisplayer("Rotation", ui->paramWidget);
+    layout->addWidget(disp);
+    disp->update(inComponent.getRotation());
+    mDisplayerList.push_back(disp);
+
+    Component::Parameters & params = inComponent.getParameters();
+    for(Component::Parameters::iterator it = params.begin(); it != params.end(); ++it){
+        QDisplayer *disp= new QDisplayer(QString::fromStdString(it->first));
+        disp->update(QString::fromStdString(it->second));
+        layout->addWidget(disp);
+        mDisplayerList.push_back(disp);
+    }
+
+    ui->paramWidget->setLayout(layout);
 }
 
 void ComponentDisplayerWidget::on_previousCompoButton_clicked()
