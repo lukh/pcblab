@@ -78,6 +78,62 @@ void ComponentHandler::getDesignatorsList(vector<string> &outDesList) const
     }
 }
 
+void ComponentHandler::getSortedAndGroupedDesignatorsList(const vector<string> &inDesPrefixOrder, string inSortingKey, vector <string> & outDesList) const
+{
+    // clear the output list at first
+    outDesList.clear();
+
+    //create a list of des for further analysis
+    vector<string> des_list;
+    getDesignatorsList(des_list);
+
+
+    //sort by des
+    map<string, vector<string> >temp_map;
+    for (vector<string>::const_iterator prefix_it = inDesPrefixOrder.begin(); prefix_it != inDesPrefixOrder.end(); ++prefix_it){
+        string prefix = *prefix_it;
+
+        vector<string>::iterator des_it = des_list.begin();
+        while(des_it != des_list.end()){
+            string des = *des_it;
+            if(des.find(prefix) == 0){ // if the prefix is found in the des
+                map<string, vector<string> >::iterator temp_map_it = temp_map.find(prefix);
+                if(temp_map_it == temp_map.end()){
+                    temp_map[prefix] = vector<string>();
+                }
+
+                // copy the des in the temp list and delete the one in des_list
+                temp_map[prefix].push_back(des);
+                des_it = des_list.erase(des_it);
+            }
+            else{
+                ++des_it;
+            }
+        }
+    }
+
+    //copies in out
+    for (vector<string>::const_iterator prefix_it = inDesPrefixOrder.begin(); prefix_it != inDesPrefixOrder.end(); ++prefix_it){
+        string prefix = *prefix_it;
+        map<string, vector<string> >::iterator temp_map_it = temp_map.find(prefix);
+        if(temp_map_it != temp_map.end()){
+            vector<string> &list = temp_map_it->second;
+            for(vector<string>::iterator curr_des = list.begin(); curr_des != list.end(); ++curr_des){
+                outDesList.push_back(*curr_des);
+            }
+        }
+    }
+
+
+
+
+
+    //add other components
+    for(vector<string>::iterator des_it = des_list.begin(); des_it != des_list.end(); ++des_it){
+        outDesList.push_back(*des_it);
+    }
+}
+
 bool ComponentHandler::getComponent(const string &inDes, Component &outComponent)
 {
     Components::const_iterator it = mComponents.find(inDes);
@@ -124,8 +180,3 @@ bool ComponentHandler::openPnpLayer(const string &inFileName, Components &outCom
 
     return parse_res;
 }
-void ComponentHandler::getSortedAndGroupedDesignatorsList(vector<string> inDesPrefix, vector<string> &outDesList) const
-{
-
-}
-
