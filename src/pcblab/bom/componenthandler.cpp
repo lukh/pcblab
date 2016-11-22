@@ -65,6 +65,32 @@ bool ComponentHandler::openFolder(const string &inFolderName)
     return open_status;
 }
 
+void ComponentHandler::close()
+{
+    mComponents.clear();
+}
+
+void ComponentHandler::getDesignatorsList(vector<string> &outDesList) const
+{
+    outDesList.clear();
+    for(Components::const_iterator it = mComponents.begin(); it != mComponents.end(); ++it){
+        outDesList.push_back(it->first);
+    }
+}
+
+bool ComponentHandler::getComponent(const string &inDes, Component &outComponent)
+{
+    Components::const_iterator it = mComponents.find(inDes);
+    if(it == mComponents.end()){
+        return false;
+    }
+    else{
+        outComponent = mComponents[inDes];
+        return true;
+    }
+}
+
+
 bool ComponentHandler::openBomLayer(const string &inFileName, Components &outComponents)
 {
     ifstream fs;
@@ -98,34 +124,8 @@ bool ComponentHandler::openPnpLayer(const string &inFileName, Components &outCom
 
     return parse_res;
 }
-
-void ComponentHandler::close()
-{
-    mComponents.clear();
-}
-
-void ComponentHandler::getDesignatorsList(vector<string> &outDesList) const
-{
-    outDesList.clear();
-    for(Components::const_iterator it = mComponents.begin(); it != mComponents.end(); ++it){
-        outDesList.push_back(it->first);
-    }
-}
-
 void ComponentHandler::getSortedAndGroupedDesignatorsList(vector<string> inDesPrefix, vector<string> &outDesList) const
 {
 
-}
-
-bool ComponentHandler::getComponent(const string &inDes, Component &outComponent)
-{
-    Components::const_iterator it = mComponents.find(inDes);
-    if(it == mComponents.end()){
-        return false;
-    }
-    else{
-        outComponent = mComponents[inDes];
-        return true;
-    }
 }
 
