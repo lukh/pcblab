@@ -2,19 +2,45 @@
 
 IViewProcessor::IViewProcessor(PcbLab &inPcb): mPcb(inPcb)
 {
-
 }
 
 
 void IViewProcessor::updateLayerColor(string inIdentifier, Color inColor)
 {
-    mGerberRenderer.setColor(inIdentifier, inColor);
+    if(inIdentifier.compare("NC Drill") == 0){
+        mExcellonRenderer.setColor(inColor);
+    }
+    else if(inIdentifier.compare("Components") == 0){
+        mComponentRenderer.setColor(inColor);
+    }
+    else{
+        mGerberRenderer.setColor(inIdentifier, inColor);
+    }
     refresh();
 }
 
 void IViewProcessor::updateLayerTransparency(string inIdentifier, uint8_t inTransp)
 {
-    mGerberRenderer.setAlphaChannel(inIdentifier, inTransp);
+    if(inIdentifier.compare("NC Drill") == 0){
+        mExcellonRenderer.setTransparency(inTransp);
+    }
+    else if(inIdentifier.compare("Components") == 0){
+        mComponentRenderer.setTransparency(inTransp);
+    }
+    else{
+        mGerberRenderer.setAlphaChannel(inIdentifier, inTransp);
+    }
+    refresh();
+}
+
+bool IViewProcessor::getComponent(string inDesignator, Component &outCompo)
+{
+    return mPcb.getComponents().getComponent(inDesignator, outCompo);
+}
+
+void IViewProcessor::displayComponent(string inDesignator)
+{
+    mComponentRenderer.setActiveComponent(inDesignator);
     refresh();
 }
 
@@ -28,15 +54,23 @@ void IViewProcessor::setup(uint32_t inWidth, uint32_t inHeight)
     );
 
     // /////////////////////////////
-    // init the renderer
+    // init the viewer
     // /////////////////////////////
     uint32_t rw = inWidth;
     uint32_t rh = inHeight;
 
-    mGerberRenderer.initCairo(rw, rh);
-    mGerberRenderer.setRenderArea(r_real_hr);
+    mViewer.initCairo(rw, rh);
+    mViewer.setRenderArea(r_real_hr);
     //reset the graphics settings
-    IGerberView::GraphicSettings::reset();
+    IGerberRenderer::GraphicSettings::reset();
+
+
+    // /////////////////////////////
+    // Connect the renderer
+    // /////////////////////////////
+    mGerberRenderer.setViewer(mViewer);
+    mExcellonRenderer.setViewer(mViewer);
+    mComponentRenderer.setViewer(mViewer);
 }
 
 plRectangle IViewProcessor::calculateZoom(double inZoomFactor, plPoint inPoint, plRectangle inRect)

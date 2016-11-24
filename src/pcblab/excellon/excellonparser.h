@@ -19,8 +19,8 @@ class ExcellonParser
         virtual ~ExcellonParser () {}
 
     protected:
-        /// Parses the data stream and build the gerber layer.
-        /// returns true if the file is completeand without error
+        /// Parses the data stream and build the excellon layer.
+        /// returns true if the file is complete and without error
         bool parse(istream &inStream);
 
 
@@ -66,7 +66,7 @@ class ExcellonParser
         bool parseTCode(istream &inStream);
         bool parseCoordinates(istream &inStream);
 
-        uint8_t getInteger(istream &inStream);
+        uint8_t getInteger(istream &inStream) const;
 };
 
 #endif // EXCELLONPARSER_H

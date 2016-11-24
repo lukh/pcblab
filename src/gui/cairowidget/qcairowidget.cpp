@@ -16,9 +16,6 @@ QCairoWidget::~QCairoWidget()
 void QCairoWidget::showImage(cairo_surface_t *inSurface)
 {
     mSurface = inSurface;
-    int w = cairo_image_surface_get_width(inSurface);
-    int h = cairo_image_surface_get_height(inSurface);
-
     repaint();
 }
 
@@ -29,12 +26,9 @@ void QCairoWidget::paintEvent(QPaintEvent *event)
 
     QPainter painter(this);
 
-    //cairo_surface_flush (mSurface);
-
     int w = cairo_image_surface_get_width(mSurface);
     int h = cairo_image_surface_get_height(mSurface);
     int stride = cairo_image_surface_get_stride(mSurface);
-    cairo_format_t format = cairo_image_surface_get_format(mSurface);
 
     unsigned char *data = cairo_image_surface_get_data(mSurface);
 

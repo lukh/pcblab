@@ -43,13 +43,8 @@ static const Color kDefaultColorList[kDefaultColorListSize] = {
     Color(255,255,255),
 };
 
-class IGerberView{
+class IGerberRenderer{
     public:
-        enum eProportionMode{
-            eKeepProportion,
-            eAdjustToViewer
-        };
-
         /// Contains the settings for a layer
         class GraphicSettings{
             public:
@@ -76,15 +71,11 @@ class IGerberView{
 
 
     public:
-        IGerberView(): mPropMode(eKeepProportion) {}
-        virtual ~IGerberView() {}
+        IGerberRenderer() {}
+        virtual ~IGerberRenderer() {}
 
         virtual void drawAll(const GerberHandler &inGerber) = 0;
         virtual void drawLayer(string inIdentifier, const GerberLayer *inLayer) = 0;
-
-
-        /// update the proportion mode keep/adjust proportion
-        void setProportionMode(eProportionMode inMode) { mPropMode = inMode; }
 
 
         // --------------- Modification --------------
@@ -133,10 +124,6 @@ class IGerberView{
     protected:
         //globals
         GraphicSettingsMap mGraphicSettingsMap;
-
-
-        eProportionMode mPropMode;
-
 
         //others
         vector<IGraphicObject *> mHilightedObjects;

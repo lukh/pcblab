@@ -2,7 +2,7 @@
 
 #include <math.h>
 
-CairoGerberRenderer::CairoGerberRenderer(): IGerberView()
+CairoGerberRenderer::CairoGerberRenderer(): IGerberRenderer()
 {
 
 }
@@ -11,19 +11,10 @@ CairoGerberRenderer::~CairoGerberRenderer(){
 
 }
 
+
 void CairoGerberRenderer::drawAll(const GerberHandler &inGerber)
 {
-    if(!isViewerReady()){ return; }
-
-    cairo_set_antialias(mContext, CAIRO_ANTIALIAS_BEST);
-
-    //clean...
-    cairo_set_source_rgb (mContext, 0, 0, 0);
-    cairo_paint (mContext);
-
-
-    //transform
-    applyRenderTransformation();
+    if(mContext == NULL){ return; }
 
     //draw...
     uint8_t layers_cnt = inGerber.getLayersCount();
@@ -37,7 +28,7 @@ void CairoGerberRenderer::drawAll(const GerberHandler &inGerber)
 
 void CairoGerberRenderer::drawLayer(string inIdentifier, const GerberLayer *inLayer)
 {
-    if(!isViewerReady()){ return; }
+    if(mContext == NULL){ return; }
 
     //layer color and transparency
     GraphicSettingsMap::const_iterator gsmi;
@@ -110,38 +101,11 @@ void CairoGerberRenderer::drawLayer(string inIdentifier, const GerberLayer *inLa
 
 
 
-void CairoGerberRenderer::applyRenderTransformation()
-{
-    //reset...
-    cairo_identity_matrix (mContext);
-
-    // scale factor
-    double sx, sy;
-    sx = getWidth() / (mRenderArea.getTopRight().mX-mRenderArea.getBottomLeft().mX);
-    sy = getHeight() / (mRenderArea.getTopRight().mY-mRenderArea.getBottomLeft().mY);
-
-    if(mPropMode == eKeepProportion){
-        if(sx < sy){ sy=sx; }
-        else { sx=sy; }
-    }
-
-    double tx, ty;
-    tx = mRenderArea.getBottomLeft().mX * sx;
-    ty = mRenderArea.getBottomLeft().mY * sy;
-
-    /* translate the draw area before drawing.  We must translate the whole
-       drawing down an additional displayHeight to account for the negative
-       y flip done later */
-    cairo_translate (mContext, -tx, ty + getHeight());
-    /* scale the drawing by the specified scale factor (inverting y since
-        cairo y axis points down) */
-    cairo_scale (mContext, sx, -sy);
-}
 
 
 void CairoGerberRenderer::setLevelPolarity(GraphicState::eLevelPolarity inPol)
 {
-    if(!isViewerReady()){ return; }
+    if(mContext == NULL){ return; }
 
     if(inPol == GraphicState::ePolDark){
         cairo_set_operator (mContext, CAIRO_OPERATOR_OVER);

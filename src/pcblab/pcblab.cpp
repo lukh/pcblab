@@ -9,7 +9,7 @@ void PcbLab::openFolder(const string &inFolderName, GerberHandler::ExtensionOrde
 {
     mGerber.openFolder(inFolderName, inOrder);
     mExcellon.openFolder(inFolderName);
-    //mPnp.open...
-    //mNetList.open...
+    mComponent.openFolder(inFolderName);
 
+    //mNetList.open...
 }

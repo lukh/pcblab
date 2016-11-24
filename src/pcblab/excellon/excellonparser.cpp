@@ -1,5 +1,5 @@
 #include "excellonparser.h"
-#include "tools/stringsplitter.h"
+#include "tools/stringoperations.h"
 
 ExcellonParser::ExcellonParser()
 {
@@ -369,7 +369,7 @@ bool ExcellonParser::parseCoordinates(istream &inStream)
 }
 
 
-uint8_t ExcellonParser::getInteger(istream &inStream){
+uint8_t ExcellonParser::getInteger(istream &inStream) const{
     string str;
     char read;
 

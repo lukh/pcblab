@@ -1,5 +1,5 @@
-#ifndef STRINGSPLITTER_H
-#define STRINGSPLITTER_H
+#ifndef STRINGOPERATIONS_H
+#define STRINGOPERATIONS_H
 
 #include <string>
 
@@ -35,5 +35,8 @@ void tokenize(const std::string& str, ContainerT& tokens,
       lastPos = pos + 1;
    }
 }
+
+
+bool replace(std::string& str, const std::string& from, const std::string& to);
 
 #endif // STRINGSPLITTER_H

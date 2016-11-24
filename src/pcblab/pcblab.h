@@ -7,6 +7,7 @@
 
 #include "gerber/gerberhandler.h"
 #include "excellon/excellonhandler.h"
+#include "bom/componenthandler.h"
 
 using namespace std;
 
@@ -22,12 +23,15 @@ class PcbLab
         void openFolder(const string &inFolderName, GerberHandler::ExtensionOrderList inOrder);
 
 
-        const GerberHandler &getGerber() { return mGerber; }
+        const GerberHandler &getGerber() const { return mGerber; }
+        ExcellonHandler &getExcellon() { return mExcellon; }
+        ComponentHandler &getComponents() { return mComponent; }
 
 
     private:
         GerberHandler mGerber;
         ExcellonHandler mExcellon;
+        ComponentHandler mComponent;
 
 };
 

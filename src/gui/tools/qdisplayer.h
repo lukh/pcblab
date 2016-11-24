@@ -5,7 +5,7 @@
 #include <QString>
 #include <QLabel>
 #include <QHBoxLayout>
-
+#include <QSpacerItem>
 
 #include "pcblab/common.h"
 
@@ -47,6 +47,8 @@ class QDisplayer : public QWidget
         void update(int inValue){
             mValue->setText(QString::number(inValue));
         }
+
+        void update(QString inStr){ mValue->setText(inStr); }
 
         void update(plPoint inValue){
             QString text;

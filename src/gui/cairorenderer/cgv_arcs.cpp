@@ -5,7 +5,7 @@
 
 void CairoGerberRenderer::drawArc(GraphicObjectArc *inArc)
 {
-    if(!isViewerReady()){ return; }
+    if(mContext == NULL){ return; }
 
     if(inArc == NULL){ return; }
 

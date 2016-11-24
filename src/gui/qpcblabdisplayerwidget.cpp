@@ -15,6 +15,8 @@ QPcbLabDisplayerWidget::QPcbLabDisplayerWidget(QWidget *parent) :
     QObject::connect(ui->cairoWidget, SIGNAL(moved(double, double)), this, SLOT(updateMove(double, double)));
     QObject::connect(ui->cairoWidget, SIGNAL(zoomed(bool, plPoint)), this, SLOT(updateZoom(bool, plPoint)));
     QObject::connect(ui->cairoWidget, SIGNAL(cursor(plPoint)), this, SLOT(updateCursor(plPoint)));
+
+    QObject::connect(ui->componentDisplayer, SIGNAL(componentUpdated(string)), this, SLOT(updateCurrentComponent(string)));
 }
 
 QPcbLabDisplayerWidget::~QPcbLabDisplayerWidget()
@@ -35,10 +37,15 @@ void QPcbLabDisplayerWidget::init(PcbLab &inPcb)
     }
 
     mProcessor = new DisplayViewProcessor(inPcb, ui->cairoWidget);
-    mProcessor->init(1000, 600);
+    mProcessor->init(ui->cairoWidget->width(), ui->cairoWidget->height());
 
     mProcessor->refresh();
+
     updateLayersList(inPcb);
+
+    vector <string> des_list;
+    inPcb.getComponents().getDesignatorsList(des_list);
+    ui->componentDisplayer->setDesignatorList(des_list);
 }
 
 
@@ -73,11 +80,20 @@ void QPcbLabDisplayerWidget::updateTransparency(string inIdentifier, uint8_t inT
     mProcessor->updateLayerTransparency(inIdentifier, inTransp);
 }
 
+void QPcbLabDisplayerWidget::updateCurrentComponent(string inDes)
+{
+    Component compo;
+    if(mProcessor->getComponent(inDes, compo)){
+        ui->componentDisplayer->displayComponent(compo);
+        mProcessor->displayComponent(inDes);
+    }
+}
+
 void QPcbLabDisplayerWidget::updateLayersList(PcbLab &inPcb)
 {
     clearLayersList();
 
-
+    // gerber layers
     const GerberHandler &gerber = inPcb.getGerber();
     const CairoGerberRenderer &renderer = mProcessor->getGerberRenderer();
 
@@ -86,7 +102,7 @@ void QPcbLabDisplayerWidget::updateLayersList(PcbLab &inPcb)
     for(int32_t idx = layers_count-1; idx >= 0; idx--){
         bool status = false;
         string identifier = gerber.getLayerIdentifier(idx);
-        IGerberView::GraphicSettings gs = renderer.getGraphicSettings(identifier, status);
+        IGerberRenderer::GraphicSettings gs = renderer.getGraphicSettings(identifier, status);
 
         QLayerConfigWidget *conf = new QLayerConfigWidget(identifier);
         mLayersList.append(conf);
@@ -99,6 +115,35 @@ void QPcbLabDisplayerWidget::updateLayersList(PcbLab &inPcb)
         QObject::connect(conf, SIGNAL(transparencyUpdated(string, uint8_t)), this, SLOT(updateTransparency(string, uint8_t)));
         QObject::connect(conf, SIGNAL(colorUpdated(string, Color)), this, SLOT(updateColor(string, Color)));
     }
+
+
+    //nc drill
+    const CairoExcellonRenderer &exc_renderer = mProcessor->getExcellonRenderer();
+    QLayerConfigWidget *conf = new QLayerConfigWidget("NC Drill");
+    mLayersList.append(conf);
+
+    ui->layerConfigList->layout()->addWidget(conf);
+
+    conf->updateTransparency(exc_renderer.getTransparency());
+    conf->updateColor(exc_renderer.getColor());
+
+    QObject::connect(conf, SIGNAL(transparencyUpdated(string, uint8_t)), this, SLOT(updateTransparency(string, uint8_t)));
+    QObject::connect(conf, SIGNAL(colorUpdated(string, Color)), this, SLOT(updateColor(string, Color)));
+
+    //Components
+    const CairoComponentRenderer &compo_renderer = mProcessor->getComponentRenderer();
+    conf = new QLayerConfigWidget("Components");
+    mLayersList.append(conf);
+
+    ui->layerConfigList->layout()->addWidget(conf);
+
+    conf->updateTransparency(compo_renderer.getTransparency());
+    conf->updateColor(compo_renderer.getColor());
+
+    QObject::connect(conf, SIGNAL(transparencyUpdated(string, uint8_t)), this, SLOT(updateTransparency(string, uint8_t)));
+    QObject::connect(conf, SIGNAL(colorUpdated(string, Color)), this, SLOT(updateColor(string, Color)));
+
+    // spacer
 
     QSpacerItem *verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
     ui->layerConfigList->layout()->addItem(verticalSpacer);
@@ -116,4 +161,14 @@ void QPcbLabDisplayerWidget::clearLayersList()
 
     mLayersList.clear();
 }
+
+void QPcbLabDisplayerWidget::resizeEvent(QResizeEvent * event)
+{
+    if(mProcessor != NULL){
+        mProcessor->init(ui->cairoWidget->width(), ui->cairoWidget->height());
+        mProcessor->refresh();
+    }
+}
+
+
 

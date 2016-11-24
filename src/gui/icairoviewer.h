@@ -28,12 +28,14 @@ class ICairoViewer{
 
 
         cairo_surface_t *getSurface() const { return mSurface; }
-
+        cairo_t *getContext() const { return mContext; }
 
         void deinitCairo();
 
         /// resize the surface
         void initCairo(uint32_t inW, uint32_t inH);
+
+        void clean();
 
 
         // -----------------------------------------
@@ -51,13 +53,16 @@ class ICairoViewer{
 
 
         /// zoom to fit the area given in the real world coordinates into the surface
-        void setRenderArea(const plRectangle &inRealWorldArea) { mRenderArea = inRealWorldArea; }
+        void setRenderArea(const plRectangle &inRealWorldArea);
 
         /// zoom to fit the area given in the real world coordinates into the surface
         void setRenderArea(plPoint p1, plPoint p2);
 
         /// returns the (real world) view area
         const plRectangle &getRenderArea() const { return mRenderArea; }
+
+    protected:
+        void applyRenderTransformation();
 
 
     protected:
@@ -66,12 +71,6 @@ class ICairoViewer{
 
         ///defines the area rendered on the surface
         plRectangle mRenderArea;
-
-
-
-    private:
-        virtual void applyRenderTransformation() = 0;
-
 };
 
 

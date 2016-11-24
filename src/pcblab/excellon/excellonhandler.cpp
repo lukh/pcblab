@@ -31,7 +31,7 @@ bool ExcellonHandler::openFolder(const string &inFolderName){
         }
 
         // it is a text file
-        if(ext.find("TXT") == 0){
+        if(ext.compare("TXT") == 0){
             string filename = inFolderName + "/" + file;
 
             ifstream fs;
@@ -87,8 +87,8 @@ void ExcellonHandler::close()
 {
     mState = ExcellonState();
 
-    //TODO: RESET TOOLS AND HOLES list
     mTools.clear();
+    mHoles.clear();
 }
 
 void ExcellonHandler::addTool(uint8_t inIdx, double inHoleSize, double inInfeedRate, double inSpindleRate)

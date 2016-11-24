@@ -2,7 +2,9 @@
 #define IVIEWPROCESSOR_H
 
 #include "pcblab/pcblab.h"
-#include "cairogerberrenderer.h"
+#include "cairogerberrenderer.h" //SHOULD BE THE INTERFACE
+#include "cairoexcellonrenderer.h" //SHOULD BE THE INTERFACE
+#include "cairocomponentrenderer.h" //SHOULD BE THE INTERFACE
 
 
 class IViewProcessor
@@ -13,12 +15,20 @@ class IViewProcessor
 
         // accessors
         const CairoGerberRenderer &getGerberRenderer() { return mGerberRenderer; }
+        const CairoExcellonRenderer &getExcellonRenderer() { return mExcellonRenderer; }
+        CairoComponentRenderer &getComponentRenderer() { return mComponentRenderer; }
 
         /// update layer color
         void updateLayerColor(string inIdentifier, Color inColor);
 
         /// update layer transparency
         void updateLayerTransparency(string inIdentifier, uint8_t inTransp);
+
+        // return a component from its designator. SHOULD IT BE HERE
+        bool getComponent(string inDesignator, Component &outCompo);
+
+        /// display a component
+        void displayComponent(string inDesignator);
 
 
         void setup(uint32_t inWidth, uint32_t inHeight);
@@ -54,7 +64,12 @@ class IViewProcessor
 
     protected:
         PcbLab &mPcb;
+
+        ICairoViewer mViewer;
+
         CairoGerberRenderer mGerberRenderer;
+        CairoExcellonRenderer mExcellonRenderer;
+        CairoComponentRenderer mComponentRenderer;
 };
 
 #endif // IVIEWPROCESSOR_H

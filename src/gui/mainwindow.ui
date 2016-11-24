@@ -19,7 +19,14 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0">
     <item>
-     <widget class="QPcbLabDisplayerWidget" name="pcbDisplayer" native="true"/>
+     <widget class="QPcbLabDisplayerWidget" name="pcbDisplayer" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>800</width>
+        <height>800</height>
+       </size>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

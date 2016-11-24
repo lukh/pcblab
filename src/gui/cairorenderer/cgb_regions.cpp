@@ -8,7 +8,7 @@ void CairoGerberRenderer::drawRegion(GraphicObjectRegion *inRegion)
 {
     plPoint p0,p1;
 
-    if(!isViewerReady()){ return; }
+    if(mContext == NULL){ return; }
 
     if (inRegion == NULL){ return; }
 

@@ -9,7 +9,7 @@ void CairoGerberRenderer::drawDraw(GraphicObjectDraw *inDraw)
     plPoint p0 = inDraw->getStartPoint();
     plPoint p1 = inDraw->getEndPoint();
 
-    if(!isViewerReady()){ return; }
+    if(mContext == NULL){ return; }
 
     if(inDraw == NULL){ return; }
 
