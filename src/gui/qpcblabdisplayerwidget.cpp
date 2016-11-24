@@ -49,6 +49,10 @@ void QPcbLabDisplayerWidget::init(PcbLab &inPcb)
     prefix.push_back("C");
     prefix.push_back("R");
     prefix.push_back("U");
+    prefix.push_back("X");
+    prefix.push_back("L");
+    prefix.push_back("P");
+    prefix.push_back("J");
     inPcb.getComponents().getSortedAndGroupedDesignatorsList(prefix, "Value", des_list);
     ui->componentDisplayer->setDesignatorList(des_list);
 }
