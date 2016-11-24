@@ -8,11 +8,23 @@ ComponentDisplayerWidget::ComponentDisplayerWidget(QWidget *parent) :
     ui->setupUi(this);
 
     setMinimumHeight(150);
+
+    //default params list
+    mParametersList.push_back("PartNumber");
+    mParametersList.push_back("Value");
+    mParametersList.push_back("Footprint");
+    mParametersList.push_back("Description");
+
 }
 
 ComponentDisplayerWidget::~ComponentDisplayerWidget()
 {
     delete ui;
+}
+
+void ComponentDisplayerWidget::setParametersList(vector<string> inParams)
+{
+    mParametersList = inParams;
 }
 
 void ComponentDisplayerWidget::setDesignatorList(vector<string> inList){
@@ -47,12 +59,15 @@ void ComponentDisplayerWidget::displayComponent(Component &inComponent)
     disp->update(inComponent.getRotation());
     mDisplayerList.push_back(disp);
 
-    Component::Parameters & params = inComponent.getParameters();
-    for(Component::Parameters::iterator it = params.begin(); it != params.end(); ++it){
-        QDisplayer *disp= new QDisplayer(QString::fromStdString(it->first));
-        disp->update(QString::fromStdString(it->second));
-        layout->addWidget(disp);
-        mDisplayerList.push_back(disp);
+
+    for(vector<string>::iterator p = mParametersList.begin(); p != mParametersList.end(); ++p){
+        string param;
+        if(inComponent.getParameter(*p, param)){
+            QDisplayer *disp= new QDisplayer(QString::fromStdString(*p));
+            disp->update(QString::fromStdString(param));
+            layout->addWidget(disp);
+            mDisplayerList.push_back(disp);
+        }
     }
 
     ui->paramWidget->setLayout(layout);

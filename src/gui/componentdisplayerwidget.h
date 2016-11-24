@@ -23,6 +23,8 @@ class ComponentDisplayerWidget : public QWidget
         explicit ComponentDisplayerWidget(QWidget *parent = 0);
         ~ComponentDisplayerWidget();
 
+        ///set the param list to show in the widget
+        void setParametersList(vector <string> inParams);
         void setDesignatorList(vector <string> inList);
 
     public Q_SLOTS:
@@ -37,6 +39,8 @@ class ComponentDisplayerWidget : public QWidget
 
     private:
         Ui::ComponentDisplayerWidget *ui;
+
+        vector <string> mParametersList;
 
         vector <string> mDesList;
         vector <string>::iterator mDesIterator;
