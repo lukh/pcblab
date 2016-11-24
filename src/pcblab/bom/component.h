@@ -36,18 +36,26 @@ class Component{
         void setRotation(double inRot) { mRotation = inRot; }
 
         Parameters &getParameters() { return mParameters; }
+        bool getParameter(const string &inParam, string &outValue){
+            Parameters::iterator it = mParameters.find(inParam);
+            if(it == mParameters.end()){
+                return false;
+            }
+            outValue = mParameters[inParam];
+            return true;
+        }
 
         eUnit getUnit() const { return mUnit; }
         void setUnit(eUnit inUnit){ mUnit = inUnit; }
 
 
 
-private:
-        string mDesignator;
-        plPoint mPosition;
-        double mRotation;
-        Parameters mParameters; // others parameters
-        eUnit mUnit;
+    private:
+            string mDesignator;
+            plPoint mPosition;
+            double mRotation;
+            Parameters mParameters; // others parameters
+            eUnit mUnit;
 };
 
 typedef map<string, Component> Components;

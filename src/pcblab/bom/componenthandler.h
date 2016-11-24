@@ -31,7 +31,7 @@ class ComponentHandler
         void getDesignatorsList(vector <string> & outDesList) const;
 
         ///returns the list of components des, by prefix order and grouped by sorting Key
-        void getSortedAndGroupedDesignatorsList(const vector<string> &inDesPrefixOrder, string inSortingKey, vector <string> & outDesList) const;
+        void getSortedAndGroupedDesignatorsList(const vector<string> &inDesPrefixOrder, string inSortingKey, vector <string> & outDesList);
 
         bool getComponent(const string &inDes, Component &outComponent);
 

@@ -78,7 +78,7 @@ void ComponentHandler::getDesignatorsList(vector<string> &outDesList) const
     }
 }
 
-void ComponentHandler::getSortedAndGroupedDesignatorsList(const vector<string> &inDesPrefixOrder, string inSortingKey, vector <string> & outDesList) const
+void ComponentHandler::getSortedAndGroupedDesignatorsList(const vector<string> &inDesPrefixOrder, string inSortingKey, vector <string> & outDesList)
 {
     // clear the output list at first
     outDesList.clear();
@@ -89,7 +89,8 @@ void ComponentHandler::getSortedAndGroupedDesignatorsList(const vector<string> &
 
 
     //sort by des
-    map<string, vector<string> >temp_map;
+    //the map: a map[prefix][value] = list of des
+    map<string, map<string, vector<string> > >temp_map;
     for (vector<string>::const_iterator prefix_it = inDesPrefixOrder.begin(); prefix_it != inDesPrefixOrder.end(); ++prefix_it){
         string prefix = *prefix_it;
 
@@ -97,13 +98,29 @@ void ComponentHandler::getSortedAndGroupedDesignatorsList(const vector<string> &
         while(des_it != des_list.end()){
             string des = *des_it;
             if(des.find(prefix) == 0){ // if the prefix is found in the des
-                map<string, vector<string> >::iterator temp_map_it = temp_map.find(prefix);
-                if(temp_map_it == temp_map.end()){
-                    temp_map[prefix] = vector<string>();
+                // create a map for this kind of des (Cx, Ux, etc)
+                map<string, map<string, vector<string> > >::iterator map_prefix_it = temp_map.find(prefix);
+                if(map_prefix_it == temp_map.end()){
+                    temp_map[prefix] = map<string, vector<string> >();
+                }
+
+                //get compo data:
+                Component compo;
+                getComponent(des, compo);
+
+                string compo_param;
+                if(!compo.getParameter(inSortingKey, compo_param)){
+
+                }
+
+                // check on values
+                map<string, vector<string> >::iterator values_it = temp_map[prefix].find(compo_param);
+                if(values_it == temp_map[prefix].end()){
+                    temp_map[prefix][compo_param] = vector<string>();
                 }
 
                 // copy the des in the temp list and delete the one in des_list
-                temp_map[prefix].push_back(des);
+                temp_map[prefix][compo_param].push_back(des);
                 des_it = des_list.erase(des_it);
             }
             else{
@@ -112,14 +129,17 @@ void ComponentHandler::getSortedAndGroupedDesignatorsList(const vector<string> &
         }
     }
 
+
     //copies in out
     for (vector<string>::const_iterator prefix_it = inDesPrefixOrder.begin(); prefix_it != inDesPrefixOrder.end(); ++prefix_it){
         string prefix = *prefix_it;
-        map<string, vector<string> >::iterator temp_map_it = temp_map.find(prefix);
+        map<string, map<string, vector<string> > >::iterator temp_map_it = temp_map.find(prefix);
         if(temp_map_it != temp_map.end()){
-            vector<string> &list = temp_map_it->second;
-            for(vector<string>::iterator curr_des = list.begin(); curr_des != list.end(); ++curr_des){
-                outDesList.push_back(*curr_des);
+            map<string, vector<string> > &sorted_list = temp_map_it->second;
+            for(map<string, vector<string> >::iterator sli = sorted_list.begin(); sli != sorted_list.end(); ++sli){
+                for(vector<string>::iterator curr_des = sli->second.begin(); curr_des != sli->second.end(); ++curr_des){
+                    outDesList.push_back(*curr_des);
+                }
             }
         }
     }
