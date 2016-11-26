@@ -75,6 +75,10 @@ void ComponentDisplayerWidget::displayComponent(Component &inComponent)
 
 void ComponentDisplayerWidget::on_previousCompoButton_clicked()
 {
+    if(mDesList.size() == 0){
+        return;
+    }
+
     if(mDesIterator != mDesList.begin()){
         mDesIterator--;
     }
@@ -84,6 +88,10 @@ void ComponentDisplayerWidget::on_previousCompoButton_clicked()
 
 void ComponentDisplayerWidget::on_nextCompoButton_clicked()
 {
+    if(mDesList.size() == 0){
+        return;
+    }
+
     if(mDesIterator != mDesList.end()){
         mDesIterator++;
     }
