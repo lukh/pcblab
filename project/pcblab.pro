@@ -54,7 +54,6 @@ SOURCES += \
     ../src/pcblab/gerber/igerberview.cpp \
     ../src/gui/cairowidget/qcairowidget.cpp \
     ../src/gui/opencvwidget/qopencvwidget.cpp \
-    ../src/gui/qpcblabdisplayerwidget.cpp \
     ../src/pcblab/viewprocessor/iviewprocessor.cpp \
     ../src/pcblab/excellon/excellonparser.cpp \
     ../src/pcblab/gerber/gerberparser.cpp \
@@ -69,7 +68,8 @@ SOURCES += \
     ../src/tools/stringoperations.cpp \
     ../src/gui/cairorenderer/cairocomponentrenderer.cpp \
     ../src/pcblab/bom/icomponentrenderer.cpp \
-    ../src/gui/componentdisplayerwidget.cpp
+    ../src/gui/componentdisplayerwidget.cpp \
+    ../src/gui/layerslistwidget.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -99,7 +99,6 @@ HEADERS  += \
     ../src/gui/cairowidget/qcairowidget.h \
     ../src/gui/opencvwidget/qopencvwidget.h \
     ../src/gui/opencvwidget/iopencvwidget.h \
-    ../src/gui/qpcblabdisplayerwidget.h \
     ../src/pcblab/viewprocessor/iviewprocessor.h \
     ../src/pcblab/excellon/excellonparser.h \
     ../src/pcblab/gerber/gerberparser.h \
@@ -117,7 +116,8 @@ HEADERS  += \
     ../src/tools/stringoperations.h \
     ../src/gui/cairorenderer/cairocomponentrenderer.h \
     ../src/pcblab/bom/icomponentrenderer.h \
-    ../src/gui/componentdisplayerwidget.h
+    ../src/gui/componentdisplayerwidget.h \
+    ../src/gui/layerslistwidget.h
 
 
 
@@ -170,8 +170,8 @@ INCLUDEPATH += \
 
 FORMS += \
     ../src/gui/mainwindow.ui \
-    ../src/gui/qpcblabdisplayerwidget.ui \
-    ../src/gui/componentdisplayerwidget.ui
+    ../src/gui/componentdisplayerwidget.ui \
+    ../src/gui/layerslistwidget.ui
 
 DISTFILES += \
     ../doc/the_gerber_file_format_specification.pdf \

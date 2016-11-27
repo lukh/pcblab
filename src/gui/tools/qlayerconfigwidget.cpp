@@ -14,6 +14,7 @@ QLayerConfigWidget::QLayerConfigWidget(string inIdentifier, QWidget *parent) : Q
     mTransparencySlider = new QSlider(Qt::Horizontal);
     mTransparencySlider->setMinimum(0);
     mTransparencySlider->setMaximum(255);
+    mTransparencySlider->setMinimumWidth(30);
 
     //layout
     QHBoxLayout *layout = new QHBoxLayout(this);

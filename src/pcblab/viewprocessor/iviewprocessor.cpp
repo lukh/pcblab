@@ -33,11 +33,6 @@ void IViewProcessor::updateLayerTransparency(string inIdentifier, uint8_t inTran
     refresh();
 }
 
-bool IViewProcessor::getComponent(string inDesignator, Component &outCompo)
-{
-    return mPcb.getComponents().getComponent(inDesignator, outCompo);
-}
-
 void IViewProcessor::displayComponent(string inDesignator)
 {
     mComponentRenderer.setActiveComponent(inDesignator);
