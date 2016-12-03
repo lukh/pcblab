@@ -25,8 +25,8 @@ class DesListDialog: public QDialog{
     public:
         DesListDialog(QWidget *parent = 0): QDialog(parent) {
             setWindowTitle("Designators List");
-            setMinimumWidth(200);
-            setMinimumHeight(100);
+            setMinimumWidth(400);
+            setMinimumHeight(600);
 
             mView = new QTableView();
 
@@ -46,6 +46,8 @@ class DesListDialog: public QDialog{
 
         void setModel(QAbstractTableModel *inModel) {
             mView->setModel(inModel);
+            mView->resizeRowsToContents();
+            mView->resizeColumnsToContents();
         }
 
 
