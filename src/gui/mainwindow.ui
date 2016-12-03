@@ -9,24 +9,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>818</width>
+    <height>659</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>PcbLab</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0">
+   <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QPcbLabDisplayerWidget" name="pcbDisplayer" native="true">
-      <property name="minimumSize">
-       <size>
-        <width>800</width>
-        <height>800</height>
-       </size>
-      </property>
-     </widget>
+     <widget class="QCairoWidget" name="cairoWidget" native="true"/>
     </item>
    </layout>
   </widget>
@@ -35,7 +28,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>818</width>
      <height>21</height>
     </rect>
    </property>
@@ -52,6 +45,36 @@
    <addaction name="menuStart"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QDockWidget" name="dockWidget">
+   <property name="features">
+    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Layers</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="LayersListWidget" name="layersList"/>
+  </widget>
+  <widget class="QDockWidget" name="dockWidget_3">
+   <property name="features">
+    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::BottomDockWidgetArea|Qt::TopDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Component Informations</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="ComponentDisplayerWidget" name="componentDisplayer"/>
+  </widget>
   <action name="actionOpenFolder">
    <property name="text">
     <string>Open Folder</string>
@@ -93,9 +116,21 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QPcbLabDisplayerWidget</class>
+   <class>QCairoWidget</class>
    <extends>QWidget</extends>
-   <header>qpcblabdisplayerwidget.h</header>
+   <header>qcairowidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ComponentDisplayerWidget</class>
+   <extends>QWidget</extends>
+   <header>componentdisplayerwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>LayersListWidget</class>
+   <extends>QWidget</extends>
+   <header>layerslistwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

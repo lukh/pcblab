@@ -58,9 +58,13 @@ void QCairoWidget::paintEvent(QPaintEvent *event)
 
 void QCairoWidget::mousePressEvent(QMouseEvent *event)
 {
-    if(event->button() & Qt::LeftButton){
+    if(event->button() & Qt::RightButton){
         mLastPosition.setX(event->x());
         mLastPosition.setY(event->y());
+    }
+
+    else if(event->button() & Qt::LeftButton){
+        Q_EMIT(clicked(getCoordWidget2Img(plPoint(event->x(), event->y()))));
     }
 }
 
@@ -73,7 +77,7 @@ void QCairoWidget::mouseMoveEvent(QMouseEvent *event)
     if(mLastPosition.x() == 0) { mLastPosition.setX(event->x()); }
     if(mLastPosition.y() == 0) { mLastPosition.setY(event->y()); }
 
-    if(event->buttons() & Qt::LeftButton){
+    if(event->buttons() & Qt::RightButton){
         dx = (event->x()-mLastPosition.x())*mRatio;
         dy = (event->y()-mLastPosition.y())*mRatio;
 

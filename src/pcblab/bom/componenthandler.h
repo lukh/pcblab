@@ -35,6 +35,9 @@ class ComponentHandler
 
         bool getComponent(const string &inDes, Component &outComponent);
 
+
+        string getNearestDesignator(plPoint inPoint);
+
     protected:
         bool openBomLayer(const string &inFileName, Components &outComponents);
         bool openPnpLayer(const string &inFileName, Components &outComponents);

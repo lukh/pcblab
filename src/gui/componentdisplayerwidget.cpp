@@ -7,7 +7,9 @@ ComponentDisplayerWidget::ComponentDisplayerWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setMinimumHeight(150);
+    mDesListDialog = new DesListDialog(this);
+    mDesListDialog->hide();
+    QObject::connect(mDesListDialog, SIGNAL(itemSelected(string)), this, SLOT(on_itemSelectedInList(string)));
 
     //default params list
     mParametersList.push_back("PartNumber");
@@ -28,8 +30,18 @@ void ComponentDisplayerWidget::setParametersList(vector<string> inParams)
 }
 
 void ComponentDisplayerWidget::setDesignatorList(vector<string> inList){
+    if(inList.size() == 0){
+        mDesList.clear();
+        return;
+    }
+
     mDesList = inList;
     mDesIterator = mDesList.begin();
+
+    mDesListDialog->update(inList);
+
+    Q_EMIT(componentUpdated(*mDesIterator));
+    mDesListDialog->setCurrent(*mDesIterator);
 }
 
 void ComponentDisplayerWidget::displayComponent(Component &inComponent)
@@ -45,16 +57,19 @@ void ComponentDisplayerWidget::displayComponent(Component &inComponent)
     QHBoxLayout *layout = new QHBoxLayout();
 
     QDisplayer *disp= new QDisplayer("Name");
+    disp->setStyleSheet("font-size: 15px");
     disp->update(QString::fromStdString(inComponent.getDesignator()));
     layout->addWidget(disp);
     mDisplayerList.push_back(disp);
 
     disp= new QDisplayer("Position", ui->paramWidget);
+    disp->setStyleSheet("font-size: 15px");
     layout->addWidget(disp);
     disp->update(inComponent.getPosition());
     mDisplayerList.push_back(disp);
 
     disp= new QDisplayer("Rotation", ui->paramWidget);
+    disp->setStyleSheet("font-size: 15px");
     layout->addWidget(disp);
     disp->update(inComponent.getRotation());
     mDisplayerList.push_back(disp);
@@ -64,6 +79,7 @@ void ComponentDisplayerWidget::displayComponent(Component &inComponent)
         string param;
         if(inComponent.getParameter(*p, param)){
             QDisplayer *disp= new QDisplayer(QString::fromStdString(*p));
+            disp->setStyleSheet("font-size: 15px");
             disp->update(QString::fromStdString(param));
             layout->addWidget(disp);
             mDisplayerList.push_back(disp);
@@ -84,6 +100,7 @@ void ComponentDisplayerWidget::on_previousCompoButton_clicked()
     }
 
     Q_EMIT(componentUpdated(*mDesIterator));
+    mDesListDialog->setCurrent(*mDesIterator);
 }
 
 void ComponentDisplayerWidget::on_nextCompoButton_clicked()
@@ -97,4 +114,17 @@ void ComponentDisplayerWidget::on_nextCompoButton_clicked()
     }
 
     Q_EMIT(componentUpdated(*mDesIterator));
+    mDesListDialog->setCurrent(*mDesIterator);
+}
+
+void ComponentDisplayerWidget::on_showListButton_clicked()
+{
+    mDesListDialog->show();
+}
+
+void ComponentDisplayerWidget::on_itemSelectedInList(string inDes)
+{
+    mDesIterator = std::find(mDesList.begin(), mDesList.end(), inDes);
+
+    Q_EMIT(componentUpdated(inDes));
 }

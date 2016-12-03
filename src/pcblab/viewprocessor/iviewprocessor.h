@@ -24,9 +24,6 @@ class IViewProcessor
         /// update layer transparency
         void updateLayerTransparency(string inIdentifier, uint8_t inTransp);
 
-        // return a component from its designator. SHOULD IT BE HERE
-        bool getComponent(string inDesignator, Component &outCompo);
-
         /// display a component
         void displayComponent(string inDesignator);
 
