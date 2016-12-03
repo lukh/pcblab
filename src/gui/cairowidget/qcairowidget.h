@@ -26,6 +26,7 @@ class QCairoWidget : public QWidget, public ICairoWidget
         void zoomed(bool inZoomIn, plPoint p);
         void moved(double dx, double dy);
         void cursor(plPoint p);
+        void clicked(plPoint p);
 
     protected:
         void paintEvent(QPaintEvent *event);

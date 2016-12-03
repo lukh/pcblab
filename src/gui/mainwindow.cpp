@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QObject::connect(ui->cairoWidget, SIGNAL(moved(double, double)), this, SLOT(updateMove(double, double)));
     QObject::connect(ui->cairoWidget, SIGNAL(zoomed(bool, plPoint)), this, SLOT(updateZoom(bool, plPoint)));
+    QObject::connect(ui->cairoWidget, SIGNAL(clicked(plPoint)), this, SLOT(click(plPoint)));
     QObject::connect(ui->cairoWidget, SIGNAL(cursor(plPoint)), this, SLOT(updateCursor(plPoint)));
 
     QObject::connect(ui->componentDisplayer, SIGNAL(componentUpdated(string)), this, SLOT(updateCurrentComponent(string)));
@@ -90,6 +91,13 @@ void MainWindow::updateMove(double inDx, double inDy)
     if(mProcessor != NULL){
         mProcessor->move(inDx, inDy);
     }
+}
+
+void MainWindow::click(plPoint inPoint)
+{
+    plPoint pos = mProcessor->convertCoordsFromImageToReal(inPoint);
+    string des = mPcb.getComponents().getNearestDesignator(pos);
+    updateCurrentComponent(des);
 }
 
 void MainWindow::updateCursor(plPoint inPoint)

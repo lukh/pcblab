@@ -40,6 +40,7 @@ class MainWindow : public QMainWindow
     private Q_SLOTS:
         void updateZoom(bool inZoomIn, plPoint inPoint);
         void updateMove(double inDx, double inDy);
+        void click(plPoint inPoint);
         void updateCursor(plPoint inPoint);
 
         void updateColor(string inIdentifier, Color inColor);
