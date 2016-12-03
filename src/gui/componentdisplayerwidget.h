@@ -7,14 +7,18 @@
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QDialog>
-#include <QListWidget>
+#include <QTableView>
+#include <QDataWidgetMapper>
 
 #include "component.h"
+
+#include "componentsmodelwrapper.h"
 
 #include "qdisplayer.h"
 
 
 
+/// a widget dedicated to displaying the component list
 class DesListDialog: public QDialog{
     Q_OBJECT
 
@@ -24,51 +28,52 @@ class DesListDialog: public QDialog{
             setMinimumWidth(200);
             setMinimumHeight(100);
 
-            mList = new QListWidget();
-            QObject::connect(mList, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(selectItem(QListWidgetItem*)));
-
+            mView = new QTableView();
 
             QHBoxLayout *layout = new QHBoxLayout(this);
-            layout->addWidget(mList);
+            layout->addWidget(mView);
+
+
+            connect(mView, SIGNAL(clicked(const QModelIndex &)), this, SIGNAL(viewClicked(const QModelIndex &)));
         }
 
 
         ~DesListDialog(){
-            delete mList;
+            delete mView;
         }
 
-        void setCurrent(const string &inDes){
-            QString des = QString::fromStdString(inDes);
 
-            QList<QListWidgetItem *> res = mList->findItems(des, Qt::MatchExactly);
-            if(res.size() == 1){
-                mList->setCurrentItem(res[0]);
-            }
+
+        void setModel(QAbstractTableModel *inModel) {
+            mView->setModel(inModel);
         }
 
-        void update(const vector<string> &inList){
-            mList->clear();
-            for(vector<string>::const_iterator it = inList.begin(); it != inList.end(); ++it){
-                mList->addItem(QString::fromStdString(*it));
-            }
-        }
 
     public Q_SLOTS:
-        void selectItem(QListWidgetItem *it){
-            Q_EMIT(itemSelected(it->text().toStdString()));
+        void setCurrentIndex(const QModelIndex &inMI){
+            mView->setCurrentIndex(inMI);
         }
 
+
     Q_SIGNALS:
-        void itemSelected(string);
+        void viewClicked(const QModelIndex &inIndex);
+
+
 
     private:
-        QListWidget *mList;
+        QTableView *mView;
 };
 
 
 namespace Ui {
 class ComponentDisplayerWidget;
 }
+
+
+
+
+
+
 
 
 /// Display component informations
@@ -80,34 +85,38 @@ class ComponentDisplayerWidget : public QWidget
         explicit ComponentDisplayerWidget(QWidget *parent = 0);
         ~ComponentDisplayerWidget();
 
-        ///set the param list to show in the widget
-        void setParametersList(vector <string> inParams);
-        void setDesignatorList(vector <string> inList);
+
+        void setModel(ComponentModelWrapper *inModel);
+
+        void setParameters(vector <string> inParameters);
+
 
     public Q_SLOTS:
-        void displayComponent(Component &inComponent);
-
         void on_previousCompoButton_clicked();
         void on_nextCompoButton_clicked();
         void on_showListButton_clicked();
 
-        void on_itemSelectedInList(string inDes);
+        void on_itemSelectedInList(const QModelIndex &inIndex);
 
     Q_SIGNALS:
         void componentUpdated(string);
 
 
     private:
+        void updateDisplayers();
+        void notify();
+
+    private:
         Ui::ComponentDisplayerWidget *ui;
-
-        vector <string> mParametersList;
-
-        vector <string> mDesList;
-        vector <string>::iterator mDesIterator;
 
         vector <QDisplayer *> mDisplayerList;
 
         DesListDialog *mDesListDialog;
+
+        /// parameters used by the view
+        vector <string> mParameters;
+
+        QDataWidgetMapper mMapper;
 };
 
 #endif // COMPONENTDISPLAYERWIDGET_H

@@ -69,7 +69,8 @@ SOURCES += \
     ../src/gui/cairorenderer/cairocomponentrenderer.cpp \
     ../src/pcblab/bom/icomponentrenderer.cpp \
     ../src/gui/componentdisplayerwidget.cpp \
-    ../src/gui/layerslistwidget.cpp
+    ../src/gui/layerslistwidget.cpp \
+    ../src/gui/tools/componentsmodelwrapper.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -117,7 +118,8 @@ HEADERS  += \
     ../src/gui/cairorenderer/cairocomponentrenderer.h \
     ../src/pcblab/bom/icomponentrenderer.h \
     ../src/gui/componentdisplayerwidget.h \
-    ../src/gui/layerslistwidget.h
+    ../src/gui/layerslistwidget.h \
+    ../src/gui/tools/componentsmodelwrapper.h
 
 
 

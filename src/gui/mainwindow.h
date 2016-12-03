@@ -9,6 +9,8 @@
 
 #include "displayviewprocessor.h"
 
+#include "componentsmodelwrapper.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -34,7 +36,10 @@ class MainWindow : public QMainWindow
         PcbLab mPcb;
 
 
-//<<<
+        ComponentModelWrapper mCompoModel;
+
+
+//<<< PCB View
         void init();
 
     private Q_SLOTS:

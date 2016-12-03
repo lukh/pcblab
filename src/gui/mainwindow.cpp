@@ -63,18 +63,8 @@ void MainWindow::init()
 
     updateLayersList();
 
-    vector <string> des_list;
-    //inPcb.getComponents().getDesignatorsList(des_list);
-    vector <string> prefix;
-    prefix.push_back("C");
-    prefix.push_back("R");
-    prefix.push_back("U");
-    prefix.push_back("X");
-    prefix.push_back("L");
-    prefix.push_back("P");
-    prefix.push_back("J");
-    mPcb.getComponents().getSortedAndGroupedDesignatorsList(prefix, "Value", des_list);
-    ui->componentDisplayer->setDesignatorList(des_list);
+    mCompoModel.setHandler(&mPcb.getComponents());
+    ui->componentDisplayer->setModel(&mCompoModel);
 }
 
 
@@ -95,9 +85,11 @@ void MainWindow::updateMove(double inDx, double inDy)
 
 void MainWindow::click(plPoint inPoint)
 {
-    plPoint pos = mProcessor->convertCoordsFromImageToReal(inPoint);
-    string des = mPcb.getComponents().getNearestDesignator(pos);
-    updateCurrentComponent(des);
+    if(mProcessor != NULL){
+        plPoint pos = mProcessor->convertCoordsFromImageToReal(inPoint);
+        string des = mPcb.getComponents().getNearestDesignator(pos);
+        updateCurrentComponent(des);
+    }
 }
 
 void MainWindow::updateCursor(plPoint inPoint)
@@ -111,26 +103,33 @@ void MainWindow::updateCursor(plPoint inPoint)
 
 void MainWindow::updateColor(string inIdentifier, Color inColor)
 {
-    mProcessor->updateLayerColor(inIdentifier, inColor);
+    if(mProcessor != NULL){
+        mProcessor->updateLayerColor(inIdentifier, inColor);
+    }
 }
 
 void MainWindow::updateTransparency(string inIdentifier, uint8_t inTransp)
 {
-    mProcessor->updateLayerTransparency(inIdentifier, inTransp);
+    if(mProcessor != NULL){
+        mProcessor->updateLayerTransparency(inIdentifier, inTransp);
+    }
 }
 
 void MainWindow::updateCurrentComponent(string inDes)
 {
-    Component compo;
-    if(mPcb.getComponents().getComponent(inDes, compo)){
-        ui->componentDisplayer->displayComponent(compo);
-        mProcessor->displayComponent(inDes);
+    if(mProcessor != NULL){
+        Component compo;
+        if(mPcb.getComponents().getComponent(inDes, compo)){
+            mProcessor->displayComponent(inDes);
+        }
     }
 }
 
 void MainWindow::updateLayersList()
 {
-    ui->layersList->updateLayersList(mPcb, mProcessor);
+    if(mProcessor != NULL){
+        ui->layersList->updateLayersList(mPcb, mProcessor);
+    }
 }
 
 
