@@ -106,6 +106,20 @@ void CairoComponentRenderer::drawComponent(const Component &inCompo)
 
         cairo_stroke(mContext);
 
+        //smaller line inside
+        ux = 1; uy = 1;
+        cairo_device_to_user_distance (mContext, &ux, &uy);
+        if (ux < uy){ ux = uy; }
+        width = ux;
+        cairo_set_line_width(mContext, width);
+
+        cairo_move_to(mContext, pos.mX - radius, pos.mY);
+        cairo_line_to(mContext, pos.mX + radius, pos.mY);
+        cairo_move_to(mContext, pos.mX, pos.mY - radius);
+        cairo_line_to(mContext, pos.mX, pos.mY + radius);
+
+        cairo_stroke(mContext);
+
         // show the des
         ux = 40; uy = 40;
         cairo_device_to_user_distance (mContext, &ux, &uy);
