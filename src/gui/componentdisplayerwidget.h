@@ -8,6 +8,7 @@
 #include <QHBoxLayout>
 #include <QDialog>
 #include <QTableView>
+#include <QHeaderView>
 #include <QDataWidgetMapper>
 
 #include "component.h"
@@ -29,6 +30,7 @@ class DesListDialog: public QDialog{
             setMinimumHeight(600);
 
             mView = new QTableView();
+            mView->horizontalHeader()->setSectionsMovable(true);
 
             QHBoxLayout *layout = new QHBoxLayout(this);
             layout->addWidget(mView);
