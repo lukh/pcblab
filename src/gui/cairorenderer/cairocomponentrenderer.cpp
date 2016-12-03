@@ -26,7 +26,7 @@ void CairoComponentRenderer::draw(const ComponentHandler &inComponentHandler)
     cairo_set_source_rgba(mContext, (double)mColor.mR/255.0, (double)mColor.mG/255.0, (double)mColor.mB/255.0, (double)mTransparency/255.0);
 
     //font
-    initFont();
+    initFont(20);
 
     //start drawing
     const Components compos = inComponentHandler.getComponents();
