@@ -62,13 +62,15 @@ void CairoComponentRenderer::drawComponent(const Component &inCompo)
     cairo_text_extents_t extents;
     cairo_text_extents(mContext, des.c_str(), &extents);
 
-    double x = pos.mX - (extents.width/2 + extents.x_bearing);
-    double y = pos.mY - (extents.height/2 + extents.y_bearing);
+    if(mAllComponents){
+        double x = pos.mX - (extents.width/2 + extents.x_bearing);
+        double y = pos.mY - (extents.height/2 + extents.y_bearing);
 
-    cairo_move_to (mContext, x, y);
-    cairo_show_text (mContext, des.c_str());
+        cairo_move_to (mContext, x, y);
+        cairo_show_text (mContext, des.c_str());
+    }
 
-    if(!mAllComponents){
+    else{
         // radius
         double ux=20, uy=20;
         cairo_device_to_user_distance (mContext, &ux, &uy);
@@ -103,6 +105,14 @@ void CairoComponentRenderer::drawComponent(const Component &inCompo)
         cairo_line_to(mContext, pos.mX, pos.mY + radius);
 
         cairo_stroke(mContext);
+
+        // show the des
+        ux = 40; uy = 40;
+        cairo_device_to_user_distance (mContext, &ux, &uy);
+        if (ux < uy){ ux = uy; }
+        double txt_pos = ux;
+        cairo_move_to (mContext, pos.mX-txt_pos, pos.mY-txt_pos);
+        cairo_show_text (mContext, des.c_str());
     }
 }
 
