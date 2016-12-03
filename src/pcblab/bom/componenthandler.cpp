@@ -1,5 +1,7 @@
 #include "componenthandler.h"
 
+#include <math.h>
+
 ComponentHandler::ComponentHandler()
 {
     mBOM.setDesignatorString("Designator");
@@ -164,6 +166,29 @@ bool ComponentHandler::getComponent(const string &inDes, Component &outComponent
         outComponent = mComponents[inDes];
         return true;
     }
+}
+
+string ComponentHandler::getNearestDesignator(plPoint inPoint)
+{
+    string nearest_des;
+    double smaller_dist;
+
+    nearest_des = mComponents.begin()->first;
+
+    plPoint pos = mComponents.begin()->second.getPosition();
+    smaller_dist = sqrt(pow(inPoint.mX - pos.mX, 2) + pow(inPoint.mY - pos.mY, 2));
+
+    for(Components::const_iterator it = mComponents.begin(); it != mComponents.end(); ++it){
+        pos = it->second.getPosition();
+        double dist = sqrt(pow(inPoint.mX - pos.mX, 2) + pow(inPoint.mY - pos.mY, 2));
+
+        if(dist < smaller_dist){
+            smaller_dist = dist;
+            nearest_des = it->first;
+        }
+    }
+
+    return nearest_des;
 }
 
 
