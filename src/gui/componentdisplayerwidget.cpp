@@ -30,6 +30,11 @@ void ComponentDisplayerWidget::setParametersList(vector<string> inParams)
 }
 
 void ComponentDisplayerWidget::setDesignatorList(vector<string> inList){
+    if(inList.size() == 0){
+        mDesList.clear();
+        return;
+    }
+
     mDesList = inList;
     mDesIterator = mDesList.begin();
 
@@ -52,16 +57,19 @@ void ComponentDisplayerWidget::displayComponent(Component &inComponent)
     QHBoxLayout *layout = new QHBoxLayout();
 
     QDisplayer *disp= new QDisplayer("Name");
+    disp->setStyleSheet("font-size: 15px");
     disp->update(QString::fromStdString(inComponent.getDesignator()));
     layout->addWidget(disp);
     mDisplayerList.push_back(disp);
 
     disp= new QDisplayer("Position", ui->paramWidget);
+    disp->setStyleSheet("font-size: 15px");
     layout->addWidget(disp);
     disp->update(inComponent.getPosition());
     mDisplayerList.push_back(disp);
 
     disp= new QDisplayer("Rotation", ui->paramWidget);
+    disp->setStyleSheet("font-size: 15px");
     layout->addWidget(disp);
     disp->update(inComponent.getRotation());
     mDisplayerList.push_back(disp);
@@ -71,6 +79,7 @@ void ComponentDisplayerWidget::displayComponent(Component &inComponent)
         string param;
         if(inComponent.getParameter(*p, param)){
             QDisplayer *disp= new QDisplayer(QString::fromStdString(*p));
+            disp->setStyleSheet("font-size: 15px");
             disp->update(QString::fromStdString(param));
             layout->addWidget(disp);
             mDisplayerList.push_back(disp);
