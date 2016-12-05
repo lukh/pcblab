@@ -52,6 +52,23 @@ void ComponentDisplayerWidget::setParameters(vector<string> inParameters)
     notify();
 }
 
+void ComponentDisplayerWidget::setComponentByDes(string inDes)
+{
+    QAbstractItemModel *m = mMapper.model();
+
+    for(uint32_t idx = 0; idx < m->rowCount(); idx++){
+        QModelIndex mi = m->index(idx, 0);
+        QVariant v = m->data(mi);
+        string des = v.toString().toStdString();
+
+        if(des.compare(inDes) == 0){
+            mMapper.setCurrentIndex(idx);
+            notify();
+            break;
+        }
+    }
+}
+
 
 void ComponentDisplayerWidget::on_previousCompoButton_clicked()
 {

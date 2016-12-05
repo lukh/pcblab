@@ -70,7 +70,7 @@ SOURCES += \
     ../src/pcblab/bom/icomponentrenderer.cpp \
     ../src/gui/componentdisplayerwidget.cpp \
     ../src/gui/layerslistwidget.cpp \
-    ../src/gui/tools/componentsmodelwrapper.cpp
+    ../src/gui/tools/componentsmodelwrapper.cpp \
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -119,7 +119,7 @@ HEADERS  += \
     ../src/pcblab/bom/icomponentrenderer.h \
     ../src/gui/componentdisplayerwidget.h \
     ../src/gui/layerslistwidget.h \
-    ../src/gui/tools/componentsmodelwrapper.h
+    ../src/gui/tools/componentsmodelwrapper.h \
 
 
 
@@ -182,6 +182,9 @@ DISTFILES += \
     ../data/firstdraws.grb \
     ../data/arcs.grb \
     ../TODO
+
+RESOURCES += \
+    ../data/resources.qrc
 
 
 

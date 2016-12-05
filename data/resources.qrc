@@ -1,0 +1,11 @@
+<RCC>
+    <qresource>
+        <file>../data/icons/open_project.png</file>
+        <file>../data/icons/open_folder.png</file>
+        <file>../data/icons/open_file.png</file>
+        <file>../data/icons/save.png</file>
+        <file>../data/icons/component.png</file>
+        <file>../data/icons/net.png</file>
+
+    </qresource>
+</RCC>

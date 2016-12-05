@@ -8,6 +8,7 @@ GerberHandler::ExtensionOrderList sExtList;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
+    mComponentSelEnable(false),
     mProcessor(NULL)
 {
     ui->setupUi(this);
@@ -48,6 +49,11 @@ void MainWindow::on_actionOpenFolder_triggered()
     init();
 }
 
+void MainWindow::on_actionActiveComponentSelection_toggled(bool inEn)
+{
+    mComponentSelEnable = inEn;
+}
+
 
 
 void MainWindow::init()
@@ -86,9 +92,11 @@ void MainWindow::updateMove(double inDx, double inDy)
 void MainWindow::click(plPoint inPoint)
 {
     if(mProcessor != NULL){
-        plPoint pos = mProcessor->convertCoordsFromImageToReal(inPoint);
-        string des = mPcb.getComponents().getNearestDesignator(pos);
-        updateCurrentComponent(des);
+        if(mComponentSelEnable){
+            plPoint pos = mProcessor->convertCoordsFromImageToReal(inPoint);
+            string des = mPcb.getComponents().getNearestDesignator(pos);
+            ui->componentDisplayer->setComponentByDes(des);
+        }
     }
 }
 

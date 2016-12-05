@@ -28,15 +28,18 @@ class MainWindow : public QMainWindow
     private Q_SLOTS:
         void on_actionOpenFolder_triggered();
 
+        void on_actionActiveComponentSelection_toggled(bool inEn);
+
 
     private:
         Ui::MainWindow *ui;
 
-
         PcbLab mPcb;
 
-
         ComponentModelWrapper mCompoModel;
+
+
+        bool mComponentSelEnable;
 
 
 //<<< PCB View

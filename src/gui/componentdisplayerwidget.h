@@ -94,6 +94,8 @@ class ComponentDisplayerWidget : public QWidget
 
         void setParameters(vector <string> inParameters);
 
+        void setComponentByDes(string inDes);
+
 
     public Q_SLOTS:
         void on_previousCompoButton_clicked();
