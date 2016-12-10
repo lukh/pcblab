@@ -28,21 +28,9 @@ class IViewProcessor
         void displayComponent(string inDesignator);
 
 
-        void setup(uint32_t inWidth, uint32_t inHeight);
-
-
         //<<< --- Interface of IViewProcessor
         /// repaint all the surface
         virtual void refresh() = 0;
-
-
-
-        /// related to zoom
-        virtual void zoom(bool inZoomIn, plPoint inPoint) = 0;
-
-        /// move regarding the delta, in the surface coordinate
-        virtual void move(double inDx, double inDy) = 0;
-
 
         /// convert coords from image (pixels) to reality (mm/in)
         virtual plPoint convertCoordsFromImageToReal(plPoint inImgCoords) = 0;
@@ -50,6 +38,10 @@ class IViewProcessor
 
 
     protected:
+        /// Init the 2D surface and connect the renderers
+        void setup(uint32_t inWidth, uint32_t inHeight);
+
+
         /// compute the new area after a zoom
         /// inPoint is the center of the zoom
         /// inRect is the original rect
