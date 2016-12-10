@@ -93,7 +93,8 @@ void ComponentDisplayerWidget::on_itemSelectedInList(const QModelIndex &inIndex)
 {
     mMapper.setCurrentIndex(inIndex.row());
 
-    QVariant var = inIndex.data();
+    //get the des
+    QVariant var = mMapper.model()->index(inIndex.row(), 0).data();;
 
     Q_EMIT(componentUpdated(var.toString().toStdString()));
 }
