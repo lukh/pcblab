@@ -27,7 +27,7 @@ class DesListDialog: public QDialog{
         DesListDialog(QWidget *parent = 0): QDialog(parent) {
             setWindowTitle("Designators List");
             setMinimumWidth(400);
-            setMinimumHeight(600);
+            setMinimumHeight(200);
 
             mView = new QTableView();
             mView->horizontalHeader()->setSectionsMovable(true);
