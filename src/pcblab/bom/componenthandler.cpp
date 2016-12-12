@@ -57,7 +57,8 @@ bool ComponentHandler::openFolder(const string &inFolderName)
         if(ext.compare("CSV") == 0 && file.find("Pick Place") != string::npos){
             string filename = inFolderName + "/" + file;
 
-            open_status = openPnpLayer(filename, mComponents);
+            bool status = openPnpLayer(filename, mComponents);
+            open_status = status && open_status;
             break;
         }
     }
