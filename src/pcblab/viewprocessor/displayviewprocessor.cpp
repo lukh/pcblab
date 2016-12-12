@@ -28,6 +28,10 @@ void DisplayViewProcessor::refresh()
 }
 
 
+plPoint DisplayViewProcessor::convertCoordsFromImageToReal(plPoint inImgCoords)
+{
+    return mViewer.getPointInSourceCoords(inImgCoords);
+}
 
 void DisplayViewProcessor::zoom(bool inZoomIn, plPoint inPoint)
 {
@@ -69,10 +73,4 @@ void DisplayViewProcessor::move(double inDx, double inDy)
     mComponentRenderer.draw(mPcb.getComponents());
 
     mCairoWidget->showImage(mViewer.getSurface());
-}
-
-
-plPoint DisplayViewProcessor::convertCoordsFromImageToReal(plPoint inImgCoords)
-{
-    return mViewer.getPointInSourceCoords(inImgCoords);
 }

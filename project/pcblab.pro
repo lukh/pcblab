@@ -54,7 +54,6 @@ SOURCES += \
     ../src/pcblab/gerber/igerberview.cpp \
     ../src/gui/cairowidget/qcairowidget.cpp \
     ../src/gui/opencvwidget/qopencvwidget.cpp \
-    ../src/gui/qpcblabdisplayerwidget.cpp \
     ../src/pcblab/viewprocessor/iviewprocessor.cpp \
     ../src/pcblab/excellon/excellonparser.cpp \
     ../src/pcblab/gerber/gerberparser.cpp \
@@ -71,7 +70,10 @@ SOURCES += \
     ../src/pcblab/bom/icomponentrenderer.cpp \
     ../src/gui/componentdisplayerwidget.cpp \
     ../src/pcblab/netlist/netlisthandler.cpp \
-    ../src/pcblab/netlist/netlistparser.cpp
+    ../src/pcblab/netlist/netlistparser.cpp \
+    ../src/gui/layerslistwidget.cpp \
+    ../src/gui/tools/componentsmodelwrapper.cpp \
+
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -101,7 +103,6 @@ HEADERS  += \
     ../src/gui/cairowidget/qcairowidget.h \
     ../src/gui/opencvwidget/qopencvwidget.h \
     ../src/gui/opencvwidget/iopencvwidget.h \
-    ../src/gui/qpcblabdisplayerwidget.h \
     ../src/pcblab/viewprocessor/iviewprocessor.h \
     ../src/pcblab/excellon/excellonparser.h \
     ../src/pcblab/gerber/gerberparser.h \
@@ -121,7 +122,10 @@ HEADERS  += \
     ../src/pcblab/bom/icomponentrenderer.h \
     ../src/gui/componentdisplayerwidget.h \
     ../src/pcblab/netlist/netlisthandler.h \
-    ../src/pcblab/netlist/netlistparser.h
+    ../src/pcblab/netlist/netlistparser.h \
+    ../src/gui/layerslistwidget.h \
+    ../src/gui/tools/componentsmodelwrapper.h \
+
 
 
 
@@ -174,8 +178,8 @@ INCLUDEPATH += \
 
 FORMS += \
     ../src/gui/mainwindow.ui \
-    ../src/gui/qpcblabdisplayerwidget.ui \
-    ../src/gui/componentdisplayerwidget.ui
+    ../src/gui/componentdisplayerwidget.ui \
+    ../src/gui/layerslistwidget.ui
 
 DISTFILES += \
     ../doc/the_gerber_file_format_specification.pdf \
@@ -184,6 +188,9 @@ DISTFILES += \
     ../data/firstdraws.grb \
     ../data/arcs.grb \
     ../TODO
+
+RESOURCES += \
+    ../data/resources.qrc
 
 
 

@@ -13,6 +13,9 @@
 class QDisplayer : public QWidget
 {
     Q_OBJECT
+
+    Q_PROPERTY(QString value READ getValue WRITE update)
+
     public:
         QDisplayer(QWidget *parent = 0): QWidget(parent) {
             mName = new QLabel();
@@ -40,21 +43,10 @@ class QDisplayer : public QWidget
 
         void setName(QString inName) { mName->setText(inName); }
 
-        void update(double inValue){
-            mValue->setText(QString::number(inValue));
-        }
-
-        void update(int inValue){
-            mValue->setText(QString::number(inValue));
-        }
 
         void update(QString inStr){ mValue->setText(inStr); }
+        QString getValue() const { return mValue->text(); }
 
-        void update(plPoint inValue){
-            QString text;
-            text += "(" + QString::number(inValue.mX) + ", " + QString::number(inValue.mY) + ")";
-            mValue->setText(text);
-        }
 
     private:
         QLabel *mName;

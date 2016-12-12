@@ -22,20 +22,21 @@ class DisplayViewProcessor: public IViewProcessor
         void init(uint32_t inWidth, uint32_t inHeight);
 
 
+
+
         //<<< --- Interface of IViewProcessor
         /// update the view, change the transformations
         virtual void refresh();
 
-        /// related to zoom
-        virtual void zoom(bool inZoomIn, plPoint inPoint);
-
-        /// move regarding the delta, in the surface coordinate
-        virtual void move(double inDx, double inDy);
-
-
         /// convert coords from image (pixels) to reality (mm/in)
         virtual plPoint convertCoordsFromImageToReal(plPoint inImgCoords);
         // --- >>>
+
+        /// related to zoom
+        void zoom(bool inZoomIn, plPoint inPoint);
+
+        /// move regarding the delta, in the surface coordinate
+        void move(double inDx, double inDy);
 
 
     private:

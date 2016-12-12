@@ -23,18 +23,24 @@ class ComponentHandler
         /// search into a folder the csv file and call openFile
         bool openFolder(const string &inFolderName);
 
-        bool openBomLayer(const string &inFileName, Components &outComponents);
-        bool openPnpLayer(const string &inFileName, Components &outComponents);
-
         void close();
 
         const Components &getComponents() const { return mComponents; }
 
+        /// returns the list of designators
         void getDesignatorsList(vector <string> & outDesList) const;
 
-        void getSortedAndGroupedDesignatorsList(vector<string> inDesPrefix, vector <string> & outDesList) const;
+        ///returns the list of components des, by prefix order and grouped by sorting Key
+        void getSortedAndGroupedDesignatorsList(const vector<string> &inDesPrefixOrder, string inSortingKey, vector <string> & outDesList);
 
         bool getComponent(const string &inDes, Component &outComponent);
+
+
+        string getNearestDesignator(plPoint inPoint);
+
+    protected:
+        bool openBomLayer(const string &inFileName, Components &outComponents);
+        bool openPnpLayer(const string &inFileName, Components &outComponents);
 
     private:
         BomParser mBOM;

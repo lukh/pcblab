@@ -9,6 +9,8 @@
 
 #include "displayviewprocessor.h"
 
+#include "componentsmodelwrapper.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -17,19 +19,54 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
-private Q_SLOTS:
-    void on_actionOpenFolder_triggered();
+    public:
+        explicit MainWindow(QWidget *parent = 0);
+        ~MainWindow();
 
 
-private:
-    Ui::MainWindow *ui;
+
+    private Q_SLOTS:
+        void on_actionOpenFolder_triggered();
+
+        void on_actionActiveComponentSelection_toggled(bool inEn);
 
 
-    PcbLab mPcb;
+    private:
+        Ui::MainWindow *ui;
+
+        PcbLab mPcb;
+
+        ComponentModelWrapper mCompoModel;
+
+
+        bool mComponentSelEnable;
+
+
+//<<< PCB View
+        void init();
+
+    private Q_SLOTS:
+        void updateZoom(bool inZoomIn, plPoint inPoint);
+        void updateMove(double inDx, double inDy);
+        void click(plPoint inPoint);
+        void updateCursor(plPoint inPoint);
+
+        void updateColor(string inIdentifier, Color inColor);
+        void updateTransparency(string inIdentifier, uint8_t inTransp);
+
+
+        void updateCurrentComponent(string inDes);
+
+    private:
+        void updateLayersList();
+        void clearLayersList();
+
+    protected:
+        virtual void resizeEvent(QResizeEvent *event);
+
+    private:
+        DisplayViewProcessor *mProcessor;
+//>>>
 };
 
 #endif // MAINWINDOW_H

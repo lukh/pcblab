@@ -7,7 +7,7 @@ CairoExcellonRenderer::CairoExcellonRenderer(): IExcellonRenderer(),ICairoRender
 
 void CairoExcellonRenderer::draw(ExcellonHandler &inExcellonHandler)
 {
-    if(mContext == NULL){
+    if(mContext == NULL || mTransparency == 0){
         return;
     }
 
