@@ -9,20 +9,37 @@
 
 #include "pcblab/common.h"
 
+#include "tools/fio.h"
+
+#include "netlistparser.h"
+
 using namespace std;
 
 /// this class manages the Net list, from IPC-d-356 format
 /// 
-class NetlistHandler{
+class NetlistHandler: public NetlistParser{
     public:
         NetlistHandler();
         virtual ~NetlistHandler();
 
-        /// Opens a folder containing all gerber files, based on extensions
+        /// Opens a folder and find the file
         bool openFolder(const string &inFolderName);
 
-        /// clean existing layers
+        bool openNetlist(const string &inFileName);
+
+        /// clean existing
         void close();
+
+
+    protected:
+        //<<< --- Interface for NetListParser (if implemented in that way !)
+        virtual void setUnit();
+        virtual void setJobName();
+
+        virtual bool isUnitMm();
+
+        virtual void addNetEntry(string inNetName, const NetEntry &inEntry);
+        //--- >>>
 
 };
 

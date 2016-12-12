@@ -69,7 +69,9 @@ SOURCES += \
     ../src/tools/stringoperations.cpp \
     ../src/gui/cairorenderer/cairocomponentrenderer.cpp \
     ../src/pcblab/bom/icomponentrenderer.cpp \
-    ../src/gui/componentdisplayerwidget.cpp
+    ../src/gui/componentdisplayerwidget.cpp \
+    ../src/pcblab/netlist/netlisthandler.cpp \
+    ../src/pcblab/netlist/netlistparser.cpp
 
 HEADERS  += \
     ../src/pcblab/gerber/aperture/aperture.h \
@@ -117,7 +119,9 @@ HEADERS  += \
     ../src/tools/stringoperations.h \
     ../src/gui/cairorenderer/cairocomponentrenderer.h \
     ../src/pcblab/bom/icomponentrenderer.h \
-    ../src/gui/componentdisplayerwidget.h
+    ../src/gui/componentdisplayerwidget.h \
+    ../src/pcblab/netlist/netlisthandler.h \
+    ../src/pcblab/netlist/netlistparser.h
 
 
 
