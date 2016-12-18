@@ -6,6 +6,8 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <map>
+#include <vector>
 
 #include "pcblab/common.h"
 
@@ -19,6 +21,9 @@ using namespace std;
 /// 
 class NetlistHandler: public NetlistParser{
     public:
+        typedef map<string, vector <NetlistParser::NetEntry> > Netlist;
+
+
         NetlistHandler();
         virtual ~NetlistHandler();
 
@@ -33,14 +38,19 @@ class NetlistHandler: public NetlistParser{
 
     protected:
         //<<< --- Interface for NetListParser (if implemented in that way !)
-        virtual void setUnit();
+        virtual void setUnit(eUnit inUnit);
         virtual void setJobName();
 
         virtual bool isUnitMm();
 
-        virtual void addNetEntry(string inNetName, const NetEntry &inEntry);
+        virtual void addNetEntry(string inNetName, NetEntry inEntry);
         //--- >>>
 
+
+    private:
+        NetlistParser::eUnit mUnit;
+
+        Netlist mNetlist;
 };
 
 #endif

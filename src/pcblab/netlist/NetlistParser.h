@@ -14,13 +14,21 @@
 #include "pcblab/common.h"
 
 
+
 /// Handles the parsing of the Netlist file and generate the net list.
 /// This net list is only a net description.
 class NetlistParser{
     public:
+        enum eUnit{
+            eUnitNotSet,
+            eUnitInchDeg,
+            eUnitMmDeg,
+            eUnitInchRad
+        };
+
         enum eColumnName{
             eColEntry,
-            eColType,
+            eColType,       //smd/through hole
             eColNetName,
             eColRefDesID,
             eColRefDesAlpha,
@@ -29,11 +37,15 @@ class NetlistParser{
             eColDiameter,
             eColPlated,
             eColAccessSide,
+            eColSignX,
             eColCoordsX,
-            eColCoordY,
+            eColSignY,
+            eColCoordsY,
             eColRectDataX,
             eColRectDataY,
+            eColRectDataIsCCW,
             eColRectDataRot,
+            eColSolderMask,
 
             eColCount
         };
@@ -49,9 +61,13 @@ class NetlistParser{
         class NetEntry{
             public:
                 enum eEntryType{
+                    eETNone,
                     eThroughHole,
                     eSurfaceMount
                 };
+
+                NetEntry(): mType(eETNone), mPin(0), mIsDrilled(false), mHoleSize(0), mPlated(false), mAccessSide(0), mMidPoint(false), mFeatW(0), mFeatH(0), mFeatRot(0) {}
+
 
                 eEntryType getType() const;
                 void setType(const eEntryType &inType);
@@ -80,6 +96,15 @@ class NetlistParser{
                 bool getPlated() const;
                 void setPlated(bool plated);
 
+                double getFeatW() const;
+                void setFeatW(double inFW);
+
+                double getFeatH() const;
+                void setFeatH(double inFW);
+
+                double getFeatRot() const;
+                void setFeatRot(double featRot);
+
         private:
                 eEntryType mType;
 
@@ -97,6 +122,10 @@ class NetlistParser{
                 uint32_t mAccessSide;
 
                 bool mMidPoint;
+
+                double mFeatW;
+                double mFeatH;
+                double mFeatRot;
         };
 
     public:
@@ -109,18 +138,21 @@ class NetlistParser{
 
 
         //<<< --- Interface for NetListParser (if implemented in that way !)
-        virtual void setUnit() = 0;
+        virtual void setUnit(eUnit inUnit) = 0;
         virtual void setJobName() = 0;
 
         virtual bool isUnitMm() = 0;
 
-        virtual void addNetEntry(string inNetName, const NetEntry &inEntry) = 0;
+        virtual void addNetEntry(string inNetName, NetEntry inEntry) = 0;
         //--- >>>
 
     private:
         void parseOperation(const string &inString);
 
 
+
+        double extractNumber(const string &inStr);
+        string truncString(const string &inStr);
 
     private:
         static const Column sColumnsDescription[eColCount];

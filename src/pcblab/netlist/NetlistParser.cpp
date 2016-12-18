@@ -70,6 +70,36 @@ void NetlistParser::NetEntry::setPlated(bool plated)
     mPlated = plated;
 }
 
+double NetlistParser::NetEntry::getFeatW() const
+{
+    return mFeatW;
+}
+
+void NetlistParser::NetEntry::setFeatW(double inFW)
+{
+    mFeatW =inFW;
+}
+
+double NetlistParser::NetEntry::getFeatH() const
+{
+    return mFeatH;
+}
+
+void NetlistParser::NetEntry::setFeatH(double inFW)
+{
+    mFeatH = inFW;
+}
+
+double NetlistParser::NetEntry::getFeatRot() const
+{
+    return mFeatRot;
+}
+
+void NetlistParser::NetEntry::setFeatRot(double featRot)
+{
+    mFeatRot = featRot;
+}
+
 bool NetlistParser::NetEntry::getIsDrilled() const
 {
     return mIsDrilled;
@@ -102,12 +132,16 @@ const NetlistParser::Column NetlistParser::sColumnsDescription[] = {
     NetlistParser::Column(32,32),    //eColIsDrilled
     NetlistParser::Column(33,36),    //eColDiameter
     NetlistParser::Column(37,37),    //eColPlated
-    NetlistParser::Column(),    //eColAccessSide
-    NetlistParser::Column(),    //eColCoordsX
-    NetlistParser::Column(),    //eColCoordY
-    NetlistParser::Column(),    //eColRectDataX
-    NetlistParser::Column(),    //eColRectDataY
-    NetlistParser::Column(),    //eColRectDataRot
+    NetlistParser::Column(38,40),    //eColAccessSide
+    NetlistParser::Column(42,42),   //eColSignX
+    NetlistParser::Column(43,48),    //eColCoordsX
+    NetlistParser::Column(50,50),    //eColSignY
+    NetlistParser::Column(51,56),    //eColCoordY
+    NetlistParser::Column(58,61),    //eColRectDataX
+    NetlistParser::Column(63,66),    //eColRectDataY
+    NetlistParser::Column(67,67),    //eColRectDataIsCCW
+    NetlistParser::Column(68,70),    //eColRectDataRot
+    NetlistParser::Column(72,73)    //eColSolderMask
 };
 
 
@@ -126,6 +160,26 @@ bool NetlistParser::parse(istream &inStream){
                 break;
 
             case 'P':
+                if(line.find("P  UNITS CUST ") == 0 && line.size() >= 15){
+                    switch(line[14]){
+                        case '0':
+                            setUnit(eUnitInchDeg);
+                            break;
+                        case '1':
+                            setUnit(eUnitMmDeg);
+                            break;
+                        case '2':
+                            setUnit(eUnitInchRad);
+                            break;
+                        default:
+                            setUnit(eUnitNotSet);
+                            break;
+                    }
+
+                }
+                else if(line.compare("P  UNITS CUST") == 0){
+                    setUnit(eUnitInchDeg);
+                }
                 break;
 
             default:
@@ -139,42 +193,45 @@ bool NetlistParser::parse(istream &inStream){
 
 
 void NetlistParser::parseOperation(const string &inString){
-    // check lenght of the line, should be 80
-    if(inString.size() != 80){
-        err_printf("ERROR:(NetlistParser::parseOperation): the line size in not 80cols");
-        return;
-    }
+    double coeff = isUnitMm() ? 0.001 : 0.0001;
 
-    string records[eColCount];
 
-    // let's split... no chance to fail (out_of_range)
-    for (uint8_t col_idx = 0; col_idx < eColCount; col_idx++){
-        records[col_idx] = inString.substr(sColumnsDescription[col_idx].mBegin, sColumnsDescription[col_idx].mBegin-sColumnsDescription[col_idx].mBegin + 1);
-    }
+    if(inString[0] == '3'){
+        // check lenght of the line, should be 80
+        if(inString.size() < 73){
+            err_printf("ERROR:(NetlistParser::parseOperation): the line size in not 80cols");
+            return;
+        }
 
-    NetEntry e;
+        string records[eColCount];
 
-    if(records[eColEntry].compare("3") == 0){
+        // let's split... no chance to fail (out_of_range)
+        for (uint8_t col_idx = 0; col_idx < eColCount; col_idx++){
+            records[col_idx] = inString.substr(sColumnsDescription[col_idx].mBegin, sColumnsDescription[col_idx].mEnd-sColumnsDescription[col_idx].mBegin + 1);
+        }
+
+
+
+        //net name
+        string net_name = truncString(records[eColNetName]);
+
+
+        NetEntry e;
+
         // through hole
-        if(records[eColType].compare("17") == 0){
+        if(records[eColType].compare("1") == 0){
+            // type
             e.setType(NetEntry::eThroughHole);
 
-            e.setDesignator(records[eColRefDesID]);
+            // ref designator
+            e.setDesignator(truncString(records[eColRefDesID]));
 
 
-            const string &raw_pin = records[eColRefDesAlpha];
-            string checked_pin;
-            int32_t pin = -1;
-            for(uint32_t i = 0; i < raw_pin.size() && raw_pin[i] >= '0' && raw_pin[i] <= '9'; i++) { checked_pin += raw_pin[i]; }
-            try{
-                pin = stringToInt(checked_pin);
+            // pin
+            if(records[eColRefDesID].find("VIA") != 0){
+                int pin = static_cast<int>(extractNumber(records[eColRefDesAlpha]));
+                e.setPin(pin); //if not via
             }
-            catch(...){
-                err_printf("ERROR:(NetlistParser::parseOperation): impossible to extract the pin number");
-                return;
-            }
-
-            e.setPin(pin); //if not via
 
 
             e.setMidPoint(records[eColRefDesM].compare("M") == 0);
@@ -182,20 +239,7 @@ void NetlistParser::parseOperation(const string &inString){
             if(records[eColIsDrilled].compare("D") == 0){
                 e.setIsDrilled(true);
                 // if D
-                double coeff = isUnitMm() ? 0.001 : 0.0001;
-
-                string checked_hole;
-                const string &raw_hole = records[eColDiameter];
-                double hole = 0;
-                for(uint32_t i = 0; i < raw_hole.size() && raw_hole[i] >= '0' && raw_hole[i] <= '9'; i++) { checked_hole += raw_hole[i]; }
-                try{
-                    hole = stringToInt(checked_hole);
-                }
-                catch(...){
-                    err_printf("ERROR:(NetlistParser::parseOperation): impossible to extract the hole size");
-                    return;
-                }
-                e.setHoleSize(coeff * hole);
+                e.setHoleSize(coeff * extractNumber(records[eColDiameter]));
 
                 e.setPlated(records[eColPlated].compare("P") == 0);
             }
@@ -211,19 +255,97 @@ void NetlistParser::parseOperation(const string &inString){
             }
 
             //X
+            double x = extractNumber(records[eColCoordsX]);
+            if(records[eColSignX].compare("-") == 0) { x = -x; }
+            x *= coeff;
 
 
             //Y
+            double y = extractNumber(records[eColCoordsY]);
+            if(records[eColSignY].compare("-") == 0) {y = -y; }
+            y *= coeff;
+
+            // set pos
+            e.setPosition(plPoint(x,y));
 
 
             //Feature Size
+            e.setFeatW(coeff * extractNumber(records[eColRectDataX]));
+            e.setFeatH(coeff * extractNumber(records[eColRectDataY]));
+
+            double rot = extractNumber(records[eColRectDataRot]);
+            if(records[eColRectDataIsCCW].compare("R") == 0){ rot = - rot; }
+            e.setFeatRot(rot);
+
+
 
             //Soldermask Field
+            //rab
+
+            if(net_name.size() > 0){
+                addNetEntry(net_name, e);
+            }
         }
 
         // smd
-        else if(records[eColType].compare("27") == 0){
+        else if(records[eColType].compare("2") == 0){
             e.setType(NetEntry::eSurfaceMount);
+
+            // ref designator
+            e.setDesignator(truncString(records[eColRefDesID]));
+
+
+            // pin
+            if(records[eColRefDesID].find("VIA") != 0){
+                int pin = static_cast<int>(extractNumber(records[eColRefDesAlpha]));
+                e.setPin(pin); //if not via
+            }
+
+
+            e.setMidPoint(records[eColRefDesM].compare("M") == 0);
+
+
+            e.setIsDrilled(false);
+
+            // if A
+            const string &raw_acc_side = records[eColAccessSide];
+            if(raw_acc_side[0] == 'A'){
+                uint16_t access_side = 10*((uint16_t)(raw_acc_side[1] - '0')) + (uint16_t)(raw_acc_side[2] - '0');
+                e.setAccessSide(access_side);
+            }
+
+            //X
+            double x = extractNumber(records[eColCoordsX]);
+            if(records[eColSignX].compare("-") == 0) { x = -x; }
+            x *= coeff;
+
+
+            //Y
+            double y = extractNumber(records[eColCoordsY]);
+            if(records[eColSignY].compare("-") == 0) {y = -y; }
+            y *= coeff;
+
+            // set pos
+            e.setPosition(plPoint(x,y));
+
+
+            //Feature Size
+            e.setFeatW(coeff * extractNumber(records[eColRectDataX]));
+            e.setFeatH(coeff * extractNumber(records[eColRectDataY]));
+
+            double rot = extractNumber(records[eColRectDataRot]);
+            if(records[eColRectDataIsCCW].compare("R") == 0){ rot = - rot; }
+            e.setFeatRot(rot);
+
+
+
+            //Soldermask Field
+            //rab
+
+
+            if(net_name.size() > 0){
+                addNetEntry(net_name, e);
+            }
         }
 
     }
@@ -231,7 +353,7 @@ void NetlistParser::parseOperation(const string &inString){
 
 
     // end of file
-    else if(records[eColEntry].compare("9") == 0 && records[eColType].compare("99") == 0) {
+    else if(inString.find("999") == 0) {
 
     }
 
@@ -239,5 +361,30 @@ void NetlistParser::parseOperation(const string &inString){
     else{
         err_printf("ERROR:(NetlistParser::parseOperation): entry unknown");
     }
+}
+
+double NetlistParser::extractNumber(const string &inStr)
+{
+    string checked;
+    double number = 0;
+    for(uint32_t i = 0; i < inStr.size() && inStr[i] >= '0' && inStr[i] <= '9'; i++) { checked += inStr[i]; }
+    try{
+        number = stringToDouble(checked);
+    }
+    catch(...){
+        err_printf("ERROR:(NetlistParser::extractNumber): impossible to extract the number");
+        return 0.0;
+    }
+
+    return number;
+}
+
+string NetlistParser::truncString(const string &inStr)
+{
+    string out;
+    for (uint32_t i = 0; i < inStr.size() && inStr[i] != ' '; i++){
+        out.push_back(inStr[i]);
+    }
+    return out;
 }
 

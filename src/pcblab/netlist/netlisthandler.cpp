@@ -1,7 +1,7 @@
 #include "netlisthandler.h"
 
 
-NetlistHandler::NetlistHandler()
+NetlistHandler::NetlistHandler(): mUnit(NetlistParser::eUnitNotSet)
 {
 
 }
@@ -35,7 +35,7 @@ bool NetlistHandler::openFolder(const string &inFolderName)
         }
 
         // it is a text file
-        if(ext.compare("NET") == 0){
+        if(ext.compare("IPC") == 0){
             string filename = inFolderName + "/" + file;
 
             open_status = openNetlist(filename);
@@ -65,12 +65,12 @@ bool NetlistHandler::openNetlist(const string &inFileName)
 
 void NetlistHandler::close()
 {
-
+    mNetlist.clear();
 }
 
-void NetlistHandler::setUnit()
+void NetlistHandler::setUnit(eUnit inUnit)
 {
-
+    mUnit = inUnit;
 }
 
 void NetlistHandler::setJobName()
@@ -80,10 +80,10 @@ void NetlistHandler::setJobName()
 
 bool NetlistHandler::isUnitMm()
 {
-
+    return mUnit == NetlistParser::eUnitMmDeg;
 }
 
-void NetlistHandler::addNetEntry(string inNetName, const NetlistParser::NetEntry &inEntry)
+void NetlistHandler::addNetEntry(string inNetName, NetlistParser::NetEntry inEntry)
 {
-
+    mNetlist[inNetName].push_back(inEntry);
 }

@@ -73,6 +73,7 @@ SOURCES += \
     ../src/pcblab/netlist/netlistparser.cpp \
     ../src/gui/layerslistwidget.cpp \
     ../src/gui/tools/componentsmodelwrapper.cpp \
+    ../src/pcblab/viewprocessor/projectorviewprocessor.cpp
 
 
 HEADERS  += \
@@ -125,6 +126,7 @@ HEADERS  += \
     ../src/pcblab/netlist/netlistparser.h \
     ../src/gui/layerslistwidget.h \
     ../src/gui/tools/componentsmodelwrapper.h \
+    ../src/pcblab/viewprocessor/projectorviewprocessor.h
 
 
 
