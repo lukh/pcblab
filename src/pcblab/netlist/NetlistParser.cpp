@@ -114,6 +114,9 @@ void NetlistParser::parseOperation(const string &inString){
                 int pin = static_cast<int>(extractNumber(records[eColRefDesAlpha]));
                 e.setPin(pin); //if not via
             }
+            else{
+                e.setPin(-1);
+            }
 
 
             e.setMidPoint(records[eColRefDesM].compare("M") == 0);
@@ -165,6 +168,7 @@ void NetlistParser::parseOperation(const string &inString){
 
 
 
+
             //Soldermask Field
             //rab
 
@@ -185,6 +189,9 @@ void NetlistParser::parseOperation(const string &inString){
             if(records[eColRefDesID].find("VIA") != 0){
                 int pin = static_cast<int>(extractNumber(records[eColRefDesAlpha]));
                 e.setPin(pin); //if not via
+            }
+            else{
+                e.setPin(-1);
             }
 
 
@@ -216,8 +223,12 @@ void NetlistParser::parseOperation(const string &inString){
 
 
             //Feature Size
-            e.setFeatW(coeff * extractNumber(records[eColRectDataX]));
-            e.setFeatH(coeff * extractNumber(records[eColRectDataY]));
+            if(records[eColRectHasDataX].compare("X") == 0){
+                e.setFeatW(coeff * extractNumber(records[eColRectDataX]));
+            }
+            if(records[eColRectHasDataY].compare("Y") == 0){
+                e.setFeatH(coeff * extractNumber(records[eColRectDataY]));
+            }
 
             double rot = extractNumber(records[eColRectDataRot]);
             if(records[eColRectDataIsCCW].compare("R") == 0){ rot = - rot; }

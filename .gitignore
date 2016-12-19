@@ -35,3 +35,4 @@ Makefile*
 
 build/*
 test/gerber/debug/*
+data/Factory/*
