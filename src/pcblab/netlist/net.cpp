@@ -20,12 +20,12 @@ void NetEntry::setDesignator(const string &inDes)
     mDesignator = inDes;
 }
 
-uint32_t NetEntry::getPin() const
+int32_t NetEntry::getPin() const
 {
     return mPin;
 }
 
-void NetEntry::setPin(uint32_t inPin)
+void NetEntry::setPin(int32_t inPin)
 {
     mPin = inPin;
 }

@@ -224,7 +224,6 @@ void NetlistParser::parseOperation(const string &inString){
 
 
             //Feature Size
-
             if(records[eColRectHasDataX].compare("X") == 0){
                 e.setFeatW(coeff * extractNumber(records[eColRectDataX]));
             }

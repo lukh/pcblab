@@ -28,8 +28,8 @@ class NetEntry{
         string getDesignator() const;
         void setDesignator(const string &inDes);
 
-        uint32_t getPin() const;
-        void setPin(uint32_t inPin);
+        int32_t getPin() const;
+        void setPin(int32_t inPin);
 
         bool getMidPoint() const;
         void setMidPoint(bool midPoint);
