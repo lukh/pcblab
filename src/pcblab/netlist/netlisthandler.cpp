@@ -83,7 +83,7 @@ bool NetlistHandler::isUnitMm()
     return mUnit == NetlistParser::eUnitMmDeg;
 }
 
-void NetlistHandler::addNetEntry(string inNetName, NetlistParser::NetEntry inEntry)
+void NetlistHandler::addNetEntry(string inNetName, NetEntry inEntry)
 {
     mNetlist[inNetName].push_back(inEntry);
 }
