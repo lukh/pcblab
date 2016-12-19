@@ -123,9 +123,9 @@ void NetlistParser::NetEntry::setMidPoint(bool midPoint)
 
 
 const NetlistParser::Column NetlistParser::sColumnsDescription[] = {
-    NetlistParser::Column(0,0),    //eColEntry
-    NetlistParser::Column(1,1),    //eColType
-    NetlistParser::Column(3,16),    //eColNetName
+    NetlistParser::Column(0,0),      //eColEntry
+    NetlistParser::Column(1,1),      //eColType
+    NetlistParser::Column(3,16),     //eColNetName
     NetlistParser::Column(20,25),    //eColRefDesID
     NetlistParser::Column(27,30),    //eColRefDesAlpha
     NetlistParser::Column(31,31),    //eColRefDesM
@@ -133,15 +133,17 @@ const NetlistParser::Column NetlistParser::sColumnsDescription[] = {
     NetlistParser::Column(33,36),    //eColDiameter
     NetlistParser::Column(37,37),    //eColPlated
     NetlistParser::Column(38,40),    //eColAccessSide
-    NetlistParser::Column(42,42),   //eColSignX
+    NetlistParser::Column(42,42),    //eColSignX
     NetlistParser::Column(43,48),    //eColCoordsX
     NetlistParser::Column(50,50),    //eColSignY
     NetlistParser::Column(51,56),    //eColCoordY
+    NetlistParser::Column(57,57),    //eColHasDataX
     NetlistParser::Column(58,61),    //eColRectDataX
+    NetlistParser::Column(62,62),    //eColHasData
     NetlistParser::Column(63,66),    //eColRectDataY
     NetlistParser::Column(67,67),    //eColRectDataIsCCW
     NetlistParser::Column(68,70),    //eColRectDataRot
-    NetlistParser::Column(72,73)    //eColSolderMask
+    NetlistParser::Column(72,73)     //eColSolderMask
 };
 
 
@@ -270,8 +272,12 @@ void NetlistParser::parseOperation(const string &inString){
 
 
             //Feature Size
-            e.setFeatW(coeff * extractNumber(records[eColRectDataX]));
-            e.setFeatH(coeff * extractNumber(records[eColRectDataY]));
+            if(records[eColRectHasDataX].compare("X") == 0){
+                e.setFeatW(coeff * extractNumber(records[eColRectDataX]));
+            }
+            if(records[eColRectHasDataY].compare("Y") == 0){
+                e.setFeatH(coeff * extractNumber(records[eColRectDataY]));
+            }
 
             double rot = extractNumber(records[eColRectDataRot]);
             if(records[eColRectDataIsCCW].compare("R") == 0){ rot = - rot; }
