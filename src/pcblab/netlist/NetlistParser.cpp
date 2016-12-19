@@ -169,6 +169,7 @@ void NetlistParser::parseOperation(const string &inString){
 
 
 
+
             //Soldermask Field
             //rab
 
@@ -223,6 +224,7 @@ void NetlistParser::parseOperation(const string &inString){
 
 
             //Feature Size
+
             if(records[eColRectHasDataX].compare("X") == 0){
                 e.setFeatW(coeff * extractNumber(records[eColRectDataX]));
             }
@@ -233,6 +235,7 @@ void NetlistParser::parseOperation(const string &inString){
             double rot = extractNumber(records[eColRectDataRot]);
             if(records[eColRectDataIsCCW].compare("R") == 0){ rot = - rot; }
             e.setFeatRot(rot);
+
 
 
 
