@@ -13,6 +13,8 @@
 
 #include "tools/fio.h"
 
+#include "net.h"
+
 #include "netlistparser.h"
 
 using namespace std;
@@ -21,9 +23,6 @@ using namespace std;
 /// 
 class NetlistHandler: public NetlistParser{
     public:
-        typedef map<string, vector <NetlistParser::NetEntry> > Netlist;
-
-
         NetlistHandler();
         virtual ~NetlistHandler();
 
