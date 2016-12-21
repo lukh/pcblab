@@ -73,11 +73,6 @@ void NetlistHandler::setUnit(eUnit inUnit)
     mUnit = inUnit;
 }
 
-void NetlistHandler::setJobName()
-{
-
-}
-
 bool NetlistHandler::isUnitMm()
 {
     return mUnit == NetlistParser::eUnitMmDeg;

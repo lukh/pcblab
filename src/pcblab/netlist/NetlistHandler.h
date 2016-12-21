@@ -38,7 +38,6 @@ class NetlistHandler: public NetlistParser{
     protected:
         //<<< --- Interface for NetListParser (if implemented in that way !)
         virtual void setUnit(eUnit inUnit);
-        virtual void setJobName();
 
         virtual bool isUnitMm();
 
