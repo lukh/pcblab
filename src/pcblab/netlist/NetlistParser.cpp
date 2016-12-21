@@ -162,10 +162,11 @@ void NetlistParser::parseOperation(const string &inString){
                 e.setFeatH(coeff * extractNumber(records[eColRectDataY]));
             }
 
-            double rot = extractNumber(records[eColRectDataRot]);
-            if(records[eColRectDataIsCCW].compare("R") == 0){ rot = - rot; }
-            e.setFeatRot(rot);
-
+            if(records[eColRectDataRot].find("   ") != 0){
+                double rot = extractNumber(records[eColRectDataRot]);
+                if(records[eColRectDataIsCCW].compare("R") == 0){ rot = - rot; }
+                e.setFeatRot(rot);
+            }
 
 
 
@@ -231,9 +232,11 @@ void NetlistParser::parseOperation(const string &inString){
                 e.setFeatH(coeff * extractNumber(records[eColRectDataY]));
             }
 
-            double rot = extractNumber(records[eColRectDataRot]);
-            if(records[eColRectDataIsCCW].compare("R") == 0){ rot = - rot; }
-            e.setFeatRot(rot);
+            if(records[eColRectDataRot].find("   ") != 0){
+                double rot = extractNumber(records[eColRectDataRot]);
+                if(records[eColRectDataIsCCW].compare("R") == 0){ rot = - rot; }
+                e.setFeatRot(rot);
+            }
 
 
 
