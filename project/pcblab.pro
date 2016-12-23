@@ -16,6 +16,7 @@ TEMPLATE = app
 INCLUDEPATH += ../src \
     ../src/pcblab/gerber \
     ../src/pcblab/excellon \
+    ../src/pcblab/netlist \
     ../src/pcblab/bom \
     ../src/pcblab/viewprocessor \
     ../src/gui \
@@ -74,7 +75,9 @@ SOURCES += \
     ../src/gui/layerslistwidget.cpp \
     ../src/gui/tools/componentsmodelwrapper.cpp \
     ../src/pcblab/viewprocessor/projectorviewprocessor.cpp \
-    ../src/pcblab/netlist/net.cpp
+    ../src/pcblab/netlist/net.cpp \
+    ../src/pcblab/netlist/inetlistrenderer.cpp \
+    ../src/gui/cairorenderer/caironetlistrenderer.cpp
 
 
 HEADERS  += \
@@ -128,7 +131,9 @@ HEADERS  += \
     ../src/gui/layerslistwidget.h \
     ../src/gui/tools/componentsmodelwrapper.h \
     ../src/pcblab/viewprocessor/projectorviewprocessor.h \
-    ../src/pcblab/netlist/net.h
+    ../src/pcblab/netlist/net.h \
+    ../src/pcblab/netlist/inetlistrenderer.h \
+    ../src/gui/cairorenderer/caironetlistrenderer.h
 
 
 

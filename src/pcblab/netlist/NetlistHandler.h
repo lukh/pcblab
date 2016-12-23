@@ -35,6 +35,9 @@ class NetlistHandler: public NetlistParser{
         void close();
 
 
+        const Netlist &getNetList() const { return mNetlist; }
+
+
     protected:
         //<<< --- Interface for NetListParser (if implemented in that way !)
         virtual void setUnit(eUnit inUnit);

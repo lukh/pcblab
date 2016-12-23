@@ -86,6 +86,14 @@ class NetEntry{
 
 class Net{
     public:
+        Net() {}
+        Net(string inName): mName(inName) {}
+
+        void setName(string inName){ mName = inName; }
+        const string& getName() const { return mName; }
+
+        void addEntry(NetEntry inE){ mEntries.push_back(inE); }
+        const vector<NetEntry>& getEntries() const { return mEntries; }
 
 
     private:
@@ -95,7 +103,7 @@ class Net{
 };
 
 
-typedef map<string, vector <NetEntry> > Netlist;
+typedef map<string, Net> Netlist;
 
 
 

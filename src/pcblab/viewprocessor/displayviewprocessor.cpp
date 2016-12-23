@@ -23,6 +23,7 @@ void DisplayViewProcessor::refresh()
     mGerberRenderer.drawAll(mPcb.getGerber());
     mExcellonRenderer.draw(mPcb.getExcellon());
     mComponentRenderer.draw(mPcb.getComponents());
+    mNetlistRenderer.draw(mPcb.getNetlist());
 
     mCairoWidget->showImage(mViewer.getSurface());
 }
@@ -52,6 +53,7 @@ void DisplayViewProcessor::zoom(bool inZoomIn, plPoint inPoint)
     mGerberRenderer.drawAll(mPcb.getGerber());
     mExcellonRenderer.draw(mPcb.getExcellon());
     mComponentRenderer.draw(mPcb.getComponents());
+    mNetlistRenderer.draw(mPcb.getNetlist());
 
     mCairoWidget->showImage(mViewer.getSurface());
 }
@@ -71,6 +73,7 @@ void DisplayViewProcessor::move(double inDx, double inDy)
     mGerberRenderer.drawAll(mPcb.getGerber());
     mExcellonRenderer.draw(mPcb.getExcellon());
     mComponentRenderer.draw(mPcb.getComponents());
+    mNetlistRenderer.draw(mPcb.getNetlist());
 
     mCairoWidget->showImage(mViewer.getSurface());
 }

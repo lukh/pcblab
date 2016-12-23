@@ -68,6 +68,20 @@ void LayersListWidget::updateLayersList(PcbLab &inPcb, IViewProcessor *inProcess
     QObject::connect(conf, SIGNAL(transparencyUpdated(string, uint8_t)), this, SIGNAL(transparencyUpdated(string, uint8_t)));
     QObject::connect(conf, SIGNAL(colorUpdated(string, Color)), this, SIGNAL(colorUpdated(string, Color)));
 
+
+    //net
+    const CairoNetlistRenderer &net_renderer = inProcessor->getNetlistRenderer();
+    conf = new QLayerConfigWidget("Netlist");
+    mLayersList.append(conf);
+
+    ui->saWidget->layout()->addWidget(conf);
+
+    conf->updateTransparency(net_renderer.getTransparency());
+    conf->updateColor(net_renderer.getColor());
+
+    QObject::connect(conf, SIGNAL(transparencyUpdated(string, uint8_t)), this, SIGNAL(transparencyUpdated(string, uint8_t)));
+    QObject::connect(conf, SIGNAL(colorUpdated(string, Color)), this, SIGNAL(colorUpdated(string, Color)));
+
     // spacer
 
     QSpacerItem *verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);

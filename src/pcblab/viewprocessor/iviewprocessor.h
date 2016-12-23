@@ -5,7 +5,7 @@
 #include "cairogerberrenderer.h" //SHOULD BE THE INTERFACE
 #include "cairoexcellonrenderer.h" //SHOULD BE THE INTERFACE
 #include "cairocomponentrenderer.h" //SHOULD BE THE INTERFACE
-
+#include "caironetlistrenderer.h" //SHOULD BE INTERFACED
 
 class IViewProcessor
 {
@@ -17,6 +17,7 @@ class IViewProcessor
         const CairoGerberRenderer &getGerberRenderer() { return mGerberRenderer; }
         const CairoExcellonRenderer &getExcellonRenderer() { return mExcellonRenderer; }
         CairoComponentRenderer &getComponentRenderer() { return mComponentRenderer; }
+        const CairoNetlistRenderer &getNetlistRenderer() { return mNetlistRenderer; }
 
         /// update layer color
         void updateLayerColor(string inIdentifier, Color inColor);
@@ -59,6 +60,7 @@ class IViewProcessor
         CairoGerberRenderer mGerberRenderer;
         CairoExcellonRenderer mExcellonRenderer;
         CairoComponentRenderer mComponentRenderer;
+        CairoNetlistRenderer mNetlistRenderer;
 };
 
 #endif // IVIEWPROCESSOR_H

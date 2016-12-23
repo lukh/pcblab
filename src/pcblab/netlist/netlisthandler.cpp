@@ -80,5 +80,8 @@ bool NetlistHandler::isUnitMm()
 
 void NetlistHandler::addNetEntry(string inNetName, NetEntry inEntry)
 {
-    mNetlist[inNetName].push_back(inEntry);
+    if(mNetlist.find(inNetName) == mNetlist.end()){
+        mNetlist[inNetName] = Net(inNetName);
+    }
+    mNetlist[inNetName].addEntry(inEntry);
 }
