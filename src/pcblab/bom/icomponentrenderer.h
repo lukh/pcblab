@@ -37,7 +37,7 @@ class IComponentRenderer
         void activeAllComponents() { mAllComponents = true; }
 
         void setActiveComponent(const string & inDesignator);
-        void setActiveComponent(vector <string> inDesignators);
+        void setActiveComponents(vector <string> inDesignators);
 
     protected:
         Color mColor;

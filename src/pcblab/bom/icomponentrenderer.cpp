@@ -16,7 +16,7 @@ void IComponentRenderer::setActiveComponent(const string &inDesignator)
     mActiveComponents.push_back(inDesignator);
 }
 
-void IComponentRenderer::setActiveComponent(vector<string> inDesignators)
+void IComponentRenderer::setActiveComponents(vector<string> inDesignators)
 {
     mActiveComponents.clear();
     mActiveComponents = inDesignators;
