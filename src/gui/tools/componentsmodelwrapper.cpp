@@ -5,6 +5,7 @@
 
 
 ComponentModelWrapper::ComponentModelWrapper(QObject *parent):
+    QAbstractTableModel(parent),
     mHandler(NULL)
 {
     //default param
@@ -29,9 +30,12 @@ QVariant ComponentModelWrapper::data(const QModelIndex &index, int role) const
     Component c;
 
     string des = mDesList[index.row()];
-    bool status = mHandler->getComponent(des, c);
+    if(!mHandler->getComponent(des, c)){
+        return QVariant();
+    }
 
-    if ((role == Qt::DisplayRole || role == Qt::EditRole) && status)
+
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
         switch (index.column()) {
             case 0:
@@ -89,8 +93,9 @@ void ComponentModelWrapper::setHandler(ComponentHandler *inHandler)
     if(inHandler == NULL) { return; }
 
     mHandler = inHandler;
-    mHandler->getDesignatorsList(mDesList);
+    //mHandler->getDesignatorsList(mDesList);
 
+    // << TEMP OR DEFAULT
     vector <string> prefix;
     prefix.push_back("C");
     prefix.push_back("R");
@@ -99,6 +104,7 @@ void ComponentModelWrapper::setHandler(ComponentHandler *inHandler)
     prefix.push_back("L");
     prefix.push_back("P");
     prefix.push_back("J");
+    // >>
 
-    inHandler->getSortedAndGroupedDesignatorsList(prefix, "Value", mDesList);
+    mHandler->getSortedAndGroupedDesignatorsList(prefix, "Value", mDesList);
 }
