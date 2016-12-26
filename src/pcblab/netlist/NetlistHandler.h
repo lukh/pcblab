@@ -34,9 +34,14 @@ class NetlistHandler: public NetlistParser{
         /// clean existing
         void close();
 
+        /// returns the map of net
+        const Netlist &getNetlist() const;
 
-        const Netlist &getNetList() const { return mNetlist; }
+        /// returns the list of net names
+        void getNetlistList(vector <string> &outList);
 
+
+        bool getNet(string inName, Net &outNet);
 
     protected:
         //<<< --- Interface for NetListParser (if implemented in that way !)

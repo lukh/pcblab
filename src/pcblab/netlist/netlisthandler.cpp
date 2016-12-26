@@ -68,6 +68,30 @@ void NetlistHandler::close()
     mNetlist.clear();
 }
 
+const Netlist &NetlistHandler::getNetlist() const {
+    return mNetlist;
+}
+
+void NetlistHandler::getNetlistList(vector<string> &outList)
+{
+    outList.clear();
+    for(Netlist::const_iterator it = mNetlist.begin(); it != mNetlist.end(); ++it){
+        outList.push_back(it->first);
+    }
+}
+
+bool NetlistHandler::getNet(string inName, Net &outNet)
+{
+    Netlist::const_iterator it = mNetlist.find(inName);
+    if(it == mNetlist.end()){
+        return false;
+    }
+    else{
+        outNet = mNetlist[inName];
+        return true;
+    }
+}
+
 void NetlistHandler::setUnit(eUnit inUnit)
 {
     mUnit = inUnit;
