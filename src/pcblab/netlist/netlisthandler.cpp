@@ -72,7 +72,7 @@ const Netlist &NetlistHandler::getNetlist() const {
     return mNetlist;
 }
 
-void NetlistHandler::getNetlistList(vector<string> &outList)
+void NetlistHandler::getNetlistList(vector<string> &outList) const
 {
     outList.clear();
     for(Netlist::const_iterator it = mNetlist.begin(); it != mNetlist.end(); ++it){

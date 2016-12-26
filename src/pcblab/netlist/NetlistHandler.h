@@ -38,7 +38,7 @@ class NetlistHandler: public NetlistParser{
         const Netlist &getNetlist() const;
 
         /// returns the list of net names
-        void getNetlistList(vector <string> &outList);
+        void getNetlistList(vector <string> &outList) const;
 
 
         bool getNet(string inName, Net &outNet);
