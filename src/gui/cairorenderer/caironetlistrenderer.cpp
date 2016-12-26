@@ -32,7 +32,7 @@ void CairoNetlistRenderer::draw(const NetlistHandler &inNetlistHandler)
 
 
 
-    const Netlist &netlist = inNetlistHandler.getNetList();
+    const Netlist &netlist = inNetlistHandler.getNetlist();
 
 
     // draw the net

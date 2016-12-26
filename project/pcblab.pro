@@ -77,7 +77,8 @@ SOURCES += \
     ../src/pcblab/viewprocessor/projectorviewprocessor.cpp \
     ../src/pcblab/netlist/net.cpp \
     ../src/pcblab/netlist/inetlistrenderer.cpp \
-    ../src/gui/cairorenderer/caironetlistrenderer.cpp
+    ../src/gui/cairorenderer/caironetlistrenderer.cpp \
+    ../src/gui/tools/netlistmodelwrapper.cpp
 
 
 HEADERS  += \
@@ -133,7 +134,8 @@ HEADERS  += \
     ../src/pcblab/viewprocessor/projectorviewprocessor.h \
     ../src/pcblab/netlist/net.h \
     ../src/pcblab/netlist/inetlistrenderer.h \
-    ../src/gui/cairorenderer/caironetlistrenderer.h
+    ../src/gui/cairorenderer/caironetlistrenderer.h \
+    ../src/gui/tools/netlistmodelwrapper.h
 
 
 
