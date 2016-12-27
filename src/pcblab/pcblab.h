@@ -27,7 +27,7 @@ class PcbLab
         const GerberHandler &getGerber() const { return mGerber; }
         ExcellonHandler &getExcellon() { return mExcellon; }
         ComponentHandler &getComponents() { return mComponent; }
-        const NetlistHandler &getNetlist() const { return mNetlist; }
+        NetlistHandler &getNetlist() { return mNetlist; }
 
 
     private:

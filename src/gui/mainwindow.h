@@ -10,6 +10,7 @@
 #include "displayviewprocessor.h"
 
 #include "componentsmodelwrapper.h"
+#include "netlistmodelwrapper.h"
 
 namespace Ui {
 class MainWindow;
@@ -37,6 +38,7 @@ class MainWindow : public QMainWindow
         PcbLab mPcb;
 
         ComponentModelWrapper mCompoModel;
+        NetlistModelWrapper mNetlistModel;
 
 
         bool mComponentSelEnable;

@@ -7,9 +7,9 @@ ComponentDisplayerWidget::ComponentDisplayerWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    mDesListDialog = new DesListDialog(this);
-    mDesListDialog->hide();
-    QObject::connect(mDesListDialog, SIGNAL(viewClicked(const QModelIndex &)), this, SLOT(on_itemSelectedInList(const QModelIndex&)));
+    mDesListWidget = new DesListWidget(this);
+    mDesListWidget->hide();
+    QObject::connect(mDesListWidget, SIGNAL(viewClicked(const QModelIndex &)), this, SLOT(on_itemSelectedInList(const QModelIndex&)));
 
     //default params list
     mParameters.push_back("PartNumber");
@@ -30,7 +30,7 @@ ComponentDisplayerWidget::~ComponentDisplayerWidget()
 
 void ComponentDisplayerWidget::setModel(ComponentModelWrapper *inModel)
 {
-    mDesListDialog->setModel(inModel);
+    mDesListWidget->setModel(inModel);
 
     mMapper.setModel(inModel);
 
@@ -82,11 +82,6 @@ void ComponentDisplayerWidget::on_nextCompoButton_clicked()
     mMapper.toNext();
 
     notify();
-}
-
-void ComponentDisplayerWidget::on_showListButton_clicked()
-{
-    mDesListDialog->show();
 }
 
 void ComponentDisplayerWidget::on_itemSelectedInList(const QModelIndex &inIndex)
@@ -148,6 +143,6 @@ void ComponentDisplayerWidget::notify()
     QModelIndex idx = model->index(mMapper.currentIndex(), 0);
     QVariant var = idx.data();
 
-    mDesListDialog->setCurrentIndex(idx);
+    mDesListWidget->setCurrentIndex(idx);
     Q_EMIT(componentUpdated(var.toString().toStdString()));
 }

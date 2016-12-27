@@ -117,6 +117,15 @@
    </attribute>
    <widget class="NetlistDisplayerWidget" name="netlistDisplayer"/>
   </widget>
+  <widget class="QDockWidget" name="dockComponentsList">
+   <property name="windowTitle">
+    <string>Components List</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents"/>
+  </widget>
   <action name="actionOpenFolder">
    <property name="icon">
     <iconset resource="../../data/resources.qrc">

@@ -46,9 +46,6 @@
        <height>0</height>
       </size>
      </property>
-     <zorder>widget</zorder>
-     <zorder>widget</zorder>
-     <zorder>widget</zorder>
     </widget>
    </item>
    <item>
@@ -73,13 +70,6 @@
        <widget class="QPushButton" name="previousCompoButton">
         <property name="text">
          <string>Previous</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QPushButton" name="showListButton">
-        <property name="text">
-         <string>Show List</string>
         </property>
        </widget>
       </item>

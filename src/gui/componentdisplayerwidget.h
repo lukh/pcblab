@@ -6,7 +6,6 @@
 
 #include <QWidget>
 #include <QHBoxLayout>
-#include <QDialog>
 #include <QTableView>
 #include <QHeaderView>
 #include <QDataWidgetMapper>
@@ -20,14 +19,13 @@
 
 
 /// a widget dedicated to displaying the component list
-class DesListDialog: public QDialog{
+class DesListWidget: public QWidget{
     Q_OBJECT
 
     public:
-        DesListDialog(QWidget *parent = 0): QDialog(parent) {
-            setWindowTitle("Designators List");
-            setMinimumWidth(400);
-            setMinimumHeight(200);
+        DesListWidget(QWidget *parent = 0): QWidget(parent) {
+            //setMinimumWidth(190);
+            //setMinimumHeight(200);
 
             mView = new QTableView();
             mView->horizontalHeader()->setSectionsMovable(true);
@@ -40,7 +38,7 @@ class DesListDialog: public QDialog{
         }
 
 
-        ~DesListDialog(){
+        ~DesListWidget(){
             delete mView;
         }
 
@@ -97,10 +95,12 @@ class ComponentDisplayerWidget : public QWidget
         void setComponentByDes(string inDes);
 
 
+
+        DesListWidget *getDesignatorListWidget() { return mDesListWidget; }
+
     public Q_SLOTS:
         void on_previousCompoButton_clicked();
         void on_nextCompoButton_clicked();
-        void on_showListButton_clicked();
 
         void on_itemSelectedInList(const QModelIndex &inIndex);
 
@@ -117,7 +117,7 @@ class ComponentDisplayerWidget : public QWidget
 
         vector <QDisplayer *> mDisplayerList;
 
-        DesListDialog *mDesListDialog;
+        DesListWidget *mDesListWidget;
 
         /// parameters used by the view
         vector <string> mParameters;

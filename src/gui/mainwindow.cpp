@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->cairoWidget, SIGNAL(clicked(plPoint)), this, SLOT(click(plPoint)));
     QObject::connect(ui->cairoWidget, SIGNAL(cursor(plPoint)), this, SLOT(updateCursor(plPoint)));
 
+    ui->dockComponentsList->setWidget(ui->componentDisplayer->getDesignatorListWidget());
+    ui->componentDisplayer->getDesignatorListWidget()->show();
     QObject::connect(ui->componentDisplayer, SIGNAL(componentUpdated(string)), this, SLOT(updateCurrentComponent(string)));
 
 
@@ -72,6 +74,9 @@ void MainWindow::init()
 
     mCompoModel.setHandler(&mPcb.getComponents());
     ui->componentDisplayer->setModel(&mCompoModel);
+
+    mNetlistModel.setHandler(&mPcb.getNetlist());
+    ui->netlistDisplayer->setModel(&mNetlistModel);
 }
 
 
