@@ -78,7 +78,8 @@ SOURCES += \
     ../src/pcblab/netlist/net.cpp \
     ../src/pcblab/netlist/inetlistrenderer.cpp \
     ../src/gui/cairorenderer/caironetlistrenderer.cpp \
-    ../src/gui/tools/netlistmodelwrapper.cpp
+    ../src/gui/tools/netlistmodelwrapper.cpp \
+    ../src/gui/netlistdisplayerwidget.cpp
 
 
 HEADERS  += \
@@ -135,7 +136,8 @@ HEADERS  += \
     ../src/pcblab/netlist/net.h \
     ../src/pcblab/netlist/inetlistrenderer.h \
     ../src/gui/cairorenderer/caironetlistrenderer.h \
-    ../src/gui/tools/netlistmodelwrapper.h
+    ../src/gui/tools/netlistmodelwrapper.h \
+    ../src/gui/netlistdisplayerwidget.h
 
 
 
@@ -190,7 +192,8 @@ INCLUDEPATH += \
 FORMS += \
     ../src/gui/mainwindow.ui \
     ../src/gui/componentdisplayerwidget.ui \
-    ../src/gui/layerslistwidget.ui
+    ../src/gui/layerslistwidget.ui \
+    ../src/gui/netlistdisplayerwidget.ui
 
 DISTFILES += \
     ../doc/the_gerber_file_format_specification.pdf \

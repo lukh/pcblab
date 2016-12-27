@@ -49,13 +49,25 @@
     <addaction name="actionActiveComponentSelection"/>
     <addaction name="actionActiveNetSelection"/>
    </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionShowLayersList"/>
+    <addaction name="actionShowComponentsList"/>
+    <addaction name="actionShowNetlist"/>
+   </widget>
    <addaction name="menuStart"/>
    <addaction name="menuNavigation"/>
+   <addaction name="menuView"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="dockLayer">
+   <property name="floating">
+    <bool>false</bool>
+   </property>
    <property name="features">
-    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+    <set>QDockWidget::AllDockWidgetFeatures</set>
    </property>
    <property name="allowedAreas">
     <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
@@ -101,13 +113,17 @@
    <addaction name="separator"/>
    <addaction name="actionActiveComponentSelection"/>
    <addaction name="actionActiveNetSelection"/>
+   <addaction name="separator"/>
   </widget>
   <widget class="QDockWidget" name="dockNetlist">
+   <property name="floating">
+    <bool>false</bool>
+   </property>
    <property name="features">
-    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+    <set>QDockWidget::AllDockWidgetFeatures</set>
    </property>
    <property name="allowedAreas">
-    <set>Qt::RightDockWidgetArea</set>
+    <set>Qt::AllDockWidgetAreas</set>
    </property>
    <property name="windowTitle">
     <string>Netlist</string>
@@ -118,6 +134,9 @@
    <widget class="NetlistDisplayerWidget" name="netlistDisplayer"/>
   </widget>
   <widget class="QDockWidget" name="dockComponentsList">
+   <property name="floating">
+    <bool>false</bool>
+   </property>
    <property name="windowTitle">
     <string>Components List</string>
    </property>
@@ -208,6 +227,30 @@
    </property>
    <property name="toolTip">
     <string>Enable/Disable the net selection</string>
+   </property>
+  </action>
+  <action name="actionShowComponentsList">
+   <property name="text">
+    <string>Show Components List</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Components List</string>
+   </property>
+  </action>
+  <action name="actionShowNetlist">
+   <property name="text">
+    <string>Show Netlist</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Netlist</string>
+   </property>
+  </action>
+  <action name="actionShowLayersList">
+   <property name="text">
+    <string>Show Layers List</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Layers</string>
    </property>
   </action>
  </widget>

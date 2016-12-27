@@ -58,6 +58,21 @@ void MainWindow::on_actionActiveComponentSelection_toggled(bool inEn)
 }
 
 
+void MainWindow::on_actionShowComponentsList_triggered()
+{
+    ui->dockComponentsList->show();
+}
+
+void MainWindow::on_actionShowNetlist_triggered()
+{
+    ui->dockNetlist->show();
+}
+
+void MainWindow::on_actionShowLayersList_triggered()
+{
+    ui->dockLayer->show();
+}
+
 
 void MainWindow::init()
 {
@@ -160,8 +175,3 @@ void MainWindow::resizeEvent(QResizeEvent * event)
         mProcessor->refresh();
     }
 }
-
-
-
-
-

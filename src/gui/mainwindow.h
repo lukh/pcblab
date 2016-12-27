@@ -31,6 +31,12 @@ class MainWindow : public QMainWindow
 
         void on_actionActiveComponentSelection_toggled(bool inEn);
 
+        void on_actionShowComponentsList_triggered();
+
+        void on_actionShowNetlist_triggered();
+
+        void on_actionShowLayersList_triggered();
+
 
     private:
         Ui::MainWindow *ui;
@@ -59,7 +65,7 @@ class MainWindow : public QMainWindow
 
         void updateCurrentComponent(string inDes);
 
-    private:
+private:
         void updateLayersList();
         void clearLayersList();
 
