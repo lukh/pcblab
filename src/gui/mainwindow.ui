@@ -53,7 +53,7 @@
    <addaction name="menuNavigation"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QDockWidget" name="dockWidget">
+  <widget class="QDockWidget" name="dockLayer">
    <property name="features">
     <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
    </property>
@@ -68,7 +68,7 @@
    </attribute>
    <widget class="LayersListWidget" name="layersList"/>
   </widget>
-  <widget class="QDockWidget" name="dockWidget_3">
+  <widget class="QDockWidget" name="dockComponent">
    <property name="features">
     <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
    </property>
@@ -101,6 +101,21 @@
    <addaction name="separator"/>
    <addaction name="actionActiveComponentSelection"/>
    <addaction name="actionActiveNetSelection"/>
+  </widget>
+  <widget class="QDockWidget" name="dockNetlist">
+   <property name="features">
+    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Netlist</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="NetlistDisplayerWidget" name="netlistDisplayer"/>
   </widget>
   <action name="actionOpenFolder">
    <property name="icon">
@@ -204,6 +219,12 @@
    <class>LayersListWidget</class>
    <extends>QWidget</extends>
    <header>layerslistwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>NetlistDisplayerWidget</class>
+   <extends>QWidget</extends>
+   <header>netlistdisplayerwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
