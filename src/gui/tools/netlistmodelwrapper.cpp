@@ -25,15 +25,24 @@ QVariant NetlistModelWrapper::data(const QModelIndex &index, int role) const
     if (role != Qt::DisplayRole)
         return QVariant();
 
-    // level 1
-    if(!index.parent().isValid()){
-        return QString::fromStdString(mNetsName[index.row()]);
-    }
+    if(index.column() == 0){
+        // level 1
+        if(!index.parent().isValid()){
+            return QString::fromStdString(mNetsName[index.row()]);
+        }
 
-    // level 2
-    Net net;
-    if(mHandler->getNet(mNetsName[index.parent().row()], net)){
-        return QString::fromStdString(net.getEntries()[index.row()].getDesignator());
+        // level 2
+        Net net;
+        if(mHandler->getNet(mNetsName[index.parent().row()], net)){
+            return QString::fromStdString(net.getEntries()[index.row()].getDesignator());
+        }
+    }
+    else if(index.column() == 1 && index.parent().isValid()){
+        // level 2
+        Net net;
+        if(mHandler->getNet(mNetsName[index.parent().row()], net)){
+            return net.getEntries()[index.row()].getPin();
+        }
     }
 
     return QVariant();
@@ -46,6 +55,19 @@ Qt::ItemFlags NetlistModelWrapper::flags(const QModelIndex &index) const
 
 QVariant NetlistModelWrapper::headerData(int section, Qt::Orientation orientation, int role) const
 {
+    if (role == Qt::DisplayRole) {
+        if (orientation == Qt::Horizontal){
+            switch(section){
+                case 0:
+                    return QString("Net");
+                case 1:
+                    return QString("Component Pin");
+                default:
+                    break;
+            }
+        }
+    }
+
     return QVariant();
 }
 
@@ -85,5 +107,5 @@ int NetlistModelWrapper::rowCount(const QModelIndex &parent) const
 
 int NetlistModelWrapper::columnCount(const QModelIndex &parent) const
 {
-    return 1;
+    return 2;
 }
