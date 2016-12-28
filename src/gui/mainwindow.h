@@ -64,6 +64,7 @@ class MainWindow : public QMainWindow
 
 
         void updateCurrentComponent(string inDes);
+        void updateCurrentNet(string inNet);
 
 private:
         void updateLayersList();

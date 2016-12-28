@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->componentDisplayer->getDesignatorListWidget()->show();
     QObject::connect(ui->componentDisplayer, SIGNAL(componentUpdated(string)), this, SLOT(updateCurrentComponent(string)));
 
+    QObject::connect(ui->netlistDisplayer, SIGNAL(componentUpdated(string)), this, SLOT(updateCurrentComponent(string)));
+    QObject::connect(ui->netlistDisplayer, SIGNAL(netUpdated(string)), this, SLOT(updateCurrentNet(string)));
 
     QObject::connect(ui->layersList, SIGNAL(colorUpdated(string, Color)), this, SLOT(updateColor(string,Color)));
     QObject::connect(ui->layersList, SIGNAL(transparencyUpdated(string, uint8_t)), this, SLOT(updateTransparency(string,uint8_t)));
@@ -150,6 +152,16 @@ void MainWindow::updateCurrentComponent(string inDes)
         Component compo;
         if(mPcb.getComponents().getComponent(inDes, compo)){
             mProcessor->displayComponent(inDes);
+        }
+    }
+}
+
+void MainWindow::updateCurrentNet(string inNet)
+{
+    if(mProcessor != NULL){
+        Net net;
+        if(mPcb.getNetlist().getNet(inNet, net)){
+            mProcessor->displayNet(inNet);
         }
     }
 }

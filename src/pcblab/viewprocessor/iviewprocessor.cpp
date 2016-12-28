@@ -45,6 +45,12 @@ void IViewProcessor::displayComponent(string inDesignator)
     refresh();
 }
 
+void IViewProcessor::displayNet(string inNet)
+{
+    mNetlistRenderer.setActiveNet(inNet);
+    refresh();
+}
+
 void IViewProcessor::setup(uint32_t inWidth, uint32_t inHeight)
 {
     plRectangle r_real = mPcb.getGerber().getBoundingBox();

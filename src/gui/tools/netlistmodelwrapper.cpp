@@ -25,17 +25,23 @@ QVariant NetlistModelWrapper::data(const QModelIndex &index, int role) const
     if (role != Qt::DisplayRole)
         return QVariant();
 
+    // level 1
     if(!index.parent().isValid()){
         return QString::fromStdString(mNetsName[index.row()]);
     }
 
-    //return QString::fromStdString(zeMap[index.parent().row()][index.row()]);
-    return QString("Compo 1");
+    // level 2
+    Net net;
+    if(mHandler->getNet(mNetsName[index.parent().row()], net)){
+        return QString::fromStdString(net.getEntries()[index.row()].getDesignator());
+    }
+
+    return QVariant();
 }
 
 Qt::ItemFlags NetlistModelWrapper::flags(const QModelIndex &index) const
 {
-    return Qt::NoItemFlags;
+    return Qt::ItemIsEnabled;
 }
 
 QVariant NetlistModelWrapper::headerData(int section, Qt::Orientation orientation, int role) const
@@ -55,9 +61,26 @@ QModelIndex NetlistModelWrapper::parent(const QModelIndex &index) const
 
 int NetlistModelWrapper::rowCount(const QModelIndex &parent) const
 {
-    return !parent.isValid() ? mNetsName.size() :
-        !parent.parent().isValid() ? 1 : 0;
-        //!parent.parent().isValid() ? zeMap[parent.row()].size() : 0;
+    /*return !parent.isValid() ? mNetsName.size() : //level 1
+        !parent.parent().isValid() ? 1 : 0; // level2 else 0*/
+
+    if(!parent.isValid()){
+        return mNetsName.size();
+    }
+    else{
+        if(!parent.parent().isValid()){
+            Net net;
+            if(mHandler->getNet(mNetsName[parent.row()], net)){
+                return net.getEntries().size();
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 0;
+        }
+    }
 }
 
 int NetlistModelWrapper::columnCount(const QModelIndex &parent) const

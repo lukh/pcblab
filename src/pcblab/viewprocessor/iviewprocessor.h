@@ -28,6 +28,9 @@ class IViewProcessor
         /// display a component
         void displayComponent(string inDesignator);
 
+        /// display a net
+        void displayNet(string inNet);
+
 
         //<<< --- Interface of IViewProcessor
         /// repaint all the surface
