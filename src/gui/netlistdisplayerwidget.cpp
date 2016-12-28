@@ -30,7 +30,7 @@ void NetlistDisplayerWidget::on_itemSelectedInTree(const QModelIndex &inIndex)
         Q_EMIT(netUpdated(var.toString().toStdString()));
     }
 
-    else if(!inIndex.parent().parent().isValid()){
+    else{// if(!inIndex.parent().parent().isValid()){
         QVariant var = inIndex.data();
         Q_EMIT(componentUpdated(var.toString().toStdString()));
     }
