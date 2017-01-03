@@ -5,7 +5,7 @@
 
 
 ComponentModelWrapper::ComponentModelWrapper(QObject *parent):
-    QAbstractTableModel(parent),
+    QAbstractItemModel(parent),
     mHandler(NULL)
 {
     //default param
@@ -15,28 +15,27 @@ ComponentModelWrapper::ComponentModelWrapper(QObject *parent):
     mParameters.push_back("Description");
 }
 
-int ComponentModelWrapper::rowCount(const QModelIndex &parent) const
-{
-    return mDesList.size();
-}
 
-int ComponentModelWrapper::columnCount(const QModelIndex &parent) const
-{
-    return mParameters.size()+3;
-}
 
 QVariant ComponentModelWrapper::data(const QModelIndex &index, int role) const
 {
-    Component c;
-
-    string des = mDesList[index.row()];
-    if(!mHandler->getComponent(des, c)){
+    if (!index.isValid())
         return QVariant();
-    }
+
+    if (role != Qt::DisplayRole && role != Qt::EditRole)
+        return QVariant();
 
 
-    if (role == Qt::DisplayRole || role == Qt::EditRole)
-    {
+
+    // level 1
+    if(!index.parent().isValid()){
+        Component c;
+
+        string des = mDesList[index.row()];
+        if(!mHandler->getComponent(des, c)){
+            return QVariant();
+        }
+
         switch (index.column()) {
             case 0:
                 return QString::fromStdString(des);
@@ -59,9 +58,21 @@ QVariant ComponentModelWrapper::data(const QModelIndex &index, int role) const
                 }
                 break;
         }
-
     }
+
+    else if(index.parent().isValid()){
+        if(index.column() == 0){
+            return QString("MyNet");
+        }
+    }
+
+
     return QVariant();
+}
+
+Qt::ItemFlags ComponentModelWrapper::flags(const QModelIndex &index) const
+{
+    return Qt::ItemIsEnabled;
 }
 
 QVariant ComponentModelWrapper::headerData(int section, Qt::Orientation orientation, int role) const
@@ -86,6 +97,36 @@ QVariant ComponentModelWrapper::headerData(int section, Qt::Orientation orientat
         }
     }
     return QVariant();
+}
+
+QModelIndex ComponentModelWrapper::index(int row, int column, const QModelIndex &parent) const
+{
+    return createIndex(row,column, parent.isValid() ? parent.row() : -1);
+}
+
+QModelIndex ComponentModelWrapper::parent(const QModelIndex &index) const
+{
+    return index.internalId() >=0 ? createIndex(index.internalId(),0) : QModelIndex();
+}
+
+int ComponentModelWrapper::rowCount(const QModelIndex &parent) const
+{
+    if(!parent.isValid()){
+        return mDesList.size();
+    }
+    else{
+        if(!parent.parent().isValid()){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+}
+
+int ComponentModelWrapper::columnCount(const QModelIndex &parent) const
+{
+    return mParameters.size()+3;
 }
 
 void ComponentModelWrapper::setHandler(ComponentHandler *inHandler)

@@ -6,7 +6,7 @@
 
 #include <QWidget>
 #include <QHBoxLayout>
-#include <QTableView>
+#include <QTreeView>
 #include <QHeaderView>
 #include <QDataWidgetMapper>
 
@@ -27,8 +27,8 @@ class DesListWidget: public QWidget{
             //setMinimumWidth(190);
             //setMinimumHeight(200);
 
-            mView = new QTableView();
-            mView->horizontalHeader()->setSectionsMovable(true);
+            mView = new QTreeView();
+            mView->setExpandsOnDoubleClick(false);
 
             QHBoxLayout *layout = new QHBoxLayout(this);
             layout->addWidget(mView);
@@ -44,10 +44,8 @@ class DesListWidget: public QWidget{
 
 
 
-        void setModel(QAbstractTableModel *inModel) {
+        void setModel(QAbstractItemModel *inModel) {
             mView->setModel(inModel);
-            mView->resizeRowsToContents();
-            mView->resizeColumnsToContents();
         }
 
 
@@ -63,7 +61,7 @@ class DesListWidget: public QWidget{
 
 
     private:
-        QTableView *mView;
+        QTreeView *mView;
 };
 
 
