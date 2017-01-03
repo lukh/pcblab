@@ -51,11 +51,11 @@ class Component{
 
 
     private:
-            string mDesignator;
-            plPoint mPosition;
-            double mRotation;
-            Parameters mParameters; // others parameters
-            eUnit mUnit;
+        string mDesignator;
+        plPoint mPosition;
+        double mRotation;
+        Parameters mParameters; // others parameters
+        eUnit mUnit;
 };
 
 typedef map<string, Component> Components;
