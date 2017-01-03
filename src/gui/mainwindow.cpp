@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->dockComponentsList->setWidget(ui->componentDisplayer->getDesignatorListWidget());
     ui->componentDisplayer->getDesignatorListWidget()->show();
     QObject::connect(ui->componentDisplayer, SIGNAL(componentUpdated(string)), this, SLOT(updateCurrentComponent(string)));
+    QObject::connect(ui->componentDisplayer, SIGNAL(netUpdated(string)), this, SLOT(updateCurrentNet(string)));
 
     QObject::connect(ui->netlistDisplayer, SIGNAL(componentUpdated(string)), this, SLOT(updateCurrentComponent(string)));
     QObject::connect(ui->netlistDisplayer, SIGNAL(netUpdated(string)), this, SLOT(updateCurrentNet(string)));

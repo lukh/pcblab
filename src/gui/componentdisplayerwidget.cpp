@@ -1,6 +1,7 @@
 #include "componentdisplayerwidget.h"
 #include "ui_componentdisplayerwidget.h"
 
+
 ComponentDisplayerWidget::ComponentDisplayerWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ComponentDisplayerWidget)
@@ -9,7 +10,7 @@ ComponentDisplayerWidget::ComponentDisplayerWidget(QWidget *parent) :
 
     mDesListWidget = new DesListWidget(this);
     mDesListWidget->hide();
-    QObject::connect(mDesListWidget, SIGNAL(viewClicked(const QModelIndex &)), this, SLOT(on_itemSelectedInList(const QModelIndex&)));
+    QObject::connect(mDesListWidget, SIGNAL(viewClicked(const QModelIndex &)), this, SLOT(on_itemSelectedInTree(const QModelIndex&)));
 
     //default params list
     mParameters.push_back("PartNumber");
@@ -84,14 +85,21 @@ void ComponentDisplayerWidget::on_nextCompoButton_clicked()
     notify();
 }
 
-void ComponentDisplayerWidget::on_itemSelectedInList(const QModelIndex &inIndex)
+void ComponentDisplayerWidget::on_itemSelectedInTree(const QModelIndex &inIndex)
 {
-    mMapper.setCurrentIndex(inIndex.row());
+    //if it is a component...
 
-    //get the des
-    QVariant var = mMapper.model()->index(inIndex.row(), 0).data();
+    // it is a component
+    if(!inIndex.parent().isValid()){
+        mMapper.setCurrentIndex(inIndex.row());
+        QVariant var = inIndex.data();
+        Q_EMIT(componentUpdated(var.toString().toStdString()));
+    }
 
-    Q_EMIT(componentUpdated(var.toString().toStdString()));
+    else{// if(!inIndex.parent().parent().isValid()){
+        QVariant var = inIndex.data();
+        Q_EMIT(netUpdated(var.toString().toStdString()));
+    }
 }
 
 void ComponentDisplayerWidget::updateDisplayers()
@@ -146,3 +154,4 @@ void ComponentDisplayerWidget::notify()
     mDesListWidget->setCurrentIndex(idx);
     Q_EMIT(componentUpdated(var.toString().toStdString()));
 }
+

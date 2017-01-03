@@ -100,10 +100,11 @@ class ComponentDisplayerWidget : public QWidget
         void on_previousCompoButton_clicked();
         void on_nextCompoButton_clicked();
 
-        void on_itemSelectedInList(const QModelIndex &inIndex);
+        void on_itemSelectedInTree(const QModelIndex &inIndex);
 
     Q_SIGNALS:
         void componentUpdated(string);
+        void netUpdated(string);
 
 
     private:
