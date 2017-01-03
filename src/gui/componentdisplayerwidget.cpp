@@ -13,8 +13,8 @@ ComponentDisplayerWidget::ComponentDisplayerWidget(QWidget *parent) :
     QObject::connect(mDesListWidget, SIGNAL(viewClicked(const QModelIndex &)), this, SLOT(on_itemSelectedInTree(const QModelIndex&)));
 
     //default params list
-    mParameters.push_back("PartNumber");
     mParameters.push_back("Value");
+    mParameters.push_back("PartNumber");
     mParameters.push_back("Footprint");
     mParameters.push_back("Description");
 }
@@ -117,20 +117,20 @@ void ComponentDisplayerWidget::updateDisplayers()
     mDisplayerList.push_back(disp);
     mMapper.addMapping(disp, 0, "value");
 
-    disp= new QDisplayer("Position", ui->paramWidget);
-    disp->setStyleSheet("font-size: 15px");
-    layout->addWidget(disp);
-    mDisplayerList.push_back(disp);
-    mMapper.addMapping(disp, 1, "value");
-
-    disp= new QDisplayer("Rotation", ui->paramWidget);
-    disp->setStyleSheet("font-size: 15px");
-    layout->addWidget(disp);
-    mDisplayerList.push_back(disp);
-    mMapper.addMapping(disp, 2, "value");
+    //disp= new QDisplayer("Position", ui->paramWidget);
+    //disp->setStyleSheet("font-size: 15px");
+    //layout->addWidget(disp);
+    //mDisplayerList.push_back(disp);
+    //mMapper.addMapping(disp, 1, "value");
+    //
+    //disp= new QDisplayer("Rotation", ui->paramWidget);
+    //disp->setStyleSheet("font-size: 15px");
+    //layout->addWidget(disp);
+    //mDisplayerList.push_back(disp);
+    //mMapper.addMapping(disp, 2, "value");
 
     // adding
-    uint32_t idx = 3;
+    uint32_t idx = 1;
     for(vector<string>::iterator p = mParameters.begin(); p != mParameters.end(); ++p){
         disp= new QDisplayer(QString::fromStdString(*p), ui->paramWidget);
         disp->setStyleSheet("font-size: 15px");

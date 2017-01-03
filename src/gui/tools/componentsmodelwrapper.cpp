@@ -9,8 +9,8 @@ ComponentModelWrapper::ComponentModelWrapper(QObject *parent):
     mHandler(NULL)
 {
     //default param
-    mParameters.push_back("PartNumber");
     mParameters.push_back("Value");
+    mParameters.push_back("PartNumber");
     mParameters.push_back("Footprint");
     mParameters.push_back("Description");
 }
@@ -40,17 +40,17 @@ QVariant ComponentModelWrapper::data(const QModelIndex &index, int role) const
             case 0:
                 return QString::fromStdString(des);
 
-            case 1:
-                return QString ("(%1, %2)")
-                        .arg(c->getPosition().mX)
-                        .arg(c->getPosition().mY);
-
-            case 2:
-                return QString::number(c->getRotation());
+            //case 1:
+            //    return QString ("(%1, %2)")
+            //            .arg(c->getPosition().mX)
+            //            .arg(c->getPosition().mY);
+            //
+            //case 2:
+            //    return QString::number(c->getRotation());
 
             default:
-                if(mParameters.size() >= index.column()-3){
-                    string param = mParameters[index.column()-3];
+                if(mParameters.size() > index.column()-1){
+                    string param = mParameters[index.column()-1];
                     string value;
                     if(c->getParameter(param, value)){
                         return QString::fromStdString(value);
@@ -85,13 +85,13 @@ QVariant ComponentModelWrapper::headerData(int section, Qt::Orientation orientat
             switch (section){
                 case 0:
                     return QString("Designator");
-                case 1:
-                    return QString("Position");
-                case 2:
-                    return QString("Rotation");
+                //case 1:
+                //    return QString("Position");
+                //case 2:
+                //    return QString("Rotation");
                 default:
-                    if(mParameters.size() >= section-3){
-                        return QString::fromStdString(mParameters[section-3]);
+                    if(mParameters.size() > section-1){
+                        return QString::fromStdString(mParameters[section-1]);
                     }
                     else{
                         return QVariant();
@@ -135,7 +135,7 @@ int ComponentModelWrapper::rowCount(const QModelIndex &parent) const
 
 int ComponentModelWrapper::columnCount(const QModelIndex &parent) const
 {
-    return mParameters.size()+3;
+    return mParameters.size()+1;
 }
 
 void ComponentModelWrapper::setHandler(ComponentHandler *inHandler)
