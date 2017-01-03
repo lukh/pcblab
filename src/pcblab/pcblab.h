@@ -30,6 +30,10 @@ class PcbLab
         NetlistHandler &getNetlist() { return mNetlist; }
 
 
+    protected:
+        void linkNetsToComponents();
+
+
     private:
         GerberHandler mGerber;
         ExcellonHandler mExcellon;
