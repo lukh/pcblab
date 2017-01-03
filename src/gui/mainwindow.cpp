@@ -149,8 +149,8 @@ void MainWindow::updateTransparency(string inIdentifier, uint8_t inTransp)
 void MainWindow::updateCurrentComponent(string inDes)
 {
     if(mProcessor != NULL){
-        Component compo;
-        if(mPcb.getComponents().getComponent(inDes, compo)){
+        Component *compo;
+        if(mPcb.getComponents().getComponent(inDes, &compo)){
             mProcessor->displayComponent(inDes);
         }
     }
@@ -159,8 +159,8 @@ void MainWindow::updateCurrentComponent(string inDes)
 void MainWindow::updateCurrentNet(string inNet)
 {
     if(mProcessor != NULL){
-        Net net;
-        if(mPcb.getNetlist().getNet(inNet, net)){
+        Net *net;
+        if(mPcb.getNetlist().getNet(inNet, &net)){
             mProcessor->displayNet(inNet);
         }
     }

@@ -32,16 +32,16 @@ QVariant NetlistModelWrapper::data(const QModelIndex &index, int role) const
         }
 
         // level 2
-        Net net;
-        if(mHandler->getNet(mNetsName[index.parent().row()], net)){
-            return QString::fromStdString(net.getEntries()[index.row()].getDesignator());
+        Net *net;
+        if(mHandler->getNet(mNetsName[index.parent().row()], &net)){
+            return QString::fromStdString(net->getEntries()[index.row()].getDesignator());
         }
     }
     else if(index.column() == 1 && index.parent().isValid()){
         // level 2
-        Net net;
-        if(mHandler->getNet(mNetsName[index.parent().row()], net)){
-            return net.getEntries()[index.row()].getPin();
+        Net *net;
+        if(mHandler->getNet(mNetsName[index.parent().row()], &net)){
+            return net->getEntries()[index.row()].getPin();
         }
     }
 
@@ -91,9 +91,9 @@ int NetlistModelWrapper::rowCount(const QModelIndex &parent) const
     }
     else{
         if(!parent.parent().isValid()){
-            Net net;
-            if(mHandler->getNet(mNetsName[parent.row()], net)){
-                return net.getEntries().size();
+            Net *net;
+            if(mHandler->getNet(mNetsName[parent.row()], &net)){
+                return net->getEntries().size();
             }
             else{
                 return 0;

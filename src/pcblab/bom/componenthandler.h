@@ -33,7 +33,7 @@ class ComponentHandler
         ///returns the list of components des, by prefix order and grouped by sorting Key
         void getSortedAndGroupedDesignatorsList(const vector<string> &inDesPrefixOrder, string inSortingKey, vector <string> & outDesList);
 
-        bool getComponent(const string &inDes, Component &outComponent);
+        bool getComponent(const string &inDes, Component **outComponent);
 
 
         string getNearestDesignator(plPoint inPoint);

@@ -108,12 +108,11 @@ void ComponentHandler::getSortedAndGroupedDesignatorsList(const vector<string> &
                 }
 
                 //get compo data:
-                Component compo;
-                getComponent(des, compo);
+                Component *compo;
+                getComponent(des, &compo);
 
                 string compo_param;
-                if(!compo.getParameter(inSortingKey, compo_param)){
-
+                if(!compo->getParameter(inSortingKey, compo_param)){
                 }
 
                 // check on values
@@ -157,14 +156,14 @@ void ComponentHandler::getSortedAndGroupedDesignatorsList(const vector<string> &
     }
 }
 
-bool ComponentHandler::getComponent(const string &inDes, Component &outComponent)
+bool ComponentHandler::getComponent(const string &inDes, Component **outComponent)
 {
     Components::const_iterator it = mComponents.find(inDes);
     if(it == mComponents.end()){
         return false;
     }
     else{
-        outComponent = mComponents[inDes];
+        *outComponent = &mComponents[inDes];
         return true;
     }
 }

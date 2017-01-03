@@ -80,14 +80,14 @@ void NetlistHandler::getNetlistList(vector<string> &outList) const
     }
 }
 
-bool NetlistHandler::getNet(string inName, Net &outNet)
+bool NetlistHandler::getNet(string inName, Net **outNet)
 {
     Netlist::const_iterator it = mNetlist.find(inName);
     if(it == mNetlist.end()){
         return false;
     }
     else{
-        outNet = mNetlist[inName];
+        *outNet = &mNetlist[inName];
         return true;
     }
 }

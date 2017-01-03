@@ -40,8 +40,8 @@ class NetlistHandler: public NetlistParser{
         /// returns the list of net names
         void getNetlistList(vector <string> &outList) const;
 
-
-        bool getNet(string inName, Net &outNet);
+        /// return the net corresponding to inName
+        bool getNet(string inName, Net **outNet);
 
     protected:
         //<<< --- Interface for NetListParser (if implemented in that way !)

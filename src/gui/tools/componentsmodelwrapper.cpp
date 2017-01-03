@@ -29,10 +29,10 @@ QVariant ComponentModelWrapper::data(const QModelIndex &index, int role) const
 
     // level 1
     if(!index.parent().isValid()){
-        Component c;
+        Component *c;
 
         string des = mDesList[index.row()];
-        if(!mHandler->getComponent(des, c)){
+        if(!mHandler->getComponent(des, &c)){
             return QVariant();
         }
 
@@ -42,17 +42,17 @@ QVariant ComponentModelWrapper::data(const QModelIndex &index, int role) const
 
             case 1:
                 return QString ("(%1, %2)")
-                        .arg(c.getPosition().mX)
-                        .arg(c.getPosition().mY);
+                        .arg(c->getPosition().mX)
+                        .arg(c->getPosition().mY);
 
             case 2:
-                return QString::number(c.getRotation());
+                return QString::number(c->getRotation());
 
             default:
                 if(mParameters.size() >= index.column()-3){
                     string param = mParameters[index.column()-3];
                     string value;
-                    if(c.getParameter(param, value)){
+                    if(c->getParameter(param, value)){
                         return QString::fromStdString(value);
                     }
                 }
