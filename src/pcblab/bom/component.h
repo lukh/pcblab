@@ -49,6 +49,14 @@ class Component{
         void setUnit(eUnit inUnit){ mUnit = inUnit; }
 
 
+        void addNet(string inNet) { mNets.push_back(inNet); }
+        const vector<string> getNets() const { return mNets; }
+        string getNet(uint32_t inIdx) const {
+            if(inIdx < mNets.size()){
+                return mNets[inIdx];
+            }
+            return string();
+        }
 
     private:
         string mDesignator;
@@ -56,6 +64,8 @@ class Component{
         double mRotation;
         Parameters mParameters; // others parameters
         eUnit mUnit;
+
+        vector<string>mNets;
 };
 
 typedef map<string, Component> Components;
