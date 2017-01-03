@@ -62,7 +62,10 @@ QVariant ComponentModelWrapper::data(const QModelIndex &index, int role) const
 
     else if(index.parent().isValid()){
         if(index.column() == 0){
-            return QString("MyNet");
+            Component *c;
+            if(mHandler->getComponent(mDesList[index.parent().row()], &c)){
+                return QString::fromStdString(c->getNet(index.row()));
+            }
         }
     }
 
@@ -116,7 +119,13 @@ int ComponentModelWrapper::rowCount(const QModelIndex &parent) const
     }
     else{
         if(!parent.parent().isValid()){
-            return 1;
+            Component *c;
+            if(mHandler->getComponent(mDesList[parent.row()], &c)){
+                return c->getNets().size();
+            }
+            else{
+                return 0;
+            }
         }
         else{
             return 0;
