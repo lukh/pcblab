@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mProcessor(NULL)
 {
     ui->setupUi(this);
+    ui->stackedWidget->setCurrentIndex(0);
 
 
     QObject::connect(ui->cairoWidget, SIGNAL(moved(double, double)), this, SLOT(updateMove(double, double)));
@@ -78,6 +79,10 @@ void MainWindow::on_actionShowLayersList_triggered()
 
 void MainWindow::on_actionDisplay_RealTimeView_toggled(bool inEn)
 {
+    if(inEn)
+        ui->stackedWidget->setCurrentIndex(1);
+    else
+        ui->stackedWidget->setCurrentIndex(0);
 }
 
 
@@ -193,3 +198,4 @@ void MainWindow::resizeEvent(QResizeEvent * event)
         mProcessor->refresh();
     }
 }
+

@@ -17,9 +17,27 @@
    <string>PcbLab</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QCairoWidget" name="cairoWidget" native="true"/>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="page">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QCairoWidget" name="cairoWidget" native="true"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_2">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="RealTimeWindow" name="realTimeWindow" native="true"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -287,6 +305,12 @@
    <class>NetlistDisplayerWidget</class>
    <extends>QWidget</extends>
    <header>netlistdisplayerwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>RealTimeWindow</class>
+   <extends>QWidget</extends>
+   <header>realtimewindow.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
