@@ -56,6 +56,8 @@
     <addaction name="actionShowLayersList"/>
     <addaction name="actionShowComponentsList"/>
     <addaction name="actionShowNetlist"/>
+    <addaction name="separator"/>
+    <addaction name="actionDisplay_RealTimeView"/>
    </widget>
    <addaction name="menuStart"/>
    <addaction name="menuNavigation"/>
@@ -251,6 +253,14 @@
    </property>
    <property name="toolTip">
     <string>Show Layers</string>
+   </property>
+  </action>
+  <action name="actionDisplay_RealTimeView">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Display RealTimeView</string>
    </property>
   </action>
  </widget>

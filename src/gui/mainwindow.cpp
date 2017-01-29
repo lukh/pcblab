@@ -76,6 +76,11 @@ void MainWindow::on_actionShowLayersList_triggered()
     ui->dockLayer->show();
 }
 
+void MainWindow::on_actionDisplay_RealTimeView_toggled(bool inEn)
+{
+}
+
+
 
 void MainWindow::init()
 {

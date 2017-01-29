@@ -37,6 +37,8 @@ class MainWindow : public QMainWindow
 
         void on_actionShowLayersList_triggered();
 
+        void on_actionDisplay_RealTimeView_toggled(bool inEn);
+
 
     private:
         Ui::MainWindow *ui;
