@@ -50,6 +50,11 @@ void RealTimeWindow::init(PcbLab *inPcb)
 {
     mPcb = inPcb;
 
+    mTimer.stop();
+    workerThread.quit();
+    workerThread.wait();
+
+
     if(mProcessor != NULL){
         delete mProcessor;
     }
