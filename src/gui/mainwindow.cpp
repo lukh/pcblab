@@ -93,7 +93,7 @@ void MainWindow::init()
         delete mProcessor;
     }
 
-    mProcessor = new DisplayViewProcessor(mPcb, ui->cairoWidget);
+    mProcessor = new DisplayViewProcessor(&mPcb, ui->cairoWidget);
     mProcessor->init(ui->cairoWidget->width(), ui->cairoWidget->height());
 
     mProcessor->refresh();

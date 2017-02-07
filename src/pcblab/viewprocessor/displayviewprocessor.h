@@ -14,7 +14,7 @@
 class DisplayViewProcessor: public IViewProcessor
 {
     public:
-        DisplayViewProcessor(PcbLab &inPcb, ICairoWidget *inCairoWidget);
+        DisplayViewProcessor(PcbLab *inPcb, ICairoWidget *inCairoWidget);
         virtual ~DisplayViewProcessor() {}
 
 

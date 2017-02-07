@@ -10,7 +10,7 @@
 class IViewProcessor
 {
     public:
-        IViewProcessor(PcbLab &inPcb);
+        IViewProcessor(PcbLab *inPcb);
         virtual ~IViewProcessor() {}
 
         // accessors
@@ -56,7 +56,7 @@ class IViewProcessor
 
 
     protected:
-        PcbLab &mPcb;
+        PcbLab *mPcb;
 
         ICairoViewer mViewer;
 

@@ -1,6 +1,6 @@
 #include "iviewprocessor.h"
 
-IViewProcessor::IViewProcessor(PcbLab &inPcb): mPcb(inPcb)
+IViewProcessor::IViewProcessor(PcbLab *inPcb): mPcb(inPcb)
 {
 }
 
@@ -53,7 +53,7 @@ void IViewProcessor::displayNet(string inNet)
 
 void IViewProcessor::setup(uint32_t inWidth, uint32_t inHeight)
 {
-    plRectangle r_real = mPcb.getGerber().getBoundingBox();
+    plRectangle r_real = mPcb->getGerber().getBoundingBox();
     //get some headroom..
     plRectangle r_real_hr(
         plPoint(r_real.getBottomLeft().mX - 10.0, r_real.getBottomLeft().mY - 10.0),
