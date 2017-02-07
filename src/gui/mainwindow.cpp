@@ -47,13 +47,18 @@ void MainWindow::on_actionOpenFolder_triggered()
 {
     //DO NOT COMMIT
     QString dir("D:\\documents\\projets\\dev\\pcblab\\data\\Factory"); //
-
     //QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "~", 0);
+
     string std_dir = dir.toStdString();
 
+    // create internal structure from files found
     mPcb.openFolder(std_dir, sExtList);
 
+    // inits the MainWindow View
     init();
+
+    // inits the RealTime View
+    ui->realTimeWindow->init(&mPcb);
 }
 
 void MainWindow::on_actionActiveComponentSelection_toggled(bool inEn)
