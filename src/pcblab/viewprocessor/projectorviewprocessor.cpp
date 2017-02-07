@@ -1,8 +1,10 @@
 #include "projectorviewprocessor.h"
 
 ProjectorViewProcessor::ProjectorViewProcessor(PcbLab *inPcb):
-    IViewProcessor(inPcb)
+    IViewProcessor(inPcb), mCamera(NULL)
 {
+    mKOLayerName = "GKO";
+
     mCamera = new VideoCapture(0); // open the default camera
     if(!mCamera->isOpened()){  // check if we succeeded
 
@@ -24,7 +26,11 @@ void ProjectorViewProcessor::init(uint32_t inWidth, uint32_t inHeight)
 
 void ProjectorViewProcessor::refresh()
 {
-
+    mViewer.clean();
+    mGerberRenderer.drawAll(mPcb->getGerber());
+    mExcellonRenderer.draw(mPcb->getExcellon());
+    mComponentRenderer.draw(mPcb->getComponents());
+    mNetlistRenderer.draw(mPcb->getNetlist());
 }
 
 plPoint ProjectorViewProcessor::convertCoordsFromImageToReal(plPoint inImgCoords)
@@ -32,14 +38,18 @@ plPoint ProjectorViewProcessor::convertCoordsFromImageToReal(plPoint inImgCoords
     return plPoint();
 }
 
-void ProjectorViewProcessor::show(Mat &outImage)
+Mat ProjectorViewProcessor::process()
 {
     if(!mCamera->isOpened()){  // check if we succeeded
-        return;
+        return Mat();
     }
+    Mat img;
 
+    mCamera->read(img);
 
-    mCamera->read(outImage);
+    extractPcbOutlineFromImage(img);
+
+    return img;
 }
 
 vector<plPoint> ProjectorViewProcessor::extractPcbOutlineFromGerber()
@@ -52,7 +62,7 @@ void ProjectorViewProcessor::projectorCalibration()
 
 }
 
-vector<plPoint> ProjectorViewProcessor::extractPcbOutlineFromImage()
+vector<plPoint> ProjectorViewProcessor::extractPcbOutlineFromImage(Mat &inImg)
 {
     return vector<plPoint>();
 }

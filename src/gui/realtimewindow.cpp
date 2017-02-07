@@ -11,10 +11,17 @@ ProjProcessorWrapper::~ProjProcessorWrapper()
 {
 }
 
-void ProjProcessorWrapper::show()
+void ProjProcessorWrapper::refresh()
 {
-    Mat img;
-    mProcessor->show(img);
+    mProcessor->refresh();
+
+    // reprocess ?
+    process();
+}
+
+void ProjProcessorWrapper::process()
+{
+    Mat img = mProcessor->process();
 
     Q_EMIT(imageReady(img));
 }
@@ -73,7 +80,7 @@ void RealTimeWindow::init(PcbLab *inPcb)
 
     workerThread.start();
 
-    QObject::connect(&mTimer, SIGNAL(timeout()), mWrapper, SLOT(show()));
+    QObject::connect(&mTimer, SIGNAL(timeout()), mWrapper, SLOT(process()));
     mTimer.start(100);
 }
 

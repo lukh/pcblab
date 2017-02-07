@@ -34,7 +34,7 @@ class ProjectorViewProcessor: public IViewProcessor
         // -------------- Runtime ---------------
 
         /// Display the Cairo's image on the OpenCV Surface, with the perspective correction
-        void show(Mat &outImage);
+        Mat process();
 
 
 
@@ -50,7 +50,7 @@ class ProjectorViewProcessor: public IViewProcessor
 
         /// Extract PCB outline from the image provided by the webcam
         /// return the list of points found, in the real image coordinates (px)
-        vector <plPoint> extractPcbOutlineFromImage();
+        vector <plPoint> extractPcbOutlineFromImage(Mat &inImg);
 
     private:
         // camera

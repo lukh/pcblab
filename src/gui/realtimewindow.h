@@ -21,7 +21,8 @@ class ProjProcessorWrapper: public QObject{
         virtual ~ProjProcessorWrapper();
 
     public Q_SLOTS:
-        void show();
+        void refresh();
+        void process();
 
     Q_SIGNALS:
         void imageReady(Mat);
