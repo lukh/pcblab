@@ -142,6 +142,7 @@ string GerberHandler::getLayerIdentifier(uint8_t inIdx) const
 plRectangle GerberHandler::getBoundingBox() const
 {
     if(mLayers.size() == 0){
+        err_printf("ERROR (GerberHandler::getBoundingBox: No Layers" );
         return plRectangle();
     }
 

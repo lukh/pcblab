@@ -91,7 +91,10 @@ bool APrimCircle::isValid() const
 
 plRectangle APrimCircle::getBoundingBox()
 {
-    if(!isValid()) { return plRectangle(); }
+    if(!isValid()) {
+        err_printf("ERROR (APrimCircle::getBoundingBox: Invalid Primitive" );
+        return plRectangle();
+    }
 
     //Bounding box without rotation
     double x1 = getX()-getDiameter()/2;
@@ -115,7 +118,10 @@ bool APrimVectorLine::isValid() const
 
 plRectangle APrimVectorLine::getBoundingBox()
 {
-    if(!isValid()) { return plRectangle(); }
+    if(!isValid()) {
+        err_printf("ERROR (APrimVectorLine::getBoundingBox: Invalid Primitive" );
+        return plRectangle();
+    }
 
     plPoint p1,p2;
 
@@ -144,7 +150,10 @@ bool APrimCenterLine::isValid() const
 
 plRectangle APrimCenterLine::getBoundingBox()
 {
-    if(!isValid()) { return plRectangle(); }
+    if(!isValid()) {
+        err_printf("ERROR (APrimCenterLine::getBoundingBox: Invalid Primitive" );
+        return plRectangle();
+    }
 
     plPoint p1, p2;
 
@@ -175,7 +184,10 @@ bool APrimOutline::isValid() const
 
 plRectangle APrimOutline::getBoundingBox()
 {
-    if(!isValid()) { return plRectangle(); }
+    if(!isValid()) {
+        err_printf("ERROR (APrimOutline::getBoundingBox: Invalid Primitive" );
+        return plRectangle();
+    }
 
     vector <plPoint> pts;
 
@@ -198,7 +210,10 @@ bool APrimPolygon::isValid() const
 
 plRectangle APrimPolygon::getBoundingBox()
 {
-    if(!isValid()) { return plRectangle(); }
+    if(!isValid()) {
+        err_printf("ERROR (APrimPolygon::getBoundingBox: Invalid Primitive" );
+        return plRectangle();
+    }
 
     //Bounding box without rotation
     double x1 = getX()-getDiameter()/2;
@@ -222,7 +237,10 @@ bool APrimMoire::isValid() const
 
 plRectangle APrimMoire::getBoundingBox()
 {
-    if(!isValid()) { return plRectangle(); }
+    if(!isValid()) {
+        err_printf("ERROR (APrimMoire::getBoundingBox: Invalid Primitive" );
+        return plRectangle();
+    }
 
     double outer_dia = getOuterDiaOfOutRing() > getCrossHairLength() ? getOuterDiaOfOutRing() : getCrossHairLength();
 
@@ -254,7 +272,10 @@ bool APrimThermal::isValid() const
 
 plRectangle APrimThermal::getBoundingBox()
 {
-    if(!isValid()) { return plRectangle(); }
+    if(!isValid()) {
+        err_printf("ERROR (APrimThermal::getBoundingBox: Invalid Primitive" );
+        return plRectangle();
+    }
 
     //Bounding box without rotation
     double x1 = getX()-getOuterDia()/2;

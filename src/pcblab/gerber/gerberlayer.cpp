@@ -46,6 +46,7 @@ void GerberLayer::GerberLevel::makeGraphicObjectRegions(Aperture *inAperture){
 plRectangle GerberLayer::GerberLevel::getBoundingBox() const
 {
     if(mObjects.size() == 0){
+        err_printf("ERROR (GerberLayer::GerberLevel::getBoundingBox: No Objects" );
         return plRectangle();
     }
 
@@ -401,6 +402,8 @@ GerberLayer::GerberLevel *GerberLayer::getLevel(uint16_t inIdx) const {
 plRectangle GerberLayer::getBoundingBox() const
 {
     if(mLevels.size() == 0){
+        string err_msg = "ERROR (GerberLayer::getBoundingBox: No Levels, " + mName;
+        err_printf(err_msg);
         return plRectangle();
     }
 

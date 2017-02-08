@@ -3,7 +3,10 @@
 /////////////////////////// Draws ///////////////////////////
 plRectangle GraphicObjectDraw::getBoundingBox() const
 {
-    if(!isValid()) {return plRectangle(); }
+    if(!isValid()) {
+        err_printf("ERROR (GraphicObjectDraw::getBoundingBox): Invalid GraphicObject");
+        return plRectangle();
+    }
 
     // points of the draw
     plPoint p1 = getStartPoint();
@@ -127,6 +130,7 @@ GraphicObjectArc::GraphicObjectArc(plPoint inStartPoint, plPoint inEndPoint, plP
 plRectangle GraphicObjectArc::getBoundingBox() const
 {
     return plRectangle(); //TODO
+
 }
 
 
@@ -152,7 +156,10 @@ GraphicState::eInterpolationMode GraphicObjectArc::getInterpolationMode() const
 /////////////////////////// Flashs ///////////////////////////
 plRectangle GraphicObjectFlash::getBoundingBox() const
 {
-    if(!isValid()) { return plRectangle(); }
+    if(!isValid()) {
+        err_printf("ERROR (GraphicObjectFlash::getBoundingBox): Invalid GraphicObject");
+        return plRectangle();
+    }
 
     plRectangle bb = getAperture()->getBoundingBox();
 
@@ -237,7 +244,10 @@ bool GraphicObjectRegion::Contour::isValid() const
 
 plRectangle GraphicObjectRegion::Contour::getBoundingBox() const
 {
-    if(!isValid() || mSegments.size() == 0) { return plRectangle(); }
+    if(!isValid() || mSegments.size() == 0) {
+        err_printf("ERROR (GraphicObjectRegion::Contour::getBoundingBox): Invalid GraphicObject");
+        return plRectangle();
+    }
 
     plRectangle bb = mSegments.at(0)->getBoundingBox();
 
@@ -465,7 +475,10 @@ GraphicObjectRegion:: ~GraphicObjectRegion(){
 
 plRectangle GraphicObjectRegion::getBoundingBox() const
 {
-    if(!isValid() || mContours.size() == 0) { return plRectangle(); }
+    if(!isValid() || mContours.size() == 0) {
+        err_printf("ERROR (GraphicObjectRegion::getBoundingBox): Invalid GraphicObject");
+        return plRectangle();
+    }
 
     plRectangle bb = mContours.at(0)->getBoundingBox();
 
