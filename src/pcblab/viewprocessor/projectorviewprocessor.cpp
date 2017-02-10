@@ -64,6 +64,26 @@ void ProjectorViewProcessor::projectorCalibration()
 
 vector<plPoint> ProjectorViewProcessor::extractPcbOutlineFromImage(Mat &inImg)
 {
+    Mat blur;
+    Size ks(7,7);
+    GaussianBlur(inImg, blur, ks, 0);
+
+    //convert image to hsv
+    Mat hsv;
+    cvtColor(blur, hsv, COLOR_BGR2HSV);
+
+
+    //define range of blue color in HSV
+    uint32_t pcb_hue = 65;
+    uint32_t pcb_hue_margin = 20;
+
+    //Threshold the HSV image to get only blue colors
+    Mat color_mask;
+    inRange(hsv, Scalar(pcb_hue-pcb_hue_margin,50,50), Scalar(pcb_hue+pcb_hue_margin,230,230), color_mask);
+    imshow("Color Mask", color_mask);
+
+
+
     return vector<plPoint>();
 }
 
