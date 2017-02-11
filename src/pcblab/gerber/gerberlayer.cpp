@@ -59,6 +59,22 @@ plRectangle GerberLayer::GerberLevel::getBoundingBox() const
     return bb;
 }
 
+bool GerberLayer::GerberLevel::isValid()
+{
+    if(mObjects.size() == 0){
+        return false;
+    }
+
+    for(vector<IGraphicObject *>::const_iterator it = mObjects.begin(); it != mObjects.end(); ++it){
+        IGraphicObject *igo = *it;
+        if(!igo->isValid()){
+            return false;
+        }
+    }
+
+    return true;
+}
+
 
 
 // ---------------------------------- GerberLayer --------------------------------
@@ -414,4 +430,21 @@ plRectangle GerberLayer::getBoundingBox() const
     }
 
     return bb;
+}
+
+bool GerberLayer::isValid()
+{
+    if(mLevels.size() == 0){
+        return false;
+    }
+
+    plRectangle bb = mLevels[0]->getBoundingBox();
+    for(vector<GerberLevel *>::const_iterator it = mLevels.begin(); it != mLevels.end(); ++it){
+        GerberLevel *level = *it;
+        if(!level->isValid()){
+            return false;
+        }
+    }
+
+    return true;
 }

@@ -48,6 +48,8 @@ class GerberLayer: public GerberParser {
 
                 plRectangle getBoundingBox() const;
 
+                bool isValid();
+
 
             private:
                 const GraphicState::eLevelPolarity mPolarity;
@@ -78,6 +80,8 @@ class GerberLayer: public GerberParser {
         GerberLevel *getLevel(uint16_t inIdx) const;
 
         plRectangle getBoundingBox() const;
+
+        bool isValid();
 
 
 
