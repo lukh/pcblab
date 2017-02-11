@@ -146,10 +146,19 @@ plRectangle GerberHandler::getBoundingBox() const
         return plRectangle();
     }
 
-    plRectangle bb = mLayers.begin()->second->getBoundingBox();
+    plRectangle bb;
+    uint32_t valid_layers = 0;
     for(LayerMap::const_iterator it = mLayers.begin(); it != mLayers.end(); ++it){
         GerberLayer *layer = it->second;
-        bb = plRectangle::getBounds(bb, layer->getBoundingBox());
+        if(layer->getLevelsCount() != 0){
+            if(valid_layers == 0){
+                bb = layer->getBoundingBox();
+            }
+            else{
+                bb = plRectangle::getBounds(bb, layer->getBoundingBox());
+            }
+            valid_layers++;
+        }
     }
 
     return bb;
