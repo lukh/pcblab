@@ -5,6 +5,7 @@ ProjProcessorWrapper::ProjProcessorWrapper(ProjectorViewProcessor *inPVP):
     mProcessor(inPVP)
 {
     qRegisterMetaType<Mat>("Mat");
+    qRegisterMetaType<plPoint>("plPoint");
 }
 
 ProjProcessorWrapper::~ProjProcessorWrapper()
@@ -24,6 +25,11 @@ void ProjProcessorWrapper::process()
     Mat img = mProcessor->process();
 
     Q_EMIT(imageReady(img));
+}
+
+void ProjProcessorWrapper::setBackgroundColor(plPoint inPoint)
+{
+    mProcessor->setBackgroundColor(inPoint);
 }
 
 
@@ -77,6 +83,7 @@ void RealTimeWindow::init(PcbLab *inPcb)
     connect(&workerThread, &QThread::finished, mWrapper, &QObject::deleteLater);
 
     QObject::connect(mWrapper, SIGNAL(imageReady(Mat)), this, SLOT(refreshWidget(Mat)));
+    QObject::connect(ui->openCVWidget, SIGNAL(clicked(plPoint)), mWrapper, SLOT(setBackgroundColor(plPoint)));
 
     workerThread.start();
 

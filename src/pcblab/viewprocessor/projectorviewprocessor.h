@@ -8,12 +8,14 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/opencv.hpp>
 
+#include "tools/imageprocessing.h"
+
 #include "iviewprocessor.h"
 #include "iopencvwidget.h"
 
 using namespace std;
 
-using namespace cv;
+//using namespace cv;
 
 class ProjectorViewProcessor: public IViewProcessor
 {
@@ -31,10 +33,16 @@ class ProjectorViewProcessor: public IViewProcessor
         virtual plPoint convertCoordsFromImageToReal(plPoint inImgCoords);
         // --- >>>
 
+
+
+        // ------------ Initialization -----------
+        /// initialize the background color by color extraction from the point (camera's coordinates)
+        void setBackgroundColor(plPoint inPoint);
+
         // -------------- Runtime ---------------
 
         /// Display the Cairo's image on the OpenCV Surface, with the perspective correction
-        Mat process();
+        cv::Mat process();
 
 
 
@@ -50,11 +58,14 @@ class ProjectorViewProcessor: public IViewProcessor
 
         /// Extract PCB outline from the image provided by the webcam
         /// return the list of points found, in the real image coordinates (px)
-        vector <plPoint> extractPcbOutlineFromImage(Mat &inImg);
+        vector <plPoint> extractPcbOutlineFromImage();
 
     private:
         // camera
         cv::VideoCapture *mCamera; // open the default camera
+
+        // keep the last image frame from camera for analysis
+        cv::Mat mCurrentFrame;
 
 
         // gerbers extraction info

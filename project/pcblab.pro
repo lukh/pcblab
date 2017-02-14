@@ -80,7 +80,8 @@ SOURCES += \
     ../src/gui/cairorenderer/caironetlistrenderer.cpp \
     ../src/gui/tools/netlistmodelwrapper.cpp \
     ../src/gui/netlistdisplayerwidget.cpp \
-    ../src/gui/realtimewindow.cpp
+    ../src/gui/realtimewindow.cpp \
+    ../src/tools/imageprocessing.cpp
 
 
 HEADERS  += \
@@ -139,7 +140,8 @@ HEADERS  += \
     ../src/gui/cairorenderer/caironetlistrenderer.h \
     ../src/gui/tools/netlistmodelwrapper.h \
     ../src/gui/netlistdisplayerwidget.h \
-    ../src/gui/realtimewindow.h
+    ../src/gui/realtimewindow.h \
+    ../src/tools/imageprocessing.h
 
 
 
