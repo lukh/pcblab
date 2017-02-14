@@ -12,6 +12,7 @@
 using namespace cv;
 
 Q_DECLARE_METATYPE(Mat)
+Q_DECLARE_METATYPE(plPoint)
 
 class ProjProcessorWrapper: public QObject{
     Q_OBJECT
@@ -23,6 +24,8 @@ class ProjProcessorWrapper: public QObject{
     public Q_SLOTS:
         void refresh();
         void process();
+
+        void setBackgroundColor(plPoint inPoint);
 
     Q_SIGNALS:
         void imageReady(Mat);
