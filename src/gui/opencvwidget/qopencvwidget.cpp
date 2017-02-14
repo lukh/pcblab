@@ -83,11 +83,23 @@ void QOpenCVWidget::paintEvent(QPaintEvent *)
     y = (height() - croppedImg.height())/2;
     painter.drawImage(x, y, croppedImg);
 
+    mRenderImgPos = QPoint(x ,y);
+
 
     // messages
     if(mRenderQtImg.width() > width() || mRenderQtImg.height() > height()){
         painter.setPen(QColor("red"));
         painter.drawText(QPointF(width() - 55, height() - 5), "Cropped !");
+    }
+}
+
+void QOpenCVWidget::mousePressEvent(QMouseEvent *event)
+{
+    int x = (event->pos().x() - mRenderImgPos.x());
+    int y = (event->pos().y() - mRenderImgPos.y());
+
+    if(x >= 0 && x <= mRenderQtImg.width() && y >= 0 && y <= mRenderQtImg.height()){
+        Q_EMIT(clicked(plPoint(x,y)));
     }
 }
 

@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QPainter>
-
+#include <QMouseEvent>
 #include <iostream>
 
 using namespace std;
@@ -11,6 +11,8 @@ using namespace std;
 #include <opencv2/core/core.hpp>
 
 #include "iopencvwidget.h"
+
+#include "pcblab/pcblab.h"
 
 
 
@@ -32,10 +34,16 @@ class QOpenCVWidget : public QWidget, public IOpenCVWidget
 
 
         virtual void paintEvent(QPaintEvent *);
+        virtual void mousePressEvent(QMouseEvent *event);
+
+    Q_SIGNALS:
+        void clicked(plPoint inPoint);
 
     private:
         cv::Mat mOrigImage;             /// original OpenCV image to be shown
+
         QImage mRenderQtImg;
+        QPoint mRenderImgPos;
 
         QColor mBgColor;		/// Background color
 
