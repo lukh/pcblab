@@ -81,7 +81,8 @@ SOURCES += \
     ../src/gui/tools/netlistmodelwrapper.cpp \
     ../src/gui/netlistdisplayerwidget.cpp \
     ../src/gui/realtimewindow.cpp \
-    ../src/tools/imageprocessing.cpp
+    ../src/tools/imageprocessing.cpp \
+    ../src/gui/tools/colorextractionsettingsdialog.cpp
 
 
 HEADERS  += \
@@ -141,7 +142,8 @@ HEADERS  += \
     ../src/gui/tools/netlistmodelwrapper.h \
     ../src/gui/netlistdisplayerwidget.h \
     ../src/gui/realtimewindow.h \
-    ../src/tools/imageprocessing.h
+    ../src/tools/imageprocessing.h \
+    ../src/gui/tools/colorextractionsettingsdialog.h
 
 
 
@@ -198,7 +200,8 @@ FORMS += \
     ../src/gui/componentdisplayerwidget.ui \
     ../src/gui/layerslistwidget.ui \
     ../src/gui/netlistdisplayerwidget.ui \
-    ../src/gui/realtimewindow.ui
+    ../src/gui/realtimewindow.ui \
+    ../src/gui/tools/colorextractionsettingsdialog.ui
 
 DISTFILES += \
     ../doc/the_gerber_file_format_specification.pdf \
