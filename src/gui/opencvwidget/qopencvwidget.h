@@ -19,10 +19,7 @@ class QOpenCVWidget : public QWidget, public IOpenCVWidget
     Q_OBJECT
     public:
         explicit QOpenCVWidget(QWidget *parent = 0);
-        virtual ~QOpenCVWidget() {
-
-        }
-
+        virtual ~QOpenCVWidget() {}
 
     public:
         bool showImage(cv::Mat &inImage); /// Used to set the image to be viewed
