@@ -25,7 +25,7 @@ void histogram(const cv::Mat &inHsvImage, cv::Mat &outHist, int hbins, int sbins
 
     outHist = cv::Mat::zeros(sbins, hbins, CV_8UC1);
 
-    for( int h = 0; h < hbins; h++ )
+    for( int h = 0; h < hbins; h++ ){
         for( int s = 0; s < sbins; s++ )
         {
             float binVal = hist.at<float>(h, s);
@@ -36,10 +36,10 @@ void histogram(const cv::Mat &inHsvImage, cv::Mat &outHist, int hbins, int sbins
                         cv::Scalar::all(intensity),
                         CV_FILLED );
         }
-    cv::imshow("Hist", outHist);
+    }
 }
 
-cv::Scalar mainColorExtraction(const cv::Mat &inHsvImage, int hbins, int sbins)
+HSColor mainColorExtraction(const cv::Mat &inHsvImage, int hbins, int sbins)
 {
     cv::Mat hist;
     histogram(inHsvImage, hist);
@@ -48,5 +48,5 @@ cv::Scalar mainColorExtraction(const cv::Mat &inHsvImage, int hbins, int sbins)
     cv::Point min_loc, max_loc;
     cv::minMaxLoc(hist, &min, &max, &min_loc, &max_loc);
 
-    return cv::Scalar((179 * max_loc.x)/hbins, (255 * max_loc.y)/sbins);
+    return HSColor((179 * max_loc.x)/hbins, (255 * max_loc.y)/sbins);
 }

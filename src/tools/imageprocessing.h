@@ -6,10 +6,19 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/opencv.hpp>
 
+///Handles Hue/Sat color
+class HSColor{
+    public:
+        HSColor(): mHue(0), mSat(0) {}
+        HSColor(uint8_t inHue, uint8_t inSat): mHue(inHue), mSat(inSat) {}
+
+        uint8_t mHue;
+        uint8_t mSat;
+};
 
 void histogram(const cv::Mat &inHsvImage, cv::Mat &outHist, int hbins = 30, int sbins = 32);
 
-cv::Scalar mainColorExtraction(const cv::Mat &inHsvImage, int hbins = 30, int sbins = 32);
+HSColor mainColorExtraction(const cv::Mat &inHsvImage, int hbins = 30, int sbins = 32);
 
 
 #endif // IMAGEPROCESSING_H
