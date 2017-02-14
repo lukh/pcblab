@@ -15,7 +15,16 @@
 
 using namespace std;
 
-//using namespace cv;
+class ColorExtractionSettings{
+    public:
+        ColorExtractionSettings(): mHueMargin(18), mSatMargin(25), mValLow(20), mValHigh(200) {}
+
+        uint8_t mHueMargin;
+        uint8_t mSatMargin;
+
+        uint8_t mValLow;
+        uint8_t mValHigh;
+};
 
 class ProjectorViewProcessor: public IViewProcessor
 {
@@ -71,7 +80,10 @@ class ProjectorViewProcessor: public IViewProcessor
         // gerbers extraction info
         string mKOLayerName;
 
-        // image extraction parameters
+        // --- image extraction parameters ---
+        //background
+        ColorExtractionSettings mCESBackground;
+        HSColor mBackgroundColor;
 
         // current camera transformation, computed by extractPcbOutlineFromImage
         /// Transformation to project Gerber into Camera Space

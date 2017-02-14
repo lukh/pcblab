@@ -40,7 +40,7 @@ plPoint ProjectorViewProcessor::convertCoordsFromImageToReal(plPoint inImgCoords
 
 void ProjectorViewProcessor::setBackgroundColor(plPoint inPoint)
 {
-    const int roi_size = 100;
+    const int roi_size = 10;
     // set roi
     int x, y;
     x = inPoint.mX - roi_size/2;
@@ -53,10 +53,7 @@ void ProjectorViewProcessor::setBackgroundColor(plPoint inPoint)
 
     try{
         cv::Mat img_roi = mCurrentFrame(roi);
-        cv::imshow("ROI", img_roi);
-
-        mainColorExtraction(img_roi);
-
+        mBackgroundColor = mainColorExtraction(img_roi);
     }
     catch( cv::Exception& e ){
         const char* err_msg = e.what();
@@ -97,17 +94,19 @@ vector<plPoint> ProjectorViewProcessor::extractPcbOutlineFromImage()
     cv::Mat hsv;
     cv::cvtColor(blur, hsv, cv::COLOR_BGR2HSV);
 
-
-    //define range of blue color in HSV
-    uint32_t pcb_hue = 65;
-    uint32_t pcb_hue_margin = 20;
-
-    //Threshold the HSV image to get only blue colors
+    //Threshold the HSV image to get the background
     cv::Mat color_mask;
-    cv::inRange(hsv, cv::Scalar(pcb_hue-pcb_hue_margin,50,50), cv::Scalar(pcb_hue+pcb_hue_margin,230,230), color_mask);
-    //imshow("Color Mask", color_mask);
-
-
+    cv::inRange(hsv,
+                cv::Scalar(
+                    mBackgroundColor.mHue-mCESBackground.mHueMargin,
+                    mBackgroundColor.mSat-mCESBackground.mSatMargin,
+                    mCESBackground.mValLow),
+                cv::Scalar(
+                    mBackgroundColor.mHue+mCESBackground.mHueMargin,
+                    mBackgroundColor.mSat-mCESBackground.mSatMargin,
+                    mCESBackground.mValHigh),
+                color_mask);
+    cv::imshow("color_mask",color_mask);
 
     return vector<plPoint>();
 }
