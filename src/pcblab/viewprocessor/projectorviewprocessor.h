@@ -17,7 +17,7 @@ using namespace std;
 
 class ColorExtractionSettings{
     public:
-        ColorExtractionSettings(): mHueMargin(18), mSatMargin(25), mValLow(20), mValHigh(200) {}
+        ColorExtractionSettings(): mHueMargin(25), mSatMargin(60), mValLow(20), mValHigh(200) {}
 
         uint8_t mHueMargin;
         uint8_t mSatMargin;

@@ -16,9 +16,7 @@ class HSColor{
         uint8_t mSat;
 };
 
-void histogram(const cv::Mat &inHsvImage, cv::Mat &outHist, int hbins = 30, int sbins = 32);
-
-HSColor mainColorExtraction(const cv::Mat &inHsvImage, int hbins = 30, int sbins = 32);
+HSColor mainColorExtraction(const cv::Mat &inHsvImage, int hbins = 60, int sbins = 32);
 
 
 #endif // IMAGEPROCESSING_H

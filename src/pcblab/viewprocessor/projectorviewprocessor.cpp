@@ -40,7 +40,7 @@ plPoint ProjectorViewProcessor::convertCoordsFromImageToReal(plPoint inImgCoords
 
 void ProjectorViewProcessor::setBackgroundColor(plPoint inPoint)
 {
-    const int roi_size = 10;
+    const int roi_size =20;
     // set roi
     int x, y;
     x = inPoint.mX - roi_size/2;
@@ -67,11 +67,15 @@ cv::Mat ProjectorViewProcessor::process()
         return cv::Mat();
     }
 
-    mCamera->read(mCurrentFrame);
+    cv::Mat raw;
+
+    mCamera->read(raw);
+    //convert image to hsv
+    cv::cvtColor(raw, mCurrentFrame, cv::COLOR_BGR2HSV);
 
     extractPcbOutlineFromImage();
 
-    return mCurrentFrame;
+    return raw;
 }
 
 vector<plPoint> ProjectorViewProcessor::extractPcbOutlineFromGerber()
@@ -86,24 +90,18 @@ void ProjectorViewProcessor::projectorCalibration()
 
 vector<plPoint> ProjectorViewProcessor::extractPcbOutlineFromImage()
 {
-    cv::Mat blur;
-    cv::Size ks(7,7);
-    cv::GaussianBlur(mCurrentFrame, blur, ks, 0);
-
-    //convert image to hsv
-    cv::Mat hsv;
-    cv::cvtColor(blur, hsv, cv::COLOR_BGR2HSV);
+    cout << int(mBackgroundColor.mHue) << ", " << int(mBackgroundColor.mSat) << endl;
 
     //Threshold the HSV image to get the background
     cv::Mat color_mask;
-    cv::inRange(hsv,
+    cv::inRange(mCurrentFrame,
                 cv::Scalar(
                     mBackgroundColor.mHue-mCESBackground.mHueMargin,
                     mBackgroundColor.mSat-mCESBackground.mSatMargin,
                     mCESBackground.mValLow),
                 cv::Scalar(
                     mBackgroundColor.mHue+mCESBackground.mHueMargin,
-                    mBackgroundColor.mSat-mCESBackground.mSatMargin,
+                    mBackgroundColor.mSat+mCESBackground.mSatMargin,
                     mCESBackground.mValHigh),
                 color_mask);
     cv::imshow("color_mask",color_mask);
